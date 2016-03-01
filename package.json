@@ -1,0 +1,8 @@
+{
+  "name": "thesis",
+  "version": "0.0.0-dev",
+  "main": "./priv/static/thesis.js",
+  "repository": {},
+  "files": ["package.json", "priv/static/thesis.js"],
+  "scripts": {}
+}

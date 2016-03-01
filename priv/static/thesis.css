@@ -1,0 +1,898 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+
+
+
+ */
+
+@import url(//fonts.googleapis.com/css?family=Raleway:400,300,700);
+@import url(//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css);
+@-webkit-keyframes barber_pole {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 60px 0px;
+  }
+}
+@-moz-keyframes barber_pole {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 60px 0px;
+  }
+}
+@-ms-keyframes barber_pole {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 60px 0px;
+  }
+}
+@-o-keyframes barber_pole {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 60px 0px;
+  }
+}
+@keyframes barber_pole {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 60px 0px;
+  }
+}
+@-webkit-keyframes thesis_fader {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes thesis_fader {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-ms-keyframes thesis_fader {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-o-keyframes thesis_fader {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes thesis_fader {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes modal_border {
+  0% {
+    border-color: #1BB6EC;
+  }
+  20% {
+    border-color: #76A642;
+  }
+  40% {
+    border-color: #f0c600;
+  }
+  60% {
+    border-color: #F88834;
+  }
+  80% {
+    border-color: #CB006C;
+  }
+  100% {
+    border-color: #1BB6EC;
+  }
+}
+@-moz-keyframes modal_border {
+  0% {
+    border-color: #1BB6EC;
+  }
+  20% {
+    border-color: #76A642;
+  }
+  40% {
+    border-color: #f0c600;
+  }
+  60% {
+    border-color: #F88834;
+  }
+  80% {
+    border-color: #CB006C;
+  }
+  100% {
+    border-color: #1BB6EC;
+  }
+}
+@-ms-keyframes modal_border {
+  0% {
+    border-color: #1BB6EC;
+  }
+  20% {
+    border-color: #76A642;
+  }
+  40% {
+    border-color: #f0c600;
+  }
+  60% {
+    border-color: #F88834;
+  }
+  80% {
+    border-color: #CB006C;
+  }
+  100% {
+    border-color: #1BB6EC;
+  }
+}
+@-o-keyframes modal_border {
+  0% {
+    border-color: #1BB6EC;
+  }
+  20% {
+    border-color: #76A642;
+  }
+  40% {
+    border-color: #f0c600;
+  }
+  60% {
+    border-color: #F88834;
+  }
+  80% {
+    border-color: #CB006C;
+  }
+  100% {
+    border-color: #1BB6EC;
+  }
+}
+@keyframes modal_border {
+  0% {
+    border-color: #1BB6EC;
+  }
+  20% {
+    border-color: #76A642;
+  }
+  40% {
+    border-color: #f0c600;
+  }
+  60% {
+    border-color: #F88834;
+  }
+  80% {
+    border-color: #CB006C;
+  }
+  100% {
+    border-color: #1BB6EC;
+  }
+}
+@-webkit-keyframes modal_icon_color {
+  0% {
+    color: #1095c4;
+  }
+  20% {
+    color: #5c8233;
+  }
+  40% {
+    color: #bd9c00;
+  }
+  60% {
+    color: #f16c08;
+  }
+  80% {
+    color: #980051;
+  }
+  100% {
+    color: #1095c4;
+  }
+}
+@-moz-keyframes modal_icon_color {
+  0% {
+    color: #1095c4;
+  }
+  20% {
+    color: #5c8233;
+  }
+  40% {
+    color: #bd9c00;
+  }
+  60% {
+    color: #f16c08;
+  }
+  80% {
+    color: #980051;
+  }
+  100% {
+    color: #1095c4;
+  }
+}
+@-ms-keyframes modal_icon_color {
+  0% {
+    color: #1095c4;
+  }
+  20% {
+    color: #5c8233;
+  }
+  40% {
+    color: #bd9c00;
+  }
+  60% {
+    color: #f16c08;
+  }
+  80% {
+    color: #980051;
+  }
+  100% {
+    color: #1095c4;
+  }
+}
+@-o-keyframes modal_icon_color {
+  0% {
+    color: #1095c4;
+  }
+  20% {
+    color: #5c8233;
+  }
+  40% {
+    color: #bd9c00;
+  }
+  60% {
+    color: #f16c08;
+  }
+  80% {
+    color: #980051;
+  }
+  100% {
+    color: #1095c4;
+  }
+}
+@keyframes modal_icon_color {
+  0% {
+    color: #1095c4;
+  }
+  20% {
+    color: #5c8233;
+  }
+  40% {
+    color: #bd9c00;
+  }
+  60% {
+    color: #f16c08;
+  }
+  80% {
+    color: #980051;
+  }
+  100% {
+    color: #1095c4;
+  }
+}
+/* line 2, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal form {
+  margin: 0;
+  padding: 0;
+}
+/* line 7, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal input,
+#thesis-modal label,
+#thesis-modal select {
+  display: block;
+  font-family: "Raleway", sans-serif;
+  font-size: 12px;
+}
+/* line 15, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal label {
+  font-weight: normal;
+  margin-bottom: 8px;
+}
+/* line 19, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal label.required:after {
+  content: "*";
+}
+/* line 23, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal label abbr {
+  display: none;
+}
+/* line 28, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal textarea,
+#thesis-modal input,
+#thesis-modal button,
+#thesis-modal select[multiple=multiple] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: border-color;
+  -moz-transition: border-color;
+  transition: border-color;
+  background-color: white;
+  border: none;
+  box-shadow: none;
+  font-family: "Raleway", sans-serif;
+  font-size: 17px;
+  margin-bottom: 0px;
+  padding: 5px 0px;
+  width: 100%;
+  color: #6c6e74;
+  font-weight: bold;
+}
+/* line 4, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/bourbon/css3/_placeholder.scss */
+#thesis-modal textarea::-webkit-input-placeholder,
+#thesis-modal input::-webkit-input-placeholder,
+#thesis-modal button::-webkit-input-placeholder,
+#thesis-modal select[multiple=multiple]::-webkit-input-placeholder {
+  color: #A7AAAB;
+}
+/* line 4, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/bourbon/css3/_placeholder.scss */
+#thesis-modal textarea::-moz-placeholder,
+#thesis-modal input::-moz-placeholder,
+#thesis-modal button::-moz-placeholder,
+#thesis-modal select[multiple=multiple]::-moz-placeholder {
+  color: #A7AAAB;
+}
+/* line 4, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/bourbon/css3/_placeholder.scss */
+#thesis-modal textarea:-moz-placeholder,
+#thesis-modal input:-moz-placeholder,
+#thesis-modal button:-moz-placeholder,
+#thesis-modal select[multiple=multiple]:-moz-placeholder {
+  color: #A7AAAB;
+}
+/* line 4, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/bourbon/css3/_placeholder.scss */
+#thesis-modal textarea:-ms-input-placeholder,
+#thesis-modal input:-ms-input-placeholder,
+#thesis-modal button:-ms-input-placeholder,
+#thesis-modal select[multiple=multiple]:-ms-input-placeholder {
+  color: #A7AAAB;
+}
+/* line 50, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal textarea {
+  resize: vertical;
+  height: 60px;
+}
+/* line 55, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal input[type="search"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+}
+/* line 59, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal input[type="checkbox"], #thesis-modal input[type="radio"] {
+  display: inline;
+  margin-right: 15px;
+}
+/* line 64, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal input[type="file"] {
+  margin-bottom: 8px;
+  width: 100%;
+}
+/* line 69, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal select {
+  width: auto;
+  max-width: 100%;
+  margin-bottom: 8px;
+}
+/* line 75, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal label.checkbox {
+  margin-bottom: 10px;
+}
+/* line 79, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal label.checkbox input {
+  display: none;
+}
+/* line 84, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal label.checkbox input:checked + span:before {
+  background: url(/images/ico.checkbox-selected.png) no-repeat center center;
+}
+/* line 89, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal label.checkbox span {
+  font-size: 15px;
+  color: #8C9092;
+  font-weight: normal;
+  line-height: 20px;
+}
+/* line 95, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal label.checkbox span:before {
+  display: inline-block;
+  margin-right: 8px;
+  background: url(/images/ico.checkbox.png) no-repeat center center;
+  width: 20px;
+  height: 20px;
+  content: "";
+  vertical-align: middle;
+}
+/* line 107, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal .modal-field {
+  width: 100%;
+  border-bottom: 1px solid #A0A1A6;
+  clear: both;
+}
+/* line 15, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/bourbon/addons/_clearfix.scss */
+#thesis-modal .modal-field:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+/* line 113, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal .modal-field > span {
+  width: 33%;
+  float: left;
+  display: block;
+  padding: 12px 0px 5px;
+}
+/* line 120, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal .modal-field > input {
+  width: 66%;
+  float: left;
+}
+/* line 125, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal .modal-field.submit, #thesis-modal .modal-field.cancel {
+  border-bottom: 0px;
+  margin-bottom: 0px;
+  margin-top: 15px;
+  float: left;
+  width: 50%;
+  clear: none;
+}
+/* line 133, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal .modal-field.submit button, #thesis-modal .modal-field.cancel button {
+  height: 60px;
+  width: 100%;
+  color: #76A642;
+}
+/* line 138, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal .modal-field.submit button i, #thesis-modal .modal-field.submit button span, #thesis-modal .modal-field.cancel button i, #thesis-modal .modal-field.cancel button span {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0px 5px;
+}
+/* line 144, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal .modal-field.submit button:hover, #thesis-modal .modal-field.cancel button:hover {
+  background-color: #76a642;
+  box-shadow: 0px 0px 35px 26px white inset;
+  -webkit-transition: background-color 0.2s ease-in-out;
+  -moz-transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
+}
+/* line 153, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal .modal-field.cancel button {
+  color: #CB006C;
+  -webkit-animation: none;
+  -moz-animation: none;
+  animation: none;
+}
+/* line 157, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/base/_forms.scss */
+#thesis-modal .modal-field.cancel button:hover {
+  background-color: #cb006c;
+  box-shadow: 0px 0px 35px 26px white inset;
+  -webkit-transition: background-color 0.2s ease-in-out;
+  -moz-transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* line 1, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+body {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+/* line 4, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+#thesis-editor {
+  display: block;
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  z-index: 1040;
+  position: fixed;
+  z-index: 1040;
+  color: white;
+  line-height: 0;
+  font-size: 0;
+  text-decoration: none;
+}
+/* line 17, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+#thesis-editor .thesis-button {
+  -webkit-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -webkit-transform 0.75s ease-in-out, padding 0.001s linear 0.75s, height 0.001s linear 0.75s;
+  -moz-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -moz-transform 0.75s ease-in-out, padding 0.001s linear 0.75s, height 0.001s linear 0.75s;
+  transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, transform 0.75s ease-in-out, padding 0.001s linear 0.75s, height 0.001s linear 0.75s;
+  right: 0;
+  opacity: 0;
+  display: block;
+  float: right;
+  clear: both;
+  text-align: right;
+  position: relative;
+  cursor: pointer;
+  padding: 0px 0px;
+  height: 0px;
+  width: auto;
+}
+/* line 3, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_mixins/editor.sass */
+#thesis-editor .thesis-button.cancel > i {
+  background-color: #F88834;
+}
+/* line 5, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_mixins/editor.sass */
+#thesis-editor .thesis-button.cancel > i:hover {
+  background-color: #f7710d;
+  -webkit-transition: background-color 0.3s ease-in-out;
+  -moz-transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
+}
+/* line 3, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_mixins/editor.sass */
+#thesis-editor .thesis-button.delete > i {
+  background-color: #CB006C;
+}
+/* line 5, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_mixins/editor.sass */
+#thesis-editor .thesis-button.delete > i:hover {
+  background-color: #a20056;
+  -webkit-transition: background-color 0.3s ease-in-out;
+  -moz-transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
+}
+/* line 3, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_mixins/editor.sass */
+#thesis-editor .thesis-button.add > i {
+  background-color: #1BB6EC;
+}
+/* line 5, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_mixins/editor.sass */
+#thesis-editor .thesis-button.add > i:hover {
+  background-color: #119dcd;
+  -webkit-transition: background-color 0.3s ease-in-out;
+  -moz-transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
+}
+/* line 3, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_mixins/editor.sass */
+#thesis-editor .thesis-button.save > i {
+  background-color: #76A642;
+}
+/* line 5, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_mixins/editor.sass */
+#thesis-editor .thesis-button.save > i:hover {
+  background-color: #618936;
+  -webkit-transition: background-color 0.3s ease-in-out;
+  -moz-transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
+}
+/* line 3, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_mixins/editor.sass */
+#thesis-editor .thesis-button.settings > i {
+  background-color: #f0c600;
+}
+/* line 5, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_mixins/editor.sass */
+#thesis-editor .thesis-button.settings > i:hover {
+  background-color: #c7a400;
+  -webkit-transition: background-color 0.3s ease-in-out;
+  -moz-transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
+}
+/* line 32, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+#thesis-editor .thesis-button.edit {
+  opacity: 1;
+  height: 70px;
+  padding-bottom: 0px !important;
+}
+/* line 37, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+#thesis-editor .thesis-button:hover {
+  min-width: 320px;
+}
+/* line 40, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+#thesis-editor .thesis-button:hover .tooltip {
+  position: relative;
+  right: 0px;
+  opacity: 1;
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+/* line 46, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+#thesis-editor .thesis-button i {
+  position: relative;
+  z-index: 2;
+  width: 60px;
+  height: 60px;
+  display: inline-block;
+  background-color: #A0A1A6;
+  border: 3px solid white;
+  font-size: 30px;
+  line-height: 55px;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-transition: background-color 0.3s ease-in-out;
+  -moz-transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
+}
+/* line 60, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+#thesis-editor .thesis-button i:hover {
+  background-color: #8b8c92;
+  -webkit-transition: background-color 0.3s ease-in-out;
+  -moz-transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
+}
+/* line 64, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+#thesis-editor .thesis-button .tooltip {
+  z-index: 1;
+  position: absolute;
+  right: -30px;
+  font-size: 13px;
+  color: white;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 5px 15px 4px;
+  line-height: 1;
+  opacity: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  vertical-align: middle;
+  display: inline-block;
+  font-weight: normal;
+  margin-right: 15px;
+  border: 2px solid white;
+}
+/* line 82, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+#thesis-editor .thesis-button .tooltip.error {
+  background: rgba(153, 0, 0, 0.75);
+}
+
+/* line 88, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+body.thesis-editing .thesis-content {
+  position: relative;
+  z-index: 1039;
+  padding: 5px;
+  min-width: 40px;
+  display: block;
+  outline: 2px solid #ffdd3e !important;
+  cursor: crosshair;
+  min-height: 1em;
+}
+/* line 98, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+body.thesis-editing .thesis-content:before, body.thesis-editing .thesis-content:after {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  -webkit-animation: barber_pole 1.5s linear infinite;
+  -moz-animation: barber_pole 1.5s linear infinite;
+  animation: barber_pole 1.5s linear infinite;
+  background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 0.5) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.5) 75%, transparent 75%);
+  background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.5) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.5) 75%, transparent 75%);
+  background-color: #fbb37e;
+  background-size: 30px 30px;
+  position: absolute;
+  padding: 2px;
+  top: -2px;
+  left: -2px;
+  width: 100%;
+  height: 100%;
+  content: "";
+  z-index: -2;
+  opacity: 0;
+}
+/* line 111, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+body.thesis-editing .thesis-content:after {
+  -webkit-transition: opacity 0.7s ease-in-out;
+  -moz-transition: opacity 0.7s ease-in-out;
+  transition: opacity 0.7s ease-in-out;
+  padding: 0;
+  background: white;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
+}
+/* line 120, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+body.thesis-editing .thesis-content.isModified {
+  outline: 2px solid #9cc66f !important;
+}
+/* line 123, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+body.thesis-editing .thesis-content.inEditMode {
+  outline: none !important;
+  cursor: text;
+}
+/* line 127, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+body.thesis-editing .thesis-content.inEditMode:before {
+  opacity: 1;
+}
+/* line 130, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+body.thesis-editing .thesis-content.inEditMode:after {
+  -webkit-transition: none;
+  -moz-transition: none;
+  transition: none;
+  opacity: 1;
+}
+/* line 137, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+body.thesis-editing #thesis-editor .thesis-button.edit i {
+  -webkit-animation: barber_pole 0.7s linear infinite;
+  -moz-animation: barber_pole 0.7s linear infinite;
+  animation: barber_pole 0.7s linear infinite;
+  background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 0.25) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0.25) 75%, transparent 75%);
+  background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.25) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0.25) 75%, transparent 75%);
+  background-color: #A0A1A6;
+  background-size: 30px 30px;
+}
+/* line 141, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+body.thesis-editing #thesis-editor.active .thesis-button {
+  -webkit-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -webkit-transform 0.75s ease-in-out;
+  -moz-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -moz-transform 0.75s ease-in-out;
+  transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, transform 0.75s ease-in-out;
+  padding: 10px 0px;
+  opacity: 1;
+  height: 80px;
+}
+/* line 11, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_mixins/editor.sass */
+body.thesis-editing #thesis-editor.active .thesis-button:nth-child(1) {
+  -webkit-transform: rotate(-15.7deg);
+  -moz-transform: rotate(-15.7deg);
+  -ms-transform: rotate(-15.7deg);
+  -o-transform: rotate(-15.7deg);
+  transform: rotate(-15.7deg);
+  -webkit-transform-origin: 100% 100%;
+  -moz-transform-origin: 100% 100%;
+  -ms-transform-origin: 100% 100%;
+  -o-transform-origin: 100% 100%;
+  transform-origin: 100% 100%;
+  right: 60px;
+}
+/* line 11, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_mixins/editor.sass */
+body.thesis-editing #thesis-editor.active .thesis-button:nth-child(2) {
+  -webkit-transform: rotate(-12.56deg);
+  -moz-transform: rotate(-12.56deg);
+  -ms-transform: rotate(-12.56deg);
+  -o-transform: rotate(-12.56deg);
+  transform: rotate(-12.56deg);
+  -webkit-transform-origin: 100% 100%;
+  -moz-transform-origin: 100% 100%;
+  -ms-transform-origin: 100% 100%;
+  -o-transform-origin: 100% 100%;
+  transform-origin: 100% 100%;
+  right: 40px;
+}
+/* line 11, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_mixins/editor.sass */
+body.thesis-editing #thesis-editor.active .thesis-button:nth-child(3) {
+  -webkit-transform: rotate(-9.42deg);
+  -moz-transform: rotate(-9.42deg);
+  -ms-transform: rotate(-9.42deg);
+  -o-transform: rotate(-9.42deg);
+  transform: rotate(-9.42deg);
+  -webkit-transform-origin: 100% 100%;
+  -moz-transform-origin: 100% 100%;
+  -ms-transform-origin: 100% 100%;
+  -o-transform-origin: 100% 100%;
+  transform-origin: 100% 100%;
+  right: 24px;
+}
+/* line 11, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_mixins/editor.sass */
+body.thesis-editing #thesis-editor.active .thesis-button:nth-child(4) {
+  -webkit-transform: rotate(-6.28deg);
+  -moz-transform: rotate(-6.28deg);
+  -ms-transform: rotate(-6.28deg);
+  -o-transform: rotate(-6.28deg);
+  transform: rotate(-6.28deg);
+  -webkit-transform-origin: 100% 100%;
+  -moz-transform-origin: 100% 100%;
+  -ms-transform-origin: 100% 100%;
+  -o-transform-origin: 100% 100%;
+  transform-origin: 100% 100%;
+  right: 12px;
+}
+/* line 11, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_mixins/editor.sass */
+body.thesis-editing #thesis-editor.active .thesis-button:nth-child(5) {
+  -webkit-transform: rotate(-3.14deg);
+  -moz-transform: rotate(-3.14deg);
+  -ms-transform: rotate(-3.14deg);
+  -o-transform: rotate(-3.14deg);
+  transform: rotate(-3.14deg);
+  -webkit-transform-origin: 100% 100%;
+  -moz-transform-origin: 100% 100%;
+  -ms-transform-origin: 100% 100%;
+  -o-transform-origin: 100% 100%;
+  transform-origin: 100% 100%;
+  right: 4px;
+}
+
+/* line 148, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+.hallotoolbar {
+  z-index: 1040;
+}
+
+/* line 151, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+.thesis-fader {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background-color: rgba(29, 49, 58, 0.15);
+  cursor: not-allowed;
+  z-index: 1038;
+  -webkit-animation: thesis_fader 0.7s ease-in-out;
+  -moz-animation: thesis_fader 0.7s ease-in-out;
+  animation: thesis_fader 0.7s ease-in-out;
+}
+
+/* line 162, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+#thesis-modal {
+  display: none;
+  position: fixed;
+  width: 600px;
+  height: auto;
+  background: white;
+  left: 50%;
+  top: 50%;
+  margin-left: -300px;
+  margin-top: -100px;
+  border-radius: 50px;
+  z-index: 1039;
+  padding: 25px;
+  border: 3px solid #1BB6EC;
+  box-shadow: 0px 0px 0px 4px white;
+  color: #6c6e74;
+  font-family: "Raleway", sans-serif;
+  -webkit-animation: modal_border 10s ease-in-out infinite;
+  -moz-animation: modal_border 10s ease-in-out infinite;
+  animation: modal_border 10s ease-in-out infinite;
+}
+/* line 181, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+#thesis-modal.settings {
+  margin-top: -252px;
+}
+/* line 184, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+#thesis-modal .modal-icon {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 300;
+  color: #1BB6EC;
+  margin-bottom: 5px;
+  -webkit-animation: modal_icon_color 10s ease-in-out infinite;
+  -moz-animation: modal_icon_color 10s ease-in-out infinite;
+  animation: modal_icon_color 10s ease-in-out infinite;
+}
+/* line 192, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+#thesis-modal .modal-title {
+  text-align: center;
+  font-weight: 300;
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+/* line 199, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+#thesis-modal.windows .modal-field.cancel {
+  float: right;
+}
+/* line 202, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+#thesis-modal.windows .modal-field.save {
+  float: left;
+}
+
+/* line 205, /Users/jh/.gem/ruby/2.2.2/gems/thesis-0.1.3/app/assets/stylesheets/thesis/_thesis.sass */
+body.thesis-blur #wrapper {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  -webkit-filter: blur(12px);
+  filter: blur(12px);
+}
