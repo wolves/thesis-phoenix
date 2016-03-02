@@ -30,7 +30,7 @@ defmodule Thesis.View do
   end
 
   defp editable?(conn) do
-    Application.get_env(:thesis, :authentication).page_is_editable?(conn)
+    Application.get_env(:thesis, :authorization).page_is_editable?(conn)
   end
 
   defp safe_concat(list) do
