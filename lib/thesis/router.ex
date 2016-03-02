@@ -3,4 +3,6 @@ defmodule Thesis.Router do
   alias Thesis.Controller
 
   get "/", Controller, :index
+
+  get "/thesis-editor.js", Controller, :js
 end
