@@ -20,11 +20,13 @@ defmodule Thesis.Mixfile do
 
   defp deps do
     [
-      phoenix: ">= 0.0.0",
-      phoenix_html: ">= 0.0.0",
-      ecto: ">= 0.0.0",
-      plug: "~> 1.0",
-      html_sanitize_ex: "~> 0.1.0"
+      {:phoenix, ">= 0.0.0"},
+      {:phoenix_html, ">= 0.0.0"},
+      {:ecto, ">= 0.0.0"},
+      {:plug, "~> 1.0"},
+      {:html_sanitize_ex, "~> 0.1.0"},
+      {:ex_doc, ">= 0.0.0", only: [:dev]},
+      {:earmark, ">= 0.0.0", only: [:dev]}
     ]
   end
 
@@ -42,7 +44,7 @@ defmodule Thesis.Mixfile do
       maintainers: ["Jamon Holmgren", "Ken Miller", "Daniel Berkompas"],
       links: %{
         "GitHub" => "https://github.com/infinite_red/thesis",
-        "Docs" => "https://github.com/infinite_red/thesis/tree/master/docs",
+        "Docs" => "https://hexdocs.pm/thesis/0.0.1/api-reference.html",
         # "Tutorials" => "https://infinite.red/thesis/" # TODO
       }
     ]
