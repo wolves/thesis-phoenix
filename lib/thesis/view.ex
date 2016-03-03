@@ -20,7 +20,7 @@ defmodule Thesis.View do
 
   def thesis_editor(conn) do
     if editable?(conn) do
-      editor = content_tag(:div, "", id: "thesis-editor")
+      editor = content_tag(:div, "", id: "thesis-editor-container")
       safe_concat([thesis_style, editor])
     end
   end

@@ -19861,7 +19861,7 @@ var EditButton = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         "div",
-        { className: "thesis-button edit" },
+        { onClick: this.props.onPress, className: "thesis-button edit" },
         _react2.default.createElement(
           "div",
           { className: "tooltip" },
@@ -20039,24 +20039,54 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Editor = function (_React$Component) {
   _inherits(Editor, _React$Component);
 
-  function Editor() {
+  function Editor(props) {
     _classCallCheck(this, Editor);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Editor).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Editor).call(this, props));
+
+    _this.state = {
+      editing: false
+    };
+    return _this;
   }
 
   _createClass(Editor, [{
+    key: 'editPressed',
+    value: function editPressed() {
+      this.setState({ editing: !this.state.editing });
+    }
+  }, {
+    key: 'renderEditorClass',
+    value: function renderEditorClass() {
+      return this.state.editing ? "active" : "";
+    }
+  }, {
+    key: 'renderBodyClass',
+    value: function renderBodyClass() {
+      var el = document.querySelector('body');
+      if (this.state.editing) {
+        el.classList.add('thesis-editing');
+      } else {
+        el.classList.remove('thesis-editing');
+      }
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      this.renderBodyClass();
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
-        null,
+        { id: 'thesis-editor', className: this.renderEditorClass() },
         _react2.default.createElement(_add_button2.default, null),
         _react2.default.createElement(_delete_button2.default, null),
         _react2.default.createElement(_settings_button2.default, null),
         _react2.default.createElement(_cancel_button2.default, null),
         _react2.default.createElement(_save_button2.default, null),
-        _react2.default.createElement(_edit_button2.default, null)
+        _react2.default.createElement(_edit_button2.default, { onPress: this.editPressed.bind(this) })
       );
     }
   }]);
@@ -20064,7 +20094,7 @@ var Editor = function (_React$Component) {
   return Editor;
 }(_react2.default.Component);
 
-_reactDom2.default.render(_react2.default.createElement(Editor, null), document.querySelector('#thesis-editor'));
+_reactDom2.default.render(_react2.default.createElement(Editor, null), document.querySelector('#thesis-editor-container'));
 
 });
 
