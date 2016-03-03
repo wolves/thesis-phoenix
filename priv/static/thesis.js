@@ -2,6 +2,7 @@
   var loadThesis = function (loadReact) {
     var script = document.createElement('script')
     script.src = '/thesis/thesis-editor.js?react=' + (loadReact)
+
     document.head.appendChild(script)
   }
 
