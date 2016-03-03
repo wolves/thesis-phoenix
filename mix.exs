@@ -9,7 +9,8 @@ defmodule Thesis.Mixfile do
       description: description,
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
-      deps: deps
+      deps: deps,
+      package: package
     ]
   end
 
@@ -32,5 +33,18 @@ defmodule Thesis.Mixfile do
     Thesis is a lightweight bolt-on content editing system
     for Phoenix websites.
     """
+  end
+
+  defp package do
+    [
+      files: ["README.md"], # TODO: "lib", "priv", "mix.exs", "README*", "readme*", "LICENSE*", "license*"
+      licenses: ["MIT"],
+      maintainers: ["Jamon Holmgren", "Ken Miller", "Daniel Berkompas"],
+      links: %{
+        "GitHub" => "https://github.com/infinite_red/thesis",
+        "Docs" => "https://github.com/infinite_red/thesis/tree/master/docs",
+        # "Tutorials" => "https://infinite.red/thesis/" # TODO
+      }
+    ]
   end
 end
