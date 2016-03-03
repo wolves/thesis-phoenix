@@ -6,12 +6,14 @@ import SettingsButton from './components/settings_button'
 import CancelButton from './components/cancel_button'
 import SaveButton from './components/save_button'
 import EditButton from './components/edit_button'
+import {Editor, EditorState} from 'draft-js'
 
-class Editor extends React.Component {
+class ThesisEditor extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      editing: false
+      editing: false,
+      editorState: EditorState.createEmpty()
     }
   }
 
@@ -19,21 +21,40 @@ class Editor extends React.Component {
     this.setState({editing: !this.state.editing})
   }
 
+  onPageContentChange(s) {
+    console.log("CHANGED!!!")
+    console.log(s)
+  }
+
   renderEditorClass () {
     return this.state.editing ? "active" : ""
   }
 
-  renderBodyClass () {
-    let el = document.querySelector('body')
-    if(this.state.editing) {
-      el.classList.add('thesis-editing');
-    } else {
-      el.classList.remove('thesis-editing');
-    }
+  contentEditors() {
+    return document.querySelectorAll('.thesis-content-html')
+  }
+
+  addContentEditors() {
+    Array.prototype.forEach.call(this.contentEditors(), (editor, i) => {
+      ReactDOM.render(<Editor editorState={ EditorState.createEmpty() } onChange={this.onPageContentChange} />, editor)
+    })
+  }
+
+  removeContentEditors() {
+    Array.prototype.forEach.call(this.contentEditors(), (editor, i) => {
+      ReactDOM.unmountComponentAtNode(editor)
+    })
   }
 
   componentDidUpdate () {
-    this.renderBodyClass()
+    let el = document.querySelector('body')
+    if(this.state.editing) {
+      el.classList.add('thesis-editing')
+      this.addContentEditors()
+    } else {
+      el.classList.remove('thesis-editing')
+      this.removeContentEditors()
+    }
   }
 
   render () {
@@ -50,4 +71,4 @@ class Editor extends React.Component {
   }
 }
 
-ReactDOM.render(<Editor />, document.querySelector('#thesis-editor-container'))
+ReactDOM.render(<ThesisEditor />, document.querySelector('#thesis-editor-container'))
