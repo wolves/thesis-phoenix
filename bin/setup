@@ -1,0 +1,4 @@
+echo 'Do not use this yet...WIP'
+error
+npm install
+npm install -g brunch
