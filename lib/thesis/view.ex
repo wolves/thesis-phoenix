@@ -13,7 +13,7 @@ defmodule Thesis.View do
       content = all_content[name] || make_content(page, name, type, default_content)
       render_editable(content)
     else
-      raise "Content missing for this page. Does your controller need to use Thesis.Controller?"
+      raise controller_missing_text
     end
   end
 
