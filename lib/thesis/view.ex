@@ -23,7 +23,12 @@ defmodule Thesis.View do
   end
 
   def current_page(conn) do
-    store.page(conn.request_path)
+    # TODO: Move the current page retrieval into the controller
+    store.page(conn.request_path) || make_page(conn.request_path)
+  end
+
+  def make_page(request_path) do
+    %Thesis.Page{slug: request_path}
   end
 
   def make_content(page, name, type, content) do
