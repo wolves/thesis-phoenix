@@ -4,5 +4,5 @@ defmodule Thesis.Router do
 
   get "/", Api.Controller, :index
 
-  get "/thesis-editor.js", Controller, :js
+  get "/thesis-editor.js", ApiController, :js
 end
