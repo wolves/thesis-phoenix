@@ -1,25 +1,22 @@
 defmodule Thesis.Controller do
-  use Phoenix.Controller
-  import Thesis.Config
-  alias Thesis.Page
 
-  plug :ensure_authorized!
-
-  def index(conn, _params) do
-    json conn, %{pages: {}}
-  end
-
-  def js(conn, params) do
-    text conn, File.read!(thesis_js_source_path)
-  end
-
-  defp ensure_authorized!(conn, _params) do
-    if auth.page_is_editable?(conn) do
-      conn
-    else
-      conn
-      |> put_status(:unauthorized)
-      |> halt
+  defmacro __using__(_) do
+    quote do
+      plug Thesis.Controller.Plug
     end
+  end
+
+end
+
+defmodule Thesis.Controller.Plug do
+
+  import Plug.Conn, only: [assign: 3]
+  import Thesis.Config
+
+  def init(_) do
+  end
+
+  def call(conn, _opts) do
+    conn |> Plug.Conn.assign(:thesis_content, store.page_contents(conn.request_path))
   end
 end

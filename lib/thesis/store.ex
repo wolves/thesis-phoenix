@@ -3,33 +3,33 @@ defmodule Thesis.Store do
   import Phoenix.HTML, only: [safe_to_string: 1]
   alias Thesis.{ Page, PageContent }
 
-  def get_pages do
+  def pages do
     repo.all(Page)
+      |> Map.new(&slug_page_tuple/1)
   end
 
-  def page_contents(page_id) do
-    repo.get_by(PageContent, page_id: page_id)
+  def page(slug) when is_binary(slug) do
+    repo.get_by(Page, slug: slug)
   end
 
-  def find_or_create_page(slug) do
-    repo.get_by(Page, slug: slug) || create_page(slug)
+  def page_contents(%Page{id: page_id}) do
+    repo.all(PageContent, page_id: page_id)
+      |> Map.new(&name_page_content_tuple/1)
   end
 
-  def find_or_create_page_content(page_id, name, type, opts) do
-    repo.get_by(PageContent, page_id: page_id, name: name) ||
-      create_page_content(page_id, name, type, opts[:default])
+  def page_contents(slug) when is_binary(slug) do
+    page_contents(page(slug))
   end
 
-  defp create_page(slug) do
-    repo.insert!(%Page{ slug: slug })
+  def page_contents(nil) do
+    %{}
   end
 
-  defp create_page_content(page_id, name, type, content) do
-    repo.insert!(%PageContent{
-      page_id: page_id,
-      name: name,
-      content_type: to_string(type),
-      content: safe_to_string(content)})
+  defp slug_page_tuple(%Page{slug: slug} = page) do
+    {slug, page}
+  end
+
+  defp name_page_content_tuple(%PageContent{name: name} = page_content) do
+    {name, page_content}
   end
 end
-
