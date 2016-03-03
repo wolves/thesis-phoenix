@@ -3,6 +3,10 @@
   "version": "0.0.0-dev",
   "main": "./priv/static/thesis.js",
   "repository": {},
+  "devDependencies": {
+    "brunch": "~2.2.3",
+    "babel-brunch": "~6.0.0"
+  },
   "files": ["package.json", "priv/static/thesis.js"],
   "scripts": {}
 }
