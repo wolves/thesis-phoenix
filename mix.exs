@@ -32,6 +32,7 @@ defmodule Thesis.Mixfile do
       {:phoenix_html, ">= 0.0.0"},
       {:ecto, ">= 0.0.0"},
       {:plug, "~> 1.0"},
+      {:html_sanitize_ex, "~> 0.1.0"}
     ]
   end
 end
