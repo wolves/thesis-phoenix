@@ -9,6 +9,10 @@ defmodule Thesis.ApiController do
     json conn, %{pages: {}}
   end
 
+  def js(conn, params) do
+    text conn, File.read!(thesis_js_source_path)
+  end
+
   defp ensure_authorized!(conn, _params) do
     if auth.page_is_editable?(conn) do
       conn
