@@ -1,8 +1,8 @@
 defmodule Thesis.Router do
   use Phoenix.Router
-  alias Thesis.Controller
+  alias Thesis.ApiController
 
-  get "/", Controller, :index
+  get "/", Api.Controller, :index
 
   get "/thesis-editor.js", Controller, :js
 end

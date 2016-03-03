@@ -14,7 +14,7 @@ defmodule Thesis.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :phoenix, :phoenix_html]]
+    [applications: [:logger, :phoenix, :phoenix_html, :plug]]
   end
 
   # Dependencies can be Hex packages:
@@ -31,6 +31,7 @@ defmodule Thesis.Mixfile do
       {:phoenix, ">= 0.0.0"},
       {:phoenix_html, ">= 0.0.0"},
       {:ecto, ">= 0.0.0"},
+      {:plug, "~> 1.0"},
     ]
   end
 end

@@ -1,21 +1,34 @@
 defmodule Thesis.View do
-  import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
+  import Phoenix.HTML, only: [raw: 1, html_escape: 1, safe_to_string: 1]
   import Phoenix.HTML.Tag
   import Thesis.Config
-  alias Thesis.Page
 
-  @styles File.read!("priv/static/thesis.css")
-  @external_resource "priv/static/thesis.css"
+  @styles File.read!(Path.join(__DIR__, "../../priv/static/thesis.css"))
+  @external_resource Path.join(__DIR__, "../../priv/static/thesis.css")
+
+  def content(conn, name, type, do: {:safe, _} = default_content) do
+    all_content = conn.assigns[:thesis_content]
+    if all_content do
+      page = current_page(conn)
+      content = all_content[name] || make_content(page, name, type, default_content)
+      render_editable(content)
+    else
+      raise "Content missing for this page. Does your controller need to use Thesis.Controller?"
+    end
+  end
 
   def content(conn, name, type, do: default_content) do
-    page = current_page(conn)
-    opts = [default: default_content]
-    content = store.find_or_create_page_content(page.id, name, type, opts)
-    render_editable(content)
+    content(conn, name, type, html_escape(default_content))
   end
 
   def current_page(conn) do
-    store.find_or_create_page(conn.request_path)
+    store.page(conn.request_path)
+  end
+
+  def make_content(page, name, type, content) do
+    %Thesis.PageContent{page_id: page.id, name: name,
+      content_type: Atom.to_string(type),
+      content: safe_to_string(content) }
   end
 
   def thesis_editor(conn) do
@@ -62,5 +75,12 @@ defmodule Thesis.View do
         <img src='#{page_content.content}' />
       </div>
     """)
+  end
+
+  defmacro __using__(_) do
+    # Reserved for future use
+    quote do
+      import unquote(__MODULE__)
+    end
   end
 end
