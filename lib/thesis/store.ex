@@ -1,6 +1,5 @@
 defmodule Thesis.Store do
   import Thesis.Config
-  import Phoenix.HTML, only: [safe_to_string: 1]
   alias Thesis.{ Page, PageContent }
 
   def pages do
@@ -23,6 +22,27 @@ defmodule Thesis.Store do
 
   def page_contents(nil) do
     %{}
+  end
+
+  def update(%{"slug" => slug} = page_params, contents_params) do
+    page = page(slug) || %Page{slug: slug}
+    page_changeset = Ecto.Changeset.cast(page, page_params, [], ~w(title description) )
+
+    repo.insert_or_update!(page_changeset)
+
+    contents = page_contents(page)
+
+    contents_params
+      |> Enum.map(fn(x) -> content_changeset(x, page, contents) end)
+      |> Enum.map(fn(x) -> repo.insert_or_update!(x) end)
+
+    :ok
+  end
+
+  defp content_changeset(%{"name" => name} = content_params, page, contents) do
+    content = contents[name] || %PageContent{name: name, page_id: page.id}
+
+    Ecto.Changeset.cast(content, content_params, [], ~w(content content_type))
   end
 
   defp slug_page_tuple(%Page{slug: slug} = page) do
