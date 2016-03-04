@@ -6,24 +6,18 @@ import SettingsButton from './components/settings_button'
 import CancelButton from './components/cancel_button'
 import SaveButton from './components/save_button'
 import EditButton from './components/edit_button'
-import {Editor, EditorState} from 'draft-js'
+import PageContentEditor from './components/page_content_editor'
 
 class ThesisEditor extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      editing: false,
-      editorState: EditorState.createEmpty()
+      editing: false
     }
   }
 
   editPressed () {
     this.setState({editing: !this.state.editing})
-  }
-
-  onPageContentChange(s) {
-    console.log("CHANGED!!!")
-    console.log(s)
   }
 
   renderEditorClass () {
@@ -36,7 +30,7 @@ class ThesisEditor extends React.Component {
 
   addContentEditors() {
     Array.prototype.forEach.call(this.contentEditors(), (editor, i) => {
-      ReactDOM.render(<Editor editorState={ EditorState.createEmpty() } onChange={this.onPageContentChange} />, editor)
+      ReactDOM.render(<PageContentEditor defaultContent={ editor.innerHTML } />, editor)
     })
   }
 

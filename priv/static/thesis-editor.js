@@ -37405,6 +37405,267 @@ exports.default = EditButton;
 
 });
 
+require.register("web/static/components/editor_toolbar", function(exports, require, module) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // TODO: Loads of cleanup!
+// Mostly copied from https://github.com/facebook/draft-js/tree/master/examples/rich
+
+
+// Custom overrides for "code" style.
+var styleMap = {
+  CODE: {
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
+    fontSize: 16,
+    padding: 2
+  }
+};
+
+function getBlockStyle(block) {
+  switch (block.getType()) {
+    case 'blockquote':
+      return 'RichEditor-blockquote';
+    default:
+      return null;
+  }
+}
+
+var StyleButton = function (_React$Component) {
+  _inherits(StyleButton, _React$Component);
+
+  function StyleButton() {
+    _classCallCheck(this, StyleButton);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(StyleButton).call(this));
+
+    _this.onToggle = function (e) {
+      e.preventDefault();
+      _this.props.onToggle(_this.props.style);
+    };
+    return _this;
+  }
+
+  _createClass(StyleButton, [{
+    key: 'render',
+    value: function render() {
+      var className = 'RichEditor-styleButton';
+      if (this.props.active) {
+        className += ' RichEditor-activeButton';
+      }
+
+      return _react2.default.createElement(
+        'span',
+        { className: className, onMouseDown: this.onToggle },
+        this.props.label
+      );
+    }
+  }]);
+
+  return StyleButton;
+}(_react2.default.Component);
+
+var BLOCK_TYPES = [{ label: 'H1', style: 'header-one' }, { label: 'H2', style: 'header-two' }, { label: 'Blockquote', style: 'blockquote' }, { label: 'UL', style: 'unordered-list-item' }, { label: 'OL', style: 'ordered-list-item' }, { label: 'Code Block', style: 'code-block' }];
+
+var BlockStyleControls = function BlockStyleControls(props) {
+  var editorState = props.editorState;
+
+  var selection = editorState.getSelection();
+  var blockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType();
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'RichEditor-controls' },
+    BLOCK_TYPES.map(function (type) {
+      return _react2.default.createElement(StyleButton, {
+        key: type.label,
+        active: type.style === blockType,
+        label: type.label,
+        onToggle: props.onToggle,
+        style: type.style
+      });
+    })
+  );
+};
+
+var INLINE_STYLES = [{ label: 'Bold', style: 'BOLD' }, { label: 'Italic', style: 'ITALIC' }, { label: 'Underline', style: 'UNDERLINE' }, { label: 'Monospace', style: 'CODE' }];
+
+var InlineStyleControls = function InlineStyleControls(props) {
+  var currentStyle = props.editorState.getCurrentInlineStyle();
+  return _react2.default.createElement(
+    'div',
+    { className: 'RichEditor-controls' },
+    INLINE_STYLES.map(function (type) {
+      return _react2.default.createElement(StyleButton, {
+        key: type.label,
+        active: currentStyle.has(type.style),
+        label: type.label,
+        onToggle: props.onToggle,
+        style: type.style
+      });
+    })
+  );
+};
+
+var EditorToolbar = function EditorToolbar(props) {
+  var editorState = props.editorState;
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'RichEditor-toolbar' },
+    _react2.default.createElement(BlockStyleControls, {
+      editorState: editorState,
+      onToggle: props.toggleBlockType
+    }),
+    _react2.default.createElement(InlineStyleControls, {
+      editorState: editorState,
+      onToggle: props.toggleInlineStyle
+    })
+  );
+};
+
+exports.default = EditorToolbar;
+
+});
+
+require.register("web/static/components/page_content_editor", function(exports, require, module) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _draftJs = require('draft-js');
+
+var _editor_toolbar = require('./editor_toolbar');
+
+var _editor_toolbar2 = _interopRequireDefault(_editor_toolbar);
+
+var _DraftPasteProcessor = require('draft-js/lib/DraftPasteProcessor');
+
+var _DraftPasteProcessor2 = _interopRequireDefault(_DraftPasteProcessor);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Currently the only way to expose `DraftPasteProcessor#processHTML`
+// but keep an eye on this issue:
+// https://github.com/facebook/draft-js/issues/55
+
+
+var PageContentEditor = function (_React$Component) {
+  _inherits(PageContentEditor, _React$Component);
+
+  function PageContentEditor(props) {
+    _classCallCheck(this, PageContentEditor);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PageContentEditor).call(this, props));
+
+    console.log(props.defaultContent);
+    _this.state = { editorState: _this.stateWithContent(props.defaultContent) };
+
+    // Rebind function contexts
+    _this.onChange = _this.onChange.bind(_this);
+    _this.handleKeyCommand = _this.handleKeyCommand.bind(_this);
+    _this.toggleBlockType = _this.toggleBlockType.bind(_this);
+    _this.toggleInlineStyle = _this.toggleInlineStyle.bind(_this);
+    return _this;
+  }
+
+  _createClass(PageContentEditor, [{
+    key: 'stateWithContent',
+    value: function stateWithContent(text) {
+      var blocksArray = _DraftPasteProcessor2.default.processHTML(text);
+      var contentState = _draftJs.ContentState.createFromBlockArray(blocksArray);
+      return _draftJs.EditorState.createWithContent(contentState);
+    }
+  }, {
+    key: 'onChange',
+    value: function onChange(editorState) {
+      this.setState({ editorState: editorState });
+    }
+  }, {
+    key: 'handleKeyCommand',
+    value: function handleKeyCommand(command) {
+      var editorState = this.state.editorState;
+
+      var newState = _draftJs.RichUtils.handleKeyCommand(editorState, command);
+      if (newState) {
+        this.onChange(newState);
+        return true;
+      }
+      return false;
+    }
+  }, {
+    key: 'toggleBlockType',
+    value: function toggleBlockType(blockType) {
+      this.onChange(_draftJs.RichUtils.toggleBlockType(this.state.editorState, blockType));
+    }
+  }, {
+    key: 'toggleInlineStyle',
+    value: function toggleInlineStyle(inlineStyle) {
+      this.onChange(_draftJs.RichUtils.toggleInlineStyle(this.state.editorState, inlineStyle));
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var editorState = this.state.editorState;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'RichEditor-root' },
+        _react2.default.createElement(_editor_toolbar2.default, {
+          editorState: editorState,
+          onToggleBlockType: this.toggleBlockType,
+          onToggleInlineStyle: this.toggleInlineStyle
+        }),
+        _react2.default.createElement(_draftJs.Editor, {
+          editorState: editorState,
+          onChange: this.onChange,
+          handleKeyCommand: this.handleKeyCommand
+        })
+      );
+    }
+  }]);
+
+  return PageContentEditor;
+}(_react2.default.Component);
+
+PageContentEditor.propTypes = {
+  defaultContent: _react.PropTypes.string.isRequired
+};
+
+exports.default = PageContentEditor;
+
+});
+
 require.register("web/static/components/save_button", function(exports, require, module) {
 "use strict";
 
@@ -37515,6 +37776,59 @@ exports.default = SettingsButton;
 
 });
 
+require.register("web/static/components/style_button", function(exports, require, module) {
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var StyleButton = function (_React$Component) {
+  _inherits(StyleButton, _React$Component);
+
+  function StyleButton() {
+    _classCallCheck(this, StyleButton);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(StyleButton).call(this));
+
+    _this.onToggle = function (e) {
+      e.preventDefault();
+      _this.props.onToggle(_this.props.style);
+    };
+    return _this;
+  }
+
+  _createClass(StyleButton, [{
+    key: 'render',
+    value: function render() {
+      var className = 'RichEditor-styleButton';
+      if (this.props.active) {
+        className += ' RichEditor-activeButton';
+      }
+
+      return _react2.default.createElement(
+        'span',
+        { className: className, onMouseDown: this.onToggle },
+        this.props.label
+      );
+    }
+  }]);
+
+  return StyleButton;
+}(_react2.default.Component);
+
+});
+
 require.register("web/static/thesis-editor", function(exports, require, module) {
 'use strict';
 
@@ -37552,7 +37866,9 @@ var _edit_button = require('./components/edit_button');
 
 var _edit_button2 = _interopRequireDefault(_edit_button);
 
-var _draftJs = require('draft-js');
+var _page_content_editor = require('./components/page_content_editor');
+
+var _page_content_editor2 = _interopRequireDefault(_page_content_editor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -37571,8 +37887,7 @@ var ThesisEditor = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ThesisEditor).call(this, props));
 
     _this.state = {
-      editing: false,
-      editorState: _draftJs.EditorState.createEmpty()
+      editing: false
     };
     return _this;
   }
@@ -37581,12 +37896,6 @@ var ThesisEditor = function (_React$Component) {
     key: 'editPressed',
     value: function editPressed() {
       this.setState({ editing: !this.state.editing });
-    }
-  }, {
-    key: 'onPageContentChange',
-    value: function onPageContentChange(s) {
-      console.log("CHANGED!!!");
-      console.log(s);
     }
   }, {
     key: 'renderEditorClass',
@@ -37601,10 +37910,8 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'addContentEditors',
     value: function addContentEditors() {
-      var _this2 = this;
-
       Array.prototype.forEach.call(this.contentEditors(), function (editor, i) {
-        _reactDom2.default.render(_react2.default.createElement(_draftJs.Editor, { editorState: _draftJs.EditorState.createEmpty(), onChange: _this2.onPageContentChange }), editor);
+        _reactDom2.default.render(_react2.default.createElement(_page_content_editor2.default, { defaultContent: editor.innerHTML }), editor);
       });
     }
   }, {
