@@ -37588,7 +37588,6 @@ var PageContentEditor = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PageContentEditor).call(this, props));
 
-    console.log(props.defaultContent);
     _this.state = { editorState: _this.stateWithContent(props.defaultContent) };
 
     // Rebind function contexts
@@ -37609,6 +37608,7 @@ var PageContentEditor = function (_React$Component) {
   }, {
     key: 'onChange',
     value: function onChange(editorState) {
+      this.props.onChange(editorState);
       this.setState({ editorState: editorState });
     }
   }, {
@@ -37911,14 +37911,24 @@ var ThesisEditor = function (_React$Component) {
     key: 'addContentEditors',
     value: function addContentEditors() {
       Array.prototype.forEach.call(this.contentEditors(), function (editor, i) {
-        _reactDom2.default.render(_react2.default.createElement(_page_content_editor2.default, { defaultContent: editor.innerHTML }), editor);
+        var onChangeHandler = function onChangeHandler(editorState) {
+          var content = editorState.getCurrentContent();
+          var text = content.getPlainText();
+          editor.updatedContent = text;
+        };
+        var contentEditor = _react2.default.createElement(_page_content_editor2.default, {
+          defaultContent: editor.innerHTML,
+          onChange: onChangeHandler
+        });
+        _reactDom2.default.render(contentEditor, editor);
       });
     }
   }, {
     key: 'removeContentEditors',
     value: function removeContentEditors() {
       Array.prototype.forEach.call(this.contentEditors(), function (editor, i) {
-        _reactDom2.default.unmountComponentAtNode(editor);
+        console.log(editor.updatedContent);
+        // ReactDOM.unmountComponentAtNode(editor)
       });
     }
   }, {

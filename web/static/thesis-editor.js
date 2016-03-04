@@ -30,13 +30,23 @@ class ThesisEditor extends React.Component {
 
   addContentEditors() {
     Array.prototype.forEach.call(this.contentEditors(), (editor, i) => {
-      ReactDOM.render(<PageContentEditor defaultContent={ editor.innerHTML } />, editor)
+      const onChangeHandler = (editorState) => {
+        const content = editorState.getCurrentContent()
+        const text = content.getPlainText()
+        editor.updatedContent = text
+      }
+      const contentEditor = <PageContentEditor
+        defaultContent={ editor.innerHTML }
+        onChange={onChangeHandler}
+      />
+      ReactDOM.render(contentEditor, editor)
     })
   }
 
   removeContentEditors() {
     Array.prototype.forEach.call(this.contentEditors(), (editor, i) => {
-      ReactDOM.unmountComponentAtNode(editor)
+      console.log(editor.updatedContent)
+      // ReactDOM.unmountComponentAtNode(editor)
     })
   }
 

@@ -10,7 +10,6 @@ import DraftPasteProcessor from 'draft-js/lib/DraftPasteProcessor'
 class PageContentEditor extends React.Component {
   constructor (props) {
     super(props)
-    console.log(props.defaultContent)
     this.state = {editorState: (this.stateWithContent(props.defaultContent))}
 
     // Rebind function contexts
@@ -27,6 +26,7 @@ class PageContentEditor extends React.Component {
   }
 
   onChange (editorState) {
+    this.props.onChange(editorState)
     this.setState({editorState})
   }
 
