@@ -56,10 +56,12 @@ class ThesisEditor extends React.Component {
     }
   }
 
-  postToServer(page, contents) {
-    Net.put('/thesis/update', {page, contents}).success((resp) => {
+  postToServer (page, contents) {
+    Net.put('/thesis/update', {page, contents}).then((resp) => {
+      console.log("SUCCESS")
       console.log(resp)
     }).catch((err) => {
+      console.log("ERROR")
       console.log(err)
     })
   }

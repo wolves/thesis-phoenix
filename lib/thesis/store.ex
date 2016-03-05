@@ -25,6 +25,12 @@ defmodule Thesis.Store do
   end
 
   def update(%{"slug" => slug} = page_params, contents_params) do
+    # contents_params is a map that looks like this:
+    #
+    # %{ "My Title" => "<h1>Some Title</h1>", "Paragraph" => "<p>...</p>" }
+    # We need to properly update this.
+    # Currently broken.
+
     page = page(slug) || %Page{slug: slug}
     page_changeset = Ecto.Changeset.cast(page, page_params, [], ~w(title description) )
 

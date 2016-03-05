@@ -45446,9 +45446,11 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'postToServer',
     value: function postToServer(page, contents) {
-      _net2.default.put('/thesis/update', { page: page, contents: contents }).success(function (resp) {
+      _net2.default.put('/thesis/update', { page: page, contents: contents }).then(function (resp) {
+        console.log("SUCCESS");
         console.log(resp);
       }).catch(function (err) {
+        console.log("ERROR");
         console.log(err);
       });
     }
