@@ -47,6 +47,7 @@ class ThesisEditor extends React.Component {
     Array.prototype.forEach.call(this.contentEditors(), (editor, i) => {
       console.log(editor.updatedContent)
       // ReactDOM.unmountComponentAtNode(editor)
+
     })
   }
 
