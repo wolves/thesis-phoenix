@@ -1,10 +1,11 @@
 defmodule Thesis.Mixfile do
   use Mix.Project
+  @version "0.0.4"
 
   def project do
     [
       app: :thesis,
-      version: "0.0.1",
+      version: @version,
       elixir: "~> 1.2",
       description: description,
       build_embedded: Mix.env == :prod,
@@ -39,12 +40,12 @@ defmodule Thesis.Mixfile do
 
   defp package do
     [
-      files: ["README.md"], # TODO: "lib", "priv", "mix.exs", "README*", "readme*", "LICENSE*", "license*"
+      files: ["lib", "priv", "web", "mix.exs", "README*", "LICENSE*", "package.json"],
       licenses: ["MIT"],
       maintainers: ["Jamon Holmgren", "Ken Miller", "Daniel Berkompas"],
       links: %{
         "GitHub" => "https://github.com/infinite_red/thesis",
-        "Docs" => "https://hexdocs.pm/thesis/0.0.1/api-reference.html",
+        "Docs" => "https://hexdocs.pm/thesis/#{@version}/api-reference.html",
         # "Tutorials" => "https://infinite.red/thesis/" # TODO
       }
     ]

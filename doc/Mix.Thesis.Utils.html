@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.11.4">
-    <title>Thesis.Router.Helpers – thesis v0.0.1</title>
+    <title>Mix.Thesis.Utils – thesis v0.0.4</title>
     <link rel="stylesheet" href="dist/app-1e374caa3d.css" />
     <script src="dist/sidebar_items.js"></script>
   </head>
@@ -27,7 +27,7 @@
         thesis
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.0.1
+        v0.0.4
       </h2>
     </div>
     
@@ -59,17 +59,12 @@
 
 
       <h1>
-        <small class="visible-xs">thesis v0.0.1</small>
-        Thesis.Router.Helpers
+        <small class="visible-xs">thesis v0.0.4</small>
+        Mix.Thesis.Utils
         
         
       </h1>
 
-      
-        <section id="moduledoc" class="docstring">
-          <p>Module with named helpers generated from Thesis.Router.</p>
-
-        </section>
       
 
       
@@ -89,61 +84,91 @@
     </h2>
     <div class="summary-row">
   <div class="summary-signature">
-    <a href="#api_path/2">api_path(conn_or_endpoint, action)</a>
+    <a href="#copy_to_target/1">copy_to_target(arg)</a>
   </div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#api_path/3">api_path(conn_or_endpoint, action, params)</a>
+    <a href="#debug/1">debug(message)</a>
   </div>
   
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
-    <a href="#api_url/2">api_url(conn_or_endpoint, action)</a>
-  </div>
-  
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
-    <a href="#api_url/3">api_url(conn_or_endpoint, action, params)</a>
-  </div>
-  
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
-    <a href="#path/2">path(data, path)</a>
-  </div>
-  
-    <div class="summary-synopsis"><p>Generates the path information including any necessary prefix</p>
+    <div class="summary-synopsis"><p>Print an informational message without color</p>
 </div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#static_path/2">static_path(conn, path)</a>
+    <a href="#error/1">error(message)</a>
   </div>
   
-    <div class="summary-synopsis"><p>Generates path to a static asset given its file path</p>
+    <div class="summary-synopsis"><p>Print an error message in red</p>
 </div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#static_url/2">static_url(conn, path)</a>
+    <a href="#get_module/0">get_module()</a>
   </div>
   
-    <div class="summary-synopsis"><p>Generates url to a static asset given its file path</p>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#get_package_path/0">get_package_path()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#info/1">info(message)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Print an informational message in green</p>
 </div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#url/1">url(data)</a>
+    <a href="#notice/1">notice(message)</a>
   </div>
   
-    <div class="summary-synopsis"><p>Generates the connection/endpoint base URL without any path information</p>
+    <div class="summary-synopsis"><p>Print a notice in yellow</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#overwrite_file/2">overwrite_file(contents, dest_file_path)</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#render_eex/1">render_eex(arg)</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#status_msg/2">status_msg(status, message)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Print a status message to the console</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#timestamp/0">timestamp()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#warn/1">warn(message)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Print a warning message in yellow</p>
 </div>
   
 </div>
@@ -168,12 +193,12 @@
             </a>
             Functions
           </h1>
-          <div class="detail" id="api_path/2">
+          <div class="detail" id="copy_to_target/1">
   <div class="detail-header">
-    <a href="#api_path/2" class="detail-link" title="Link to this function">
+    <a href="#copy_to_target/1" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">api_path(conn_or_endpoint, action)</span>
+    <span class="signature">copy_to_target(arg)</span>
       
   </div>
   
@@ -181,98 +206,152 @@
     
   </section>
 </div>
-<div class="detail" id="api_path/3">
+<div class="detail" id="debug/1">
   <div class="detail-header">
-    <a href="#api_path/3" class="detail-link" title="Link to this function">
+    <a href="#debug/1" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">api_path(conn_or_endpoint, action, params)</span>
+    <span class="signature">debug(message)</span>
       
   </div>
   
   <section class="docstring">
-    
-  </section>
-</div>
-<div class="detail" id="api_url/2">
-  <div class="detail-header">
-    <a href="#api_url/2" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
-    </a>
-    <span class="signature">api_url(conn_or_endpoint, action)</span>
-      
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-</div>
-<div class="detail" id="api_url/3">
-  <div class="detail-header">
-    <a href="#api_url/3" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
-    </a>
-    <span class="signature">api_url(conn_or_endpoint, action, params)</span>
-      
-  </div>
-  
-  <section class="docstring">
-    
-  </section>
-</div>
-<div class="detail" id="path/2">
-  <div class="detail-header">
-    <a href="#path/2" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
-    </a>
-    <span class="signature">path(data, path)</span>
-      
-  </div>
-  
-  <section class="docstring">
-    <p>Generates the path information including any necessary prefix.</p>
+    <p>Print an informational message without color</p>
 
   </section>
 </div>
-<div class="detail" id="static_path/2">
+<div class="detail" id="error/1">
   <div class="detail-header">
-    <a href="#static_path/2" class="detail-link" title="Link to this function">
+    <a href="#error/1" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">static_path(conn, path)</span>
+    <span class="signature">error(message)</span>
       
   </div>
   
   <section class="docstring">
-    <p>Generates path to a static asset given its file path.</p>
+    <p>Print an error message in red</p>
 
   </section>
 </div>
-<div class="detail" id="static_url/2">
+<div class="detail" id="get_module/0">
   <div class="detail-header">
-    <a href="#static_url/2" class="detail-link" title="Link to this function">
+    <a href="#get_module/0" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">static_url(conn, path)</span>
+    <span class="signature">get_module()</span>
       
   </div>
   
   <section class="docstring">
-    <p>Generates url to a static asset given its file path.</p>
+    
+  </section>
+</div>
+<div class="detail" id="get_package_path/0">
+  <div class="detail-header">
+    <a href="#get_package_path/0" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">get_package_path()</span>
+      
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="info/1">
+  <div class="detail-header">
+    <a href="#info/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">info(message)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>Print an informational message in green</p>
 
   </section>
 </div>
-<div class="detail" id="url/1">
+<div class="detail" id="notice/1">
   <div class="detail-header">
-    <a href="#url/1" class="detail-link" title="Link to this function">
+    <a href="#notice/1" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">url(data)</span>
+    <span class="signature">notice(message)</span>
       
   </div>
   
   <section class="docstring">
-    <p>Generates the connection/endpoint base URL without any path information.</p>
+    <p>Print a notice in yellow</p>
+
+  </section>
+</div>
+<div class="detail" id="overwrite_file/2">
+  <div class="detail-header">
+    <a href="#overwrite_file/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">overwrite_file(contents, dest_file_path)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="render_eex/1">
+  <div class="detail-header">
+    <a href="#render_eex/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">render_eex(arg)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="status_msg/2">
+  <div class="detail-header">
+    <a href="#status_msg/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">status_msg(status, message)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>Print a status message to the console</p>
+
+  </section>
+</div>
+<div class="detail" id="timestamp/0">
+  <div class="detail-header">
+    <a href="#timestamp/0" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">timestamp()</span>
+      
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="warn/1">
+  <div class="detail-header">
+    <a href="#warn/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">warn(message)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>Print a warning message in yellow</p>
 
   </section>
 </div>

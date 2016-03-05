@@ -10,11 +10,11 @@ the same name and author.
 
 ## Installation and Configuration
 
-1. Add thesis to your `mix.exs`:
+#### 1. Add thesis to your `mix.exs`:
 
 ```elixir
 def deps do
-  [{:thesis, "~> 0.0.1"}]
+  [{:thesis, "~> 0.0.3"}]
 end
 
 def application do
@@ -22,10 +22,10 @@ def application do
 end
 ```
 
-2. Run `mix thesis.install`
+#### 2. Run `mix thesis.install`
 
-This will add Thesis to your `package.json`, `config.exs`, generate
-a migration, and generate an authorization module.
+This will add Thesis to your `package.json`, `config.exs`, and `web.ex`,
+and generate a migration and an authorization module.
 
 ## Making Pages Editable
 

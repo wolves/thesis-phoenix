@@ -1,9 +1,21 @@
 defmodule Thesis.Router do
-  use Phoenix.Router
-  alias Thesis.ApiController
+  defmacro __using__(_) do
+    # Reserved for future use
+    quote do
+      use Phoenix.Router
 
-  get "/", Api.Controller, :index
+      pipeline :thesis_assets do
+        plug Plug.Static, at: "/thesis", from: :thesis, gzip: true,
+          cache_control_for_etags: "public, max-age=86400",
+          headers: [{"access-control-allow-origin", "*"}]
+      end
 
-  get "/thesis-editor.js", ApiController, :js
-  put "/update", ApiController, :update
+      scope "/thesis", Thesis do
+        pipe_through :thesis_assets
+
+        get "/thesis-editor.js", ApiController, :assets
+        put "/update", ApiController, :update
+      end
+    end
+  end
 end
