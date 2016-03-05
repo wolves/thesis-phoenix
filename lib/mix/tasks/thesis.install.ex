@@ -1,5 +1,6 @@
 defmodule Mix.Tasks.Thesis.Install do
   use Mix.Task
+  import Mix.Thesis.Utils
 
   @shortdoc "Generates Thesis code in your Phoenix app"
 
@@ -8,8 +9,15 @@ defmodule Mix.Tasks.Thesis.Install do
   """
 
   def run(_args) do
+    thesis_templates
+    thesis_npm
+    thesis_config
+  end
+
+  def thesis_templates do
     template_files = %{
-      "priv/templates/thesis.install/migration.exs" => "priv/repo/migrations/#{timestamp}_create_thesis_tables.exs"
+      "priv/templates/thesis.install/migration.exs" => "priv/repo/migrations/#{timestamp}_create_thesis_tables.exs",
+      "priv/templates/thesis.install/auth.ex" => "lib/auth.ex"
     }
 
     template_files
@@ -18,23 +26,32 @@ defmodule Mix.Tasks.Thesis.Install do
     |> Stream.run
   end
 
-  defp render_eex({source, target}) do
-    source = Path.join(Application.app_dir(:thesis), source)
-    rendered = EEx.eval_file(source, [base: Mix.Phoenix.base])
-    {rendered, target}
+  def thesis_npm do
+    status_msg("updating", "package.json")
+    System.cmd("npm install \"file:deps/thesis\" --save")
   end
 
-  defp copy_to_target({contents, target}) do
-    File.write!(target, contents)
+  def thesis_config do
+    status_msg("updating", "config/config.exs")
+    dest_path = Path.join [File.cwd! | ~w(config)]
+    dest_file_path = Path.join dest_path, "config.exs"
+    File.read!(dest_file_path)
+    |> insert_thesis
+    |> append_to_file(dest_file_path)
   end
 
-  # Taken from mix phoenix.gen.model
-  # https://github.com/phoenixframework/phoenix/blob/d3af3397c1f47381dd7ea69869772174a0c1811b/lib/mix/tasks/phoenix.gen.model.ex#L198
-  defp timestamp do
-    {{y, m, d}, {hh, mm, ss}} = :calendar.universal_time()
-    "#{y}#{pad(m)}#{pad(d)}#{pad(hh)}#{pad(mm)}#{pad(ss)}"
+  defp insert_thesis(source) do
+    unless String.contains? source, "config :thesis" do
+      source <> """
+      config :thesis,
+        store: Thesis.Store,
+        authorization: #{Mix.Phoenix.base}.ThesisAuth
+      config :thesis, Thesis.Store, repo: #{Mix.Phoenix.base}.Repo
+      """
+    else
+      status_msg("skipping", "thesis config. It already exists.")
+      :skip
+    end
   end
 
-  defp pad(i) when i < 10, do: << ?0, ?0 + i >>
-  defp pad(i), do: to_string(i)
 end
