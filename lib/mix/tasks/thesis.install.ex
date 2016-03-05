@@ -43,14 +43,11 @@ defmodule Mix.Tasks.Thesis.Install do
 
   def thesis_web do
     status_msg("updating", "web/web.exs")
-    view_pattern = "def view do\n  quote do"
-    router_pattern = "def router do\n  quote do"
     dest_file_path = Path.join [File.cwd! | ~w(web web.ex)]
     File.read!(dest_file_path)
     |> insert_controller
     |> insert_view
     |> insert_router
-    |> IO.puts
     |> overwrite_file(dest_file_path)
   end
 
