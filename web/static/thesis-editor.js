@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import AddButton from './components/add_button'
-import DeleteButton from './components/delete_button'
+// import AddButton from './components/add_button'
+// import DeleteButton from './components/delete_button'
 import SettingsButton from './components/settings_button'
 import CancelButton from './components/cancel_button'
 import SaveButton from './components/save_button'
@@ -15,11 +15,14 @@ const mediumEditorOptions = {
   toolbar: {
     buttons: [
       'bold', 'italic', 'underline', 'anchor',
-      'h1', 'h2', 'h3', 'h4', 'quote', 'pre',
+      'h1', 'h2', 'h3', 'quote', 'pre',
       'orderedList', 'unorderedList', 'outdent', 'indent',
-      'justifyLeft', 'justifyCenter', 'justifyRight',
       'removeFormat'
-    ]
+    ],
+    static: true,
+    align: 'center',
+    sticky: true,
+    updateOnEmptySelection: true
   }
 }
 
@@ -66,36 +69,51 @@ class ThesisEditor extends React.Component {
     })
   }
 
-  contentEditors () {
+  textContentEditors () {
+    return document.querySelectorAll('.thesis-content-text')
+  }
+
+  htmlContentEditors () {
     return document.querySelectorAll('.thesis-content-html')
+  }
+
+  allContentEditors () {
+    return document.querySelectorAll('.thesis-content')
   }
 
   addContentEditors () {
     if (!this.editor) {
-      this.editor = new MediumEditor(this.contentEditors(), mediumEditorOptions)
+      this.editor = new MediumEditor(this.htmlContentEditors(), mediumEditorOptions)
     } else {
       this.editor.setup() // Rebuild it
     }
+    this.toggleTextEditors(true)
   }
 
   removeContentEditors () {
     if (!this.editor) { return null }
 
     this.editor.destroy()
+    this.toggleTextEditors(false)
+  }
+
+  toggleTextEditors (editable) {
+    const textEditors = this.textContentEditors()
+    for (let i = 0; i < textEditors.length; i++) {
+      textEditors[i].contentEditable = editable
+    }
   }
 
   contentEditorContents () {
-    const editors = this.contentEditors()
-    const editorContents = this.editor.serialize()
     let contents = []
 
+    const editors = this.allContentEditors()
     for (let i = 0; i < editors.length; i++) {
       const ed = editors[i]
       const id = ed.getAttribute('data-thesis-content-id')
       const t = ed.getAttribute('data-thesis-content-type')
-      const index = ed.getAttribute('medium-editor-index')
-      const content = editorContents[`element-${index}`]
-      contents.push({name: id, content_type: t, content: content.value})
+      const content = ed.innerHTML
+      contents.push({name: id, content_type: t, content: content})
     }
 
     return contents
@@ -110,17 +128,20 @@ class ThesisEditor extends React.Component {
     if (this.state.editing) {
       el.classList.add('thesis-editing')
       this.addContentEditors()
+      el.insertAdjacentHTML('beforeend', '<div class="thesis-fader"></div>')
     } else {
       el.classList.remove('thesis-editing')
       this.removeContentEditors()
+      let fader = document.querySelector('.thesis-fader')
+      fader.remove()
     }
   }
 
   render () {
+    // <AddButton />
+    // <DeleteButton />
     return (
       <div id='thesis-editor' className={this.renderEditorClass()}>
-        <AddButton />
-        <DeleteButton />
         <SettingsButton />
         <CancelButton onPress={this.cancelPressed} />
         <SaveButton onPress={this.savePressed} />

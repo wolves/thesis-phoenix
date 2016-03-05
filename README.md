@@ -1,6 +1,12 @@
 # Thesis
 
-**TODO: Add description**
+Thesis is an Elixir/Phoenix hex package for quickly and easily adding content
+editing to any page.
+
+It's inspired by the [Rails gem](https://github.com/infinitered/thesis-rails) by
+the same name and author.
+
+
 
 ## Installation
 

@@ -45354,14 +45354,6 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _add_button = require('./components/add_button');
-
-var _add_button2 = _interopRequireDefault(_add_button);
-
-var _delete_button = require('./components/delete_button');
-
-var _delete_button2 = _interopRequireDefault(_delete_button);
-
 var _settings_button = require('./components/settings_button');
 
 var _settings_button2 = _interopRequireDefault(_settings_button);
@@ -45393,12 +45385,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+// import AddButton from './components/add_button'
+// import DeleteButton from './components/delete_button'
+
 
 // https://github.com/yabwe/medium-editor#toolbar-options
 var mediumEditorOptions = {
   autoLink: true,
   toolbar: {
-    buttons: ['bold', 'italic', 'underline', 'anchor', 'h1', 'h2', 'h3', 'h4', 'quote', 'pre', 'orderedList', 'unorderedList', 'outdent', 'indent', 'justifyLeft', 'justifyCenter', 'justifyRight', 'removeFormat']
+    buttons: ['bold', 'italic', 'underline', 'anchor', 'h1', 'h2', 'h3', 'quote', 'pre', 'orderedList', 'unorderedList', 'outdent', 'indent', 'removeFormat'],
+    static: true,
+    align: 'center',
+    sticky: true,
+    updateOnEmptySelection: true
   }
 };
 
@@ -45455,18 +45454,29 @@ var ThesisEditor = function (_React$Component) {
       });
     }
   }, {
-    key: 'contentEditors',
-    value: function contentEditors() {
+    key: 'textContentEditors',
+    value: function textContentEditors() {
+      return document.querySelectorAll('.thesis-content-text');
+    }
+  }, {
+    key: 'htmlContentEditors',
+    value: function htmlContentEditors() {
       return document.querySelectorAll('.thesis-content-html');
+    }
+  }, {
+    key: 'allContentEditors',
+    value: function allContentEditors() {
+      return document.querySelectorAll('.thesis-content');
     }
   }, {
     key: 'addContentEditors',
     value: function addContentEditors() {
       if (!this.editor) {
-        this.editor = new _mediumEditor2.default(this.contentEditors(), mediumEditorOptions);
+        this.editor = new _mediumEditor2.default(this.htmlContentEditors(), mediumEditorOptions);
       } else {
         this.editor.setup(); // Rebuild it
       }
+      this.toggleTextEditors(true);
     }
   }, {
     key: 'removeContentEditors',
@@ -45476,21 +45486,28 @@ var ThesisEditor = function (_React$Component) {
       }
 
       this.editor.destroy();
+      this.toggleTextEditors(false);
+    }
+  }, {
+    key: 'toggleTextEditors',
+    value: function toggleTextEditors(editable) {
+      var textEditors = this.textContentEditors();
+      for (var i = 0; i < textEditors.length; i++) {
+        textEditors[i].contentEditable = editable;
+      }
     }
   }, {
     key: 'contentEditorContents',
     value: function contentEditorContents() {
-      var editors = this.contentEditors();
-      var editorContents = this.editor.serialize();
       var contents = [];
 
+      var editors = this.allContentEditors();
       for (var i = 0; i < editors.length; i++) {
         var ed = editors[i];
         var id = ed.getAttribute('data-thesis-content-id');
         var t = ed.getAttribute('data-thesis-content-type');
-        var index = ed.getAttribute('medium-editor-index');
-        var content = editorContents['element-' + index];
-        contents.push({ name: id, content_type: t, content: content.value });
+        var content = ed.innerHTML;
+        contents.push({ name: id, content_type: t, content: content });
       }
 
       return contents;
@@ -45507,19 +45524,22 @@ var ThesisEditor = function (_React$Component) {
       if (this.state.editing) {
         el.classList.add('thesis-editing');
         this.addContentEditors();
+        el.insertAdjacentHTML('beforeend', '<div class="thesis-fader"></div>');
       } else {
         el.classList.remove('thesis-editing');
         this.removeContentEditors();
+        var fader = document.querySelector('.thesis-fader');
+        fader.remove();
       }
     }
   }, {
     key: 'render',
     value: function render() {
+      // <AddButton />
+      // <DeleteButton />
       return _react2.default.createElement(
         'div',
         { id: 'thesis-editor', className: this.renderEditorClass() },
-        _react2.default.createElement(_add_button2.default, null),
-        _react2.default.createElement(_delete_button2.default, null),
         _react2.default.createElement(_settings_button2.default, null),
         _react2.default.createElement(_cancel_button2.default, { onPress: this.cancelPressed }),
         _react2.default.createElement(_save_button2.default, { onPress: this.savePressed }),
