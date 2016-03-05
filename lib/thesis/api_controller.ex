@@ -8,11 +8,9 @@ defmodule Thesis.ApiController do
     json conn, %{pages: {}}
   end
 
-  def js(conn, _params) do
-    text conn, File.read!(thesis_js_source_path)
-  end
+  def assets(conn, _params), do: conn
 
-  def update(conn, %{"contents" => contents, "page" => page} = params) do
+  def update(conn, %{"contents" => contents, "page" => page} = _params) do
     store.update(page, contents)
     json conn, %{}
   end

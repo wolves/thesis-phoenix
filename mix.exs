@@ -1,6 +1,6 @@
 defmodule Thesis.Mixfile do
   use Mix.Project
-  @version "0.0.2"
+  @version "0.0.3"
 
   def project do
     [
@@ -40,7 +40,7 @@ defmodule Thesis.Mixfile do
 
   defp package do
     [
-      files: ["README.md"], # TODO: "lib", "priv", "mix.exs", "README*", "readme*", "LICENSE*", "license*"
+      files: ["lib", "priv", "web", "mix.exs", "README*", "LICENSE*", "package.json"],
       licenses: ["MIT"],
       maintainers: ["Jamon Holmgren", "Ken Miller", "Daniel Berkompas"],
       links: %{

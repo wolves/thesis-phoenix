@@ -29,8 +29,8 @@ defmodule Mix.Thesis.Utils do
   @doc "Print an error message in red"
   def error(message), do: IO.puts "==> #{IO.ANSI.red}#{message}#{IO.ANSI.reset}"
 
-  def append_to_file(:skip, _dest_file_path), do: :ok
-  def append_to_file(contents, dest_file_path) do
+  def overwrite_file(:skip, _dest_file_path), do: :ok
+  def overwrite_file(contents, dest_file_path) do
     File.write! dest_file_path, contents
   end
 
@@ -41,7 +41,7 @@ defmodule Mix.Thesis.Utils do
   end
 
   def copy_to_target({contents, target}) do
-    if File.exist?(target) do
+    if File.exists?(target) do
       status_msg("exists", "#{target}")
     else
       File.write!(target, contents)

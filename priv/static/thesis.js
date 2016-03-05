@@ -7,16 +7,16 @@
   `rm -rf ./node_modules/thesis` first).
 */
 ;(function () {
-  var loadThesis = function (loadReact) {
+  var loadThesis = function () {
     var script = document.createElement('script')
-    script.src = '/thesis/thesis-editor.js?react=' + (loadReact)
+    script.src = '/thesis/thesis-editor.js'
 
     document.head.appendChild(script)
   }
 
   document.addEventListener('DOMContentLoaded', function (event) {
     if (document.querySelector('#thesis-editor-container')) {
-      loadThesis(typeof window.React === 'undefined')
+      loadThesis()
     }
   })
 })()
