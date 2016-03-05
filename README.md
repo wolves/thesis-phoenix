@@ -1,20 +1,37 @@
 # Thesis
 
-**TODO: Add description**
+Thesis is an Elixir/Phoenix hex package for quickly and easily adding content
+editing to any page.
 
-## Installation
+It's inspired by the [Rails gem](https://github.com/infinitered/thesis-rails) by
+the same name and author.
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+![2016-03-05-enu58](https://cloud.githubusercontent.com/assets/1479215/13549778/137ec256-e2c2-11e5-8c6e-7cd653cbd52b.gif)
 
-  1. Add thesis to your list of dependencies in `mix.exs`:
+## Installation and Configuration
 
-        def deps do
-          [{:thesis, "~> 0.0.1"}]
-        end
+1. Add thesis to your `mix.exs`:
 
-  2. Ensure thesis is started before your application:
+```elixir
+def deps do
+  [{:thesis, "~> 0.0.1"}]
+end
 
-        def application do
-          [applications: [:thesis]]
-        end
+def application do
+  [applications: [:thesis]]
+end
+```
+
+2. Run `mix thesis.install`
+
+This will add Thesis to your `package.json`, `config.exs`, generate
+a migration, and generate an authorization module.
+
+## Making Pages Editable
+
+TODO
+
+## Authorization
+
+TODO
 
