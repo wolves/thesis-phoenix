@@ -45438,7 +45438,7 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'cancelPressed',
     value: function cancelPressed() {
-      if (window.confirm("Discard changes and reload the page?")) {
+      if (window.confirm('Discard changes and reload the page?')) {
         this.setState({ editing: false });
         window.location.reload();
       }
@@ -45447,10 +45447,10 @@ var ThesisEditor = function (_React$Component) {
     key: 'postToServer',
     value: function postToServer(page, contents) {
       _net2.default.put('/thesis/update', { page: page, contents: contents }).then(function (resp) {
-        console.log("SUCCESS");
+        console.log('SUCCESS');
         console.log(resp);
       }).catch(function (err) {
-        console.log("ERROR");
+        console.log('ERROR');
         console.log(err);
       });
     }
@@ -45475,25 +45475,25 @@ var ThesisEditor = function (_React$Component) {
         return null;
       }
 
-      console.log(this.contentEditorContents());
       this.editor.destroy();
     }
   }, {
     key: 'contentEditorContents',
     value: function contentEditorContents() {
       var editors = this.contentEditors();
-      var contents = this.editor.serialize();
-      var contentsMap = {};
+      var editorContents = this.editor.serialize();
+      var contents = [];
 
       for (var i = 0; i < editors.length; i++) {
         var ed = editors[i];
-        var i = ed.getAttribute('medium-editor-index');
         var id = ed.getAttribute('data-thesis-content-id');
-        var content = contents['element-' + i];
-        contentsMap[id] = content.value;
+        var t = ed.getAttribute('data-thesis-content-type');
+        var index = ed.getAttribute('medium-editor-index');
+        var content = editorContents['element-' + index];
+        contents.push({ name: id, content_type: t, content: content.value });
       }
 
-      return contentsMap;
+      return contents;
     }
   }, {
     key: 'renderEditorClass',
@@ -45546,16 +45546,53 @@ require('whatwg-fetch');
 
 // Polyfill for fetch
 
+function checkStatus(response) {
+  if (response.status >= 200 && response.status < 300) {
+    return response;
+  } else {
+    var error = new Error(response.statusText);
+    error.response = response;
+    throw error;
+  }
+}
+
+function parseJSON(response) {
+  return response.json();
+}
+
+/*
+  Usage:
+
+    Net.post('/thesis/something', {my: "body"})
+      .then((response) => { console.log(response) })
+      .catch((error) => { console.log(error) })
+*/
 var Net = {
+  get: function get(path, body) {
+    return Net.request(path, body, 'GET');
+  },
+  post: function post(path, body) {
+    return Net.request(path, body, 'POST');
+  },
   put: function put(path, body) {
+    return Net.request(path, body, 'PUT');
+  },
+  patch: function patch(path, body) {
+    return Net.request(path, body, 'PATCH');
+  },
+  delete: function _delete(path, body) {
+    return Net.request(path, body, 'DELETE');
+  },
+  request: function request(path, body, method) {
     return fetch(path, {
-      method: 'put',
-      headers: {
+      method: method,
+      credentials: 'same-origin',
+      headers: new Headers({
         'Accept': 'application/json',
         'Content-Type': 'application/json'
-      },
+      }),
       body: JSON.stringify(body)
-    });
+    }).then(checkStatus).then(parseJSON);
   }
 };
 

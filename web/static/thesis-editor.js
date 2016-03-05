@@ -50,7 +50,7 @@ class ThesisEditor extends React.Component {
   }
 
   cancelPressed () {
-    if (window.confirm("Discard changes and reload the page?")) {
+    if (window.confirm('Discard changes and reload the page?')) {
       this.setState({editing: false})
       window.location.reload()
     }
@@ -58,10 +58,10 @@ class ThesisEditor extends React.Component {
 
   postToServer (page, contents) {
     Net.put('/thesis/update', {page, contents}).then((resp) => {
-      console.log("SUCCESS")
+      console.log('SUCCESS')
       console.log(resp)
     }).catch((err) => {
-      console.log("ERROR")
+      console.log('ERROR')
       console.log(err)
     })
   }
@@ -81,24 +81,24 @@ class ThesisEditor extends React.Component {
   removeContentEditors () {
     if (!this.editor) { return null }
 
-    console.log(this.contentEditorContents())
     this.editor.destroy()
   }
 
   contentEditorContents () {
     const editors = this.contentEditors()
-    const contents = this.editor.serialize()
-    let contentsMap = {}
+    const editorContents = this.editor.serialize()
+    let contents = []
 
     for (let i = 0; i < editors.length; i++) {
       const ed = editors[i]
-      const i = ed.getAttribute('medium-editor-index')
       const id = ed.getAttribute('data-thesis-content-id')
-      const content = contents[`element-${i}`]
-      contentsMap[id] = content.value
+      const t = ed.getAttribute('data-thesis-content-type')
+      const index = ed.getAttribute('medium-editor-index')
+      const content = editorContents[`element-${index}`]
+      contents.push({name: id, content_type: t, content: content.value})
     }
 
-    return contentsMap
+    return contents
   }
 
   renderEditorClass () {

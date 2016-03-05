@@ -25,30 +25,24 @@ defmodule Thesis.Store do
   end
 
   def update(%{"slug" => slug} = page_params, contents_params) do
-    # contents_params is a map that looks like this:
-    #
-    # %{ "My Title" => "<h1>Some Title</h1>", "Paragraph" => "<p>...</p>" }
-    # We need to properly update this.
-    # Currently broken.
-
     page = page(slug) || %Page{slug: slug}
     page_changeset = Ecto.Changeset.cast(page, page_params, [], ~w(title description) )
 
     repo.insert_or_update!(page_changeset)
 
-    contents = page_contents(page)
+    preloaded_contents = page_contents(page)
 
     contents_params
-      |> Enum.map(fn(x) -> content_changeset(x, page, contents) end)
+      |> Enum.map(fn(x) -> content_changeset(x, page, preloaded_contents) end)
       |> Enum.map(fn(x) -> repo.insert_or_update!(x) end)
-
     :ok
   end
 
-  defp content_changeset(%{"name" => name} = content_params, page, contents) do
-    content = contents[name] || %PageContent{name: name, page_id: page.id}
-
-    Ecto.Changeset.cast(content, content_params, [], ~w(content content_type))
+  defp content_changeset(new_contents, page, preloaded_contents) do
+    %{"name" => name, "content" => content, "content_type" => content_type} = new_contents
+    page_content = preloaded_contents[name] ||
+      %PageContent{name: name, page_id: page.id, content_type: content_type}
+    Ecto.Changeset.cast(page_content, %{content: content}, ~w(content), [])
   end
 
   defp slug_page_tuple(%Page{slug: slug} = page) do

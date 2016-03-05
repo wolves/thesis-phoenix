@@ -22,11 +22,11 @@ function parseJSON(response) {
       .catch((error) => { console.log(error) })
 */
 const Net = {
-  get: (path, body) => request(path, body, 'GET'),
-  post: (path, body) => request(path, body, 'POST'),
-  put: (path, body) => request(path, body, 'PUT'),
-  patch: (path, body) => request(path, body, 'PATCH'),
-  delete: (path, body) => request(path, body, 'DELETE'),
+  get: (path, body) => { return Net.request(path, body, 'GET') },
+  post: (path, body) => { return Net.request(path, body, 'POST') },
+  put: (path, body) => { return Net.request(path, body, 'PUT') },
+  patch: (path, body) => { return Net.request(path, body, 'PATCH') },
+  delete: (path, body) => { return Net.request(path, body, 'DELETE') },
   request: (path, body, method) => {
     return fetch(path, {
       method: method,
