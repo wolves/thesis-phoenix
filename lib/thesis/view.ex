@@ -39,12 +39,33 @@ defmodule Thesis.View do
   def thesis_editor(conn) do
     if editable?(conn) do
       editor = content_tag(:div, "", id: "thesis-editor-container")
-      safe_concat([thesis_style, editor])
+      safe_concat([thesis_style, editor, thesis_js])
     end
   end
 
   def thesis_style do
     content_tag :style, @styles
+  end
+
+  def thesis_js do
+    raw """
+    <script>
+      ;(function () {
+        var loadThesis = function () {
+          var script = document.createElement('script')
+          script.src = '/thesis/thesis-editor.js'
+
+          document.head.appendChild(script)
+        }
+
+        document.addEventListener('DOMContentLoaded', function (event) {
+          if (document.querySelector('#thesis-editor-container')) {
+            loadThesis()
+          }
+        })
+      })()
+    </script>
+    """
   end
 
   defp editable?(conn) do

@@ -10,8 +10,6 @@ defmodule Mix.Tasks.Thesis.Install do
 
   def run(_args) do
     thesis_templates
-    thesis_js
-    thesis_npm
     thesis_config
     thesis_web
   end
@@ -27,19 +25,6 @@ defmodule Mix.Tasks.Thesis.Install do
     |> Stream.map(&render_eex/1)
     |> Stream.map(&copy_to_target/1)
     |> Stream.run
-  end
-
-  def thesis_js do
-    status_msg("updating", "app.js")
-    dest_file_path = Path.join [File.cwd! | ~w(web static js app.js)]
-    File.read!(dest_file_path)
-    |> insert_at(source, "import 'phoenix_html'\n", "import 'thesis'\n")
-    |> overwrite_file(dest_file_path)
-  end
-
-  def thesis_npm do
-    status_msg("updating", "package.json")
-    System.cmd("npm", ["install", "./deps/thesis", "--save"])
   end
 
   def thesis_config do
