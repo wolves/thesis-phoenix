@@ -1,6 +1,6 @@
 {
   "name": "thesis",
-  "version": "0.0.0-dev",
+  "version": "0.0.5-dev",
   "main": "./priv/static/thesis.js",
   "repository": {},
   "devDependencies": {
