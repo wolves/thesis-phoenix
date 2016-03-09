@@ -1,4 +1,23 @@
 defmodule Thesis.Controller do
+  @moduledoc """
+  Provides a plug that preloads any Thesis content for a page.
+  Typically, you'll add this to your `web/web.ex` file, under the `controller`
+  function:
+
+      def controller do
+        quote do
+          use Thesis.Controller
+          # ...
+        end
+      end
+
+  If you'd prefer to only use Thesis in certain controllers, remove it from
+  `web/web.ex` and add it to the specific controllers by doing this:
+
+      defmodule MyApp.MyController do
+        use Thesis.Controller
+        # ...
+  """
 
   defmacro __using__(_) do
     quote do
@@ -18,6 +37,11 @@ defmodule Thesis.Controller.Plug do
   end
 
   def call(conn, _opts) do
-    conn |> Plug.Conn.assign(:thesis_content, store.page_contents(conn.request_path))
+    current_page = store.page(conn.request_path)
+    page_contents = store.page_contents(current_page)
+
+    conn
+    |> assign(:thesis_page, current_page)
+    |> assign(:thesis_content, page_contents)
   end
 end

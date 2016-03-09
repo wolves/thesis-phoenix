@@ -1,4 +1,26 @@
 defmodule Thesis.Router do
+  @moduledoc """
+  Creates the routes that Thesis uses to handle requests from its javascript
+  editor client as well as static assets.
+
+  Typically, you'll add this to your `web/web.ex` file, under the `router`
+  function:
+
+      def router do
+        quote do
+          use Thesis.Router
+          # ...
+        end
+      end
+
+  If you'd prefer, you can remove it from `web/web.ex` and add it to the router
+  yourself:
+
+      defmodule MyApp.Router do
+        use Thesis.Router
+        # ...
+  """
+
   defmacro __using__(_) do
     # Reserved for future use
     quote do

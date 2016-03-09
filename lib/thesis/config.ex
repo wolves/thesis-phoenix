@@ -1,4 +1,6 @@
 defmodule Thesis.Config do
+  @moduledoc false
+
   def auth do
     Application.get_env(:thesis, :authorization)
   end
@@ -8,7 +10,7 @@ defmodule Thesis.Config do
   end
 
   def repo do
-    Application.get_env(:thesis, Thesis.Store)[:repo]
+    Application.get_env(:thesis, Thesis.EctoStore)[:repo]
   end
 
   def thesis_js_source_path do

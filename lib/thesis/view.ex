@@ -1,4 +1,26 @@
 defmodule Thesis.View do
+  @moduledoc """
+  Provides several view helper functions, including the primary `content/4`
+  function. Look at individual function documentation to learn more about them.
+
+  Typically, you'll add this to your `web/web.ex` file, under the `view`
+  function:
+
+      def view do
+        quote do
+          use Thesis.View
+          # ...
+        end
+      end
+
+  If you'd prefer, you can remove it from `web/web.ex` and add it to your views
+  yourself:
+
+      defmodule MyApp.MyView do
+        use Thesis.View
+        # ...
+  """
+
   import Phoenix.HTML, only: [raw: 1, html_escape: 1, safe_to_string: 1]
   import Phoenix.HTML.Tag
   import Thesis.Config
@@ -7,6 +29,19 @@ defmodule Thesis.View do
   @styles File.read!(Path.join(__DIR__, "../../priv/static/thesis.css"))
   @external_resource Path.join(__DIR__, "../../priv/static/thesis.css")
 
+  @doc """
+  Creates an editable content area in an eex template. Returns HTML-safe
+  string if type is `:html` or just a string if `:text`.
+
+  ## Examples
+
+      <%= content(@conn, "Title", :text, do: "Default Title") %>
+      <%= content(@conn, "Description", :html) do %>
+        <p>Default description</p>
+        <p>Another paragraph</p>
+      <% end %>
+  """
+  @spec content(Plug.Conn.t, String.t, String.t, list) :: String.t | {:safe, String.t}
   def content(conn, name, type, do: {:safe, _} = default_content) do
     content(conn, name, type, do: safe_to_string(default_content))
   end
@@ -22,32 +57,60 @@ defmodule Thesis.View do
     end
   end
 
+  @doc """
+  Returns the current page as a Thesis.Page{} struct.
+
+      iex> Thesis.View.current_page(%Plug.Conn{request_path: "/test"})
+      %Thesis.Page{slug: "/test"}
+  """
+  @spec current_page(Plug.Conn.t) :: Thesis.Page.t
   def current_page(conn) do
-    # TODO: Move the current page retrieval into the controller
-    store.page(conn.request_path) || make_page(conn.request_path)
+    conn.assigns[:thesis_page] || make_page(conn.request_path)
   end
 
-  def make_page(request_path) do
-    %Thesis.Page{slug: request_path}
-  end
+  @doc """
+  Checks with the host app to see if the current page is editable by the
+  current user, and then renders the editor, style tag, and bootstrap js.
 
-  def make_content(page, name, type, content) do
-    %Thesis.PageContent{page_id: page.id, name: name,
-      content_type: Atom.to_string(type), content: content }
-  end
+  If not editable, simply returns an empty string.
 
+  Doctests:
+
+      iex> {:safe, editor} = Thesis.View.thesis_editor(%Plug.Conn{assigns: %{editable: true}})
+      iex> String.contains?(editor, "<style>")
+      true
+      iex> String.contains?(editor, "thesis-editor-container")
+      true
+      iex> String.contains?(editor, "<script>")
+      true
+
+      iex> Thesis.View.thesis_editor(%Plug.Conn{assigns: %{editable: false}})
+      {:safe, ""}
+  """
+  @spec thesis_editor(Plug.Conn.t) :: {:safe, String.t}
   def thesis_editor(conn) do
     if editable?(conn) do
       editor = content_tag(:div, "", id: "thesis-editor-container")
       safe_concat([thesis_style, editor, thesis_js])
+    else
+      raw ""
     end
   end
 
-  def thesis_style do
+  defp make_page(request_path) do
+    %Thesis.Page{slug: request_path}
+  end
+
+  defp make_content(page, name, type, content) do
+    %Thesis.PageContent{page_id: page.id, name: name,
+      content_type: Atom.to_string(type), content: content }
+  end
+
+  defp thesis_style do
     content_tag :style, @styles
   end
 
-  def thesis_js do
+  defp thesis_js do
     raw """
     <script>
       ;(function () {

@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.11.4">
-    <title>Thesis.Config – thesis v0.0.4</title>
+    <title>Thesis.EctoStore – thesis v0.0.7</title>
     <link rel="stylesheet" href="dist/app-1e374caa3d.css" />
     <script src="dist/sidebar_items.js"></script>
   </head>
@@ -27,7 +27,7 @@
         thesis
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.0.4
+        v0.0.7
       </h2>
     </div>
     
@@ -59,12 +59,22 @@
 
 
       <h1>
-        <small class="visible-xs">thesis v0.0.4</small>
-        Thesis.Config
+        <small class="visible-xs">thesis v0.0.7</small>
+        Thesis.EctoStore
         
         
       </h1>
 
+      
+        <section id="moduledoc" class="docstring">
+          <p>Thesis.EctoStore is the most commonly-used store for Thesis pages and content.
+It interfaces with the host application’s repo (which is provided in the
+config.exs of the host applicaton).</p>
+<p>You can generally just use Thesis.EctoStore unless you’re not using Ecto in
+your project or you want to do something custom with how Thesis is handling
+its data.</p>
+
+        </section>
       
 
       
@@ -84,32 +94,38 @@
     </h2>
     <div class="summary-row">
   <div class="summary-signature">
-    <a href="#auth/0">auth()</a>
+    <a href="#page/1">page(slug)</a>
   </div>
+  
+    <div class="summary-synopsis"><p>Callback implementation for <a href="Thesis.Store.html#c:page/1"><code class="inline">Thesis.Store.page/1</code></a></p>
+</div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#controller_missing_text/0">controller_missing_text()</a>
+    <a href="#page_contents/1">page_contents(slug)</a>
   </div>
+  
+    <div class="summary-synopsis"><p>Callback implementation for <a href="Thesis.Store.html#c:page_contents/1"><code class="inline">Thesis.Store.page_contents/1</code></a></p>
+</div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#repo/0">repo()</a>
+    <a href="#pages/0">pages()</a>
   </div>
+  
+    <div class="summary-synopsis"><p>Callback implementation for <a href="Thesis.Store.html#c:pages/0"><code class="inline">Thesis.Store.pages/0</code></a></p>
+</div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#store/0">store()</a>
+    <a href="#update/2">update(page_params, contents_params)</a>
   </div>
   
+    <div class="summary-synopsis"><p>Callback implementation for <a href="Thesis.Store.html#c:update/2"><code class="inline">Thesis.Store.update/2</code></a></p>
 </div>
-<div class="summary-row">
-  <div class="summary-signature">
-    <a href="#thesis_js_source_path/0">thesis_js_source_path()</a>
-  </div>
   
 </div>
 
@@ -133,69 +149,60 @@
             </a>
             Functions
           </h1>
-          <div class="detail" id="auth/0">
+          <div class="detail" id="page/1">
   <div class="detail-header">
-    <a href="#auth/0" class="detail-link" title="Link to this function">
+    <a href="#page/1" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">auth()</span>
+    <span class="signature">page(slug)</span>
       
   </div>
   
   <section class="docstring">
-    
+    <p>Callback implementation for <a href="Thesis.Store.html#c:page/1"><code class="inline">Thesis.Store.page/1</code></a>.</p>
+
   </section>
 </div>
-<div class="detail" id="controller_missing_text/0">
+<div class="detail" id="page_contents/1">
   <div class="detail-header">
-    <a href="#controller_missing_text/0" class="detail-link" title="Link to this function">
+    <a href="#page_contents/1" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">controller_missing_text()</span>
+    <span class="signature">page_contents(slug)</span>
       
   </div>
   
   <section class="docstring">
-    
+    <p>Callback implementation for <a href="Thesis.Store.html#c:page_contents/1"><code class="inline">Thesis.Store.page_contents/1</code></a>.</p>
+
   </section>
 </div>
-<div class="detail" id="repo/0">
+<div class="detail" id="pages/0">
   <div class="detail-header">
-    <a href="#repo/0" class="detail-link" title="Link to this function">
+    <a href="#pages/0" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">repo()</span>
+    <span class="signature">pages()</span>
       
   </div>
   
   <section class="docstring">
-    
+    <p>Callback implementation for <a href="Thesis.Store.html#c:pages/0"><code class="inline">Thesis.Store.pages/0</code></a>.</p>
+
   </section>
 </div>
-<div class="detail" id="store/0">
+<div class="detail" id="update/2">
   <div class="detail-header">
-    <a href="#store/0" class="detail-link" title="Link to this function">
+    <a href="#update/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">store()</span>
+    <span class="signature">update(page_params, contents_params)</span>
       
   </div>
   
   <section class="docstring">
-    
-  </section>
-</div>
-<div class="detail" id="thesis_js_source_path/0">
-  <div class="detail-header">
-    <a href="#thesis_js_source_path/0" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
-    </a>
-    <span class="signature">thesis_js_source_path()</span>
-      
-  </div>
-  
-  <section class="docstring">
-    
+    <p>Callback implementation for <a href="Thesis.Store.html#c:update/2"><code class="inline">Thesis.Store.update/2</code></a>.</p>
+
   </section>
 </div>
 

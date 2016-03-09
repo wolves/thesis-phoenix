@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.11.4">
-    <title>Thesis.Controller – thesis v0.0.4</title>
+    <title>Thesis.Controller – thesis v0.0.7</title>
     <link rel="stylesheet" href="dist/app-1e374caa3d.css" />
     <script src="dist/sidebar_items.js"></script>
   </head>
@@ -27,7 +27,7 @@
         thesis
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.0.4
+        v0.0.7
       </h2>
     </div>
     
@@ -59,12 +59,30 @@
 
 
       <h1>
-        <small class="visible-xs">thesis v0.0.4</small>
+        <small class="visible-xs">thesis v0.0.7</small>
         Thesis.Controller
         
         
       </h1>
 
+      
+        <section id="moduledoc" class="docstring">
+          <p>Provides a plug that preloads any Thesis content for a page.
+Typically, you’ll add this to your <code class="inline">web/web.ex</code> file, under the <code class="inline">controller</code>
+function:</p>
+<pre><code class="elixir">def controller do
+  quote do
+    use Thesis.Controller
+    # ...
+  end
+end</code></pre>
+<p>If you’d prefer to only use Thesis in certain controllers, remove it from
+<code class="inline">web/web.ex</code> and add it to the specific controllers by doing this:</p>
+<pre><code class="elixir">defmodule MyApp.MyController do
+  use Thesis.Controller
+  # ...</code></pre>
+
+        </section>
       
 
       
