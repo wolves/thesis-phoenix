@@ -1,12 +1,10 @@
 defmodule Thesis.ApiController do
+  @moduledoc false
+
   use Phoenix.Controller
   import Thesis.Config
 
   plug :ensure_authorized!
-
-  def index(conn, _params) do
-    json conn, %{pages: {}}
-  end
 
   def assets(conn, _params), do: conn
 
@@ -16,12 +14,12 @@ defmodule Thesis.ApiController do
   end
 
   defp ensure_authorized!(conn, _params) do
-    if auth.page_is_editable?(conn) do
-      conn
-    else
-      conn
-      |> put_status(:unauthorized)
-      |> halt
-    end
+    if auth.page_is_editable?(conn), do: conn, else: put_unauthorized(conn)
+  end
+
+  defp put_unauthorized(conn) do
+    conn
+    |> put_status(:unauthorized)
+    |> halt
   end
 end

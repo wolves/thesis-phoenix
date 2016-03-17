@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.11.4">
-    <title>API Reference – thesis v0.0.4</title>
+    <title>API Reference – thesis v0.0.7</title>
     <link rel="stylesheet" href="dist/app-1e374caa3d.css" />
     <script src="dist/sidebar_items.js"></script>
   </head>
@@ -27,7 +27,7 @@
         thesis
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.0.4
+        v0.0.7
       </h2>
     </div>
     
@@ -58,7 +58,7 @@
   <div id="content" class="content-inner">
 
   <h1>
-    <small class="visible-xs">thesis v0.0.4</small>
+    <small class="visible-xs">thesis v0.0.7</small>
     API Reference
   </h1>
 
@@ -77,32 +77,39 @@
         <div class="summary-row">
   <div class="summary-signature"><a href="Mix.Tasks.Thesis.Install.html">Mix.Tasks.Thesis.Install</a></div>
   
-    <div class="summary-synopsis"><p>TODO: Write docs</p>
+    <div class="summary-synopsis"><p>Installs Thesis by adding these to your host app</p>
 </div>
-  
-</div>
-<div class="summary-row">
-  <div class="summary-signature"><a href="Mix.Thesis.Utils.html">Mix.Thesis.Utils</a></div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature"><a href="Thesis.html">Thesis</a></div>
   
+    <div class="summary-synopsis"><p>Thesis is a simple and straightforward content editor for Phoenix websites.
+It doesn’t hijack your development workflow, but rather bolts on and works
+seamlessly with your existing web application</p>
 </div>
-<div class="summary-row">
-  <div class="summary-signature"><a href="Thesis.ApiController.html">Thesis.ApiController</a></div>
-  
-</div>
-<div class="summary-row">
-  <div class="summary-signature"><a href="Thesis.Config.html">Thesis.Config</a></div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature"><a href="Thesis.Controller.html">Thesis.Controller</a></div>
   
+    <div class="summary-synopsis"><p>Provides a plug that preloads any Thesis content for a page.
+Typically, you’ll add this to your <code class="inline">web/web.ex</code> file, under the <code class="inline">controller</code>
+function</p>
+</div>
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature"><a href="Thesis.Controller.Plug.html">Thesis.Controller.Plug</a></div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="Thesis.EctoStore.html">Thesis.EctoStore</a></div>
+  
+    <div class="summary-synopsis"><p>Thesis.EctoStore is the most commonly-used store for Thesis pages and content.
+It interfaces with the host application’s repo (which is provided in the
+config.exs of the host applicaton)</p>
+</div>
   
 </div>
 <div class="summary-row">
@@ -116,13 +123,25 @@
 <div class="summary-row">
   <div class="summary-signature"><a href="Thesis.Router.html">Thesis.Router</a></div>
   
+    <div class="summary-synopsis"><p>Creates the routes that Thesis uses to handle requests from its javascript
+editor client as well as static assets</p>
+</div>
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature"><a href="Thesis.Store.html">Thesis.Store</a></div>
   
+    <div class="summary-synopsis"><p>Thesis.Store is an Elixir “behaviour” that defines the public function
+interface necessary for Thesis to use a particular store module</p>
+</div>
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature"><a href="Thesis.View.html">Thesis.View</a></div>
+  
+    <div class="summary-synopsis"><p>Provides several view helper functions, including the primary <a href="#content/4"><code class="inline">content/4</code></a>
+function. Look at individual function documentation to learn more about them</p>
+</div>
   
 </div>
 

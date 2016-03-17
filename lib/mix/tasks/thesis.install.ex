@@ -5,15 +5,25 @@ defmodule Mix.Tasks.Thesis.Install do
   @shortdoc "Generates Thesis code in your Phoenix app"
 
   @moduledoc """
-  TODO: Write docs.
+  Installs Thesis by adding these to your host app:
+
+  * lib/thesis_auth.ex - Contains a function to handle authorization
+  * migration - creates the two tables needed for Thesis.EctoStore
+  * config/config.exs - adds Thesis config code
+  * web/web.ex - adds Thesis `use` statements
+
+  You should be able to run this mix task multiple times without harm. It will
+  automatically detect when a file or line of code exists and skip that step.
   """
 
+  @doc false
   def run(_args) do
     thesis_templates
     thesis_config
     thesis_web
   end
 
+  @doc false
   def thesis_templates do
     template_files = [ {"priv/templates/thesis.install/thesis_auth.exs", "lib/thesis_auth.ex" } ]
     migration_exists = File.ls!("priv/repo/migrations") |> Enum.map(fn (f) -> String.contains?(f, "create_thesis_tables") end) |> Enum.any?
@@ -27,6 +37,7 @@ defmodule Mix.Tasks.Thesis.Install do
     |> Stream.run
   end
 
+  @doc false
   def thesis_config do
     status_msg("updating", "config/config.exs")
     dest_file_path = Path.join [File.cwd! | ~w(config config.exs)]
@@ -35,6 +46,7 @@ defmodule Mix.Tasks.Thesis.Install do
     |> overwrite_file(dest_file_path)
   end
 
+  @doc false
   def thesis_web do
     status_msg("updating", "web/web.exs")
     dest_file_path = Path.join [File.cwd! | ~w(web web.ex)]
@@ -71,9 +83,9 @@ defmodule Mix.Tasks.Thesis.Install do
 
       # Configure thesis content editor
       config :thesis,
-        store: Thesis.Store,
+        store: Thesis.EctoStore,
         authorization: #{Mix.Phoenix.base}.ThesisAuth
-      config :thesis, Thesis.Store, repo: #{Mix.Phoenix.base}.Repo
+      config :thesis, Thesis.EctoStore, repo: #{Mix.Phoenix.base}.Repo
       """
     else
       status_msg("skipping", "thesis config. It already exists.")

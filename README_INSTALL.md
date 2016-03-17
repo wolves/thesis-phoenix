@@ -20,9 +20,9 @@ Run `mix deps.get`.
 
 ```elixir
 config :thesis,
-  store: Thesis.Store,
+  store: Thesis.EctoStore,
   authorization: IrWebsite.ThesisAuth
-config :thesis, Thesis.Store, repo: <MyApp>.Repo
+config :thesis, Thesis.EctoStore, repo: <MyApp>.Repo
 ```
 
 #### 3. Create `lib/thesis_auth.ex`
