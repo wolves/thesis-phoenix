@@ -15,7 +15,7 @@ const mediumEditorOptions = {
   toolbar: {
     buttons: [
       'bold', 'italic', 'underline', 'anchor',
-      'h1', 'h2', 'h3', 'quote', 'pre',
+      'h1', 'h2', 'h3', 'quote', 'pre', 'image',
       'orderedList', 'unorderedList', 'outdent', 'indent',
       'removeFormat'
     ],
