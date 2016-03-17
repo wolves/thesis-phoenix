@@ -34,7 +34,6 @@ defmodule Thesis.Router do
         plug :fetch_session
         plug :fetch_flash
         plug :put_secure_browser_headers
-        plug :allow_all_origins
       end
 
       scope "/thesis", Thesis do
