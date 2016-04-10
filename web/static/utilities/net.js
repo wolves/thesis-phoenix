@@ -1,6 +1,6 @@
 import 'whatwg-fetch' // Polyfill for fetch
 
-function checkStatus(response) {
+function checkStatus (response) {
   if (response.status >= 200 && response.status < 300) {
     return response
   } else {
@@ -10,7 +10,7 @@ function checkStatus(response) {
   }
 }
 
-function parseJSON(response) {
+function parseJSON (response) {
   return response.json()
 }
 
@@ -22,11 +22,11 @@ function parseJSON(response) {
       .catch((error) => { console.log(error) })
 */
 const Net = {
-  get: (path, body) => { return Net.request(path, body, 'GET') },
-  post: (path, body) => { return Net.request(path, body, 'POST') },
-  put: (path, body) => { return Net.request(path, body, 'PUT') },
-  patch: (path, body) => { return Net.request(path, body, 'PATCH') },
-  delete: (path, body) => { return Net.request(path, body, 'DELETE') },
+  get: (path, body) => Net.request(path, body, 'GET'),
+  post: (path, body) => Net.request(path, body, 'POST'),
+  put: (path, body) => Net.request(path, body, 'PUT'),
+  patch: (path, body) => Net.request(path, body, 'PATCH'),
+  delete: (path, body) => Net.request(path, body, 'DELETE'),
   request: (path, body, method) => {
     return fetch(path, {
       method: method,
@@ -37,8 +37,8 @@ const Net = {
       }),
       body: JSON.stringify(body)
     })
-    .then(checkStatus)
-    .then(parseJSON)
+      .then(checkStatus)
+      .then(parseJSON)
   }
 }
 
