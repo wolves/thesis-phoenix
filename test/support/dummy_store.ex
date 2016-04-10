@@ -1,3 +1,4 @@
+
 defmodule Thesis.DummyStore do
   @behaviour Thesis.Store
 

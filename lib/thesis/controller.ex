@@ -6,6 +6,7 @@ defmodule Thesis.Controller do
 
       def controller do
         quote do
+          use Phoenix.Controller
           use Thesis.Controller
           # ...
         end

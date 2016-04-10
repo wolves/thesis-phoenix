@@ -102,8 +102,12 @@ defmodule Thesis.View do
   end
 
   defp make_content(page, name, type, content) do
-    %Thesis.PageContent{page_id: page.id, name: name,
-      content_type: Atom.to_string(type), content: content }
+    %Thesis.PageContent{
+      page_id: page.id,
+      name: name,
+      content_type: Atom.to_string(type),
+      content: content
+    }
   end
 
   defp thesis_style do
