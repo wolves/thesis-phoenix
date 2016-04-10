@@ -21,7 +21,6 @@ defmodule Thesis.Controller do
 
   defmacro __using__(_) do
     quote do
-      use Phoenix.Controller
       plug Thesis.Controller.Plug
     end
   end

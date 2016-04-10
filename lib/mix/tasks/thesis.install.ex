@@ -58,15 +58,15 @@ defmodule Mix.Tasks.Thesis.Install do
   end
 
   defp insert_controller(source) do
-    insert_at(source, "def controller do\n    quote do", "\n      use Thesis.Controller\n")
+    insert_at(source, "use Phoenix.Controller\n", "\n      use Thesis.Controller\n")
   end
 
   defp insert_view(source) do
-    insert_at(source, "def view do\n    quote do", "\n      use Thesis.View\n")
+    insert_at(source, "use Phoenix.View, root: \"web/templates\"\n", "\n      use Thesis.View\n")
   end
 
   defp insert_router(source) do
-    insert_at(source, "def router do\n    quote do", "\n      use Thesis.Router\n")
+    insert_at(source, "use Phoenix.Router\n", "\n      use Thesis.Router\n")
   end
 
   defp insert_at(source, pattern, inserted) do
