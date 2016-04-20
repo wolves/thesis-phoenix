@@ -859,7 +859,7 @@ body.thesis-editing .thesis-content {
     content: "";
     top: 0;
     left: 0;
-    background: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.6);
     z-index: -1;
     border: dotted 3px white; }
   body.thesis-editing .thesis-content:focus {
@@ -885,9 +885,9 @@ body.thesis-editing .thesis-content {
   background-color: rgba(0, 0, 0, 0.4);
   cursor: not-allowed;
   z-index: 1038;
-  -webkit-animation: thesis_fader 0.7s ease-in-out;
-  -moz-animation: thesis_fader 0.7s ease-in-out;
-  animation: thesis_fader 0.7s ease-in-out; }
+  -webkit-animation: thesis_fader 0.2s ease-in-out;
+  -moz-animation: thesis_fader 0.2s ease-in-out;
+  animation: thesis_fader 0.2s ease-in-out; }
 
 #thesis-modal {
   display: none;

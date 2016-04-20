@@ -48,6 +48,7 @@ class ThesisEditor extends React.Component {
       if (body.classList.contains('thesis-page-modified')) {
         this.cancelPressed()
       } else {
+        body.classList.remove('thesis-page-modified')
         this.setState({editing: false})
       }
     } else {
@@ -56,10 +57,13 @@ class ThesisEditor extends React.Component {
   }
 
   savePressed () {
+    let body = document.querySelector('body')
+
     const page = {slug: window.location.pathname}
     const contents = this.contentEditorContents()
     this.postToServer(page, contents)
     this.setState({editing: false})
+    body.classList.remove('thesis-page-modified')
   }
 
   cancelPressed () {

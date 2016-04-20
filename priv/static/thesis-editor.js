@@ -45831,6 +45831,7 @@ var ThesisEditor = function (_React$Component) {
         if (body.classList.contains('thesis-page-modified')) {
           this.cancelPressed();
         } else {
+          body.classList.remove('thesis-page-modified');
           this.setState({ editing: false });
         }
       } else {
@@ -45840,10 +45841,13 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'savePressed',
     value: function savePressed() {
+      var body = document.querySelector('body');
+
       var page = { slug: window.location.pathname };
       var contents = this.contentEditorContents();
       this.postToServer(page, contents);
       this.setState({ editing: false });
+      body.classList.remove('thesis-page-modified');
     }
   }, {
     key: 'cancelPressed',
