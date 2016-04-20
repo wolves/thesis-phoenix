@@ -42,7 +42,11 @@ class ThesisEditor extends React.Component {
   }
 
   editPressed () {
-    this.setState({editing: !this.state.editing})
+    if (this.state.editing) {
+      this.cancelPressed()
+    } else {
+      this.setState({editing: true})
+    }
   }
 
   savePressed () {
@@ -81,6 +85,48 @@ class ThesisEditor extends React.Component {
     return document.querySelectorAll('.thesis-content')
   }
 
+  trackContentChanges () {
+    // this.editor.on(target, event, listener, useCapture):
+  }
+
+  trackEditableAreaState () {
+    const t = this
+    const editors = this.allContentEditors()
+    for (let i = 0; i < this.allContentEditors().length; i++) {
+      editors[i].addEventListener('click', function (e) {t.manageInEditModeClass(e)}, false)
+    }
+  }
+
+  manageInEditModeClass (e) {
+    let contentEls = this.allContentEditors()
+    let contentEl = null
+    let el = e.target
+
+    if (el.classList.contains('thesis-content')) {
+      contentEl = el
+    } else {
+      do {
+        if (el.classList.contains('thesis-content')) {
+          contentEl = el
+          break
+        }
+      } while (el = el.parentNode)
+    }
+
+    this.removeInEditModeClass(contentEls)
+    this.addInEditModeClass(contentEl)
+  }
+
+  addInEditModeClass (el) {
+    el.classList.add('in-edit-mode')
+  }
+
+  removeInEditModeClass (els) {
+    for (let i = 0; i < els.length; i++) {
+      els[i].classList.remove('in-edit-mode')
+    }
+  }
+
   addContentEditors () {
     if (!this.editor) {
       this.editor = new MediumEditor(this.htmlContentEditors(), mediumEditorOptions)
@@ -88,6 +134,8 @@ class ThesisEditor extends React.Component {
       this.editor.setup() // Rebuild it
     }
     this.toggleTextEditors(true)
+    this.trackEditableAreaState()
+  // this.trackContentChanges()
   }
 
   removeContentEditors () {

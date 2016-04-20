@@ -45825,7 +45825,11 @@ var ThesisEditor = function (_React$Component) {
   _createClass(ThesisEditor, [{
     key: 'editPressed',
     value: function editPressed() {
-      this.setState({ editing: !this.state.editing });
+      if (this.state.editing) {
+        this.cancelPressed();
+      } else {
+        this.setState({ editing: true });
+      }
     }
   }, {
     key: 'savePressed',
@@ -45870,6 +45874,55 @@ var ThesisEditor = function (_React$Component) {
       return document.querySelectorAll('.thesis-content');
     }
   }, {
+    key: 'trackContentChanges',
+    value: function trackContentChanges() {
+      // this.editor.on(target, event, listener, useCapture):
+    }
+  }, {
+    key: 'trackEditableAreaState',
+    value: function trackEditableAreaState() {
+      var t = this;
+      var editors = this.allContentEditors();
+      for (var i = 0; i < this.allContentEditors().length; i++) {
+        editors[i].addEventListener('click', function (e) {
+          t.manageInEditModeClass(e);
+        }, false);
+      }
+    }
+  }, {
+    key: 'manageInEditModeClass',
+    value: function manageInEditModeClass(e) {
+      var contentEls = this.allContentEditors();
+      var contentEl = null;
+      var el = e.target;
+
+      if (el.classList.contains('thesis-content')) {
+        contentEl = el;
+      } else {
+        do {
+          if (el.classList.contains('thesis-content')) {
+            contentEl = el;
+            break;
+          }
+        } while (el = el.parentNode);
+      }
+
+      this.removeInEditModeClass(contentEls);
+      this.addInEditModeClass(contentEl);
+    }
+  }, {
+    key: 'addInEditModeClass',
+    value: function addInEditModeClass(el) {
+      el.classList.add('in-edit-mode');
+    }
+  }, {
+    key: 'removeInEditModeClass',
+    value: function removeInEditModeClass(els) {
+      for (var i = 0; i < els.length; i++) {
+        els[i].classList.remove('in-edit-mode');
+      }
+    }
+  }, {
     key: 'addContentEditors',
     value: function addContentEditors() {
       if (!this.editor) {
@@ -45878,6 +45931,8 @@ var ThesisEditor = function (_React$Component) {
         this.editor.setup(); // Rebuild it
       }
       this.toggleTextEditors(true);
+      this.trackEditableAreaState();
+      // this.trackContentChanges()
     }
   }, {
     key: 'removeContentEditors',

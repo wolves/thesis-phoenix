@@ -26,8 +26,8 @@ defmodule Thesis.View do
   import Thesis.Config
   import HtmlSanitizeEx
 
-  @styles File.read!(Path.join(__DIR__, "../../priv/static/thesis.css"))
-  @external_resource Path.join(__DIR__, "../../priv/static/thesis.css")
+  # @styles File.read!(Path.join(__DIR__, "../../priv/static/thesis.css"))
+  # @external_resource Path.join(__DIR__, "../../priv/static/thesis.css")
 
   @doc """
   Creates an editable content area in an eex template. Returns HTML-safe
@@ -111,7 +111,9 @@ defmodule Thesis.View do
   end
 
   defp thesis_style do
-    content_tag :style, @styles
+    raw """
+    <link href='/thesis/thesis.css' rel='stylesheet' />
+    """
   end
 
   defp thesis_js do

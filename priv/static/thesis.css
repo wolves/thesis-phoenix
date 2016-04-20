@@ -1,5 +1,230 @@
+/* medium-editor.js css -- https://cdn.jsdelivr.net/medium-editor/latest/css/medium-editor.min.css
+  Retrieved 3/4/2016
+*/
 @import url(//fonts.googleapis.com/css?family=Raleway:400,300,700);
 @import url(//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css);
+.medium-editor-anchor-preview, .medium-editor-toolbar {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  z-index: 2000; }
+
+@-webkit-keyframes medium-editor-image-loading {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0); }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1); } }
+@keyframes medium-editor-image-loading {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0); }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1); } }
+@-webkit-keyframes medium-editor-pop-upwards {
+  0% {
+    opacity: 0;
+    -webkit-transform: matrix(0.97, 0, 0, 1, 0, 12);
+    transform: matrix(0.97, 0, 0, 1, 0, 12); }
+  20% {
+    opacity: .7;
+    -webkit-transform: matrix(0.99, 0, 0, 1, 0, 2);
+    transform: matrix(0.99, 0, 0, 1, 0, 2); }
+  40% {
+    opacity: 1;
+    -webkit-transform: matrix(1, 0, 0, 1, 0, -1);
+    transform: matrix(1, 0, 0, 1, 0, -1); }
+  100% {
+    -webkit-transform: matrix(1, 0, 0, 1, 0, 0);
+    transform: matrix(1, 0, 0, 1, 0, 0); } }
+@keyframes medium-editor-pop-upwards {
+  0% {
+    opacity: 0;
+    -webkit-transform: matrix(0.97, 0, 0, 1, 0, 12);
+    transform: matrix(0.97, 0, 0, 1, 0, 12); }
+  20% {
+    opacity: .7;
+    -webkit-transform: matrix(0.99, 0, 0, 1, 0, 2);
+    transform: matrix(0.99, 0, 0, 1, 0, 2); }
+  40% {
+    opacity: 1;
+    -webkit-transform: matrix(1, 0, 0, 1, 0, -1);
+    transform: matrix(1, 0, 0, 1, 0, -1); }
+  100% {
+    -webkit-transform: matrix(1, 0, 0, 1, 0, 0);
+    transform: matrix(1, 0, 0, 1, 0, 0); } }
+.medium-editor-anchor-preview {
+  left: 0;
+  line-height: 1.4;
+  max-width: 280px;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  word-break: break-all;
+  word-wrap: break-word;
+  visibility: hidden; }
+
+.medium-editor-anchor-preview a {
+  color: #fff;
+  display: inline-block;
+  margin: 5px 5px 10px; }
+
+.medium-editor-anchor-preview-active {
+  visibility: visible; }
+
+.medium-editor-dragover {
+  background: #ddd; }
+
+.medium-editor-image-loading {
+  -webkit-animation: medium-editor-image-loading 1s infinite ease-in-out;
+  animation: medium-editor-image-loading 1s infinite ease-in-out;
+  background-color: #333;
+  border-radius: 100%;
+  display: inline-block;
+  height: 40px;
+  width: 40px; }
+
+.medium-editor-placeholder {
+  position: relative; }
+
+.medium-editor-placeholder:after {
+  content: attr(data-placeholder) !important;
+  font-style: italic;
+  left: 0;
+  position: absolute;
+  top: 0;
+  white-space: pre;
+  padding: inherit;
+  margin: inherit; }
+
+.medium-toolbar-arrow-over:before, .medium-toolbar-arrow-under:after {
+  border-style: solid;
+  content: '';
+  display: block;
+  height: 0;
+  left: 50%;
+  margin-left: -8px;
+  position: absolute;
+  width: 0; }
+
+.medium-toolbar-arrow-under:after {
+  border-width: 8px 8px 0; }
+
+.medium-toolbar-arrow-over:before {
+  border-width: 0 8px 8px;
+  top: -8px; }
+
+.medium-editor-toolbar {
+  left: 0;
+  position: absolute;
+  top: 0;
+  visibility: hidden; }
+
+.medium-editor-toolbar ul {
+  margin: 0;
+  padding: 0; }
+
+.medium-editor-toolbar li {
+  float: left;
+  list-style: none;
+  margin: 0;
+  padding: 0; }
+
+.medium-editor-toolbar li button {
+  box-sizing: border-box;
+  cursor: pointer;
+  display: block;
+  font-size: 14px;
+  line-height: 1.33;
+  margin: 0;
+  padding: 15px;
+  text-decoration: none; }
+
+.medium-editor-toolbar li button:focus {
+  outline: 0; }
+
+.medium-editor-toolbar li .medium-editor-action-underline {
+  text-decoration: underline; }
+
+.medium-editor-toolbar li .medium-editor-action-pre {
+  font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
+  font-size: 12px;
+  font-weight: 100;
+  padding: 15px 0; }
+
+.medium-editor-toolbar-active {
+  visibility: visible; }
+
+.medium-editor-sticky-toolbar {
+  position: fixed;
+  top: 1px; }
+
+.medium-editor-relative-toolbar {
+  position: relative; }
+
+.medium-editor-toolbar-active.medium-editor-stalker-toolbar {
+  -webkit-animation: medium-editor-pop-upwards 160ms forwards linear;
+  animation: medium-editor-pop-upwards 160ms forwards linear; }
+
+.medium-editor-action-bold {
+  font-weight: bolder; }
+
+.medium-editor-action-italic {
+  font-style: italic; }
+
+.medium-editor-toolbar-form {
+  display: none; }
+
+.medium-editor-toolbar-form a, .medium-editor-toolbar-form input {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; }
+
+.medium-editor-toolbar-form .medium-editor-toolbar-form-row {
+  line-height: 14px;
+  margin-left: 5px;
+  padding-bottom: 5px; }
+
+.medium-editor-toolbar-form .medium-editor-toolbar-input, .medium-editor-toolbar-form label {
+  border: none;
+  box-sizing: border-box;
+  font-size: 14px;
+  margin: 0;
+  padding: 6px;
+  width: 316px;
+  display: inline-block; }
+
+.medium-editor-toolbar-form .medium-editor-toolbar-input:focus, .medium-editor-toolbar-form label:focus {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  box-shadow: none;
+  outline: 0; }
+
+.medium-editor-toolbar-form a {
+  display: inline-block;
+  font-size: 24px;
+  font-weight: bolder;
+  margin: 0 10px;
+  text-decoration: none; }
+
+.medium-editor-toolbar-actions:after {
+  clear: both;
+  content: "";
+  display: table; }
+
+[data-medium-editor-element] img {
+  max-width: 100%; }
+
+[data-medium-editor-element] sub {
+  vertical-align: sub; }
+
+[data-medium-editor-element] sup {
+  vertical-align: super; }
+
+.medium-editor-hidden {
+  display: none; }
+
 @-webkit-keyframes barber_pole {
   0% {
     background-position: 0px 0px; }
@@ -54,11 +279,11 @@
   0% {
     border-color: #1BB6EC; }
   20% {
-    border-color: #76A642; }
+    border-color: #A8BA6E; }
   40% {
-    border-color: #f0c600; }
+    border-color: #FFC549; }
   60% {
-    border-color: #F88834; }
+    border-color: #F1605A; }
   80% {
     border-color: #CB006C; }
   100% {
@@ -67,11 +292,11 @@
   0% {
     border-color: #1BB6EC; }
   20% {
-    border-color: #76A642; }
+    border-color: #A8BA6E; }
   40% {
-    border-color: #f0c600; }
+    border-color: #FFC549; }
   60% {
-    border-color: #F88834; }
+    border-color: #F1605A; }
   80% {
     border-color: #CB006C; }
   100% {
@@ -80,11 +305,11 @@
   0% {
     border-color: #1BB6EC; }
   20% {
-    border-color: #76A642; }
+    border-color: #A8BA6E; }
   40% {
-    border-color: #f0c600; }
+    border-color: #FFC549; }
   60% {
-    border-color: #F88834; }
+    border-color: #F1605A; }
   80% {
     border-color: #CB006C; }
   100% {
@@ -93,11 +318,11 @@
   0% {
     border-color: #1BB6EC; }
   20% {
-    border-color: #76A642; }
+    border-color: #A8BA6E; }
   40% {
-    border-color: #f0c600; }
+    border-color: #FFC549; }
   60% {
-    border-color: #F88834; }
+    border-color: #F1605A; }
   80% {
     border-color: #CB006C; }
   100% {
@@ -106,11 +331,11 @@
   0% {
     border-color: #1BB6EC; }
   20% {
-    border-color: #76A642; }
+    border-color: #A8BA6E; }
   40% {
-    border-color: #f0c600; }
+    border-color: #FFC549; }
   60% {
-    border-color: #F88834; }
+    border-color: #F1605A; }
   80% {
     border-color: #CB006C; }
   100% {
@@ -119,11 +344,11 @@
   0% {
     color: #1095c4; }
   20% {
-    color: #5c8233; }
+    color: #91a64f; }
   40% {
-    color: #bd9c00; }
+    color: #ffb516; }
   60% {
-    color: #f16c08; }
+    color: #ed332b; }
   80% {
     color: #980051; }
   100% {
@@ -132,11 +357,11 @@
   0% {
     color: #1095c4; }
   20% {
-    color: #5c8233; }
+    color: #91a64f; }
   40% {
-    color: #bd9c00; }
+    color: #ffb516; }
   60% {
-    color: #f16c08; }
+    color: #ed332b; }
   80% {
     color: #980051; }
   100% {
@@ -145,11 +370,11 @@
   0% {
     color: #1095c4; }
   20% {
-    color: #5c8233; }
+    color: #91a64f; }
   40% {
-    color: #bd9c00; }
+    color: #ffb516; }
   60% {
-    color: #f16c08; }
+    color: #ed332b; }
   80% {
     color: #980051; }
   100% {
@@ -158,11 +383,11 @@
   0% {
     color: #1095c4; }
   20% {
-    color: #5c8233; }
+    color: #91a64f; }
   40% {
-    color: #bd9c00; }
+    color: #ffb516; }
   60% {
-    color: #f16c08; }
+    color: #ed332b; }
   80% {
     color: #980051; }
   100% {
@@ -171,11 +396,11 @@
   0% {
     color: #1095c4; }
   20% {
-    color: #5c8233; }
+    color: #91a64f; }
   40% {
-    color: #bd9c00; }
+    color: #ffb516; }
   60% {
-    color: #f16c08; }
+    color: #ed332b; }
   80% {
     color: #980051; }
   100% {
@@ -184,6 +409,10 @@ body {
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out; }
+
+#thesis-editor, #thesis-modal, #thesis-fader {
+  font-family: "Raleway", sans-serif;
+  font-weight: normal; }
 
 #thesis-modal form {
   margin: 0;
@@ -303,13 +532,13 @@ body {
     #thesis-modal .modal-field.submit button, #thesis-modal .modal-field.cancel button {
       height: 60px;
       width: 100%;
-      color: #76A642; }
+      color: #A8BA6E; }
       #thesis-modal .modal-field.submit button i, #thesis-modal .modal-field.submit button span, #thesis-modal .modal-field.cancel button i, #thesis-modal .modal-field.cancel button span {
         display: inline-block;
         vertical-align: middle;
         margin: 0px 5px; }
       #thesis-modal .modal-field.submit button:hover, #thesis-modal .modal-field.cancel button:hover {
-        background-color: #76a642;
+        background-color: #a8ba6e;
         box-shadow: 0px 0px 35px 26px white inset;
         -webkit-transition: background-color 0.2s ease-in-out;
         -moz-transition: background-color 0.2s ease-in-out;
@@ -354,9 +583,9 @@ body {
     height: 0px;
     width: auto; }
     #thesis-editor .thesis-button.cancel > i {
-      background-color: #F88834; }
+      background-color: #F1605A; }
       #thesis-editor .thesis-button.cancel > i:hover {
-        background-color: #f7710d;
+        background-color: #ee3c34;
         -webkit-transition: background-color 0.3s ease-in-out;
         -moz-transition: background-color 0.3s ease-in-out;
         transition: background-color 0.3s ease-in-out; }
@@ -375,16 +604,16 @@ body {
         -moz-transition: background-color 0.3s ease-in-out;
         transition: background-color 0.3s ease-in-out; }
     #thesis-editor .thesis-button.save > i {
-      background-color: #76A642; }
+      background-color: #A8BA6E; }
       #thesis-editor .thesis-button.save > i:hover {
-        background-color: #618936;
+        background-color: #97ad52;
         -webkit-transition: background-color 0.3s ease-in-out;
         -moz-transition: background-color 0.3s ease-in-out;
         transition: background-color 0.3s ease-in-out; }
     #thesis-editor .thesis-button.settings > i {
-      background-color: #f0c600; }
+      background-color: #FFC549; }
       #thesis-editor .thesis-button.settings > i:hover {
-        background-color: #c7a400;
+        background-color: #ffb820;
         -webkit-transition: background-color 0.3s ease-in-out;
         -moz-transition: background-color 0.3s ease-in-out;
         transition: background-color 0.3s ease-in-out; }
@@ -520,52 +749,55 @@ body.thesis-editing #thesis-editor.active .thesis-button {
 body.thesis-editing .thesis-content {
   position: relative;
   z-index: 1039;
-  padding: 5px;
   min-width: 40px;
   display: block;
-  outline: 2px solid #ffdd3e !important;
   cursor: crosshair;
-  min-height: 1em; }
-  body.thesis-editing .thesis-content:before, body.thesis-editing .thesis-content:after {
-    box-sizing: border-box;
+  min-height: 1em;
+  padding: 5px; }
+  body.thesis-editing .thesis-content:before {
     -webkit-animation: barber_pole 1.5s linear infinite;
     -moz-animation: barber_pole 1.5s linear infinite;
     animation: barber_pole 1.5s linear infinite;
     background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 0.5) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.5) 75%, transparent 75%);
     background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.5) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.5) 75%, transparent 75%);
-    background-color: #fbb37e;
+    background-color: black;
     background-size: 30px 30px;
+    box-sizing: border-box;
     position: absolute;
-    padding: 2px;
-    top: -2px;
-    left: -2px;
     width: 100%;
     height: 100%;
     content: "";
     z-index: -2;
-    opacity: 0; }
+    opacity: 0;
+    top: 0;
+    left: 0; }
   body.thesis-editing .thesis-content:after {
-    -webkit-transition: opacity 0.7s ease-in-out;
-    -moz-transition: opacity 0.7s ease-in-out;
-    transition: opacity 0.7s ease-in-out;
-    padding: 0;
-    background: white;
-    z-index: -1;
+    -webkit-transition: background 0.2s ease-in-out;
+    -moz-transition: background 0.2s ease-in-out;
+    transition: background 0.2s ease-in-out;
+    box-sizing: border-box;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    content: "";
     top: 0;
     left: 0;
-    opacity: 0.8; }
+    background: rgba(0, 0, 0, 0.1);
+    z-index: -1;
+    border: dotted 2px white; }
+  body.thesis-editing .thesis-content:focus {
+    box-shadow: none;
+    outline: none; }
+  body.thesis-editing .thesis-content:hover:after {
+    background: rgba(0, 0, 0, 0.15); }
   body.thesis-editing .thesis-content.isModified {
-    outline: 2px solid #9cc66f !important; }
-  body.thesis-editing .thesis-content.inEditMode {
-    outline: none !important;
-    cursor: text; }
-    body.thesis-editing .thesis-content.inEditMode:before {
-      opacity: 1; }
-    body.thesis-editing .thesis-content.inEditMode:after {
-      -webkit-transition: none;
-      -moz-transition: none;
-      transition: none;
-      opacity: 1; }
+    content: ""; }
+  body.thesis-editing .thesis-content.in-edit-mode:before {
+    opacity: 0.05; }
+  body.thesis-editing .thesis-content.in-edit-mode:after {
+    background: rgba(0, 0, 0, 0.1); }
+  body.thesis-editing .thesis-content.in-edit-mode:hover:after {
+    background: rgba(0, 0, 0, 0.1); }
 
 #thesis-fader {
   top: 0px;

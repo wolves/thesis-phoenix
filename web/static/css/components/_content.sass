@@ -1,45 +1,55 @@
 body.thesis-editing .thesis-content
-  position   : relative
+  position   : relative // set these dynamically
   z-index    : 1039
-  padding    : 5px
   min-width  : 40px
-  display    : block
-  outline    : 2px solid lighten($yellow,15%) !important
+  display    : block // set these dynamically
   cursor     : crosshair
   min-height : 1em
+  padding    : 5px
 
-  &:before, &:after
-    box-sizing: border-box
-    @include barber_pole(lighten($orange,15%), .5, 1.5s)
-    position : absolute
-    padding  : 2px
-    top      : -2px
-    left     : -2px
-    width    : 100%
-    height   : 100%
-    content  : ""
-    z-index  : -2
-    opacity  : 0
-
-  &:after
-    @include transition(opacity .7s ease-in-out)
-    padding    : 0
-    background : white
-    z-index    : -1
+  &:before
+    @include barber_pole(black, .5, 1.5s)
+    box-sizing : border-box
+    position   : absolute
+    width      : 100%
+    height     : 100%
+    content    : ""
+    z-index    : -2
+    opacity    : 0
     top        : 0
     left       : 0
-    opacity    : .8
+
+  &:after
+    @include transition(background .2s ease-in-out)
+    box-sizing : border-box
+    position   : absolute
+    width      : 100%
+    height     : 100%
+    content    : ""
+    top        : 0
+    left       : 0
+    background : rgba(black, .1)
+    z-index    : -1
+    border     : dotted 2px  white
+
+  &:focus
+    box-shadow : none
+    outline    : none
+
+  &:hover
+    &:after
+      background: rgba(black, .15)
 
   &.isModified
-    outline : 2px solid lighten($green,15%) !important
+    content: ""
 
-  &.inEditMode
-    outline : none !important
-    cursor  : text
-
+  &.in-edit-mode
     &:before
-      opacity: 1
+      opacity: .05
 
     &:after
-      @include transition(none)
-      opacity: 1
+      background : rgba(black, .1)
+
+    &:hover
+      &:after
+        background : rgba(black, .1)
