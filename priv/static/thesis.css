@@ -1,326 +1,210 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any styles
- * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
- * file per style scope.
- *
- */
-
 @import url(//fonts.googleapis.com/css?family=Raleway:400,300,700);
 @import url(//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css);
 @-webkit-keyframes barber_pole {
   0% {
-    background-position: 0px 0px;
-  }
+    background-position: 0px 0px; }
   100% {
-    background-position: 60px 0px;
-  }
-}
+    background-position: 60px 0px; } }
 @-moz-keyframes barber_pole {
   0% {
-    background-position: 0px 0px;
-  }
+    background-position: 0px 0px; }
   100% {
-    background-position: 60px 0px;
-  }
-}
+    background-position: 60px 0px; } }
 @-ms-keyframes barber_pole {
   0% {
-    background-position: 0px 0px;
-  }
+    background-position: 0px 0px; }
   100% {
-    background-position: 60px 0px;
-  }
-}
+    background-position: 60px 0px; } }
 @-o-keyframes barber_pole {
   0% {
-    background-position: 0px 0px;
-  }
+    background-position: 0px 0px; }
   100% {
-    background-position: 60px 0px;
-  }
-}
+    background-position: 60px 0px; } }
 @keyframes barber_pole {
   0% {
-    background-position: 0px 0px;
-  }
+    background-position: 0px 0px; }
   100% {
-    background-position: 60px 0px;
-  }
-}
+    background-position: 60px 0px; } }
 @-webkit-keyframes thesis_fader {
   0% {
-    opacity: 0;
-  }
+    opacity: 0; }
   100% {
-    opacity: 1;
-  }
-}
+    opacity: 1; } }
 @-moz-keyframes thesis_fader {
   0% {
-    opacity: 0;
-  }
+    opacity: 0; }
   100% {
-    opacity: 1;
-  }
-}
+    opacity: 1; } }
 @-ms-keyframes thesis_fader {
   0% {
-    opacity: 0;
-  }
+    opacity: 0; }
   100% {
-    opacity: 1;
-  }
-}
+    opacity: 1; } }
 @-o-keyframes thesis_fader {
   0% {
-    opacity: 0;
-  }
+    opacity: 0; }
   100% {
-    opacity: 1;
-  }
-}
+    opacity: 1; } }
 @keyframes thesis_fader {
   0% {
-    opacity: 0;
-  }
+    opacity: 0; }
   100% {
-    opacity: 1;
-  }
-}
+    opacity: 1; } }
 @-webkit-keyframes modal_border {
   0% {
-    border-color: #1BB6EC;
-  }
+    border-color: #1BB6EC; }
   20% {
-    border-color: #76A642;
-  }
+    border-color: #76A642; }
   40% {
-    border-color: #f0c600;
-  }
+    border-color: #f0c600; }
   60% {
-    border-color: #F88834;
-  }
+    border-color: #F88834; }
   80% {
-    border-color: #CB006C;
-  }
+    border-color: #CB006C; }
   100% {
-    border-color: #1BB6EC;
-  }
-}
+    border-color: #1BB6EC; } }
 @-moz-keyframes modal_border {
   0% {
-    border-color: #1BB6EC;
-  }
+    border-color: #1BB6EC; }
   20% {
-    border-color: #76A642;
-  }
+    border-color: #76A642; }
   40% {
-    border-color: #f0c600;
-  }
+    border-color: #f0c600; }
   60% {
-    border-color: #F88834;
-  }
+    border-color: #F88834; }
   80% {
-    border-color: #CB006C;
-  }
+    border-color: #CB006C; }
   100% {
-    border-color: #1BB6EC;
-  }
-}
+    border-color: #1BB6EC; } }
 @-ms-keyframes modal_border {
   0% {
-    border-color: #1BB6EC;
-  }
+    border-color: #1BB6EC; }
   20% {
-    border-color: #76A642;
-  }
+    border-color: #76A642; }
   40% {
-    border-color: #f0c600;
-  }
+    border-color: #f0c600; }
   60% {
-    border-color: #F88834;
-  }
+    border-color: #F88834; }
   80% {
-    border-color: #CB006C;
-  }
+    border-color: #CB006C; }
   100% {
-    border-color: #1BB6EC;
-  }
-}
+    border-color: #1BB6EC; } }
 @-o-keyframes modal_border {
   0% {
-    border-color: #1BB6EC;
-  }
+    border-color: #1BB6EC; }
   20% {
-    border-color: #76A642;
-  }
+    border-color: #76A642; }
   40% {
-    border-color: #f0c600;
-  }
+    border-color: #f0c600; }
   60% {
-    border-color: #F88834;
-  }
+    border-color: #F88834; }
   80% {
-    border-color: #CB006C;
-  }
+    border-color: #CB006C; }
   100% {
-    border-color: #1BB6EC;
-  }
-}
+    border-color: #1BB6EC; } }
 @keyframes modal_border {
   0% {
-    border-color: #1BB6EC;
-  }
+    border-color: #1BB6EC; }
   20% {
-    border-color: #76A642;
-  }
+    border-color: #76A642; }
   40% {
-    border-color: #f0c600;
-  }
+    border-color: #f0c600; }
   60% {
-    border-color: #F88834;
-  }
+    border-color: #F88834; }
   80% {
-    border-color: #CB006C;
-  }
+    border-color: #CB006C; }
   100% {
-    border-color: #1BB6EC;
-  }
-}
+    border-color: #1BB6EC; } }
 @-webkit-keyframes modal_icon_color {
   0% {
-    color: #1095c4;
-  }
+    color: #1095c4; }
   20% {
-    color: #5c8233;
-  }
+    color: #5c8233; }
   40% {
-    color: #bd9c00;
-  }
+    color: #bd9c00; }
   60% {
-    color: #f16c08;
-  }
+    color: #f16c08; }
   80% {
-    color: #980051;
-  }
+    color: #980051; }
   100% {
-    color: #1095c4;
-  }
-}
+    color: #1095c4; } }
 @-moz-keyframes modal_icon_color {
   0% {
-    color: #1095c4;
-  }
+    color: #1095c4; }
   20% {
-    color: #5c8233;
-  }
+    color: #5c8233; }
   40% {
-    color: #bd9c00;
-  }
+    color: #bd9c00; }
   60% {
-    color: #f16c08;
-  }
+    color: #f16c08; }
   80% {
-    color: #980051;
-  }
+    color: #980051; }
   100% {
-    color: #1095c4;
-  }
-}
+    color: #1095c4; } }
 @-ms-keyframes modal_icon_color {
   0% {
-    color: #1095c4;
-  }
+    color: #1095c4; }
   20% {
-    color: #5c8233;
-  }
+    color: #5c8233; }
   40% {
-    color: #bd9c00;
-  }
+    color: #bd9c00; }
   60% {
-    color: #f16c08;
-  }
+    color: #f16c08; }
   80% {
-    color: #980051;
-  }
+    color: #980051; }
   100% {
-    color: #1095c4;
-  }
-}
+    color: #1095c4; } }
 @-o-keyframes modal_icon_color {
   0% {
-    color: #1095c4;
-  }
+    color: #1095c4; }
   20% {
-    color: #5c8233;
-  }
+    color: #5c8233; }
   40% {
-    color: #bd9c00;
-  }
+    color: #bd9c00; }
   60% {
-    color: #f16c08;
-  }
+    color: #f16c08; }
   80% {
-    color: #980051;
-  }
+    color: #980051; }
   100% {
-    color: #1095c4;
-  }
-}
+    color: #1095c4; } }
 @keyframes modal_icon_color {
   0% {
-    color: #1095c4;
-  }
+    color: #1095c4; }
   20% {
-    color: #5c8233;
-  }
+    color: #5c8233; }
   40% {
-    color: #bd9c00;
-  }
+    color: #bd9c00; }
   60% {
-    color: #f16c08;
-  }
+    color: #f16c08; }
   80% {
-    color: #980051;
-  }
+    color: #980051; }
   100% {
-    color: #1095c4;
-  }
-}
+    color: #1095c4; } }
+body {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out; }
+
 #thesis-modal form {
   margin: 0;
-  padding: 0;
-}
+  padding: 0; }
 #thesis-modal input,
 #thesis-modal label,
 #thesis-modal select {
   display: block;
   font-family: "Raleway", sans-serif;
-  font-size: 12px;
-}
+  font-size: 12px; }
 #thesis-modal label {
   font-weight: normal;
-  margin-bottom: 8px;
-}
-#thesis-modal label.required:after {
-  content: "*";
-}
-#thesis-modal label abbr {
-  display: none;
-}
+  margin-bottom: 8px; }
+  #thesis-modal label.required:after {
+    content: "*"; }
+  #thesis-modal label abbr {
+    display: none; }
 #thesis-modal textarea,
 #thesis-modal input,
 #thesis-modal button,
 #thesis-modal select[multiple=multiple] {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   -webkit-transition: border-color;
   -moz-transition: border-color;
@@ -334,144 +218,113 @@
   padding: 5px 0px;
   width: 100%;
   color: #6c6e74;
-  font-weight: bold;
-}
-#thesis-modal textarea::-webkit-input-placeholder,
-#thesis-modal input::-webkit-input-placeholder,
-#thesis-modal button::-webkit-input-placeholder,
-#thesis-modal select[multiple=multiple]::-webkit-input-placeholder {
-  color: #A7AAAB;
-}
-#thesis-modal textarea::-moz-placeholder,
-#thesis-modal input::-moz-placeholder,
-#thesis-modal button::-moz-placeholder,
-#thesis-modal select[multiple=multiple]::-moz-placeholder {
-  color: #A7AAAB;
-}
-#thesis-modal textarea:-moz-placeholder,
-#thesis-modal input:-moz-placeholder,
-#thesis-modal button:-moz-placeholder,
-#thesis-modal select[multiple=multiple]:-moz-placeholder {
-  color: #A7AAAB;
-}
-#thesis-modal textarea:-ms-input-placeholder,
-#thesis-modal input:-ms-input-placeholder,
-#thesis-modal button:-ms-input-placeholder,
-#thesis-modal select[multiple=multiple]:-ms-input-placeholder {
-  color: #A7AAAB;
-}
+  font-weight: bold; }
+  #thesis-modal textarea::-webkit-input-placeholder,
+  #thesis-modal input::-webkit-input-placeholder,
+  #thesis-modal button::-webkit-input-placeholder,
+  #thesis-modal select[multiple=multiple]::-webkit-input-placeholder {
+    color: #A7AAAB; }
+  #thesis-modal textarea::-moz-placeholder,
+  #thesis-modal input::-moz-placeholder,
+  #thesis-modal button::-moz-placeholder,
+  #thesis-modal select[multiple=multiple]::-moz-placeholder {
+    color: #A7AAAB; }
+  #thesis-modal textarea:-moz-placeholder,
+  #thesis-modal input:-moz-placeholder,
+  #thesis-modal button:-moz-placeholder,
+  #thesis-modal select[multiple=multiple]:-moz-placeholder {
+    color: #A7AAAB; }
+  #thesis-modal textarea:-ms-input-placeholder,
+  #thesis-modal input:-ms-input-placeholder,
+  #thesis-modal button:-ms-input-placeholder,
+  #thesis-modal select[multiple=multiple]:-ms-input-placeholder {
+    color: #A7AAAB; }
 #thesis-modal textarea {
   resize: vertical;
-  height: 60px;
-}
+  height: 60px; }
 #thesis-modal input[type="search"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
   -o-appearance: none;
-  appearance: none;
-}
+  appearance: none; }
 #thesis-modal input[type="checkbox"], #thesis-modal input[type="radio"] {
   display: inline;
-  margin-right: 15px;
-}
+  margin-right: 15px; }
 #thesis-modal input[type="file"] {
   margin-bottom: 8px;
-  width: 100%;
-}
+  width: 100%; }
 #thesis-modal select {
   width: auto;
   max-width: 100%;
-  margin-bottom: 8px;
-}
+  margin-bottom: 8px; }
 #thesis-modal label.checkbox {
-  margin-bottom: 10px;
-}
-#thesis-modal label.checkbox input {
-  display: none;
-}
-#thesis-modal label.checkbox input:checked + span:before {
-  background: url(/images/ico.checkbox-selected.png) no-repeat center center;
-}
-#thesis-modal label.checkbox span {
-  font-size: 15px;
-  color: #8C9092;
-  font-weight: normal;
-  line-height: 20px;
-}
-#thesis-modal label.checkbox span:before {
-  display: inline-block;
-  margin-right: 8px;
-  background: url(/images/ico.checkbox.png) no-repeat center center;
-  width: 20px;
-  height: 20px;
-  content: "";
-  vertical-align: middle;
-}
+  margin-bottom: 10px; }
+  #thesis-modal label.checkbox input {
+    display: none; }
+  #thesis-modal label.checkbox input:checked + span:before {
+    background: image-url("ico.checkbox-selected.png") no-repeat center center; }
+  #thesis-modal label.checkbox span {
+    font-size: 15px;
+    color: #8C9092;
+    font-weight: normal;
+    line-height: 20px; }
+    #thesis-modal label.checkbox span:before {
+      display: inline-block;
+      margin-right: 8px;
+      background: image-url("ico.checkbox.png") no-repeat center center;
+      width: 20px;
+      height: 20px;
+      content: "";
+      vertical-align: middle; }
 #thesis-modal .modal-field {
   width: 100%;
   border-bottom: 1px solid #A0A1A6;
-  clear: both;
-}
-#thesis-modal .modal-field:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-#thesis-modal .modal-field > span {
-  width: 33%;
-  float: left;
-  display: block;
-  padding: 12px 0px 5px;
-}
-#thesis-modal .modal-field > input {
-  width: 66%;
-  float: left;
-}
-#thesis-modal .modal-field.submit, #thesis-modal .modal-field.cancel {
-  border-bottom: 0px;
-  margin-bottom: 0px;
-  margin-top: 15px;
-  float: left;
-  width: 50%;
-  clear: none;
-}
-#thesis-modal .modal-field.submit button, #thesis-modal .modal-field.cancel button {
-  height: 60px;
-  width: 100%;
-  color: #76A642;
-}
-#thesis-modal .modal-field.submit button i, #thesis-modal .modal-field.submit button span, #thesis-modal .modal-field.cancel button i, #thesis-modal .modal-field.cancel button span {
-  display: inline-block;
-  vertical-align: middle;
-  margin: 0px 5px;
-}
-#thesis-modal .modal-field.submit button:hover, #thesis-modal .modal-field.cancel button:hover {
-  background-color: #76a642;
-  box-shadow: 0px 0px 35px 26px white inset;
-  -webkit-transition: background-color 0.2s ease-in-out;
-  -moz-transition: background-color 0.2s ease-in-out;
-  transition: background-color 0.2s ease-in-out;
-}
-#thesis-modal .modal-field.cancel button {
-  color: #CB006C;
-  -webkit-animation: none;
-  -moz-animation: none;
-  animation: none;
-}
-#thesis-modal .modal-field.cancel button:hover {
-  background-color: #cb006c;
-  box-shadow: 0px 0px 35px 26px white inset;
-  -webkit-transition: background-color 0.2s ease-in-out;
-  -moz-transition: background-color 0.2s ease-in-out;
-  transition: background-color 0.2s ease-in-out;
-}
-
-body {
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-}
+  clear: both; }
+  #thesis-modal .modal-field::after {
+    clear: both;
+    content: "";
+    display: table; }
+  #thesis-modal .modal-field > span {
+    width: 33%;
+    float: left;
+    display: block;
+    padding: 12px 0px 5px; }
+  #thesis-modal .modal-field > input {
+    width: 66%;
+    float: left; }
+  #thesis-modal .modal-field.submit, #thesis-modal .modal-field.cancel {
+    border-bottom: 0px;
+    margin-bottom: 0px;
+    margin-top: 15px;
+    float: left;
+    width: 50%;
+    clear: none; }
+    #thesis-modal .modal-field.submit button, #thesis-modal .modal-field.cancel button {
+      height: 60px;
+      width: 100%;
+      color: #76A642; }
+      #thesis-modal .modal-field.submit button i, #thesis-modal .modal-field.submit button span, #thesis-modal .modal-field.cancel button i, #thesis-modal .modal-field.cancel button span {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0px 5px; }
+      #thesis-modal .modal-field.submit button:hover, #thesis-modal .modal-field.cancel button:hover {
+        background-color: #76a642;
+        box-shadow: 0px 0px 35px 26px white inset;
+        -webkit-transition: background-color 0.2s ease-in-out;
+        -moz-transition: background-color 0.2s ease-in-out;
+        transition: background-color 0.2s ease-in-out; }
+  #thesis-modal .modal-field.cancel button {
+    color: #CB006C;
+    -webkit-animation: none;
+    -moz-animation: none;
+    animation: none; }
+    #thesis-modal .modal-field.cancel button:hover {
+      background-color: #cb006c;
+      box-shadow: 0px 0px 35px 26px white inset;
+      -webkit-transition: background-color 0.2s ease-in-out;
+      -moz-transition: background-color 0.2s ease-in-out;
+      transition: background-color 0.2s ease-in-out; }
 
 #thesis-editor {
   display: block;
@@ -484,128 +337,185 @@ body {
   color: white;
   line-height: 0;
   font-size: 0;
-  text-decoration: none;
-}
-#thesis-editor .thesis-button {
-  -webkit-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -webkit-transform 0.75s ease-in-out, padding 0.001s linear 0.75s, height 0.001s linear 0.75s;
-  -moz-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -moz-transform 0.75s ease-in-out, padding 0.001s linear 0.75s, height 0.001s linear 0.75s;
-  transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, transform 0.75s ease-in-out, padding 0.001s linear 0.75s, height 0.001s linear 0.75s;
-  right: 0;
-  opacity: 0;
-  display: block;
-  float: right;
-  clear: both;
-  text-align: right;
-  position: relative;
-  cursor: pointer;
-  padding: 0px 0px;
-  height: 0px;
-  width: auto;
-}
-#thesis-editor .thesis-button.cancel > i {
-  background-color: #F88834;
-}
-#thesis-editor .thesis-button.cancel > i:hover {
-  background-color: #f7710d;
-  -webkit-transition: background-color 0.3s ease-in-out;
-  -moz-transition: background-color 0.3s ease-in-out;
-  transition: background-color 0.3s ease-in-out;
-}
-#thesis-editor .thesis-button.delete > i {
-  background-color: #CB006C;
-}
-#thesis-editor .thesis-button.delete > i:hover {
-  background-color: #a20056;
-  -webkit-transition: background-color 0.3s ease-in-out;
-  -moz-transition: background-color 0.3s ease-in-out;
-  transition: background-color 0.3s ease-in-out;
-}
-#thesis-editor .thesis-button.add > i {
-  background-color: #1BB6EC;
-}
-#thesis-editor .thesis-button.add > i:hover {
-  background-color: #119dcd;
-  -webkit-transition: background-color 0.3s ease-in-out;
-  -moz-transition: background-color 0.3s ease-in-out;
-  transition: background-color 0.3s ease-in-out;
-}
-#thesis-editor .thesis-button.save > i {
-  background-color: #76A642;
-}
-#thesis-editor .thesis-button.save > i:hover {
-  background-color: #618936;
-  -webkit-transition: background-color 0.3s ease-in-out;
-  -moz-transition: background-color 0.3s ease-in-out;
-  transition: background-color 0.3s ease-in-out;
-}
-#thesis-editor .thesis-button.settings > i {
-  background-color: #f0c600;
-}
-#thesis-editor .thesis-button.settings > i:hover {
-  background-color: #c7a400;
-  -webkit-transition: background-color 0.3s ease-in-out;
-  -moz-transition: background-color 0.3s ease-in-out;
-  transition: background-color 0.3s ease-in-out;
-}
-#thesis-editor .thesis-button.edit {
-  opacity: 1;
-  height: 70px;
-  padding-bottom: 0px !important;
-}
-#thesis-editor .thesis-button:hover {
-  min-width: 320px;
-}
-#thesis-editor .thesis-button:hover .tooltip {
-  position: relative;
-  right: 0px;
-  opacity: 1;
-  -webkit-transition: all 0.2s ease-out;
-  -moz-transition: all 0.2s ease-out;
-  transition: all 0.2s ease-out;
-}
-#thesis-editor .thesis-button i {
-  position: relative;
-  z-index: 2;
-  width: 60px;
-  height: 60px;
-  display: inline-block;
+  text-decoration: none; }
+  #thesis-editor .thesis-button {
+    -webkit-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -webkit-transform 0.75s ease-in-out, padding 0.001s linear 0.75s, height 0.001s linear 0.75s;
+    -moz-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -moz-transform 0.75s ease-in-out, padding 0.001s linear 0.75s, height 0.001s linear 0.75s;
+    transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, transform 0.75s ease-in-out, padding 0.001s linear 0.75s, height 0.001s linear 0.75s;
+    right: 0;
+    opacity: 0;
+    display: block;
+    float: right;
+    clear: both;
+    text-align: right;
+    position: relative;
+    cursor: pointer;
+    padding: 0px 0px;
+    height: 0px;
+    width: auto; }
+    #thesis-editor .thesis-button.cancel > i {
+      background-color: #F88834; }
+      #thesis-editor .thesis-button.cancel > i:hover {
+        background-color: #f7710d;
+        -webkit-transition: background-color 0.3s ease-in-out;
+        -moz-transition: background-color 0.3s ease-in-out;
+        transition: background-color 0.3s ease-in-out; }
+    #thesis-editor .thesis-button.delete > i {
+      background-color: #CB006C; }
+      #thesis-editor .thesis-button.delete > i:hover {
+        background-color: #a20056;
+        -webkit-transition: background-color 0.3s ease-in-out;
+        -moz-transition: background-color 0.3s ease-in-out;
+        transition: background-color 0.3s ease-in-out; }
+    #thesis-editor .thesis-button.add > i {
+      background-color: #1BB6EC; }
+      #thesis-editor .thesis-button.add > i:hover {
+        background-color: #119dcd;
+        -webkit-transition: background-color 0.3s ease-in-out;
+        -moz-transition: background-color 0.3s ease-in-out;
+        transition: background-color 0.3s ease-in-out; }
+    #thesis-editor .thesis-button.save > i {
+      background-color: #76A642; }
+      #thesis-editor .thesis-button.save > i:hover {
+        background-color: #618936;
+        -webkit-transition: background-color 0.3s ease-in-out;
+        -moz-transition: background-color 0.3s ease-in-out;
+        transition: background-color 0.3s ease-in-out; }
+    #thesis-editor .thesis-button.settings > i {
+      background-color: #f0c600; }
+      #thesis-editor .thesis-button.settings > i:hover {
+        background-color: #c7a400;
+        -webkit-transition: background-color 0.3s ease-in-out;
+        -moz-transition: background-color 0.3s ease-in-out;
+        transition: background-color 0.3s ease-in-out; }
+    #thesis-editor .thesis-button.edit {
+      opacity: 1;
+      height: 70px;
+      padding-bottom: 0px !important; }
+    #thesis-editor .thesis-button:hover {
+      min-width: 320px; }
+      #thesis-editor .thesis-button:hover .tooltip {
+        position: relative;
+        right: 0px;
+        opacity: 1;
+        -webkit-transition: all 0.2s ease-out;
+        -moz-transition: all 0.2s ease-out;
+        transition: all 0.2s ease-out; }
+    #thesis-editor .thesis-button i {
+      position: relative;
+      z-index: 2;
+      width: 60px;
+      height: 60px;
+      display: inline-block;
+      background-color: #A0A1A6;
+      border: 3px solid white;
+      font-size: 30px;
+      line-height: 55px;
+      text-align: center;
+      vertical-align: middle;
+      -webkit-transition: background-color 0.3s ease-in-out;
+      -moz-transition: background-color 0.3s ease-in-out;
+      transition: background-color 0.3s ease-in-out; }
+      #thesis-editor .thesis-button i:hover {
+        background-color: #8b8c92;
+        -webkit-transition: background-color 0.3s ease-in-out;
+        -moz-transition: background-color 0.3s ease-in-out;
+        transition: background-color 0.3s ease-in-out; }
+    #thesis-editor .thesis-button .tooltip {
+      z-index: 1;
+      position: absolute;
+      right: -30px;
+      font-size: 13px;
+      color: white;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 5px 15px 4px;
+      line-height: 1;
+      opacity: 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      vertical-align: middle;
+      display: inline-block;
+      font-weight: normal;
+      margin-right: 15px;
+      border: 2px solid white; }
+      #thesis-editor .thesis-button .tooltip.error {
+        background: rgba(153, 0, 0, 0.75); }
+
+body.thesis-editing #thesis-editor .thesis-button.edit i {
+  -webkit-animation: barber_pole 0.7s linear infinite;
+  -moz-animation: barber_pole 0.7s linear infinite;
+  animation: barber_pole 0.7s linear infinite;
+  background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 0.25) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0.25) 75%, transparent 75%);
+  background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.25) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0.25) 75%, transparent 75%);
   background-color: #A0A1A6;
-  border: 3px solid white;
-  font-size: 30px;
-  line-height: 55px;
-  text-align: center;
-  vertical-align: middle;
-  -webkit-transition: background-color 0.3s ease-in-out;
-  -moz-transition: background-color 0.3s ease-in-out;
-  transition: background-color 0.3s ease-in-out;
-}
-#thesis-editor .thesis-button i:hover {
-  background-color: #8b8c92;
-  -webkit-transition: background-color 0.3s ease-in-out;
-  -moz-transition: background-color 0.3s ease-in-out;
-  transition: background-color 0.3s ease-in-out;
-}
-#thesis-editor .thesis-button .tooltip {
-  z-index: 1;
-  position: absolute;
-  right: -30px;
-  font-size: 13px;
-  color: white;
-  background: rgba(0, 0, 0, 0.7);
-  padding: 5px 15px 4px;
-  line-height: 1;
-  opacity: 0;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  vertical-align: middle;
-  display: inline-block;
-  font-weight: normal;
-  margin-right: 15px;
-  border: 2px solid white;
-}
-#thesis-editor .thesis-button .tooltip.error {
-  background: rgba(153, 0, 0, 0.75);
-}
+  background-size: 30px 30px; }
+body.thesis-editing #thesis-editor.active .thesis-button {
+  -webkit-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -webkit-transform 0.75s ease-in-out;
+  -moz-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -moz-transform 0.75s ease-in-out;
+  transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, transform 0.75s ease-in-out;
+  padding: 10px 0px;
+  opacity: 1;
+  height: 80px; }
+  body.thesis-editing #thesis-editor.active .thesis-button:nth-child(1) {
+    -webkit-transform: rotate(-15.7deg);
+    -moz-transform: rotate(-15.7deg);
+    -ms-transform: rotate(-15.7deg);
+    -o-transform: rotate(-15.7deg);
+    transform: rotate(-15.7deg);
+    -webkit-transform-origin: 100% 100%;
+    -moz-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+    -o-transform-origin: 100% 100%;
+    transform-origin: 100% 100%;
+    right: 60px; }
+  body.thesis-editing #thesis-editor.active .thesis-button:nth-child(2) {
+    -webkit-transform: rotate(-12.56deg);
+    -moz-transform: rotate(-12.56deg);
+    -ms-transform: rotate(-12.56deg);
+    -o-transform: rotate(-12.56deg);
+    transform: rotate(-12.56deg);
+    -webkit-transform-origin: 100% 100%;
+    -moz-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+    -o-transform-origin: 100% 100%;
+    transform-origin: 100% 100%;
+    right: 40px; }
+  body.thesis-editing #thesis-editor.active .thesis-button:nth-child(3) {
+    -webkit-transform: rotate(-9.42deg);
+    -moz-transform: rotate(-9.42deg);
+    -ms-transform: rotate(-9.42deg);
+    -o-transform: rotate(-9.42deg);
+    transform: rotate(-9.42deg);
+    -webkit-transform-origin: 100% 100%;
+    -moz-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+    -o-transform-origin: 100% 100%;
+    transform-origin: 100% 100%;
+    right: 24px; }
+  body.thesis-editing #thesis-editor.active .thesis-button:nth-child(4) {
+    -webkit-transform: rotate(-6.28deg);
+    -moz-transform: rotate(-6.28deg);
+    -ms-transform: rotate(-6.28deg);
+    -o-transform: rotate(-6.28deg);
+    transform: rotate(-6.28deg);
+    -webkit-transform-origin: 100% 100%;
+    -moz-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+    -o-transform-origin: 100% 100%;
+    transform-origin: 100% 100%;
+    right: 12px; }
+  body.thesis-editing #thesis-editor.active .thesis-button:nth-child(5) {
+    -webkit-transform: rotate(-3.14deg);
+    -moz-transform: rotate(-3.14deg);
+    -ms-transform: rotate(-3.14deg);
+    -o-transform: rotate(-3.14deg);
+    transform: rotate(-3.14deg);
+    -webkit-transform-origin: 100% 100%;
+    -moz-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+    -o-transform-origin: 100% 100%;
+    transform-origin: 100% 100%;
+    right: 4px; }
 
 body.thesis-editing .thesis-content {
   position: relative;
@@ -614,149 +524,50 @@ body.thesis-editing .thesis-content {
   min-width: 40px;
   display: block;
   outline: 2px solid #ffdd3e !important;
-  /*cursor: crosshair;*/
-  min-height: 1em;
-  overflow: hidden;
-}
-body.thesis-editing .thesis-content:before, body.thesis-editing .thesis-content:after {
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-  -webkit-animation: barber_pole 1.5s linear infinite;
-  -moz-animation: barber_pole 1.5s linear infinite;
-  animation: barber_pole 1.5s linear infinite;
-  background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 0.5) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.5) 75%, transparent 75%);
-  background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.5) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.5) 75%, transparent 75%);
-  background-color: #fbb37e;
-  background-size: 30px 30px;
-  position: absolute;
-  padding: 2px;
-  top: -2px;
-  left: -2px;
-  width: 100%;
-  height: 100%;
-  content: "";
-  z-index: -2;
-  opacity: 0;
-  display: table;
-}
-body.thesis-editing .thesis-content:after {
-  -webkit-transition: opacity 0.7s ease-in-out;
-  -moz-transition: opacity 0.7s ease-in-out;
-  transition: opacity 0.7s ease-in-out;
-  padding: 0;
-  background: white;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  opacity: 0.8;
-  clear: both;
-}
+  cursor: crosshair;
+  min-height: 1em; }
+  body.thesis-editing .thesis-content:before, body.thesis-editing .thesis-content:after {
+    box-sizing: border-box;
+    -webkit-animation: barber_pole 1.5s linear infinite;
+    -moz-animation: barber_pole 1.5s linear infinite;
+    animation: barber_pole 1.5s linear infinite;
+    background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 0.5) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.5) 75%, transparent 75%);
+    background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.5) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.5) 75%, transparent 75%);
+    background-color: #fbb37e;
+    background-size: 30px 30px;
+    position: absolute;
+    padding: 2px;
+    top: -2px;
+    left: -2px;
+    width: 100%;
+    height: 100%;
+    content: "";
+    z-index: -2;
+    opacity: 0; }
+  body.thesis-editing .thesis-content:after {
+    -webkit-transition: opacity 0.7s ease-in-out;
+    -moz-transition: opacity 0.7s ease-in-out;
+    transition: opacity 0.7s ease-in-out;
+    padding: 0;
+    background: white;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    opacity: 0.8; }
+  body.thesis-editing .thesis-content.isModified {
+    outline: 2px solid #9cc66f !important; }
+  body.thesis-editing .thesis-content.inEditMode {
+    outline: none !important;
+    cursor: text; }
+    body.thesis-editing .thesis-content.inEditMode:before {
+      opacity: 1; }
+    body.thesis-editing .thesis-content.inEditMode:after {
+      -webkit-transition: none;
+      -moz-transition: none;
+      transition: none;
+      opacity: 1; }
 
-body.thesis-editing .thesis-content.isModified {
-  outline: 2px solid #9cc66f !important;
-}
-body.thesis-editing .thesis-content.inEditMode {
-  outline: none !important;
-  cursor: text;
-}
-body.thesis-editing .thesis-content.inEditMode:before {
-  opacity: 1;
-}
-body.thesis-editing .thesis-content.inEditMode:after {
-  -webkit-transition: none;
-  -moz-transition: none;
-  transition: none;
-  opacity: 1;
-}
-body.thesis-editing #thesis-editor .thesis-button.edit i {
-  -webkit-animation: barber_pole 0.7s linear infinite;
-  -moz-animation: barber_pole 0.7s linear infinite;
-  animation: barber_pole 0.7s linear infinite;
-  background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 0.25) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0.25) 75%, transparent 75%);
-  background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.25) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0.25) 75%, transparent 75%);
-  background-color: #A0A1A6;
-  background-size: 30px 30px;
-}
-body.thesis-editing #thesis-editor.active .thesis-button {
-  -webkit-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -webkit-transform 0.75s ease-in-out;
-  -moz-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -moz-transform 0.75s ease-in-out;
-  transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, transform 0.75s ease-in-out;
-  padding: 10px 0px;
-  opacity: 1;
-  height: 80px;
-}
-body.thesis-editing #thesis-editor.active .thesis-button:nth-child(1) {
-  -webkit-transform: rotate(-15.7deg);
-  -moz-transform: rotate(-15.7deg);
-  -ms-transform: rotate(-15.7deg);
-  -o-transform: rotate(-15.7deg);
-  transform: rotate(-15.7deg);
-  -webkit-transform-origin: 100% 100%;
-  -moz-transform-origin: 100% 100%;
-  -ms-transform-origin: 100% 100%;
-  -o-transform-origin: 100% 100%;
-  transform-origin: 100% 100%;
-  right: 60px;
-}
-body.thesis-editing #thesis-editor.active .thesis-button:nth-child(2) {
-  -webkit-transform: rotate(-12.56deg);
-  -moz-transform: rotate(-12.56deg);
-  -ms-transform: rotate(-12.56deg);
-  -o-transform: rotate(-12.56deg);
-  transform: rotate(-12.56deg);
-  -webkit-transform-origin: 100% 100%;
-  -moz-transform-origin: 100% 100%;
-  -ms-transform-origin: 100% 100%;
-  -o-transform-origin: 100% 100%;
-  transform-origin: 100% 100%;
-  right: 40px;
-}
-body.thesis-editing #thesis-editor.active .thesis-button:nth-child(3) {
-  -webkit-transform: rotate(-9.42deg);
-  -moz-transform: rotate(-9.42deg);
-  -ms-transform: rotate(-9.42deg);
-  -o-transform: rotate(-9.42deg);
-  transform: rotate(-9.42deg);
-  -webkit-transform-origin: 100% 100%;
-  -moz-transform-origin: 100% 100%;
-  -ms-transform-origin: 100% 100%;
-  -o-transform-origin: 100% 100%;
-  transform-origin: 100% 100%;
-  right: 24px;
-}
-body.thesis-editing #thesis-editor.active .thesis-button:nth-child(4) {
-  -webkit-transform: rotate(-6.28deg);
-  -moz-transform: rotate(-6.28deg);
-  -ms-transform: rotate(-6.28deg);
-  -o-transform: rotate(-6.28deg);
-  transform: rotate(-6.28deg);
-  -webkit-transform-origin: 100% 100%;
-  -moz-transform-origin: 100% 100%;
-  -ms-transform-origin: 100% 100%;
-  -o-transform-origin: 100% 100%;
-  transform-origin: 100% 100%;
-  right: 12px;
-}
-body.thesis-editing #thesis-editor.active .thesis-button:nth-child(5) {
-  -webkit-transform: rotate(-3.14deg);
-  -moz-transform: rotate(-3.14deg);
-  -ms-transform: rotate(-3.14deg);
-  -o-transform: rotate(-3.14deg);
-  transform: rotate(-3.14deg);
-  -webkit-transform-origin: 100% 100%;
-  -moz-transform-origin: 100% 100%;
-  -ms-transform-origin: 100% 100%;
-  -o-transform-origin: 100% 100%;
-  transform-origin: 100% 100%;
-  right: 4px;
-}
-
-.hallotoolbar {
-  z-index: 1040;
-}
-
-.thesis-fader {
+#thesis-fader {
   top: 0px;
   left: 0px;
   width: 100%;
@@ -767,8 +578,7 @@ body.thesis-editing #thesis-editor.active .thesis-button:nth-child(5) {
   z-index: 1038;
   -webkit-animation: thesis_fader 0.7s ease-in-out;
   -moz-animation: thesis_fader 0.7s ease-in-out;
-  animation: thesis_fader 0.7s ease-in-out;
-}
+  animation: thesis_fader 0.7s ease-in-out; }
 
 #thesis-modal {
   display: none;
@@ -789,44 +599,25 @@ body.thesis-editing #thesis-editor.active .thesis-button:nth-child(5) {
   font-family: "Raleway", sans-serif;
   -webkit-animation: modal_border 10s ease-in-out infinite;
   -moz-animation: modal_border 10s ease-in-out infinite;
-  animation: modal_border 10s ease-in-out infinite;
-}
-#thesis-modal.settings {
-  margin-top: -252px;
-}
-#thesis-modal .modal-icon {
-  text-align: center;
-  font-size: 24px;
-  font-weight: 300;
-  color: #1BB6EC;
-  margin-bottom: 5px;
-  -webkit-animation: modal_icon_color 10s ease-in-out infinite;
-  -moz-animation: modal_icon_color 10s ease-in-out infinite;
-  animation: modal_icon_color 10s ease-in-out infinite;
-}
-#thesis-modal .modal-title {
-  text-align: center;
-  font-weight: 300;
-  font-size: 28px;
-  margin-bottom: 15px;
-}
-#thesis-modal.windows .modal-field.cancel {
-  float: right;
-}
-#thesis-modal.windows .modal-field.save {
-  float: left;
-}
+  animation: modal_border 10s ease-in-out infinite; }
+  #thesis-modal.settings {
+    margin-top: -252px; }
+  #thesis-modal .modal-icon {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 300;
+    color: #1BB6EC;
+    margin-bottom: 5px;
+    -webkit-animation: modal_icon_color 10s ease-in-out infinite;
+    -moz-animation: modal_icon_color 10s ease-in-out infinite;
+    animation: modal_icon_color 10s ease-in-out infinite; }
+  #thesis-modal .modal-title {
+    text-align: center;
+    font-weight: 300;
+    font-size: 28px;
+    margin-bottom: 15px; }
+  #thesis-modal.windows .modal-field.cancel {
+    float: right; }
+  #thesis-modal.windows .modal-field.save {
+    float: left; }
 
-body.thesis-blur #wrapper {
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-  -webkit-filter: blur(12px);
-  filter: blur(12px);
-}
-
-/* medium-editor.js css -- https://cdn.jsdelivr.net/medium-editor/latest/css/medium-editor.min.css
-  Retrieved 3/4/2016
-*/
-
-.medium-editor-anchor-preview,.medium-editor-toolbar{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:16px;z-index:2000}@-webkit-keyframes medium-editor-image-loading{0%{-webkit-transform:scale(0);transform:scale(0)}100%{-webkit-transform:scale(1);transform:scale(1)}}@keyframes medium-editor-image-loading{0%{-webkit-transform:scale(0);transform:scale(0)}100%{-webkit-transform:scale(1);transform:scale(1)}}@-webkit-keyframes medium-editor-pop-upwards{0%{opacity:0;-webkit-transform:matrix(.97,0,0,1,0,12);transform:matrix(.97,0,0,1,0,12)}20%{opacity:.7;-webkit-transform:matrix(.99,0,0,1,0,2);transform:matrix(.99,0,0,1,0,2)}40%{opacity:1;-webkit-transform:matrix(1,0,0,1,0,-1);transform:matrix(1,0,0,1,0,-1)}100%{-webkit-transform:matrix(1,0,0,1,0,0);transform:matrix(1,0,0,1,0,0)}}@keyframes medium-editor-pop-upwards{0%{opacity:0;-webkit-transform:matrix(.97,0,0,1,0,12);transform:matrix(.97,0,0,1,0,12)}20%{opacity:.7;-webkit-transform:matrix(.99,0,0,1,0,2);transform:matrix(.99,0,0,1,0,2)}40%{opacity:1;-webkit-transform:matrix(1,0,0,1,0,-1);transform:matrix(1,0,0,1,0,-1)}100%{-webkit-transform:matrix(1,0,0,1,0,0);transform:matrix(1,0,0,1,0,0)}}.medium-editor-anchor-preview{left:0;line-height:1.4;max-width:280px;position:absolute;text-align:center;top:0;word-break:break-all;word-wrap:break-word;visibility:hidden}.medium-editor-anchor-preview a{color:#fff;display:inline-block;margin:5px 5px 10px}.medium-editor-anchor-preview-active{visibility:visible}.medium-editor-dragover{background:#ddd}.medium-editor-image-loading{-webkit-animation:medium-editor-image-loading 1s infinite ease-in-out;animation:medium-editor-image-loading 1s infinite ease-in-out;background-color:#333;border-radius:100%;display:inline-block;height:40px;width:40px}.medium-editor-placeholder{position:relative}.medium-editor-placeholder:after{content:attr(data-placeholder)!important;font-style:italic;left:0;position:absolute;top:0;white-space:pre;padding:inherit;margin:inherit}.medium-toolbar-arrow-over:before,.medium-toolbar-arrow-under:after{border-style:solid;content:'';display:block;height:0;left:50%;margin-left:-8px;position:absolute;width:0}.medium-toolbar-arrow-under:after{border-width:8px 8px 0}.medium-toolbar-arrow-over:before{border-width:0 8px 8px;top:-8px}.medium-editor-toolbar{left:0;position:absolute;top:0;visibility:hidden}.medium-editor-toolbar ul{margin:0;padding:0}.medium-editor-toolbar li{float:left;list-style:none;margin:0;padding:0}.medium-editor-toolbar li button{box-sizing:border-box;cursor:pointer;display:block;font-size:14px;line-height:1.33;margin:0;padding:15px;text-decoration:none}.medium-editor-toolbar li button:focus{outline:0}.medium-editor-toolbar li .medium-editor-action-underline{text-decoration:underline}.medium-editor-toolbar li .medium-editor-action-pre{font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;font-size:12px;font-weight:100;padding:15px 0}.medium-editor-toolbar-active{visibility:visible}.medium-editor-sticky-toolbar{position:fixed;top:1px}.medium-editor-relative-toolbar{position:relative}.medium-editor-toolbar-active.medium-editor-stalker-toolbar{-webkit-animation:medium-editor-pop-upwards 160ms forwards linear;animation:medium-editor-pop-upwards 160ms forwards linear}.medium-editor-action-bold{font-weight:bolder}.medium-editor-action-italic{font-style:italic}.medium-editor-toolbar-form{display:none}.medium-editor-toolbar-form a,.medium-editor-toolbar-form input{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}.medium-editor-toolbar-form .medium-editor-toolbar-form-row{line-height:14px;margin-left:5px;padding-bottom:5px}.medium-editor-toolbar-form .medium-editor-toolbar-input,.medium-editor-toolbar-form label{border:none;box-sizing:border-box;font-size:14px;margin:0;padding:6px;width:316px;display:inline-block}.medium-editor-toolbar-form .medium-editor-toolbar-input:focus,.medium-editor-toolbar-form label:focus{-webkit-appearance:none;-moz-appearance:none;appearance:none;border:none;box-shadow:none;outline:0}.medium-editor-toolbar-form a{display:inline-block;font-size:24px;font-weight:bolder;margin:0 10px;text-decoration:none}.medium-editor-toolbar-actions:after{clear:both;content:"";display:table}[data-medium-editor-element] img{max-width:100%}[data-medium-editor-element] sub{vertical-align:sub}[data-medium-editor-element] sup{vertical-align:super}.medium-editor-hidden{display:none}

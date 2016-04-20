@@ -123,16 +123,20 @@ class ThesisEditor extends React.Component {
     return this.state.editing ? 'active' : ''
   }
 
+  renderEditButtonText () {
+    return this.state.editing ? 'Editing Page' : 'Edit Page'
+  }
+
   componentDidUpdate () {
     let el = document.querySelector('body')
     if (this.state.editing) {
       el.classList.add('thesis-editing')
       this.addContentEditors()
-      el.insertAdjacentHTML('beforeend', '<div class="thesis-fader"></div>')
+      el.insertAdjacentHTML('beforeend', '<div id="thesis-fader"></div>')
     } else {
       el.classList.remove('thesis-editing')
       this.removeContentEditors()
-      let fader = document.querySelector('.thesis-fader')
+      let fader = document.querySelector('#thesis-fader')
       fader.remove()
     }
   }
@@ -141,12 +145,12 @@ class ThesisEditor extends React.Component {
     // <AddButton />
     // <DeleteButton />
     return (
-      <div id='thesis-editor' className={this.renderEditorClass()}>
-        <SettingsButton />
-        <CancelButton onPress={this.cancelPressed} />
-        <SaveButton onPress={this.savePressed} />
-        <EditButton onPress={this.editPressed} />
-      </div>
+    <div id='thesis-editor' className={this.renderEditorClass()}>
+      <SettingsButton />
+      <CancelButton onPress={this.cancelPressed} />
+      <SaveButton onPress={this.savePressed} />
+      <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
+    </div>
     )
   }
 }
