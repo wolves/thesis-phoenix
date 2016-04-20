@@ -13,6 +13,26 @@ body.thesis-editing .thesis-content
     a
       text-decoration: underline
 
+  &:before
+    @include transition(opacity .2s ease-in-out)
+    height         : 0px
+    width          : 0px
+    display        : block
+    opacity        : 0
+    position       : absolute
+    content        : "MODIFIED"
+    background     : darken($green, 10%)
+    right          : 0
+    bottom         : -16px
+    line-height    : 16px
+    color          : white
+    font-size      : 12px
+    font-weight    : bold
+    text-transform : uppercase
+    font-family    : $raleway
+    padding        : 0 10px
+    pointer-events : none
+
   &:after
     @include transition(border-color .2s ease-in-out)
     box-sizing       : border-box
@@ -30,10 +50,14 @@ body.thesis-editing .thesis-content
     box-shadow : none
     outline    : none
 
-  &.modified
-    &:after
-      border-color: darken($green, 10%)
-
-  &.in-edit-mode
     &:after
       @include barber_pole(rgba(white, .6), rgba(white, .15), 4s)
+
+  &.modified
+    &:before
+      opacity        : 1
+      height         : 16px
+      width          : auto
+
+    &:after
+      border-color: darken($green, 10%)

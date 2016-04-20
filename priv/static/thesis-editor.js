@@ -45811,7 +45811,8 @@ var ThesisEditor = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ThesisEditor).call(this, props));
 
     _this.state = {
-      editing: false
+      editing: false,
+      pageModified: false
     };
     _this.editor = null;
 
@@ -45828,11 +45829,10 @@ var ThesisEditor = function (_React$Component) {
       var body = document.querySelector('body');
 
       if (this.state.editing) {
-        if (body.classList.contains('thesis-page-modified')) {
+        if (this.state.pageModified) {
           this.cancelPressed();
         } else {
-          body.classList.remove('thesis-page-modified');
-          this.setState({ editing: false });
+          this.setState({ editing: false, pageModified: false });
         }
       } else {
         this.setState({ editing: true });
@@ -45841,13 +45841,10 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'savePressed',
     value: function savePressed() {
-      var body = document.querySelector('body');
-
       var page = { slug: window.location.pathname };
       var contents = this.contentEditorContents();
       this.postToServer(page, contents);
-      this.setState({ editing: false });
-      body.classList.remove('thesis-page-modified');
+      this.setState({ editing: false, pageModified: false });
     }
   }, {
     key: 'cancelPressed',
@@ -45884,76 +45881,25 @@ var ThesisEditor = function (_React$Component) {
       return document.querySelectorAll('.thesis-content');
     }
   }, {
-    key: 'trackContentChanges',
-    value: function trackContentChanges() {
-      var body = document.querySelector('body');
-      var textEditors = this.textContentEditors();
+    key: 'subscribeToContentChanges',
+    value: function subscribeToContentChanges() {
+      var _this2 = this;
 
       // html editor
       this.editor.subscribe('editableInput', function (event, editable) {
-        body.classList.add('thesis-page-modified');
         editable.classList.add('modified');
+        _this2.setState({ pageModified: true });
       });
 
       // TODO: image editor
 
       // text editor
+      var textEditors = this.textContentEditors();
       for (var i = 0; i < textEditors.length; i++) {
         textEditors[i].addEventListener('input', function (e) {
           e.target.classList.add('modified');
-          body.classList.add('thesis-page-modified');
+          _this2.setState({ pageModified: true });
         }, false);
-      }
-    }
-  }, {
-    key: 'trackEditableAreaState',
-    value: function trackEditableAreaState() {
-      var t = this;
-      var editors = this.allContentEditors();
-
-      var listener = function listener(e) {
-        t.manageInEditModeClass(e);
-      };
-
-      for (var i = 0; i < this.allContentEditors().length; i++) {
-        editors[i].classList.remove('in-edit-mode');
-        editors[i].classList.remove('modified');
-        editors[i].addEventListener('click', listener, false);
-      }
-    }
-  }, {
-    key: 'manageInEditModeClass',
-    value: function manageInEditModeClass(e) {
-      var contentEls = this.allContentEditors();
-      var contentEl = null;
-      var el = e.target;
-
-      if (el.classList.contains('thesis-content')) {
-        contentEl = el;
-      } else {
-        do {
-          if (el.classList.contains('thesis-content')) {
-            contentEl = el;
-            break;
-          }
-        } while (el = el.parentNode);
-      }
-
-      this.removeInEditModeClass(contentEls);
-      this.addInEditModeClass(contentEl);
-    }
-  }, {
-    key: 'addInEditModeClass',
-    value: function addInEditModeClass(el) {
-      el.classList.add('in-edit-mode');
-    }
-  }, {
-    key: 'removeInEditModeClass',
-    value: function removeInEditModeClass() {
-      var els = arguments.length <= 0 || arguments[0] === undefined ? this.allContentEditors() : arguments[0];
-
-      for (var i = 0; i < els.length; i++) {
-        els[i].classList.remove('in-edit-mode');
       }
     }
   }, {
@@ -45965,8 +45911,7 @@ var ThesisEditor = function (_React$Component) {
         this.editor.setup(); // Rebuild it
       }
       this.toggleTextEditors(true);
-      this.trackEditableAreaState();
-      this.trackContentChanges();
+      this.subscribeToContentChanges();
     }
   }, {
     key: 'removeContentEditors',
@@ -45974,8 +45919,8 @@ var ThesisEditor = function (_React$Component) {
       if (!this.editor) {
         return null;
       }
-
       this.editor.destroy();
+      this.editor = null;
       this.toggleTextEditors(false);
     }
   }, {
@@ -46015,21 +45960,27 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
+      var fader = document.querySelector('#thesis-fader');
       var el = document.querySelector('body');
-      var t = this;
+      var editors = this.allContentEditors();
+
       if (this.state.editing) {
         el.classList.add('thesis-editing');
-        this.addContentEditors();
-        el.insertAdjacentHTML('beforeend', '<div id="thesis-fader"></div>');
-        var fader = document.querySelector('#thesis-fader');
-        fader.addEventListener('click', function () {
-          t.removeInEditModeClass();
-        }, false);
+        if (!this.editor) this.addContentEditors();
+        if (!fader) el.insertAdjacentHTML('beforeend', '<div id="thesis-fader"></div>');
       } else {
         el.classList.remove('thesis-editing');
         this.removeContentEditors();
-        var _fader = document.querySelector('#thesis-fader');
-        _fader.remove();
+        fader.remove();
+      }
+
+      if (this.state.pageModified) {
+        el.classList.add('thesis-page-modified');
+      } else {
+        el.classList.remove('thesis-page-modified');
+        for (var i = 0; i < editors.length; i++) {
+          editors[i].classList.remove('modified');
+        }
       }
     }
   }, {
