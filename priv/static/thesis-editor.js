@@ -121,80 +121,7 @@ var process;
         return r(name);
       }
     };
-  require.register('draft-js/lib/AtomicBlockUtils', function(exports,req,module){
-    var require = __makeRequire((req), {});
-    (function(exports,require,module) {
-      /**
- * Copyright (c) 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule AtomicBlockUtils
- * @typechecks
- * 
- */
-
-'use strict';
-
-var BlockMapBuilder = require('./BlockMapBuilder');
-var CharacterMetadata = require('./CharacterMetadata');
-var ContentBlock = require('./ContentBlock');
-var DraftModifier = require('./DraftModifier');
-var EditorState = require('./EditorState');
-var Immutable = require('immutable');
-
-var generateRandomKey = require('./generateRandomKey');
-
-var List = Immutable.List;
-var Repeat = Immutable.Repeat;
-
-var AtomicBlockUtils = {
-  insertAtomicBlock: function insertAtomicBlock(editorState, entityKey, character) {
-    var contentState = editorState.getCurrentContent();
-    var selectionState = editorState.getSelection();
-
-    var afterRemoval = DraftModifier.removeRange(contentState, selectionState, 'backward');
-
-    var targetSelection = afterRemoval.getSelectionAfter();
-    var afterSplit = DraftModifier.splitBlock(afterRemoval, targetSelection);
-    var insertionTarget = afterSplit.getSelectionAfter();
-
-    var asAtomicBlock = DraftModifier.setBlockType(afterSplit, insertionTarget, 'atomic');
-
-    var charData = CharacterMetadata.create({ entity: entityKey });
-
-    var fragmentArray = [new ContentBlock({
-      key: generateRandomKey(),
-      type: 'atomic',
-      text: character,
-      characterList: List(Repeat(charData, character.length))
-    }), new ContentBlock({
-      key: generateRandomKey(),
-      type: 'unstyled',
-      text: '',
-      characterList: List()
-    })];
-
-    var fragment = BlockMapBuilder.createFromArray(fragmentArray);
-
-    var withAtomicBlock = DraftModifier.replaceWithFragment(asAtomicBlock, insertionTarget, fragment);
-
-    var newContent = withAtomicBlock.merge({
-      selectionBefore: selectionState,
-      selectionAfter: withAtomicBlock.getSelectionAfter().set('hasFocus', true)
-    });
-
-    return EditorState.push(editorState, newContent, 'insert-fragment');
-  }
-};
-
-module.exports = AtomicBlockUtils;
-    })(exports,require,module);
-  });
-require.register('draft-js/lib/BlockMapBuilder', function(exports,req,module){
+  require.register('draft-js/lib/BlockMapBuilder', function(exports,req,module){
     var require = __makeRequire((req), {});
     (function(exports,require,module) {
       /**
@@ -750,7 +677,7 @@ var ContentBlock = require('./ContentBlock');
 var Immutable = require('immutable');
 var SelectionState = require('./SelectionState');
 
-var generateRandomKey = require('./generateRandomKey');
+var generateBlockKey = require('./generateBlockKey');
 var sanitizeDraftText = require('./sanitizeDraftText');
 
 var List = Immutable.List;
@@ -866,7 +793,7 @@ var ContentState = (function (_ContentStateRecord) {
       var blocks = strings.map(function (block) {
         block = sanitizeDraftText(block);
         return new ContentBlock({
-          key: generateRandomKey(),
+          key: generateBlockKey(),
           text: block,
           type: 'unstyled',
           characterList: List(Repeat(CharacterMetadata.EMPTY, block.length))
@@ -1017,32 +944,25 @@ require.register('draft-js', function(exports,req,module){
 
 'use strict';
 
-var AtomicBlockUtils = require('./AtomicBlockUtils');
 var BlockMapBuilder = require('./BlockMapBuilder');
 var CharacterMetadata = require('./CharacterMetadata');
 var CompositeDraftDecorator = require('./CompositeDraftDecorator');
 var ContentBlock = require('./ContentBlock');
 var ContentState = require('./ContentState');
 var DraftEditor = require('./DraftEditor.react');
-var DraftEditorBlock = require('./DraftEditorBlock.react');
 var DraftModifier = require('./DraftModifier');
 var DraftEntity = require('./DraftEntity');
 var DraftEntityInstance = require('./DraftEntityInstance');
 var EditorState = require('./EditorState');
-var KeyBindingUtil = require('./KeyBindingUtil');
 var RichTextEditorUtil = require('./RichTextEditorUtil');
 var SelectionState = require('./SelectionState');
 
 var convertFromDraftStateToRaw = require('./convertFromDraftStateToRaw');
-var convertFromHTMLToContentBlocks = require('./convertFromHTMLToContentBlocks');
 var convertFromRawToDraftState = require('./convertFromRawToDraftState');
-var generateRandomKey = require('./generateRandomKey');
-var getDefaultKeyBinding = require('./getDefaultKeyBinding');
-var getVisibleSelectionRect = require('./getVisibleSelectionRect');
+var generateBlockKey = require('./generateBlockKey');
 
 var DraftPublic = {
   Editor: DraftEditor,
-  EditorBlock: DraftEditorBlock,
   EditorState: EditorState,
 
   CompositeDecorator: CompositeDraftDecorator,
@@ -1055,17 +975,12 @@ var DraftPublic = {
   ContentState: ContentState,
   SelectionState: SelectionState,
 
-  AtomicBlockUtils: AtomicBlockUtils,
-  KeyBindingUtil: KeyBindingUtil,
   Modifier: DraftModifier,
   RichUtils: RichTextEditorUtil,
 
-  convertFromHTML: convertFromHTMLToContentBlocks,
   convertFromRaw: convertFromRawToDraftState,
   convertToRaw: convertFromDraftStateToRaw,
-  genKey: generateRandomKey,
-  getDefaultKeyBinding: getDefaultKeyBinding,
-  getVisibleSelectionRect: getVisibleSelectionRect
+  genKey: generateBlockKey
 };
 
 module.exports = DraftPublic;
@@ -1114,7 +1029,6 @@ var UserAgent = require('fbjs/lib/UserAgent');
 
 var cx = require('fbjs/lib/cx');
 var emptyFunction = require('fbjs/lib/emptyFunction');
-var generateRandomKey = require('./generateRandomKey');
 var getDefaultKeyBinding = require('./getDefaultKeyBinding');
 var nullthrows = require('fbjs/lib/nullthrows');
 var getScrollPosition = require('fbjs/lib/getScrollPosition');
@@ -1158,8 +1072,6 @@ var DraftEditor = (function (_React$Component) {
   }]);
 
   function DraftEditor(props) {
-    var _this = this;
-
     _classCallCheck(this, DraftEditor);
 
     _get(Object.getPrototypeOf(DraftEditor.prototype), 'constructor', this).call(this, props);
@@ -1169,7 +1081,6 @@ var DraftEditor = (function (_React$Component) {
     this._guardAgainstRender = false;
     this._handler = null;
     this._dragCount = 0;
-    this._editorKey = generateRandomKey();
 
     this._onBeforeInput = this._buildHandler('onBeforeInput');
     this._onBlur = this._buildHandler('onBlur');
@@ -1202,9 +1113,6 @@ var DraftEditor = (function (_React$Component) {
     this.removeRenderGuard = this._removeRenderGuard.bind(this);
     this.setClipboard = this._setClipboard.bind(this);
     this.getClipboard = this._getClipboard.bind(this);
-    this.getEditorKey = function () {
-      return _this._editorKey;
-    };
     this.update = this._update.bind(this);
     this.onDragEnter = this._onDragEnter.bind(this);
     this.onDragLeave = this._onDragLeave.bind(this);
@@ -1222,12 +1130,12 @@ var DraftEditor = (function (_React$Component) {
   _createClass(DraftEditor, [{
     key: '_buildHandler',
     value: function _buildHandler(eventName) {
-      var _this2 = this;
+      var _this = this;
 
       return function (e) {
-        if (!_this2.props.readOnly) {
-          var method = _this2._handler && _this2._handler[eventName];
-          method && method.call(_this2, e);
+        if (!_this.props.readOnly) {
+          var method = _this._handler && _this._handler[eventName];
+          method && method.call(_this, e);
         }
       };
     }
@@ -1259,12 +1167,6 @@ var DraftEditor = (function (_React$Component) {
         'DraftEditor/alignCenter': textAlignment === 'center'
       });
       var hasContent = this.props.editorState.getCurrentContent().hasText();
-
-      var contentStyle = {
-        outline: 'none',
-        whiteSpace: 'pre-wrap',
-        wordWrap: 'break-word'
-      };
 
       return React.createElement(
         'div',
@@ -1312,15 +1214,12 @@ var DraftEditor = (function (_React$Component) {
               ref: 'editor',
               role: readOnly ? null : this.props.role || 'textbox',
               spellCheck: allowSpellCheck && this.props.spellCheck,
-              style: contentStyle,
-              suppressContentEditableWarning: true,
               tabIndex: this.props.tabIndex,
               title: hasContent ? null : this.props.placeholder },
             React.createElement(DraftEditorContents, {
               blockRendererFn: nullthrows(this.props.blockRendererFn),
               blockStyleFn: nullthrows(this.props.blockStyleFn),
               customStyleMap: _extends({}, DefaultDraftInlineStyle, this.props.customStyleMap),
-              editorKey: this._editorKey,
               editorState: this.props.editorState
             })
           )
@@ -1438,10 +1337,10 @@ var DraftEditor = (function (_React$Component) {
   }, {
     key: '_restoreEditorDOM',
     value: function _restoreEditorDOM(scrollPosition) {
-      var _this3 = this;
+      var _this2 = this;
 
       this.setState({ containerKey: this.state.containerKey + 1 }, function () {
-        _this3._focus(scrollPosition);
+        _this2._focus(scrollPosition);
       });
     }
 
@@ -1707,7 +1606,6 @@ var DraftEditorBlock = (function (_React$Component) {
         return React.createElement(
           DecoratorComponent,
           _extends({}, decoratorProps, {
-            decoratedText: decoratedText,
             dir: dir,
             key: decoratorOffsetKey,
             entityKey: block.getEntityAt(leafSet.get('start')),
@@ -1933,8 +1831,6 @@ require.register('draft-js/lib/DraftEditorContents.react', function(exports,req,
 
 'use strict';
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
@@ -2042,7 +1938,6 @@ var DraftEditorContents = (function (_React$Component) {
           key = undefined,
           blockType = undefined,
           child = undefined,
-          childProps = undefined,
           wrapperTemplate = undefined;
 
       for (var ii = 0; ii < blocksAsArray.length; ii++) {
@@ -2052,12 +1947,10 @@ var DraftEditorContents = (function (_React$Component) {
 
         var customRenderer = blockRendererFn(block);
         var CustomComponent = undefined,
-            customProps = undefined,
-            customEditable = undefined;
+            customProps = undefined;
         if (customRenderer) {
           CustomComponent = customRenderer.component;
           customProps = customRenderer.props;
-          customEditable = customRenderer.editable;
         }
 
         var direction = directionMap.get(key);
@@ -2078,34 +1971,28 @@ var DraftEditorContents = (function (_React$Component) {
         wrapperTemplate = getWrapperTemplateForBlockType(blockType);
         var useNewWrapper = wrapperTemplate !== currentWrapperTemplate;
 
-        var _Element = getElementForBlockType(blockType);
-        var depth = block.getDepth();
-        var className = this.props.blockStyleFn(block);
+        if (CustomComponent) {
+          child = React.createElement(CustomComponent, componentProps);
+        } else {
+          var _Element = getElementForBlockType(blockType);
+          var depth = block.getDepth();
+          var className = this.props.blockStyleFn(block);
 
-        // List items are special snowflakes, since we handle nesting and
-        // counters manually.
-        if (_Element === 'li') {
-          var shouldResetCount = useNewWrapper || currentDepth === null || depth > currentDepth;
-          className = joinClasses(className, getListItemClasses(blockType, depth, shouldResetCount, direction));
+          // List items are special snowflakes, since we handle nesting and
+          // counters manually.
+          if (_Element === 'li') {
+            var shouldResetCount = useNewWrapper || currentDepth === null || depth > currentDepth;
+            className = joinClasses(className, getListItemClasses(blockType, depth, shouldResetCount, direction));
+          }
+
+          /* $FlowFixMe - Support DOM elements in React.createElement */
+          child = React.createElement(_Element, {
+            className: className,
+            'data-block': true,
+            'data-offset-key': offsetKey,
+            key: key
+          }, React.createElement(DraftEditorBlock, componentProps));
         }
-
-        var Component = CustomComponent || DraftEditorBlock;
-        childProps = {
-          className: className,
-          'data-block': true,
-          'data-editor': this.props.editorKey,
-          'data-offset-key': offsetKey,
-          key: key
-        };
-        if (customEditable !== undefined) {
-          childProps = _extends({}, childProps, {
-            contentEditable: customEditable,
-            suppressContentEditableWarning: true
-          });
-        }
-
-        // $FlowFixMe: Support DOM elements in React.createElement
-        child = React.createElement(_Element, childProps, React.createElement(Component, componentProps));
 
         if (wrapperTemplate) {
           if (useNewWrapper) {
@@ -2245,11 +2132,6 @@ var DraftEditorDragHandler = {
         fileText && _this.update(insertTextAtSelection(editorState, nullthrows(dropSelection), // flow wtf
         fileText));
       });
-      return;
-    }
-
-    var dragType = this._internalDrag ? 'internal' : 'external';
-    if (this.props.handleDrop && this.props.handleDrop(dropSelection, data, dragType)) {
       return;
     }
 
@@ -2429,7 +2311,7 @@ var DraftEditorLeaf = (function (_React$Component) {
   }, {
     key: 'shouldComponentUpdate',
     value: function shouldComponentUpdate(nextProps) {
-      return ReactDOM.findDOMNode(this.refs.leaf).textContent !== nextProps.text || nextProps.styleSet !== this.props.styleSet || nextProps.forceSelection;
+      return ReactDOM.findDOMNode(this.refs.leaf).textContent !== nextProps.text || nextProps.forceSelection;
     }
   }, {
     key: 'componentDidUpdate',
@@ -3184,25 +3066,380 @@ require.register('draft-js/lib/DraftPasteProcessor', function(exports,req,module
 
 var CharacterMetadata = require('./CharacterMetadata');
 var ContentBlock = require('./ContentBlock');
+var DraftEntity = require('./DraftEntity');
 var Immutable = require('immutable');
+var URI = require('fbjs/lib/URI');
 
-var convertFromHTMLtoContentBlocks = require('./convertFromHTMLToContentBlocks');
-var generateRandomKey = require('./generateRandomKey');
+var generateBlockKey = require('./generateBlockKey');
+var getSafeBodyFromHTML = require('./getSafeBodyFromHTML');
+var invariant = require('fbjs/lib/invariant');
+var nullthrows = require('fbjs/lib/nullthrows');
 var sanitizeDraftText = require('./sanitizeDraftText');
 
 var List = Immutable.List;
+var OrderedSet = Immutable.OrderedSet;
 var Repeat = Immutable.Repeat;
+
+var NBSP = '&nbsp;';
+var SPACE = ' ';
+
+// Corresponds to max indent in campfire editor
+var MAX_DEPTH = 4;
+
+// used for replacing characters in HTML
+var REGEX_CR = new RegExp('\r', 'g');
+var REGEX_LF = new RegExp('\n', 'g');
+var REGEX_NBSP = new RegExp(NBSP, 'g');
+
+// Block tag flow is different because LIs do not have
+// a deterministic style ;_;
+var blockTags = ['p', 'h1', 'h2', 'h3', 'li', 'blockquote', 'pre'];
+var inlineTags = {
+  b: 'BOLD',
+  code: 'CODE',
+  del: 'STRIKETHROUGH',
+  em: 'ITALIC',
+  i: 'ITALIC',
+  s: 'STRIKETHROUGH',
+  strike: 'STRIKETHROUGH',
+  strong: 'BOLD',
+  u: 'UNDERLINE'
+};
+
+var lastBlock;
+
+function getEmptyChunk() {
+  return {
+    text: '',
+    inlines: [],
+    entities: [],
+    blocks: []
+  };
+}
+
+function getWhitespaceChunk(inEntity) {
+  var entities = new Array(1);
+  if (inEntity) {
+    entities[0] = inEntity;
+  }
+  return {
+    text: SPACE,
+    inlines: [OrderedSet()],
+    entities: entities,
+    blocks: []
+  };
+}
+
+function getSoftNewlineChunk() {
+  return {
+    text: '\n',
+    inlines: [OrderedSet()],
+    entities: new Array(1),
+    blocks: []
+  };
+}
+
+function getBlockDividerChunk(block, depth) {
+  return {
+    text: '\r',
+    inlines: [OrderedSet()],
+    entities: new Array(1),
+    blocks: [{
+      type: block,
+      depth: Math.max(0, Math.min(MAX_DEPTH, depth))
+    }]
+  };
+}
+
+function getBlockTypeForTag(tag, lastList) {
+  switch (tag) {
+    case 'h1':
+      return 'header-one';
+    case 'h2':
+      return 'header-two';
+    case 'li':
+      if (lastList === 'ol') {
+        return 'ordered-list-item';
+      }
+      return 'unordered-list-item';
+    case 'blockquote':
+      return 'blockquote';
+    case 'pre':
+      return 'code-block';
+    default:
+      return 'unstyled';
+  }
+}
+
+function processInlineTag(tag, node, currentStyle) {
+  var styleToCheck = inlineTags[tag];
+  if (styleToCheck) {
+    currentStyle = currentStyle.add(styleToCheck).toOrderedSet();
+  } else if (node instanceof HTMLElement) {
+    (function () {
+      var htmlElement = node;
+      currentStyle = currentStyle.withMutations(function (style) {
+        if (htmlElement.style.fontWeight === 'bold') {
+          style.add('BOLD');
+        }
+
+        if (htmlElement.style.fontStyle === 'italic') {
+          style.add('ITALIC');
+        }
+
+        if (htmlElement.style.textDecoration === 'underline') {
+          style.add('UNDERLINE');
+        }
+
+        if (htmlElement.style.textDecoration === 'line-through') {
+          style.add('STRIKETHROUGH');
+        }
+      }).toOrderedSet();
+    })();
+  }
+  return currentStyle;
+}
+
+function joinChunks(A, B) {
+  // Sometimes two blocks will touch in the DOM and we need to strip the
+  // extra delimiter to preserve niceness.
+  var lastInB = B.text.slice(0, 1);
+
+  if (A.text.slice(-1) === '\r' && lastInB === '\r') {
+    A.text = A.text.slice(0, -1);
+    A.inlines.pop();
+    A.entities.pop();
+    A.blocks.pop();
+  }
+
+  // Kill whitespace after blocks
+  if (A.text.slice(-1) === '\r') {
+    if (B.text === SPACE || B.text === '\n') {
+      return A;
+    } else if (lastInB === SPACE || lastInB === '\n') {
+      B.text = B.text.slice(1);
+      B.inlines.shift();
+      B.entities.shift();
+    }
+  }
+
+  return {
+    text: A.text + B.text,
+    inlines: A.inlines.concat(B.inlines),
+    entities: A.entities.concat(B.entities),
+    blocks: A.blocks.concat(B.blocks)
+  };
+}
+
+/**
+ * Check to see if we have anything like <p> <blockquote> <h1>... to create
+ * block tags from. If we do, we can use those and ignore <div> tags. If we
+ * don't, we can treat <div> tags as meaningful (unstyled) blocks.
+ */
+function containsSemanticBlockMarkup(html) {
+  return blockTags.some(function (tag) {
+    return html.indexOf('<' + tag) !== -1;
+  });
+}
+
+function hasValidLinkText(link) {
+  !(link instanceof HTMLAnchorElement) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Link must be an HTMLAnchorElement.') : invariant(false) : undefined;
+  var protocol = link.protocol;
+  return protocol === 'http:' || protocol === 'https:';
+}
+
+function genFragment(node, inlineStyle, lastList, inBlock, blockTags, depth, inEntity) {
+  var nodeName = node.nodeName.toLowerCase();
+  var newBlock = false;
+  var nextBlockType = 'unstyled';
+  var lastLastBlock = lastBlock;
+
+  // Base Case
+  if (nodeName === '#text') {
+    var text = node.textContent;
+    if (text.trim() === '' && inBlock !== 'pre') {
+      return getWhitespaceChunk(inEntity);
+    }
+    if (inBlock !== 'pre') {
+      // Can't use empty string because MSWord
+      text = text.replace(REGEX_LF, SPACE);
+    }
+
+    // save the last block so we can use it later
+    lastBlock = nodeName;
+
+    return {
+      text: text,
+      inlines: Array(text.length).fill(inlineStyle),
+      entities: Array(text.length).fill(inEntity),
+      blocks: []
+    };
+  }
+
+  // save the last block so we can use it later
+  lastBlock = nodeName;
+
+  // BR tags
+  if (nodeName === 'br') {
+    if (lastLastBlock === 'br' && (!inBlock || getBlockTypeForTag(inBlock, lastList) === 'unstyled')) {
+      return getBlockDividerChunk('unstyled', depth);
+    }
+    return getSoftNewlineChunk();
+  }
+
+  var chunk = getEmptyChunk();
+  var newChunk = null;
+
+  // Inline tags
+  inlineStyle = processInlineTag(nodeName, node, inlineStyle);
+
+  // Handle lists
+  if (nodeName === 'ul' || nodeName === 'ol') {
+    if (lastList) {
+      depth += 1;
+    }
+    lastList = nodeName;
+  }
+
+  // Block Tags
+  if (!inBlock && blockTags.indexOf(nodeName) !== -1) {
+    chunk = getBlockDividerChunk(getBlockTypeForTag(nodeName, lastList), depth);
+    inBlock = nodeName;
+    newBlock = true;
+  } else if (lastList && inBlock === 'li' && nodeName === 'li') {
+    chunk = getBlockDividerChunk(getBlockTypeForTag(nodeName, lastList), depth);
+    inBlock = nodeName;
+    newBlock = true;
+    nextBlockType = lastList === 'ul' ? 'unordered-list-item' : 'ordered-list-item';
+  }
+
+  // Recurse through children
+  var child = node.firstChild;
+  if (child != null) {
+    nodeName = child.nodeName.toLowerCase();
+  }
+
+  var entityId = null;
+  var href = null;
+
+  while (child) {
+    if (nodeName === 'a' && child.href && hasValidLinkText(child)) {
+      href = new URI(child.href).toString();
+      entityId = DraftEntity.create('LINK', 'MUTABLE', { url: href });
+    } else {
+      entityId = undefined;
+    }
+
+    newChunk = genFragment(child, inlineStyle, lastList, inBlock, blockTags, depth, entityId || inEntity);
+
+    chunk = joinChunks(chunk, newChunk);
+    var sibling = child.nextSibling;
+
+    // Put in a newline to break up blocks inside blocks
+    if (sibling && blockTags.indexOf(nodeName) >= 0 && inBlock) {
+      chunk = joinChunks(chunk, getSoftNewlineChunk());
+    }
+    if (sibling) {
+      nodeName = sibling.nodeName.toLowerCase();
+    }
+    child = sibling;
+  }
+
+  if (newBlock) {
+    chunk = joinChunks(chunk, getBlockDividerChunk(nextBlockType, depth));
+  }
+
+  return chunk;
+}
+
+function getChunkForHTML(html) {
+  html = html.trim().replace(REGEX_CR, '').replace(REGEX_NBSP, SPACE);
+
+  var safeBody = getSafeBodyFromHTML(html);
+  if (!safeBody) {
+    return null;
+  }
+  lastBlock = null;
+
+  // Sometimes we aren't dealing with content that contains nice semantic
+  // tags. In this case, use divs to separate everything out into paragraphs
+  // and hope for the best.
+  var workingBlocks = containsSemanticBlockMarkup(html) ? blockTags : ['div'];
+
+  // Start with -1 block depth to offset the fact that we are passing in a fake
+  // UL block to start with.
+  var chunk = genFragment(safeBody, OrderedSet(), 'ul', null, workingBlocks, -1);
+
+  // join with previous block to prevent weirdness on paste
+  if (chunk.text.indexOf('\r') === 0) {
+    chunk = {
+      text: chunk.text.slice(1),
+      inlines: chunk.inlines.slice(1),
+      entities: chunk.entities.slice(1),
+      blocks: chunk.blocks
+    };
+  }
+
+  // Kill block delimiter at the end
+  if (chunk.text.slice(-1) === '\r') {
+    chunk.text = chunk.text.slice(0, -1);
+    chunk.inlines = chunk.inlines.slice(0, -1);
+    chunk.entities = chunk.entities.slice(0, -1);
+    chunk.blocks.pop();
+  }
+
+  // If we saw no block tags, put an unstyled one in
+  if (chunk.blocks.length === 0) {
+    chunk.blocks.push({ type: 'unstyled', depth: 0 });
+  }
+
+  // Sometimes we start with text that isn't in a block, which is then
+  // followed by blocks. Need to fix up the blocks to add in
+  // an unstyled block for this content
+  if (chunk.text.split('\r').length === chunk.blocks.length + 1) {
+    chunk.blocks.unshift({ type: 'unstyled', depth: 0 });
+  }
+
+  return chunk;
+}
 
 var DraftPasteProcessor = {
   processHTML: function processHTML(html) {
-    return convertFromHTMLtoContentBlocks(html);
+    var chunk = getChunkForHTML(html);
+    if (chunk == null) {
+      return null;
+    }
+    var start = 0;
+    return chunk.text.split('\r').map(function (textBlock, ii) {
+      // Make absolutely certain that our text is acceptable.
+      textBlock = sanitizeDraftText(textBlock);
+      var end = start + textBlock.length;
+      var inlines = nullthrows(chunk).inlines.slice(start, end);
+      var entities = nullthrows(chunk).entities.slice(start, end);
+      var characterList = List(inlines.map(function (style, ii) {
+        var data = { style: style, entity: null };
+        if (entities[ii]) {
+          data.entity = entities[ii];
+        }
+        return CharacterMetadata.create(data);
+      }));
+      start = end + 1;
+
+      return new ContentBlock({
+        key: generateBlockKey(),
+        type: nullthrows(chunk).blocks[ii].type,
+        depth: nullthrows(chunk).blocks[ii].depth,
+        text: textBlock,
+        characterList: characterList
+      });
+    });
   },
 
   processText: function processText(textBlocks, character) {
     return textBlocks.map(function (textLine) {
       textLine = sanitizeDraftText(textLine);
       return new ContentBlock({
-        key: generateRandomKey(),
+        key: generateBlockKey(),
         type: 'unstyled',
         text: textLine,
         characterList: List(Repeat(character, textLine.length))
@@ -3474,14 +3711,14 @@ var EditorState = (function () {
     value: function getInlineStyleOverride() {
       return this.getImmutable().get('inlineStyleOverride');
     }
-  }, {
-    key: 'getCurrentInlineStyle',
 
     /**
      * Get the appropriate inline style for the editor state. If an
      * override is in place, use it. Otherwise, the current style is
      * based on the location of the selection state.
      */
+  }, {
+    key: 'getCurrentInlineStyle',
     value: function getCurrentInlineStyle() {
       var override = this.getInlineStyleOverride();
       if (override != null) {
@@ -3602,11 +3839,6 @@ var EditorState = (function () {
       return new EditorState(map);
     }
   }, {
-    key: 'setInlineStyleOverride',
-    value: function setInlineStyleOverride(editorState, inlineStyleOverride) {
-      return EditorState.set(editorState, { inlineStyleOverride: inlineStyleOverride });
-    }
-  }, {
     key: 'acceptSelection',
     value: function acceptSelection(editorState, selection) {
       return updateSelection(editorState, selection, false);
@@ -3655,7 +3887,7 @@ var EditorState = (function () {
 
     /**
      * Force focus to the end of the editor. This is useful in scenarios
-     * where we want to programmatically focus the input and it makes sense
+     * where we want to programatically focus the input and it makes sense
      * to allow the user to continue working seamlessly.
      */
   }, {
@@ -3704,14 +3936,7 @@ var EditorState = (function () {
         newContent = newContent.set('selectionBefore', currentContent.getSelectionBefore());
       }
 
-      var inlineStyleOverride = editorState.getInlineStyleOverride();
-
-      // Don't discard inline style overrides on block type or depth changes.
-      if (changeType !== 'adjust-depth' && changeType !== 'change-block-type') {
-        inlineStyleOverride = null;
-      }
-
-      var editorStateChanges = {
+      return EditorState.set(editorState, {
         currentContent: newContent,
         directionMap: directionMap,
         undoStack: undoStack,
@@ -3719,10 +3944,8 @@ var EditorState = (function () {
         lastChangeType: changeType,
         selection: contentState.getSelectionAfter(),
         forceSelection: forceSelection,
-        inlineStyleOverride: inlineStyleOverride
-      };
-
-      return EditorState.set(editorState, editorStateChanges);
+        inlineStyleOverride: null
+      });
     }
 
     /**
@@ -3972,10 +4195,6 @@ var KeyBindingUtil = {
     return !!e.ctrlKey && !e.altKey;
   },
 
-  isOptionKeyCommand: function isOptionKeyCommand(e) {
-    return isOSX && e.altKey;
-  },
-
   hasCommandModifier: function hasCommandModifier(e) {
     return isOSX ? !!e.metaKey && !e.altKey : KeyBindingUtil.isCtrlKeyCommand(e);
   }
@@ -4007,7 +4226,6 @@ var DraftModifier = require('./DraftModifier');
 var EditorState = require('./EditorState');
 
 var adjustBlockDepthForContentState = require('./adjustBlockDepthForContentState');
-var nullthrows = require('fbjs/lib/nullthrows');
 
 var RichTextEditorUtil = {
   currentBlockContainsLink: function currentBlockContainsLink(editorState) {
@@ -4053,9 +4271,7 @@ var RichTextEditorUtil = {
   insertSoftNewline: function insertSoftNewline(editorState) {
     var contentState = DraftModifier.insertText(editorState.getCurrentContent(), editorState.getSelection(), '\n', editorState.getCurrentInlineStyle(), null);
 
-    var newEditorState = EditorState.push(editorState, contentState, 'insert-characters');
-
-    return EditorState.forceSelection(newEditorState, contentState.getSelectionAfter());
+    return EditorState.push(editorState, contentState, 'insert-characters');
   },
 
   /**
@@ -4068,7 +4284,7 @@ var RichTextEditorUtil = {
       return null;
     }
 
-    // First, try to remove a preceding atomic block.
+    // First, try to remove a preceding media block.
     var content = editorState.getCurrentContent();
     var startKey = selection.getStartKey();
     var blockAfter = content.getBlockAfter(startKey);
@@ -4080,15 +4296,15 @@ var RichTextEditorUtil = {
 
     var blockBefore = content.getBlockBefore(startKey);
 
-    if (blockBefore && blockBefore.getType() === 'atomic') {
-      var atomicBlockTarget = selection.merge({
+    if (blockBefore && blockBefore.getType() === 'media') {
+      var mediaBlockTarget = selection.merge({
         anchorKey: blockBefore.getKey(),
         anchorOffset: 0
       });
-      var asCurrentStyle = DraftModifier.setBlockType(content, atomicBlockTarget, content.getBlockForKey(startKey).getType());
-      var withoutAtomicBlock = DraftModifier.removeRange(asCurrentStyle, atomicBlockTarget, 'backward');
-      if (withoutAtomicBlock !== content) {
-        return EditorState.push(editorState, withoutAtomicBlock, 'remove-range');
+      var asCurrentStyle = DraftModifier.setBlockType(content, mediaBlockTarget, content.getBlockForKey(startKey).getType());
+      var withoutMedia = DraftModifier.removeRange(asCurrentStyle, mediaBlockTarget, 'backward');
+      if (withoutMedia !== content) {
+        return EditorState.push(editorState, withoutMedia, 'remove-range');
       }
     }
 
@@ -4120,7 +4336,7 @@ var RichTextEditorUtil = {
 
     var blockAfter = content.getBlockAfter(startKey);
 
-    if (!blockAfter || blockAfter.getType() !== 'atomic') {
+    if (!blockAfter || blockAfter.getType() !== 'media') {
       return null;
     }
 
@@ -4133,21 +4349,21 @@ var RichTextEditorUtil = {
 
       var withoutEmptyBlock = DraftModifier.removeRange(content, target, 'forward');
 
-      var preserveAtomicBlock = DraftModifier.setBlockType(withoutEmptyBlock, withoutEmptyBlock.getSelectionAfter(), 'atomic');
+      var preserveMedia = DraftModifier.setBlockType(withoutEmptyBlock, withoutEmptyBlock.getSelectionAfter(), 'media');
 
-      return EditorState.push(editorState, preserveAtomicBlock, 'remove-range');
+      return EditorState.push(editorState, preserveMedia, 'remove-range');
     }
 
-    // Otherwise, delete the atomic block.
-    var atomicBlockTarget = selection.merge({
+    // Otherwise, delete the media block.
+    var mediaBlockTarget = selection.merge({
       focusKey: blockAfter.getKey(),
       focusOffset: blockAfter.getLength()
     });
 
-    var withoutAtomicBlock = DraftModifier.removeRange(content, atomicBlockTarget, 'forward');
+    var withoutMedia = DraftModifier.removeRange(content, mediaBlockTarget, 'forward');
 
-    if (withoutAtomicBlock !== content) {
-      return EditorState.push(editorState, withoutAtomicBlock, 'remove-range');
+    if (withoutMedia !== content) {
+      return EditorState.push(editorState, withoutMedia, 'remove-range');
     }
 
     return null;
@@ -4169,26 +4385,30 @@ var RichTextEditorUtil = {
 
     event.preventDefault();
 
-    // Only allow indenting one level beyond the block above, and only if
-    // the block above is a list item as well.
     var blockAbove = content.getBlockBefore(key);
-    if (!blockAbove) {
-      return editorState;
+    var depth = maxDepth;
+
+    // Only allow indenting one level beyond the block above, and only if
+    // the block above is a list item as well. Always allow unindenting
+    // if depth is greater than zero.
+    if (event.shiftKey) {
+      if (block.getDepth() === 0) {
+        return editorState;
+      }
+    } else {
+      if (!blockAbove || block.getDepth() === maxDepth) {
+        return editorState;
+      }
+
+      var typeAbove = blockAbove.getType();
+      if (typeAbove !== 'unordered-list-item' && typeAbove !== 'ordered-list-item') {
+        return editorState;
+      }
+
+      depth = Math.min(blockAbove.getDepth() + 1, maxDepth);
     }
 
-    var typeAbove = blockAbove.getType();
-    if (typeAbove !== 'unordered-list-item' && typeAbove !== 'ordered-list-item') {
-      return editorState;
-    }
-
-    var depth = block.getDepth();
-    if (!event.shiftKey && depth === maxDepth) {
-      return editorState;
-    }
-
-    maxDepth = Math.min(blockAbove.getDepth() + 1, maxDepth);
-
-    var withAdjustment = adjustBlockDepthForContentState(content, selection, event.shiftKey ? -1 : 1, maxDepth);
+    var withAdjustment = adjustBlockDepthForContentState(content, selection, event.shiftKey ? -1 : 1, depth);
 
     return EditorState.push(editorState, withAdjustment, 'adjust-depth');
   },
@@ -4198,39 +4418,22 @@ var RichTextEditorUtil = {
     var startKey = selection.getStartKey();
     var endKey = selection.getEndKey();
     var content = editorState.getCurrentContent();
-    var target = selection;
 
-    // Triple-click can lead to a selection that includes offset 0 of the
-    // following block. The `SelectionState` for this case is accurate, but
-    // we should avoid toggling block type for the trailing block because it
-    // is a confusing interaction.
-    if (startKey !== endKey && selection.getEndOffset() === 0) {
-      var blockBefore = nullthrows(content.getBlockBefore(endKey));
-      endKey = blockBefore.getKey();
-      target = target.merge({
-        anchorKey: startKey,
-        anchorOffset: selection.getStartOffset(),
-        focusKey: endKey,
-        focusOffset: blockBefore.getLength(),
-        isBackward: false
-      });
-    }
-
-    var hasAtomicBlock = content.getBlockMap().skipWhile(function (_, k) {
+    var hasMedia = content.getBlockMap().skipWhile(function (_, k) {
       return k !== startKey;
     }).takeWhile(function (_, k) {
       return k !== endKey;
     }).some(function (v) {
-      return v.getType() === 'atomic';
+      return v.getType() === 'media';
     });
 
-    if (hasAtomicBlock) {
+    if (hasMedia) {
       return editorState;
     }
 
     var typeToSet = content.getBlockForKey(startKey).getType() === blockType ? 'unstyled' : blockType;
 
-    return EditorState.push(editorState, DraftModifier.setBlockType(content, target, typeToSet), 'change-block-type');
+    return EditorState.push(editorState, DraftModifier.setBlockType(content, selection, typeToSet), 'change-block-type');
   },
 
   toggleCode: function toggleCode(editorState) {
@@ -4259,7 +4462,9 @@ var RichTextEditorUtil = {
     // set the result as the new inline style override. This will then be
     // used as the inline style for the next character to be inserted.
     if (selection.isCollapsed()) {
-      return EditorState.setInlineStyleOverride(editorState, currentStyle.has(inlineStyle) ? currentStyle.remove(inlineStyle) : currentStyle.add(inlineStyle));
+      return EditorState.set(editorState, {
+        inlineStyleOverride: currentStyle.has(inlineStyle) ? currentStyle.remove(inlineStyle) : currentStyle.add(inlineStyle)
+      });
     }
 
     // If characters are selected, immediately apply or remove the
@@ -4301,12 +4506,7 @@ var RichTextEditorUtil = {
       }
 
       var type = block.getType();
-      var blockBefore = content.getBlockBefore(key);
-      if (type === 'code-block' && blockBefore && blockBefore.getType() === 'code-block') {
-        return null;
-      }
-
-      if (type !== 'unstyled') {
+      if (type !== 'unstyled' && type !== 'code-block') {
         return DraftModifier.setBlockType(content, selection, 'unstyled');
       }
     }
@@ -4756,410 +4956,6 @@ function canHaveDepth(block) {
 module.exports = convertFromDraftStateToRaw;
     })(exports,require,module);
   });
-require.register('draft-js/lib/convertFromHTMLToContentBlocks', function(exports,req,module){
-    var require = __makeRequire((req), {});
-    (function(exports,require,module) {
-      /**
- * Copyright (c) 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule convertFromHTMLToContentBlocks
- * @typechecks
- * 
- */
-
-'use strict';
-
-var CharacterMetadata = require('./CharacterMetadata');
-var ContentBlock = require('./ContentBlock');
-var DraftEntity = require('./DraftEntity');
-var Immutable = require('immutable');
-var URI = require('fbjs/lib/URI');
-
-var generateRandomKey = require('./generateRandomKey');
-var getSafeBodyFromHTML = require('./getSafeBodyFromHTML');
-var invariant = require('fbjs/lib/invariant');
-var nullthrows = require('fbjs/lib/nullthrows');
-var sanitizeDraftText = require('./sanitizeDraftText');
-
-var List = Immutable.List;
-var OrderedSet = Immutable.OrderedSet;
-
-var NBSP = '&nbsp;';
-var SPACE = ' ';
-
-// Arbitrary max indent
-var MAX_DEPTH = 4;
-
-// used for replacing characters in HTML
-var REGEX_CR = new RegExp('\r', 'g');
-var REGEX_LF = new RegExp('\n', 'g');
-var REGEX_NBSP = new RegExp(NBSP, 'g');
-
-// Block tag flow is different because LIs do not have
-// a deterministic style ;_;
-var blockTags = ['p', 'h1', 'h2', 'h3', 'li', 'blockquote', 'pre'];
-var inlineTags = {
-  b: 'BOLD',
-  code: 'CODE',
-  del: 'STRIKETHROUGH',
-  em: 'ITALIC',
-  i: 'ITALIC',
-  s: 'STRIKETHROUGH',
-  strike: 'STRIKETHROUGH',
-  strong: 'BOLD',
-  u: 'UNDERLINE'
-};
-
-var lastBlock;
-
-function getEmptyChunk() {
-  return {
-    text: '',
-    inlines: [],
-    entities: [],
-    blocks: []
-  };
-}
-
-function getWhitespaceChunk(inEntity) {
-  var entities = new Array(1);
-  if (inEntity) {
-    entities[0] = inEntity;
-  }
-  return {
-    text: SPACE,
-    inlines: [OrderedSet()],
-    entities: entities,
-    blocks: []
-  };
-}
-
-function getSoftNewlineChunk() {
-  return {
-    text: '\n',
-    inlines: [OrderedSet()],
-    entities: new Array(1),
-    blocks: []
-  };
-}
-
-function getBlockDividerChunk(block, depth) {
-  return {
-    text: '\r',
-    inlines: [OrderedSet()],
-    entities: new Array(1),
-    blocks: [{
-      type: block,
-      depth: Math.max(0, Math.min(MAX_DEPTH, depth))
-    }]
-  };
-}
-
-function getBlockTypeForTag(tag, lastList) {
-  switch (tag) {
-    case 'h1':
-      return 'header-one';
-    case 'h2':
-      return 'header-two';
-    case 'h3':
-      return 'header-three';
-    case 'h4':
-      return 'header-four';
-    case 'h5':
-      return 'header-five';
-    case 'h6':
-      return 'header-six';
-    case 'li':
-      if (lastList === 'ol') {
-        return 'ordered-list-item';
-      }
-      return 'unordered-list-item';
-    case 'blockquote':
-      return 'blockquote';
-    case 'pre':
-      return 'code-block';
-    default:
-      return 'unstyled';
-  }
-}
-
-function processInlineTag(tag, node, currentStyle) {
-  var styleToCheck = inlineTags[tag];
-  if (styleToCheck) {
-    currentStyle = currentStyle.add(styleToCheck).toOrderedSet();
-  } else if (node instanceof HTMLElement) {
-    (function () {
-      var htmlElement = node;
-      currentStyle = currentStyle.withMutations(function (style) {
-        if (htmlElement.style.fontWeight === 'bold') {
-          style.add('BOLD');
-        }
-
-        if (htmlElement.style.fontStyle === 'italic') {
-          style.add('ITALIC');
-        }
-
-        if (htmlElement.style.textDecoration === 'underline') {
-          style.add('UNDERLINE');
-        }
-
-        if (htmlElement.style.textDecoration === 'line-through') {
-          style.add('STRIKETHROUGH');
-        }
-      }).toOrderedSet();
-    })();
-  }
-  return currentStyle;
-}
-
-function joinChunks(A, B) {
-  // Sometimes two blocks will touch in the DOM and we need to strip the
-  // extra delimiter to preserve niceness.
-  var lastInB = B.text.slice(0, 1);
-
-  if (A.text.slice(-1) === '\r' && lastInB === '\r') {
-    A.text = A.text.slice(0, -1);
-    A.inlines.pop();
-    A.entities.pop();
-    A.blocks.pop();
-  }
-
-  // Kill whitespace after blocks
-  if (A.text.slice(-1) === '\r') {
-    if (B.text === SPACE || B.text === '\n') {
-      return A;
-    } else if (lastInB === SPACE || lastInB === '\n') {
-      B.text = B.text.slice(1);
-      B.inlines.shift();
-      B.entities.shift();
-    }
-  }
-
-  return {
-    text: A.text + B.text,
-    inlines: A.inlines.concat(B.inlines),
-    entities: A.entities.concat(B.entities),
-    blocks: A.blocks.concat(B.blocks)
-  };
-}
-
-/**
- * Check to see if we have anything like <p> <blockquote> <h1>... to create
- * block tags from. If we do, we can use those and ignore <div> tags. If we
- * don't, we can treat <div> tags as meaningful (unstyled) blocks.
- */
-function containsSemanticBlockMarkup(html) {
-  return blockTags.some(function (tag) {
-    return html.indexOf('<' + tag) !== -1;
-  });
-}
-
-function hasValidLinkText(link) {
-  !(link instanceof HTMLAnchorElement) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Link must be an HTMLAnchorElement.') : invariant(false) : undefined;
-  var protocol = link.protocol;
-  return protocol === 'http:' || protocol === 'https:';
-}
-
-function genFragment(node, inlineStyle, lastList, inBlock, blockTags, depth, inEntity) {
-  var nodeName = node.nodeName.toLowerCase();
-  var newBlock = false;
-  var nextBlockType = 'unstyled';
-  var lastLastBlock = lastBlock;
-
-  // Base Case
-  if (nodeName === '#text') {
-    var text = node.textContent;
-    if (text.trim() === '' && inBlock !== 'pre') {
-      return getWhitespaceChunk(inEntity);
-    }
-    if (inBlock !== 'pre') {
-      // Can't use empty string because MSWord
-      text = text.replace(REGEX_LF, SPACE);
-    }
-
-    // save the last block so we can use it later
-    lastBlock = nodeName;
-
-    return {
-      text: text,
-      inlines: Array(text.length).fill(inlineStyle),
-      entities: Array(text.length).fill(inEntity),
-      blocks: []
-    };
-  }
-
-  // save the last block so we can use it later
-  lastBlock = nodeName;
-
-  // BR tags
-  if (nodeName === 'br') {
-    if (lastLastBlock === 'br' && (!inBlock || getBlockTypeForTag(inBlock, lastList) === 'unstyled')) {
-      return getBlockDividerChunk('unstyled', depth);
-    }
-    return getSoftNewlineChunk();
-  }
-
-  var chunk = getEmptyChunk();
-  var newChunk = null;
-
-  // Inline tags
-  inlineStyle = processInlineTag(nodeName, node, inlineStyle);
-
-  // Handle lists
-  if (nodeName === 'ul' || nodeName === 'ol') {
-    if (lastList) {
-      depth += 1;
-    }
-    lastList = nodeName;
-  }
-
-  // Block Tags
-  if (!inBlock && blockTags.indexOf(nodeName) !== -1) {
-    chunk = getBlockDividerChunk(getBlockTypeForTag(nodeName, lastList), depth);
-    inBlock = nodeName;
-    newBlock = true;
-  } else if (lastList && inBlock === 'li' && nodeName === 'li') {
-    chunk = getBlockDividerChunk(getBlockTypeForTag(nodeName, lastList), depth);
-    inBlock = nodeName;
-    newBlock = true;
-    nextBlockType = lastList === 'ul' ? 'unordered-list-item' : 'ordered-list-item';
-  }
-
-  // Recurse through children
-  var child = node.firstChild;
-  if (child != null) {
-    nodeName = child.nodeName.toLowerCase();
-  }
-
-  var entityId = null;
-  var href = null;
-
-  while (child) {
-    if (nodeName === 'a' && child.href && hasValidLinkText(child)) {
-      href = new URI(child.href).toString();
-      entityId = DraftEntity.create('LINK', 'MUTABLE', { url: href });
-    } else {
-      entityId = undefined;
-    }
-
-    newChunk = genFragment(child, inlineStyle, lastList, inBlock, blockTags, depth, entityId || inEntity);
-
-    chunk = joinChunks(chunk, newChunk);
-    var sibling = child.nextSibling;
-
-    // Put in a newline to break up blocks inside blocks
-    if (sibling && blockTags.indexOf(nodeName) >= 0 && inBlock) {
-      chunk = joinChunks(chunk, getSoftNewlineChunk());
-    }
-    if (sibling) {
-      nodeName = sibling.nodeName.toLowerCase();
-    }
-    child = sibling;
-  }
-
-  if (newBlock) {
-    chunk = joinChunks(chunk, getBlockDividerChunk(nextBlockType, depth));
-  }
-
-  return chunk;
-}
-
-function getChunkForHTML(html, DOMBuilder) {
-  html = html.trim().replace(REGEX_CR, '').replace(REGEX_NBSP, SPACE);
-
-  var safeBody = DOMBuilder(html);
-  if (!safeBody) {
-    return null;
-  }
-  lastBlock = null;
-
-  // Sometimes we aren't dealing with content that contains nice semantic
-  // tags. In this case, use divs to separate everything out into paragraphs
-  // and hope for the best.
-  var workingBlocks = containsSemanticBlockMarkup(html) ? blockTags : ['div'];
-
-  // Start with -1 block depth to offset the fact that we are passing in a fake
-  // UL block to start with.
-  var chunk = genFragment(safeBody, OrderedSet(), 'ul', null, workingBlocks, -1);
-
-  // join with previous block to prevent weirdness on paste
-  if (chunk.text.indexOf('\r') === 0) {
-    chunk = {
-      text: chunk.text.slice(1),
-      inlines: chunk.inlines.slice(1),
-      entities: chunk.entities.slice(1),
-      blocks: chunk.blocks
-    };
-  }
-
-  // Kill block delimiter at the end
-  if (chunk.text.slice(-1) === '\r') {
-    chunk.text = chunk.text.slice(0, -1);
-    chunk.inlines = chunk.inlines.slice(0, -1);
-    chunk.entities = chunk.entities.slice(0, -1);
-    chunk.blocks.pop();
-  }
-
-  // If we saw no block tags, put an unstyled one in
-  if (chunk.blocks.length === 0) {
-    chunk.blocks.push({ type: 'unstyled', depth: 0 });
-  }
-
-  // Sometimes we start with text that isn't in a block, which is then
-  // followed by blocks. Need to fix up the blocks to add in
-  // an unstyled block for this content
-  if (chunk.text.split('\r').length === chunk.blocks.length + 1) {
-    chunk.blocks.unshift({ type: 'unstyled', depth: 0 });
-  }
-
-  return chunk;
-}
-
-function convertFromHTMLtoContentBlocks(html) {
-  var DOMBuilder = arguments.length <= 1 || arguments[1] === undefined ? getSafeBodyFromHTML : arguments[1];
-
-  // Be ABSOLUTELY SURE that the dom builder you pass hare won't execute
-  // arbitrary code in whatever environment you're running this in. For an
-  // example of how we try to do this in-browser, see getSafeBodyFromHTML.
-
-  var chunk = getChunkForHTML(html, DOMBuilder);
-  if (chunk == null) {
-    return null;
-  }
-  var start = 0;
-  return chunk.text.split('\r').map(function (textBlock, ii) {
-    // Make absolutely certain that our text is acceptable.
-    textBlock = sanitizeDraftText(textBlock);
-    var end = start + textBlock.length;
-    var inlines = nullthrows(chunk).inlines.slice(start, end);
-    var entities = nullthrows(chunk).entities.slice(start, end);
-    var characterList = List(inlines.map(function (style, ii) {
-      var data = { style: style, entity: null };
-      if (entities[ii]) {
-        data.entity = entities[ii];
-      }
-      return CharacterMetadata.create(data);
-    }));
-    start = end + 1;
-
-    return new ContentBlock({
-      key: generateRandomKey(),
-      type: nullthrows(chunk).blocks[ii].type,
-      depth: nullthrows(chunk).blocks[ii].depth,
-      text: textBlock,
-      characterList: characterList
-    });
-  });
-}
-
-module.exports = convertFromHTMLtoContentBlocks;
-    })(exports,require,module);
-  });
 require.register('draft-js/lib/convertFromRawToDraftState', function(exports,req,module){
     var require = __makeRequire((req), {});
     (function(exports,require,module) {
@@ -5185,7 +4981,7 @@ var DraftEntity = require('./DraftEntity');
 var createCharacterList = require('./createCharacterList');
 var decodeEntityRanges = require('./decodeEntityRanges');
 var decodeInlineStyleRanges = require('./decodeInlineStyleRanges');
-var generateRandomKey = require('./generateRandomKey');
+var generateBlockKey = require('./generateBlockKey');
 
 function convertFromRawToDraftState(rawState) {
   var blocks = rawState.blocks;
@@ -5210,7 +5006,7 @@ function convertFromRawToDraftState(rawState) {
     var inlineStyleRanges = block.inlineStyleRanges;
     var entityRanges = block.entityRanges;
 
-    key = key || generateRandomKey();
+    key = key || generateBlockKey();
     depth = depth || 0;
     inlineStyleRanges = inlineStyleRanges || [];
     entityRanges = entityRanges || [];
@@ -5926,14 +5722,14 @@ require.register('draft-js/lib/editOnKeyDown', function(exports,req,module){
  * 
  */
 
+/**
+ * Map a `DraftEditorCommand` command value to a corresponding function.
+ */
 'use strict';
 
-var DraftModifier = require('./DraftModifier');
 var EditorState = require('./EditorState');
-var KeyBindingUtil = require('./KeyBindingUtil');
 var Keys = require('fbjs/lib/Keys');
 var SecondaryClipboard = require('./SecondaryClipboard');
-var UserAgent = require('fbjs/lib/UserAgent');
 
 var keyCommandBackspaceToStartOfLine = require('./keyCommandBackspaceToStartOfLine');
 var keyCommandBackspaceWord = require('./keyCommandBackspaceWord');
@@ -5946,13 +5742,6 @@ var keyCommandMoveSelectionToStartOfBlock = require('./keyCommandMoveSelectionTo
 var keyCommandTransposeCharacters = require('./keyCommandTransposeCharacters');
 var keyCommandUndo = require('./keyCommandUndo');
 
-var isOptionKeyCommand = KeyBindingUtil.isOptionKeyCommand;
-
-var isChrome = UserAgent.isBrowser('Chrome');
-
-/**
- * Map a `DraftEditorCommand` command value to a corresponding function.
- */
 function onKeyCommand(command, editorState) {
   switch (command) {
     case 'redo':
@@ -6019,15 +5808,6 @@ function editOnKeyDown(e) {
     case Keys.DOWN:
       this.props.onDownArrow && this.props.onDownArrow(e);
       return;
-    case Keys.SPACE:
-      // Handling for OSX where option + space scrolls.
-      if (isChrome && isOptionKeyCommand(e)) {
-        e.preventDefault();
-        // Insert a nbsp into the editor.
-        var contentState = DraftModifier.replaceText(editorState.getCurrentContent(), editorState.getSelection(), ' ');
-        this.update(EditorState.push(editorState, contentState, 'insert-characters'));
-        return;
-      }
   }
 
   var command = this.props.keyBindingFn(e);
@@ -6091,6 +5871,7 @@ var EditorState = require('./EditorState');
 
 var getEntityKeyForSelection = require('./getEntityKeyForSelection');
 var getTextContentFromFiles = require('./getTextContentFromFiles');
+var nullthrows = require('fbjs/lib/nullthrows');
 var splitTextIntoTextBlocks = require('./splitTextIntoTextBlocks');
 
 function editOnPaste(e) {
@@ -6136,14 +5917,9 @@ function editOnPaste(e) {
     }
   }
 
-  var textBlocks = [];
+  var textBlocks = null;
   var text = data.getText();
-  var html = data.getHTML();
-
-  if (this.props.handlePastedText && this.props.handlePastedText(text, html)) {
-    return;
-  }
-
+  this.props.onPasteRawText && this.props.onPasteRawText(text);
   if (text) {
     textBlocks = splitTextIntoTextBlocks(text);
   }
@@ -6156,24 +5932,29 @@ function editOnPaste(e) {
     // stripped during comparison -- this is because copy/paste within the
     // editor in Firefox and IE will not include empty lines. The resulting
     // paste will preserve the newlines correctly.
-    var internalClipboard = this.getClipboard();
-    if (data.isRichText() && internalClipboard) {
-      if (
-      // If the editorKey is present in the pasted HTML, it should be safe to
-      // assume this is an internal paste.
-      html.indexOf(this.getEditorKey()) !== -1 ||
-      // The copy may have been made within a single block, in which case the
-      // editor key won't be part of the paste. In this case, just check
-      // whether the pasted text matches the internal clipboard.
-      textBlocks.length === 1 && internalClipboard.size === 1 && internalClipboard.first().getText() === text) {
-        this.update(insertFragment(this.props.editorState, internalClipboard));
+    if (data.isRichText() && this.getClipboard()) {
+      textBlocks = nullthrows(textBlocks);
+      var textBlocksWithoutNewlines = textBlocks.filter(filterOutNewlines);
+      var currentClipboard = this.getClipboard();
+      var clipboardWithoutNewlines = currentClipboard.toSeq().map(function (clipBlock) {
+        return clipBlock.getText();
+      }).filter(filterOutNewlines).toArray();
+
+      var clipboardMatch = textBlocksWithoutNewlines.every(function (line, ii) {
+        return line === clipboardWithoutNewlines[ii];
+      });
+
+      if (clipboardMatch) {
+        this.update(insertFragment(this.props.editorState, currentClipboard));
         return;
       }
     }
 
     // If there is html paste data, try to parse that.
-    if (html) {
-      var htmlFragment = DraftPasteProcessor.processHTML(html);
+    var htmlData = data.getHTML();
+    if (htmlData) {
+      var htmlFragment = DraftPasteProcessor.processHTML(htmlData);
+
       if (htmlFragment) {
         var htmlMap = BlockMapBuilder.createFromArray(htmlFragment);
         this.update(insertFragment(this.props.editorState, htmlMap));
@@ -6198,6 +5979,10 @@ function editOnPaste(e) {
     var textMap = BlockMapBuilder.createFromArray(textFragment);
     this.update(insertFragment(this.props.editorState, textMap));
   }
+}
+
+function filterOutNewlines(str) {
+  return str.length > 0;
 }
 
 function insertFragment(editorState, fragment) {
@@ -6315,6 +6100,7 @@ require.register('draft-js/lib/encodeInlineStyleRanges', function(exports,req,mo
 
 'use strict';
 
+var DefaultDraftInlineStyle = require('./DefaultDraftInlineStyle');
 var UnicodeUtils = require('fbjs/lib/UnicodeUtils');
 
 var findRangesImmutable = require('./findRangesImmutable');
@@ -6361,11 +6147,12 @@ function encodeInlineStyleRanges(block) {
   var styleList = block.getCharacterList().map(function (c) {
     return c.getStyle();
   }).toList();
-  var ranges = styleList.flatten().toSet().map(function (style) {
+  var styles = Object.keys(DefaultDraftInlineStyle);
+  var ranges = styles.map(function (style) {
     return getEncodedInlinesForType(block, styleList, style);
   });
 
-  return Array.prototype.concat.apply(EMPTY_ARRAY, ranges.toJS());
+  return Array.prototype.concat.apply(EMPTY_ARRAY, ranges);
 }
 
 module.exports = encodeInlineStyleRanges;
@@ -6649,7 +6436,7 @@ function findRangesImmutable(haystack, areEqualFn, filterFn, foundFn) {
 module.exports = findRangesImmutable;
     })(exports,require,module);
   });
-require.register('draft-js/lib/generateRandomKey', function(exports,req,module){
+require.register('draft-js/lib/generateBlockKey', function(exports,req,module){
     var require = __makeRequire((req), {});
     (function(exports,require,module) {
       /**
@@ -6660,7 +6447,7 @@ require.register('draft-js/lib/generateRandomKey', function(exports,req,module){
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  *
- * @providesModule generateRandomKey
+ * @providesModule generateBlockKey
  * @typechecks
  * 
  */
@@ -6670,8 +6457,8 @@ require.register('draft-js/lib/generateRandomKey', function(exports,req,module){
 var seenKeys = {};
 var MULTIPLIER = Math.pow(2, 24);
 
-function generateRandomKey() {
-  var key = undefined;
+function generateBlockKey() {
+  var key;
   while (key === undefined || seenKeys.hasOwnProperty(key) || !isNaN(+key)) {
     key = Math.floor(Math.random() * MULTIPLIER).toString(32);
   }
@@ -6679,7 +6466,7 @@ function generateRandomKey() {
   return key;
 }
 
-module.exports = generateRandomKey;
+module.exports = generateBlockKey;
     })(exports,require,module);
   });
 require.register('draft-js/lib/getCharacterRemovalRange', function(exports,req,module){
@@ -6782,7 +6569,7 @@ require.register('draft-js/lib/getContentStateFragment', function(exports,req,mo
 
 'use strict';
 
-var generateRandomKey = require('./generateRandomKey');
+var generateBlockKey = require('./generateBlockKey');
 var removeEntitiesAtEdges = require('./removeEntitiesAtEdges');
 
 function getContentStateFragment(contentState, selectionState) {
@@ -6802,7 +6589,7 @@ function getContentStateFragment(contentState, selectionState) {
   var endIndex = blockKeys.indexOf(endKey) + 1;
 
   var slice = blockMap.slice(startIndex, endIndex).map(function (block, blockKey) {
-    var newKey = generateRandomKey();
+    var newKey = generateBlockKey();
 
     var text = block.getText();
     var chars = block.getCharacterList();
@@ -6924,9 +6711,6 @@ function getDefaultKeyBinding(e) {
     case 75:
       // K
       return !isWindows && isCtrlKeyCommand(e) ? 'secondary-cut' : null;
-    case 77:
-      // M
-      return isCtrlKeyCommand(e) ? 'split-block' : null;
     case 79:
       // O
       return isCtrlKeyCommand(e) ? 'split-block' : null;
@@ -7209,23 +6993,15 @@ require.register('draft-js/lib/getElementForBlockType', function(exports,req,mod
 function getElementForBlockType(blockType) {
   switch (blockType) {
     case 'header-one':
-      return 'h1';
-    case 'header-two':
       return 'h2';
-    case 'header-three':
+    case 'header-two':
       return 'h3';
-    case 'header-four':
-      return 'h4';
-    case 'header-five':
-      return 'h5';
-    case 'header-six':
-      return 'h6';
     case 'unordered-list-item':
     case 'ordered-list-item':
       return 'li';
     case 'blockquote':
       return 'blockquote';
-    case 'atomic':
+    case 'media':
       return 'figure';
     default:
       return 'div';
@@ -7324,71 +7100,6 @@ function getFragmentFromSelection(editorState) {
 }
 
 module.exports = getFragmentFromSelection;
-    })(exports,require,module);
-  });
-require.register('draft-js/lib/getRangeBoundingClientRect', function(exports,req,module){
-    var require = __makeRequire((req), {});
-    (function(exports,require,module) {
-      /**
- * Copyright (c) 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule getRangeBoundingClientRect
- * @typechecks
- * 
- */
-
-'use strict';
-
-var getRangeClientRects = require('./getRangeClientRects');
-
-/**
- * Like range.getBoundingClientRect() but normalizes for browser bugs.
- */
-function getRangeBoundingClientRect(range) {
-  // "Return a DOMRect object describing the smallest rectangle that includes
-  // the first rectangle in list and all of the remaining rectangles of which
-  // the height or width is not zero."
-  // http://www.w3.org/TR/cssom-view/#dom-range-getboundingclientrect
-  var rects = getRangeClientRects(range);
-  var top = 0;
-  var right = 0;
-  var bottom = 0;
-  var left = 0;
-
-  if (rects.length) {
-    var _rects$0 = rects[0];
-    top = _rects$0.top;
-    right = _rects$0.right;
-    bottom = _rects$0.bottom;
-    left = _rects$0.left;
-
-    for (var ii = 1; ii < rects.length; ii++) {
-      var rect = rects[ii];
-      if (rect.height !== 0 || rect.width !== 0) {
-        top = Math.min(top, rect.top);
-        right = Math.max(right, rect.right);
-        bottom = Math.max(bottom, rect.bottom);
-        left = Math.min(left, rect.left);
-      }
-    }
-  }
-
-  return {
-    top: top,
-    right: right,
-    bottom: bottom,
-    left: left,
-    width: right - left,
-    height: bottom - top
-  };
-}
-
-module.exports = getRangeBoundingClientRect;
     })(exports,require,module);
   });
 require.register('draft-js/lib/getRangeClientRects', function(exports,req,module){
@@ -7729,57 +7440,6 @@ function getUpdatedSelectionState(editorState, anchorKey, anchorOffset, focusKey
 module.exports = getUpdatedSelectionState;
     })(exports,require,module);
   });
-require.register('draft-js/lib/getVisibleSelectionRect', function(exports,req,module){
-    var require = __makeRequire((req), {});
-    (function(exports,require,module) {
-      /**
- * Copyright (c) 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @providesModule getVisibleSelectionRect
- * @typechecks
- * 
- */
-
-'use strict';
-
-var getRangeBoundingClientRect = require('./getRangeBoundingClientRect');
-
-/**
- * Return the bounding ClientRect for the visible DOM selection, if any.
- * In cases where there are no selected ranges or the bounding rect is
- * temporarily invalid, return null.
- */
-function getVisibleSelectionRect(global) {
-  var selection = global.getSelection();
-  if (!selection.rangeCount) {
-    return null;
-  }
-
-  var range = selection.getRangeAt(0);
-  var boundingRect = getRangeBoundingClientRect(range);
-  var top = boundingRect.top;
-  var right = boundingRect.right;
-  var bottom = boundingRect.bottom;
-  var left = boundingRect.left;
-
-  // When a re-render leads to a node being removed, the DOM selection will
-  // temporarily be placed on an ancestor node, which leads to an invalid
-  // bounding rect. Discard this state.
-  if (top === 0 && right === 0 && bottom === 0 && left === 0) {
-    return null;
-  }
-
-  return boundingRect;
-}
-
-module.exports = getVisibleSelectionRect;
-    })(exports,require,module);
-  });
 require.register('draft-js/lib/getWrapperTemplateForBlockType', function(exports,req,module){
     var require = __makeRequire((req), {});
     (function(exports,require,module) {
@@ -7844,7 +7504,7 @@ require.register('draft-js/lib/insertFragmentIntoContentState', function(exports
 
 var BlockMapBuilder = require('./BlockMapBuilder');
 
-var generateRandomKey = require('./generateRandomKey');
+var generateBlockKey = require('./generateBlockKey');
 var insertIntoList = require('./insertIntoList');
 var invariant = require('fbjs/lib/invariant');
 
@@ -7915,14 +7575,14 @@ function insertFragmentIntoContentState(contentState, selectionState, fragment) 
 
     // Insert fragment blocks after the head and before the tail.
     fragment.slice(1, fragmentSize - 1).forEach(function (fragmentBlock) {
-      newBlockArr.push(fragmentBlock.set('key', generateRandomKey()));
+      newBlockArr.push(fragmentBlock.set('key', generateBlockKey()));
     });
 
     // Modify tail portion of block.
     var tailText = text.slice(targetOffset, blockSize);
     var tailCharacters = chars.slice(targetOffset, blockSize);
     var prependToTail = fragment.last();
-    finalKey = generateRandomKey();
+    finalKey = generateBlockKey();
 
     var modifiedTail = prependToTail.merge({
       key: finalKey,
@@ -9174,7 +8834,7 @@ require.register('draft-js/lib/splitBlockInContentState', function(exports,req,m
 
 'use strict';
 
-var generateRandomKey = require('./generateRandomKey');
+var generateBlockKey = require('./generateBlockKey');
 var invariant = require('fbjs/lib/invariant');
 
 function splitBlockInContentState(contentState, selectionState) {
@@ -9193,7 +8853,7 @@ function splitBlockInContentState(contentState, selectionState) {
     characterList: chars.slice(0, offset)
   });
 
-  var keyBelow = generateRandomKey();
+  var keyBelow = generateBlockKey();
   var blockBelow = blockAbove.merge({
     key: keyBelow,
     text: text.slice(offset),
@@ -9253,12 +8913,8 @@ module.exports = splitTextIntoTextBlocks;
 require.register('fbjs/lib/DataTransfer', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
-      'use strict';
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
+      /**
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -9267,6 +8923,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  *
  * @typechecks
  */
+
+'use strict';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var PhotosMimeType = require('./PhotosMimeType');
 
@@ -9293,7 +8953,7 @@ function getFileFromDataTransfer(item) {
   }
 }
 
-var DataTransfer = function () {
+var DataTransfer = (function () {
   /**
    * @param {object} data
    */
@@ -9313,13 +8973,11 @@ var DataTransfer = function () {
    * @return {boolean}
    */
 
-
   DataTransfer.prototype.isRichText = function isRichText() {
     // If HTML is available, treat this data as rich text. This way, we avoid
     // using a pasted image if it is packaged with HTML -- this may occur with
-    // pastes from MS Word, for example.  However this is only rich text if
-    // there's accompanying text.
-    if (this.getHTML() && this.getText()) {
+    // pastes from MS Word, for example.
+    if (this.getHTML()) {
       return true;
     }
 
@@ -9340,7 +8998,6 @@ var DataTransfer = function () {
    * @return {?string}
    */
 
-
   DataTransfer.prototype.getText = function getText() {
     var text;
     if (this.data.getData) {
@@ -9359,7 +9016,6 @@ var DataTransfer = function () {
    * @return {?string}
    */
 
-
   DataTransfer.prototype.getHTML = function getHTML() {
     if (this.data.getData) {
       if (!this.types.length) {
@@ -9376,7 +9032,6 @@ var DataTransfer = function () {
    * @return {boolean}
    */
 
-
   DataTransfer.prototype.isLink = function isLink() {
     return this.types.some(function (type) {
       return type.indexOf('Url') != -1 || type.indexOf('text/uri-list') != -1;
@@ -9388,7 +9043,6 @@ var DataTransfer = function () {
    *
    * @return {?string}
    */
-
 
   DataTransfer.prototype.getLink = function getLink() {
     if (this.data.getData) {
@@ -9404,7 +9058,6 @@ var DataTransfer = function () {
    * @return {boolean}
    */
 
-
   DataTransfer.prototype.isImage = function isImage() {
     var isImage = this.types.some(function (type) {
       // Firefox will have a type of application/x-moz-file for images during
@@ -9419,7 +9072,7 @@ var DataTransfer = function () {
     var items = this.getFiles();
     for (var i = 0; i < items.length; i++) {
       var type = items[i].type;
-      if (!PhotosMimeType.isImage(type)) {
+      if (!PhotosMimeType(type).isImage()) {
         return false;
       }
     }
@@ -9444,7 +9097,6 @@ var DataTransfer = function () {
    * @return {array}
    */
 
-
   DataTransfer.prototype.getFiles = function getFiles() {
     if (this.data.items) {
       // createArrayFromMixed doesn't properly handle DataTransferItemLists.
@@ -9462,13 +9114,12 @@ var DataTransfer = function () {
    * @return {boolean}
    */
 
-
   DataTransfer.prototype.hasFiles = function hasFiles() {
     return this.getFiles().length > 0;
   };
 
   return DataTransfer;
-}();
+})();
 
 module.exports = DataTransfer;
     })(exports,require,module);
@@ -9476,10 +9127,8 @@ module.exports = DataTransfer;
 require.register('fbjs/lib/Keys', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
-      "use strict";
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
+      /**
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -9487,6 +9136,8 @@ require.register('fbjs/lib/Keys', function(exports,req,module){
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  */
+
+"use strict";
 
 module.exports = {
   BACKSPACE: 8,
@@ -9517,10 +9168,8 @@ module.exports = {
 require.register('fbjs/lib/PhotosMimeType', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
-      'use strict';
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
+      /**
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -9528,21 +9177,33 @@ require.register('fbjs/lib/PhotosMimeType', function(exports,req,module){
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  */
-var PhotosMimeType = {
-  isImage: function (mimeString) {
-    return getParts(mimeString)[0] === 'image';
-  },
-  isJpeg: function (mimeString) {
-    var parts = getParts(mimeString);
-    return PhotosMimeType.isImage(mimeString) && (
-    // see http://fburl.com/10972194
-    parts[1] === 'jpeg' || parts[1] === 'pjpeg');
-  }
-};
+'use strict';
 
-function getParts(mimeString) {
-  return mimeString.split('/');
-}
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var PhotosMimeType = (function () {
+  function PhotosMimeType(mimeString) {
+    _classCallCheck(this, PhotosMimeType);
+
+    // Allow this to be used as a function
+    if (this instanceof PhotosMimeType === false) {
+      return new PhotosMimeType(mimeString);
+    }
+    this._parts = mimeString.split('/');
+  }
+
+  PhotosMimeType.prototype.isImage = function isImage() {
+    return this._parts[0] === 'image';
+  };
+
+  PhotosMimeType.prototype.isJpeg = function isJpeg() {
+    return this.isImage() && (
+    // see http://fburl.com/10972194
+    this._parts[1] === 'jpeg' || this._parts[1] === 'pjpeg');
+  };
+
+  return PhotosMimeType;
+})();
 
 module.exports = PhotosMimeType;
     })(exports,require,module);
@@ -9550,10 +9211,8 @@ module.exports = PhotosMimeType;
 require.register('fbjs/lib/Scroll', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
-      "use strict";
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
+      /**
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -9567,6 +9226,8 @@ require.register('fbjs/lib/Scroll', function(exports,req,module){
  * @param {DOMDocument} doc
  * @return {boolean}
  */
+"use strict";
+
 function _isViewportScrollElement(element, doc) {
   return !!doc && (element === doc.documentElement || element === doc.body);
 }
@@ -9640,10 +9301,8 @@ module.exports = Scroll;
 require.register('fbjs/lib/Style', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
-      'use strict';
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
+      /**
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -9652,6 +9311,8 @@ require.register('fbjs/lib/Style', function(exports,req,module){
  *
  * @typechecks
  */
+
+'use strict';
 
 var getStyleProperty = require('./getStyleProperty');
 
@@ -9709,7 +9370,7 @@ require.register('fbjs/lib/TokenizeUtil', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
       /**
- * Copyright (c) 2013-present, Facebook, Inc.
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -9737,7 +9398,6 @@ require.register('fbjs/lib/TokenizeUtil', function(exports,req,module){
 //             is some Arabic punctuation marks
 // \u1801\u0964\u104a\u104b
 //             is misc. other language punctuation marks
-
 var PUNCTUATION = '[.,+*?$|#{}()\'\\^\\-\\[\\]\\\\\\/!@%"~=<>_:;' + '・、。〈-】〔-〟：-？！-／' + '［-｀｛-･⸮؟٪-٬؛،؍' + '﴾﴿᠁।၊။‐-‧‰-⁞' + '¡-±´-¸º»¿]';
 
 module.exports = {
@@ -9751,7 +9411,7 @@ require.register('fbjs/lib/URI', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
       /**
- * Copyright (c) 2013-present, Facebook, Inc.
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -9763,9 +9423,9 @@ require.register('fbjs/lib/URI', function(exports,req,module){
 
 'use strict';
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var URI = function () {
+var URI = (function () {
   function URI(uri) {
     _classCallCheck(this, URI);
 
@@ -9777,7 +9437,7 @@ var URI = function () {
   };
 
   return URI;
-}();
+})();
 
 module.exports = URI;
     })(exports,require,module);
@@ -9786,7 +9446,7 @@ require.register('fbjs/lib/UnicodeBidi', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
       /**
- * Copyright (c) 2013-present, Facebook, Inc.
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -9805,12 +9465,6 @@ require.register('fbjs/lib/UnicodeBidi', function(exports,req,module){
  * http://www.unicode.org/reports/tr9/
  */
 
-'use strict';
-
-var UnicodeBidiDirection = require('./UnicodeBidiDirection');
-
-var invariant = require('./invariant');
-
 /**
  * RegExp ranges of characters with a *Strong* Bidi_Class value.
  *
@@ -9819,6 +9473,12 @@ var invariant = require('./invariant');
  * NOTE: For performance reasons, we only support Unicode's
  *       Basic Multilingual Plane (BMP) for now.
  */
+'use strict';
+
+var UnicodeBidiDirection = require('./UnicodeBidiDirection');
+
+var invariant = require('./invariant');
+
 var RANGE_BY_BIDI_TYPE = {
 
   L: 'A-Za-zªµºÀ-ÖØ-öø-ƺƻ' + 'Ƽ-ƿǀ-ǃǄ-ʓʔʕ-ʯʰ-ʸ' + 'ʻ-ˁː-ˑˠ-ˤˮͰ-ͳͶ-ͷ' + 'ͺͻ-ͽͿΆΈ-ΊΌΎ-Ρ' + 'Σ-ϵϷ-ҁ҂Ҋ-ԯԱ-Ֆՙ' + '՚-՟ա-և։ःऄ-हऻऽ' + 'ा-ीॉ-ौॎ-ॏॐक़-ॡ।-॥' + '०-९॰ॱॲ-ঀং-ঃঅ-ঌ' + 'এ-ঐও-নপ-রলশ-হঽ' + 'া-ীে-ৈো-ৌৎৗড়-ঢ়' + 'য়-ৡ০-৯ৰ-ৱ৴-৹৺ਃ' + 'ਅ-ਊਏ-ਐਓ-ਨਪ-ਰਲ-ਲ਼' + 'ਵ-ਸ਼ਸ-ਹਾ-ੀਖ਼-ੜਫ਼੦-੯' + 'ੲ-ੴઃઅ-ઍએ-ઑઓ-નપ-ર' + 'લ-ળવ-હઽા-ીૉો-ૌૐ' + 'ૠ-ૡ૦-૯૰ଂ-ଃଅ-ଌଏ-ଐ' + 'ଓ-ନପ-ରଲ-ଳଵ-ହଽାୀ' + 'େ-ୈୋ-ୌୗଡ଼-ଢ଼ୟ-ୡ୦-୯' + '୰ୱ୲-୷ஃஅ-ஊஎ-ஐஒ-க' + 'ங-சஜஞ-டண-தந-பம-ஹ' + 'ா-ிு-ூெ-ைொ-ௌௐௗ' + '௦-௯௰-௲ఁ-ఃఅ-ఌఎ-ఐ' + 'ఒ-నప-హఽు-ౄౘ-ౙౠ-ౡ' + '౦-౯౿ಂ-ಃಅ-ಌಎ-ಐಒ-ನ' + 'ಪ-ಳವ-ಹಽಾಿೀ-ೄೆ' + 'ೇ-ೈೊ-ೋೕ-ೖೞೠ-ೡ೦-೯' + 'ೱ-ೲം-ഃഅ-ഌഎ-ഐഒ-ഺഽ' + 'ാ-ീെ-ൈൊ-ൌൎൗൠ-ൡ' + '൦-൯൰-൵൹ൺ-ൿං-ඃඅ-ඖ' + 'ක-නඳ-රලව-ෆා-ෑෘ-ෟ' + '෦-෯ෲ-ෳ෴ก-ะา-ำเ-ๅ' + 'ๆ๏๐-๙๚-๛ກ-ຂຄງ-ຈ' + 'ຊຍດ-ທນ-ຟມ-ຣລວ' + 'ສ-ຫອ-ະາ-ຳຽເ-ໄໆ' + '໐-໙ໜ-ໟༀ༁-༃༄-༒༓༔' + '༕-༗༚-༟༠-༩༪-༳༴༶༸' + '༾-༿ཀ-ཇཉ-ཬཿ྅ྈ-ྌ' + '྾-࿅࿇-࿌࿎-࿏࿐-࿔࿕-࿘' + '࿙-࿚က-ဪါ-ာေးျ-ြဿ' + '၀-၉၊-၏ၐ-ၕၖ-ၗၚ-ၝၡ' + 'ၢ-ၤၥ-ၦၧ-ၭၮ-ၰၵ-ႁ' + 'ႃ-ႄႇ-ႌႎႏ႐-႙ႚ-ႜ' + '႞-႟Ⴀ-ჅჇჍა-ჺ჻ჼ' + 'ჽ-ቈቊ-ቍቐ-ቖቘቚ-ቝበ-ኈ' + 'ኊ-ኍነ-ኰኲ-ኵኸ-ኾዀዂ-ዅ' + 'ወ-ዖዘ-ጐጒ-ጕጘ-ፚ፠-፨' + '፩-፼ᎀ-ᎏᎠ-Ᏼᐁ-ᙬ᙭-᙮' + 'ᙯ-ᙿᚁ-ᚚᚠ-ᛪ᛫-᛭ᛮ-ᛰ' + 'ᛱ-ᛸᜀ-ᜌᜎ-ᜑᜠ-ᜱ᜵-᜶' + 'ᝀ-ᝑᝠ-ᝬᝮ-ᝰក-ឳាើ-ៅ' + 'ះ-ៈ។-៖ៗ៘-៚ៜ០-៩' + '᠐-᠙ᠠ-ᡂᡃᡄ-ᡷᢀ-ᢨᢪ' + 'ᢰ-ᣵᤀ-ᤞᤣ-ᤦᤩ-ᤫᤰ-ᤱ' + 'ᤳ-ᤸ᥆-᥏ᥐ-ᥭᥰ-ᥴᦀ-ᦫ' + 'ᦰ-ᧀᧁ-ᧇᧈ-ᧉ᧐-᧙᧚ᨀ-ᨖ' + 'ᨙ-ᨚ᨞-᨟ᨠ-ᩔᩕᩗᩡᩣ-ᩤ' + 'ᩭ-ᩲ᪀-᪉᪐-᪙᪠-᪦ᪧ᪨-᪭' + 'ᬄᬅ-ᬳᬵᬻᬽ-ᭁᭃ-᭄ᭅ-ᭋ' + '᭐-᭙᭚-᭠᭡-᭪᭴-᭼ᮂᮃ-ᮠ' + 'ᮡᮦ-ᮧ᮪ᮮ-ᮯ᮰-᮹ᮺ-ᯥᯧ' + 'ᯪ-ᯬᯮ᯲-᯳᯼-᯿ᰀ-ᰣᰤ-ᰫ' + 'ᰴ-ᰵ᰻-᰿᱀-᱉ᱍ-ᱏ᱐-᱙' + 'ᱚ-ᱷᱸ-ᱽ᱾-᱿᳀-᳇᳓᳡' + 'ᳩ-ᳬᳮ-ᳱᳲ-ᳳᳵ-ᳶᴀ-ᴫ' + 'ᴬ-ᵪᵫ-ᵷᵸᵹ-ᶚᶛ-ᶿḀ-ἕ' + 'Ἐ-Ἕἠ-ὅὈ-Ὅὐ-ὗὙὛὝ' + 'Ὗ-ώᾀ-ᾴᾶ-ᾼιῂ-ῄῆ-ῌ' + 'ῐ-ΐῖ-Ίῠ-Ῥῲ-ῴῶ-ῼ‎' + 'ⁱⁿₐ-ₜℂℇℊ-ℓℕℙ-ℝ' + 'ℤΩℨK-ℭℯ-ℴℵ-ℸℹ' + 'ℼ-ℿⅅ-ⅉⅎ⅏Ⅰ-ↂↃ-ↄ' + 'ↅ-ↈ⌶-⍺⎕⒜-ⓩ⚬⠀-⣿' + 'Ⰰ-Ⱞⰰ-ⱞⱠ-ⱻⱼ-ⱽⱾ-ⳤ' + 'Ⳬ-ⳮⳲ-ⳳⴀ-ⴥⴧⴭⴰ-ⵧⵯ' + '⵰ⶀ-ⶖⶠ-ⶦⶨ-ⶮⶰ-ⶶⶸ-ⶾ' + 'ⷀ-ⷆⷈ-ⷎⷐ-ⷖⷘ-ⷞ々〆〇' + '〡-〩〮-〯〱-〵〸-〺〻〼' + 'ぁ-ゖゝ-ゞゟァ-ヺー-ヾヿ' + 'ㄅ-ㄭㄱ-ㆎ㆐-㆑㆒-㆕㆖-㆟' + 'ㆠ-ㆺㇰ-ㇿ㈀-㈜㈠-㈩㈪-㉇' + '㉈-㉏㉠-㉻㉿㊀-㊉㊊-㊰㋀-㋋' + '㋐-㋾㌀-㍶㍻-㏝㏠-㏾㐀-䶵' + '一-鿌ꀀ-ꀔꀕꀖ-ꒌꓐ-ꓷꓸ-ꓽ' + '꓾-꓿ꔀ-ꘋꘌꘐ-ꘟ꘠-꘩ꘪ-ꘫ' + 'Ꙁ-ꙭꙮꚀ-ꚛꚜ-ꚝꚠ-ꛥꛦ-ꛯ' + '꛲-꛷Ꜣ-ꝯꝰꝱ-ꞇ꞉-꞊Ꞌ-ꞎ' + 'Ꞑ-ꞭꞰ-Ʇꟷꟸ-ꟹꟺꟻ-ꠁ' + 'ꠃ-ꠅꠇ-ꠊꠌ-ꠢꠣ-ꠤꠧ꠰-꠵' + '꠶-꠷ꡀ-ꡳꢀ-ꢁꢂ-ꢳꢴ-ꣃ' + '꣎-꣏꣐-꣙ꣲ-ꣷ꣸-꣺ꣻ꤀-꤉' + 'ꤊ-ꤥ꤮-꤯ꤰ-ꥆꥒ-꥓꥟ꥠ-ꥼ' + 'ꦃꦄ-ꦲꦴ-ꦵꦺ-ꦻꦽ-꧀꧁-꧍' + 'ꧏ꧐-꧙꧞-꧟ꧠ-ꧤꧦꧧ-ꧯ' + '꧰-꧹ꧺ-ꧾꨀ-ꨨꨯ-ꨰꨳ-ꨴ' + 'ꩀ-ꩂꩄ-ꩋꩍ꩐-꩙꩜-꩟ꩠ-ꩯ' + 'ꩰꩱ-ꩶ꩷-꩹ꩺꩻꩽꩾ-ꪯꪱ' + 'ꪵ-ꪶꪹ-ꪽꫀꫂꫛ-ꫜꫝ꫞-꫟' + 'ꫠ-ꫪꫫꫮ-ꫯ꫰-꫱ꫲꫳ-ꫴꫵ' + 'ꬁ-ꬆꬉ-ꬎꬑ-ꬖꬠ-ꬦꬨ-ꬮ' + 'ꬰ-ꭚ꭛ꭜ-ꭟꭤ-ꭥꯀ-ꯢꯣ-ꯤ' + 'ꯦ-ꯧꯩ-ꯪ꯫꯬꯰-꯹가-힣' + 'ힰ-ퟆퟋ-ퟻ-豈-舘並-龎' + 'ﬀ-ﬆﬓ-ﬗＡ-Ｚａ-ｚｦ-ｯｰ' + 'ｱ-ﾝﾞ-ﾟﾠ-ﾾￂ-ￇￊ-ￏ' + 'ￒ-ￗￚ-ￜ',
@@ -9903,7 +9563,7 @@ function getDirection(str, strongFallback) {
   if (!strongFallback) {
     strongFallback = UnicodeBidiDirection.getGlobalDir();
   }
-  !UnicodeBidiDirection.isStrong(strongFallback) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Fallback direction must be a strong direction') : invariant(false) : void 0;
+  !UnicodeBidiDirection.isStrong(strongFallback) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Fallback direction must be a strong direction') : invariant(false) : undefined;
   return resolveBlockDir(str, strongFallback);
 }
 
@@ -9947,7 +9607,7 @@ require.register('fbjs/lib/UnicodeBidiDirection', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
       /**
- * Copyright (c) 2013-present, Facebook, Inc.
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -9974,6 +9634,9 @@ require.register('fbjs/lib/UnicodeBidiDirection', function(exports,req,module){
 
 'use strict';
 
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 var invariant = require('./invariant');
 
 var NEUTRAL = 'NEUTRAL'; // No strong direction
@@ -9996,7 +9659,7 @@ function isStrong(dir) {
  * property.
  */
 function getHTMLDir(dir) {
-  !isStrong(dir) ? process.env.NODE_ENV !== 'production' ? invariant(false, '`dir` must be a strong direction to be converted to HTML Direction') : invariant(false) : void 0;
+  !isStrong(dir) ? process.env.NODE_ENV !== 'production' ? invariant(false, '`dir` must be a strong direction to be converted to HTML Direction') : invariant(false) : undefined;
   return dir === LTR ? 'ltr' : 'rtl';
 }
 
@@ -10006,8 +9669,8 @@ function getHTMLDir(dir) {
  * `null`.
  */
 function getHTMLDirIfDifferent(dir, otherDir) {
-  !isStrong(dir) ? process.env.NODE_ENV !== 'production' ? invariant(false, '`dir` must be a strong direction to be converted to HTML Direction') : invariant(false) : void 0;
-  !isStrong(otherDir) ? process.env.NODE_ENV !== 'production' ? invariant(false, '`otherDir` must be a strong direction to be converted to HTML Direction') : invariant(false) : void 0;
+  !isStrong(dir) ? process.env.NODE_ENV !== 'production' ? invariant(false, '`dir` must be a strong direction to be converted to HTML Direction') : invariant(false) : undefined;
+  !isStrong(otherDir) ? process.env.NODE_ENV !== 'production' ? invariant(false, '`otherDir` must be a strong direction to be converted to HTML Direction') : invariant(false) : undefined;
   return dir === otherDir ? null : getHTMLDir(dir);
 }
 
@@ -10034,7 +9697,7 @@ function getGlobalDir() {
   if (!globalDir) {
     this.initGlobalDir();
   }
-  !globalDir ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Global direction not set.') : invariant(false) : void 0;
+  !globalDir ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Global direction not set.') : invariant(false) : undefined;
   return globalDir;
 }
 
@@ -10060,7 +9723,7 @@ require.register('fbjs/lib/UnicodeBidiService', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
       /**
- * Copyright (c) 2013-present, Facebook, Inc.
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -10103,14 +9766,14 @@ require.register('fbjs/lib/UnicodeBidiService', function(exports,req,module){
 
 'use strict';
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var UnicodeBidi = require('./UnicodeBidi');
 var UnicodeBidiDirection = require('./UnicodeBidiDirection');
 
 var invariant = require('./invariant');
 
-var UnicodeBidiService = function () {
+var UnicodeBidiService = (function () {
 
   /**
    * Stateful class for paragraph direction detection
@@ -10124,32 +9787,30 @@ var UnicodeBidiService = function () {
     if (!defaultDir) {
       defaultDir = UnicodeBidiDirection.getGlobalDir();
     } else {
-      !UnicodeBidiDirection.isStrong(defaultDir) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Default direction must be a strong direction (LTR or RTL)') : invariant(false) : void 0;
+      !UnicodeBidiDirection.isStrong(defaultDir) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Default direction must be a strong direction (LTR or RTL)') : invariant(false) : undefined;
     }
     this._defaultDir = defaultDir;
     this.reset();
   }
 
   /**
-   * Reset the internal state
+   * Reset the interal state
    *
-   * Instead of creating a new instance, you can just reset() your instance
+   * Instead of creating a new instance, You can just reset() your instance
    * everytime you start a new loop.
    */
-
 
   UnicodeBidiService.prototype.reset = function reset() {
     this._lastDir = this._defaultDir;
   };
 
   /**
-   * Returns the direction of a block of text, and remembers it as the
+   * Returnes the direction of a block of text, and remembers it as the
    * fall-back direction for the next paragraph.
    *
    * @param str  A text block, e.g. paragraph, table cell, tag
    * @return     The resolved direction
    */
-
 
   UnicodeBidiService.prototype.getDirection = function getDirection(str) {
     this._lastDir = UnicodeBidi.getDirection(str, this._lastDir);
@@ -10157,7 +9818,7 @@ var UnicodeBidiService = function () {
   };
 
   return UnicodeBidiService;
-}();
+})();
 
 module.exports = UnicodeBidiService;
     })(exports,require,module);
@@ -10166,7 +9827,7 @@ require.register('fbjs/lib/UnicodeUtils', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
       /**
- * Copyright (c) 2013-present, Facebook, Inc.
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -10217,7 +9878,7 @@ function isCodeUnitInSurrogateRange(codeUnit) {
  * @return {boolean}
  */
 function isSurrogatePair(str, index) {
-  !(0 <= index && index < str.length) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'isSurrogatePair: Invalid index %s for string length %s.', index, str.length) : invariant(false) : void 0;
+  !(0 <= index && index < str.length) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'isSurrogatePair: Invalid index %s for string length %s.', index, str.length) : invariant(false) : undefined;
   if (index + 1 === str.length) {
     return false;
   }
@@ -10385,7 +10046,7 @@ require.register('fbjs/lib/UserAgent', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
       /**
- * Copyright (c) 2013-present, Facebook, Inc.
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -10497,11 +10158,9 @@ var UserAgent = {
    * @param {string} query Query of the form "Name [range expression]"
    * @return {boolean}
    */
-
   isBrowser: function (query) {
     return compare(UserAgentData.browserName, UserAgentData.browserFullVersion, query);
   },
-
 
   /**
    * Check if the User Agent browser uses a 32 or 64 bit architecture.
@@ -10514,7 +10173,6 @@ var UserAgent = {
   isBrowserArchitecture: function (query) {
     return compare(UserAgentData.browserArchitecture, null, query);
   },
-
 
   /**
    * Check if the User Agent device matches `query`.
@@ -10544,7 +10202,6 @@ var UserAgent = {
     return compare(UserAgentData.deviceName, null, query);
   },
 
-
   /**
    * Check if the User Agent rendering engine matches `query`.
    *
@@ -10570,7 +10227,6 @@ var UserAgent = {
   isEngine: function (query) {
     return compare(UserAgentData.engineName, UserAgentData.engineVersion, query);
   },
-
 
   /**
    * Check if the User Agent platform matches `query`.
@@ -10611,7 +10267,6 @@ var UserAgent = {
     return compare(UserAgentData.platformName, UserAgentData.platformFullVersion, query, normalizePlatformVersion);
   },
 
-
   /**
    * Check if the User Agent platform is a 32 or 64 bit architecture.
    *
@@ -10623,6 +10278,7 @@ var UserAgent = {
   isPlatformArchitecture: function (query) {
     return compare(UserAgentData.platformArchitecture, null, query);
   }
+
 };
 
 module.exports = mapObject(UserAgent, memoizeStringOnly);
@@ -10632,7 +10288,7 @@ require.register('fbjs/lib/UserAgentData', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
       /**
- * Copyright (c) 2013-present, Facebook, Inc.
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -10719,7 +10375,7 @@ require.register('fbjs/lib/VersionRange', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
       /**
- * Copyright (c) 2013-present, Facebook, Inc.
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -10729,6 +10385,8 @@ require.register('fbjs/lib/VersionRange', function(exports,req,module){
  */
 
 'use strict';
+
+var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
 
 var invariant = require('./invariant');
 
@@ -10770,15 +10428,17 @@ function checkOrExpression(range, version) {
 function checkRangeExpression(range, version) {
   var expressions = range.split(rangeRegex);
 
-  !(expressions.length > 0 && expressions.length <= 2) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'the "-" operator expects exactly 2 operands') : invariant(false) : void 0;
+  !(expressions.length > 0 && expressions.length <= 2) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'the "-" operator expects exactly 2 operands') : invariant(false) : undefined;
 
   if (expressions.length === 1) {
     return checkSimpleExpression(expressions[0], version);
   } else {
-    var startVersion = expressions[0];
-    var endVersion = expressions[1];
+    var _expressions = _slicedToArray(expressions, 2);
 
-    !(isSimpleVersion(startVersion) && isSimpleVersion(endVersion)) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'operands to the "-" operator must be simple (no modifiers)') : invariant(false) : void 0;
+    var startVersion = _expressions[0];
+    var endVersion = _expressions[1];
+
+    !(isSimpleVersion(startVersion) && isSimpleVersion(endVersion)) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'operands to the "-" operator must be simple (no modifiers)') : invariant(false) : undefined;
 
     return checkSimpleExpression('>=' + startVersion, version) && checkSimpleExpression('<=' + endVersion, version);
   }
@@ -10800,10 +10460,10 @@ function checkSimpleExpression(range, version) {
 
   var versionComponents = version.split(componentRegex);
 
-  var _getModifierAndCompon = getModifierAndComponents(range);
+  var _getModifierAndComponents = getModifierAndComponents(range);
 
-  var modifier = _getModifierAndCompon.modifier;
-  var rangeComponents = _getModifierAndCompon.rangeComponents;
+  var modifier = _getModifierAndComponents.modifier;
+  var rangeComponents = _getModifierAndComponents.rangeComponents;
 
   switch (modifier) {
     case '<':
@@ -10917,7 +10577,7 @@ function checkApproximateVersion(a, b) {
 function getModifierAndComponents(range) {
   var rangeComponents = range.split(componentRegex);
   var matches = rangeComponents[0].match(modifierRegex);
-  !matches ? process.env.NODE_ENV !== 'production' ? invariant(false, 'expected regex to match but it did not') : invariant(false) : void 0;
+  !matches ? process.env.NODE_ENV !== 'production' ? invariant(false, 'expected regex to match but it did not') : invariant(false) : undefined;
 
   return {
     modifier: matches[1],
@@ -11029,7 +10689,7 @@ function compareNumeric(a, b) {
  * or greater than `b`, respectively
  */
 function compare(a, b) {
-  !(typeof a === typeof b) ? process.env.NODE_ENV !== 'production' ? invariant(false, '"a" and "b" must be of the same type') : invariant(false) : void 0;
+  !(typeof a === typeof b) ? process.env.NODE_ENV !== 'production' ? invariant(false, '"a" and "b" must be of the same type') : invariant(false) : undefined;
 
   if (a > b) {
     return 1;
@@ -11051,9 +10711,10 @@ function compare(a, b) {
 function compareComponents(a, b) {
   var _normalizeVersions = normalizeVersions(a, b);
 
-  var aNormalized = _normalizeVersions[0];
-  var bNormalized = _normalizeVersions[1];
+  var _normalizeVersions2 = _slicedToArray(_normalizeVersions, 2);
 
+  var aNormalized = _normalizeVersions2[0];
+  var bNormalized = _normalizeVersions2[1];
 
   for (var i = 0; i < bNormalized.length; i++) {
     var result = compareNumeric(aNormalized[i], bNormalized[i]);
@@ -11097,7 +10758,6 @@ var VersionRange = {
    * @param {string} version
    * @returns {boolean}
    */
-
   contains: function (range, version) {
     return checkOrExpression(range.trim(), version.trim());
   }
@@ -11109,10 +10769,8 @@ module.exports = VersionRange;
 require.register('fbjs/lib/camelize', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
-      "use strict";
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
+      /**
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -11121,6 +10779,8 @@ require.register('fbjs/lib/camelize', function(exports,req,module){
  *
  * @typechecks
  */
+
+"use strict";
 
 var _hyphenPattern = /-(.)/g;
 
@@ -11145,10 +10805,8 @@ module.exports = camelize;
 require.register('fbjs/lib/containsNode', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
-      'use strict';
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
+      /**
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -11157,6 +10815,8 @@ require.register('fbjs/lib/containsNode', function(exports,req,module){
  *
  * @typechecks
  */
+
+'use strict';
 
 var isTextNode = require('./isTextNode');
 
@@ -11169,21 +10829,32 @@ var isTextNode = require('./isTextNode');
  * @param {?DOMNode} innerNode Inner DOM node.
  * @return {boolean} True if `outerNode` contains or is `innerNode`.
  */
-function containsNode(outerNode, innerNode) {
-  if (!outerNode || !innerNode) {
-    return false;
-  } else if (outerNode === innerNode) {
-    return true;
-  } else if (isTextNode(outerNode)) {
-    return false;
-  } else if (isTextNode(innerNode)) {
-    return containsNode(outerNode, innerNode.parentNode);
-  } else if (outerNode.contains) {
-    return outerNode.contains(innerNode);
-  } else if (outerNode.compareDocumentPosition) {
-    return !!(outerNode.compareDocumentPosition(innerNode) & 16);
-  } else {
-    return false;
+function containsNode(_x, _x2) {
+  var _again = true;
+
+  _function: while (_again) {
+    var outerNode = _x,
+        innerNode = _x2;
+    _again = false;
+
+    if (!outerNode || !innerNode) {
+      return false;
+    } else if (outerNode === innerNode) {
+      return true;
+    } else if (isTextNode(outerNode)) {
+      return false;
+    } else if (isTextNode(innerNode)) {
+      _x = outerNode;
+      _x2 = innerNode.parentNode;
+      _again = true;
+      continue _function;
+    } else if (outerNode.contains) {
+      return outerNode.contains(innerNode);
+    } else if (outerNode.compareDocumentPosition) {
+      return !!(outerNode.compareDocumentPosition(innerNode) & 16);
+    } else {
+      return false;
+    }
   }
 }
 
@@ -11193,10 +10864,8 @@ module.exports = containsNode;
 require.register('fbjs/lib/createArrayFromMixed', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
-      'use strict';
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
+      /**
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -11205,6 +10874,8 @@ require.register('fbjs/lib/createArrayFromMixed', function(exports,req,module){
  *
  * @typechecks
  */
+
+'use strict';
 
 var invariant = require('./invariant');
 
@@ -11222,13 +10893,13 @@ function toArray(obj) {
 
   // Some browsers builtin objects can report typeof 'function' (e.g. NodeList
   // in old versions of Safari).
-  !(!Array.isArray(obj) && (typeof obj === 'object' || typeof obj === 'function')) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'toArray: Array-like object expected') : invariant(false) : void 0;
+  !(!Array.isArray(obj) && (typeof obj === 'object' || typeof obj === 'function')) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'toArray: Array-like object expected') : invariant(false) : undefined;
 
-  !(typeof length === 'number') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'toArray: Object needs a length property') : invariant(false) : void 0;
+  !(typeof length === 'number') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'toArray: Object needs a length property') : invariant(false) : undefined;
 
-  !(length === 0 || length - 1 in obj) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'toArray: Object should have keys for indices') : invariant(false) : void 0;
+  !(length === 0 || length - 1 in obj) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'toArray: Object should have keys for indices') : invariant(false) : undefined;
 
-  !(typeof obj.callee !== 'function') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'toArray: Object can\'t be `arguments`. Use rest params ' + '(function(...args) {}) or Array.from() instead.') : invariant(false) : void 0;
+  !(typeof obj.callee !== 'function') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'toArray: Object can\'t be `arguments`. Use rest params ' + '(function(...args) {}) or Array.from() instead.') : invariant(false) : undefined;
 
   // Old IE doesn't give collections access to hasOwnProperty. Assume inputs
   // without method will throw during the slice call and skip straight to the
@@ -11324,10 +10995,8 @@ module.exports = createArrayFromMixed;
 require.register('fbjs/lib/cx', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
-      'use strict';
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
+      /**
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -11351,6 +11020,8 @@ require.register('fbjs/lib/cx', function(exports,req,module){
  * @param [string ...]  Variable list of classNames in the string case.
  * @return string       Renderable space-separated CSS className.
  */
+'use strict';
+
 function cx(classNames) {
   if (typeof classNames == 'object') {
     return Object.keys(classNames).filter(function (className) {
@@ -11370,10 +11041,8 @@ module.exports = cx;
 require.register('fbjs/lib/emptyFunction', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
-      "use strict";
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
+      /**
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -11381,6 +11050,8 @@ require.register('fbjs/lib/emptyFunction', function(exports,req,module){
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  */
+
+"use strict";
 
 function makeEmptyFunction(arg) {
   return function () {
@@ -11412,10 +11083,8 @@ module.exports = emptyFunction;
 require.register('fbjs/lib/getActiveElement', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
-      'use strict';
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
+      /**
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -11434,6 +11103,8 @@ require.register('fbjs/lib/getActiveElement', function(exports,req,module){
  * The activeElement will be null only if the document or document body is not
  * yet defined.
  */
+'use strict';
+
 function getActiveElement() /*?DOMElement*/{
   if (typeof document === 'undefined') {
     return null;
@@ -11452,7 +11123,7 @@ require.register('fbjs/lib/getDocumentScrollElement', function(exports,req,modul
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
       /**
- * Copyright (c) 2013-present, Facebook, Inc.
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -11486,10 +11157,8 @@ module.exports = getDocumentScrollElement;
 require.register('fbjs/lib/getElementPosition', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
-      'use strict';
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
+      /**
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -11498,6 +11167,8 @@ require.register('fbjs/lib/getElementPosition', function(exports,req,module){
  *
  * @typechecks
  */
+
+'use strict';
 
 var getElementRect = require('./getElementRect');
 
@@ -11524,10 +11195,8 @@ module.exports = getElementPosition;
 require.register('fbjs/lib/getElementRect', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
-      'use strict';
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
+      /**
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -11536,6 +11205,8 @@ require.register('fbjs/lib/getElementRect', function(exports,req,module){
  *
  * @typechecks
  */
+
+'use strict';
 
 var containsNode = require('./containsNode');
 
@@ -11580,7 +11251,7 @@ require.register('fbjs/lib/getScrollPosition', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
       /**
- * Copyright (c) 2013-present, Facebook, Inc.
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -11631,10 +11302,8 @@ module.exports = getScrollPosition;
 require.register('fbjs/lib/getStyleProperty', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
-      'use strict';
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
+      /**
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -11644,6 +11313,8 @@ require.register('fbjs/lib/getStyleProperty', function(exports,req,module){
  * @typechecks
  */
 
+'use strict';
+
 var camelize = require('./camelize');
 var hyphenate = require('./hyphenate');
 
@@ -11652,7 +11323,7 @@ function asString(value) /*?string*/{
 }
 
 function getStyleProperty( /*DOMNode*/node, /*string*/name) /*?string*/{
-  var computedStyle = void 0;
+  var computedStyle = undefined;
 
   // W3C Standard
   if (window.getComputedStyle) {
@@ -11690,7 +11361,7 @@ require.register('fbjs/lib/getUnboundedScrollPosition', function(exports,req,mod
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
       /**
- * Copyright (c) 2013-present, Facebook, Inc.
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -11712,7 +11383,6 @@ require.register('fbjs/lib/getUnboundedScrollPosition', function(exports,req,mod
  * @param {DOMWindow|DOMElement} scrollable
  * @return {object} Map with `x` and `y` keys.
  */
-
 function getUnboundedScrollPosition(scrollable) {
   if (scrollable === window) {
     return {
@@ -11732,10 +11402,22 @@ module.exports = getUnboundedScrollPosition;
 require.register('fbjs/lib/getViewportDimensions', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
-      "use strict";
+      /**
+ * Copyright 2013-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ * @typechecks
+ */
+
+"use strict";
 
 function getViewportWidth() {
-  var width = void 0;
+  var width = undefined;
   if (document.documentElement) {
     width = document.documentElement.clientWidth;
   }
@@ -11745,20 +11427,10 @@ function getViewportWidth() {
   }
 
   return width || 0;
-} /**
-   * Copyright (c) 2013-present, Facebook, Inc.
-   * All rights reserved.
-   *
-   * This source code is licensed under the BSD-style license found in the
-   * LICENSE file in the root directory of this source tree. An additional grant
-   * of patent rights can be found in the PATENTS file in the same directory.
-   *
-   * 
-   * @typechecks
-   */
+}
 
 function getViewportHeight() {
-  var height = void 0;
+  var height = undefined;
   if (document.documentElement) {
     height = document.documentElement.clientHeight;
   }
@@ -11796,10 +11468,8 @@ module.exports = getViewportDimensions;
 require.register('fbjs/lib/hyphenate', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
-      'use strict';
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
+      /**
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -11808,6 +11478,8 @@ require.register('fbjs/lib/hyphenate', function(exports,req,module){
  *
  * @typechecks
  */
+
+'use strict';
 
 var _uppercasePattern = /([A-Z])/g;
 
@@ -11834,7 +11506,7 @@ require.register('fbjs/lib/invariant', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
       /**
- * Copyright (c) 2013-present, Facebook, Inc.
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -11887,10 +11559,8 @@ module.exports = invariant;
 require.register('fbjs/lib/isNode', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
-      'use strict';
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
+      /**
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -11904,6 +11574,8 @@ require.register('fbjs/lib/isNode', function(exports,req,module){
  * @param {*} object The object to check.
  * @return {boolean} Whether or not the object is a DOM node.
  */
+'use strict';
+
 function isNode(object) {
   return !!(object && (typeof Node === 'function' ? object instanceof Node : typeof object === 'object' && typeof object.nodeType === 'number' && typeof object.nodeName === 'string'));
 }
@@ -11914,10 +11586,8 @@ module.exports = isNode;
 require.register('fbjs/lib/isTextNode', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
-      'use strict';
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
+      /**
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -11926,6 +11596,8 @@ require.register('fbjs/lib/isTextNode', function(exports,req,module){
  *
  * @typechecks
  */
+
+'use strict';
 
 var isNode = require('./isNode');
 
@@ -11944,7 +11616,7 @@ require.register('fbjs/lib/joinClasses', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
       /**
- * Copyright (c) 2013-present, Facebook, Inc.
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -11963,12 +11635,11 @@ require.register('fbjs/lib/joinClasses', function(exports,req,module){
  * @param {...?string} className
  * @return {string}
  */
-
 function joinClasses(className /*, ... */) {
   if (!className) {
     className = '';
   }
-  var nextClass = void 0;
+  var nextClass = undefined;
   var argLength = arguments.length;
   if (argLength > 1) {
     for (var ii = 1; ii < argLength; ii++) {
@@ -11988,7 +11659,7 @@ require.register('fbjs/lib/mapObject', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
       /**
- * Copyright (c) 2013-present, Facebook, Inc.
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -12043,7 +11714,7 @@ require.register('fbjs/lib/memoizeStringOnly', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
       /**
- * Copyright (c) 2013-present, Facebook, Inc.
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -12061,7 +11732,6 @@ require.register('fbjs/lib/memoizeStringOnly', function(exports,req,module){
  * @param {function} callback
  * @return {function}
  */
-
 function memoizeStringOnly(callback) {
   var cache = {};
   return function (string) {
@@ -12078,10 +11748,8 @@ module.exports = memoizeStringOnly;
 require.register('fbjs/lib/nullthrows', function(exports,req,module){
     var require = __makeRequire((req), {"transform":["loose-envify"]});
     (function(exports,require,module) {
-      "use strict";
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
+      /**
+ * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -12090,6 +11758,8 @@ require.register('fbjs/lib/nullthrows', function(exports,req,module){
  *
  * 
  */
+
+"use strict";
 
 var nullthrows = function (x) {
   if (x != null) {
@@ -13475,7 +13145,7 @@ require.register('immutable', function(exports,req,module){
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
-  (global.Immutable = factory());
+  global.Immutable = factory();
 }(this, function () { 'use strict';var SLICE$0 = Array.prototype.slice;
 
   function createClass(ctor, superClass) {
@@ -14370,7 +14040,7 @@ require.register('immutable', function(exports,req,module){
       }
       return 'Range [ ' +
         this._start + '...' + this._end +
-        (this._step !== 1 ? ' by ' + this._step : '') +
+        (this._step > 1 ? ' by ' + this._step : '') +
       ' ]';
     };
 
@@ -14686,17 +14356,6 @@ require.register('immutable', function(exports,req,module){
           iter.forEach(function(v, k)  {return map.set(k, v)});
         });
     }
-
-    Map.of = function() {var keyValues = SLICE$0.call(arguments, 0);
-      return emptyMap().withMutations(function(map ) {
-        for (var i = 0; i < keyValues.length; i += 2) {
-          if (i + 1 >= keyValues.length) {
-            throw new Error('Missing value for key: ' + keyValues[i]);
-          }
-          map.set(keyValues[i], keyValues[i + 1]);
-        }
-      });
-    };
 
     Map.prototype.toString = function() {
       return this.__toString('Map {', '}');
@@ -16610,11 +16269,7 @@ require.register('immutable', function(exports,req,module){
       begin = begin | 0;
     }
     if (end !== undefined) {
-      if (end === Infinity) {
-        end = originalSize;
-      } else {
-        end = end | 0;
-      }
+      end = end | 0;
     }
 
     if (wholeSlice(begin, end, originalSize)) {
@@ -17150,12 +16805,6 @@ require.register('immutable', function(exports,req,module){
     Record.prototype.set = function(k, v) {
       if (!this.has(k)) {
         throw new Error('Cannot set unknown key "' + k + '" on ' + recordName(this));
-      }
-      if (this._map && !this._map.has(k)) {
-        var defaultVal = this._defaultValues[k];
-        if (v === defaultVal) {
-          return this;
-        }
       }
       var newMap = this._map && this._map.set(k, v);
       if (this.__ownerID || newMap === this._map) {
@@ -17840,8 +17489,8 @@ require.register('immutable', function(exports,req,module){
       return entry ? entry[1] : notSetValue;
     },
 
-    findEntry: function(predicate, context, notSetValue) {
-      var found = notSetValue;
+    findEntry: function(predicate, context) {
+      var found;
       this.__iterate(function(v, k, c)  {
         if (predicate.call(context, v, k, c)) {
           found = [k, v];
@@ -17851,8 +17500,8 @@ require.register('immutable', function(exports,req,module){
       return found;
     },
 
-    findLastEntry: function(predicate, context, notSetValue) {
-      return this.toSeq().reverse().findEntry(predicate, context, notSetValue);
+    findLastEntry: function(predicate, context) {
+      return this.toSeq().reverse().findEntry(predicate, context);
     },
 
     forEach: function(sideEffect, context) {
@@ -18125,6 +17774,35 @@ require.register('immutable', function(exports,req,module){
   IterablePrototype.chain = IterablePrototype.flatMap;
   IterablePrototype.contains = IterablePrototype.includes;
 
+  // Temporary warning about using length
+  (function () {
+    try {
+      Object.defineProperty(IterablePrototype, 'length', {
+        get: function () {
+          if (!Iterable.noLengthWarning) {
+            var stack;
+            try {
+              throw new Error();
+            } catch (error) {
+              stack = error.stack;
+            }
+            if (stack.indexOf('_wrapObject') === -1) {
+              console && console.warn && console.warn(
+                'iterable.length has been deprecated, '+
+                'use iterable.size or iterable.count(). '+
+                'This warning will become a silent error in a future version. ' +
+                stack
+              );
+              return this.size;
+            }
+          }
+        }
+      });
+    } catch (e) {}
+  })();
+
+
+
   mixin(KeyedIterable, {
 
     // ### More sequential methods
@@ -18205,6 +17883,9 @@ require.register('immutable', function(exports,req,module){
     lastIndexOf: function(searchValue) {
       var key = this.toKeyedSeq().reverse().keyOf(searchValue);
       return key === undefined ? -1 : key;
+
+      // var index =
+      // return this.toSeq().reverse().indexOf(searchValue);
     },
 
     reverse: function() {
@@ -18328,7 +18009,6 @@ require.register('immutable', function(exports,req,module){
   });
 
   SetIterable.prototype.has = IterablePrototype.includes;
-  SetIterable.prototype.contains = SetIterable.prototype.includes;
 
 
   // Mixin subclasses
@@ -20797,20 +20477,6 @@ MediumEditor.extensions = {};
         },
 
         /**
-         *  Clear the current highlighted selection and set the caret to the start or the end of that prior selection, defaults to end.
-         *
-         *  @param {DomDocument} doc            Current document
-         *  @param {boolean} moveCursorToStart  A boolean representing whether or not to set the caret to the beginning of the prior selection.
-         */
-        clearSelection: function (doc, moveCursorToStart) {
-            if (moveCursorToStart) {
-                doc.getSelection().collapseToStart();
-            } else {
-                doc.getSelection().collapseToEnd();
-            }
-        },
-
-        /**
          * Move cursor to the given node with the given offset.
          *
          * @param  {DomDocument} doc     Current document
@@ -20859,26 +20525,18 @@ MediumEditor.extensions = {};
 
         // Helpers for event handling
 
-        attachDOMEvent: function (targets, event, listener, useCapture) {
-            targets = MediumEditor.util.isElement(targets) || [window, document].indexOf(targets) > -1 ? [targets] : targets;
-
-            Array.prototype.forEach.call(targets, function (target) {
-                target.addEventListener(event, listener, useCapture);
-                this.events.push([target, event, listener, useCapture]);
-            }.bind(this));
+        attachDOMEvent: function (target, event, listener, useCapture) {
+            target.addEventListener(event, listener, useCapture);
+            this.events.push([target, event, listener, useCapture]);
         },
 
-        detachDOMEvent: function (targets, event, listener, useCapture) {
-            var index, e;
-            targets = MediumEditor.util.isElement(targets) || [window, document].indexOf(targets) > -1 ? [targets] : targets;
-
-            Array.prototype.forEach.call(targets, function (target) {
-                index = this.indexOfListener(target, event, listener, useCapture);
-                if (index !== -1) {
-                    e = this.events.splice(index, 1)[0];
-                    e[0].removeEventListener(e[1], e[2], e[3]);
-                }
-            }.bind(this));
+        detachDOMEvent: function (target, event, listener, useCapture) {
+            var index = this.indexOfListener(target, event, listener, useCapture),
+                e;
+            if (index !== -1) {
+                e = this.events.splice(index, 1)[0];
+                e[0].removeEventListener(e[1], e[2], e[3]);
+            }
         },
 
         indexOfListener: function (target, event, listener, useCapture) {
@@ -21243,14 +20901,12 @@ MediumEditor.extensions = {};
             }
             // An event triggered which signifies that the user may have changed someting
             // Look in our cache of input for the contenteditables to see if something changed
-            var index = target.getAttribute('medium-editor-index'),
-                html = target.innerHTML;
-
-            if (html !== this.contentCache[index]) {
+            var index = target.getAttribute('medium-editor-index');
+            if (target.innerHTML !== this.contentCache[index]) {
                 // The content has changed since the last time we checked, fire the event
                 this.triggerCustomEvent('editableInput', eventObj, target);
             }
-            this.contentCache[index] = html;
+            this.contentCache[index] = target.innerHTML;
         },
 
         handleDocumentSelectionChange: function (event) {
@@ -21875,11 +21531,6 @@ MediumEditor.extensions = {};
         formSaveLabel: '&#10003;',
         formCloseLabel: '&times;',
 
-        /* activeClass: [string]
-         * set class which added to shown form
-         */
-        activeClass: 'medium-editor-toolbar-form-active',
-
         /* hasForm: [boolean]
          *
          * Setting this to true will cause getForm() to be called
@@ -21902,34 +21553,14 @@ MediumEditor.extensions = {};
          * This function should return true/false reflecting
          * whether the form is currently displayed
          */
-        isDisplayed: function () {
-            if (this.hasForm) {
-                return this.getForm().classList.contains(this.activeClass);
-            }
-            return false;
-        },
-
-        /* hideForm: [function ()]
-         *
-         * This function should show the form element inside
-         * the toolbar container
-         */
-        showForm: function () {
-            if (this.hasForm) {
-                this.getForm().classList.add(this.activeClass);
-            }
-        },
+        isDisplayed: function () {},
 
         /* hideForm: [function ()]
          *
          * This function should hide the form element inside
          * the toolbar container
          */
-        hideForm: function () {
-            if (this.hasForm) {
-                this.getForm().classList.remove(this.activeClass);
-            }
-        },
+        hideForm: function () {},
 
         /************************ Helpers ************************
          * The following are helpers that are either set by MediumEditor
@@ -22118,11 +21749,11 @@ MediumEditor.extensions = {};
 
         // Used by medium-editor when the default toolbar is to be displayed
         isDisplayed: function () {
-            return MediumEditor.extensions.form.prototype.isDisplayed.apply(this);
+            return this.getForm().style.display === 'block';
         },
 
         hideForm: function () {
-            MediumEditor.extensions.form.prototype.hideForm.apply(this);
+            this.getForm().style.display = 'none';
             this.getInput().value = '';
         },
 
@@ -22142,7 +21773,7 @@ MediumEditor.extensions = {};
 
             this.base.saveSelection();
             this.hideToolbarDefaultActions();
-            MediumEditor.extensions.form.prototype.showForm.apply(this);
+            this.getForm().style.display = 'block';
             this.setToolbarPosition();
 
             input.value = opts.url;
@@ -22223,7 +21854,7 @@ MediumEditor.extensions = {};
                 return 'tel:' + value;
             } else {
                 // Check for URL scheme and default to http:// if none found
-                return (urlSchemeRegex.test(value) ? '' : 'http://') + encodeURI(value);
+                return (urlSchemeRegex.test(value) ? '' : 'http://') + value;
             }
         },
 
@@ -22440,15 +22071,6 @@ MediumEditor.extensions = {};
 
         attachToEditables: function () {
             this.subscribe('editableMouseover', this.handleEditableMouseover.bind(this));
-            this.subscribe('positionedToolbar', this.handlePositionedToolbar.bind(this));
-        },
-
-        handlePositionedToolbar: function () {
-            // If the toolbar is visible and positioned, we don't need to hide the preview
-            // when showWhenToolbarIsVisible is true
-            if (!this.showWhenToolbarIsVisible) {
-                this.hidePreview();
-            }
         },
 
         handleClick: function (event) {
@@ -22625,20 +22247,9 @@ MediumEditor.extensions = {};
             this.document.execCommand('AutoUrlDetect', false, false);
         },
 
-        isLastInstance: function () {
-            var activeInstances = 0;
-            for (var i = 0; i < this.window._mediumEditors.length; i++) {
-                var editor = this.window._mediumEditors[i];
-                if (editor !== null && editor.getExtensionByName('autoLink') !== undefined) {
-                    activeInstances++;
-                }
-            }
-            return activeInstances === 1;
-        },
-
         destroy: function () {
             // Turn AutoUrlDetect back on
-            if (this.document.queryCommandSupported('AutoUrlDetect') && this.isLastInstance()) {
+            if (this.document.queryCommandSupported('AutoUrlDetect')) {
                 this.document.execCommand('AutoUrlDetect', false, true);
             }
         },
@@ -22998,12 +22609,8 @@ MediumEditor.extensions = {};
                     event.preventDefault();
                     event.stopPropagation();
 
-                    // command can be a function to execute
-                    if (typeof data.command === 'function') {
-                        data.command.apply(this);
-                    }
                     // command can be false so the shortcut is just disabled
-                    else if (false !== data.command) {
+                    if (false !== data.command) {
                         this.execAction(data.command);
                     }
                 }
@@ -24290,26 +23897,30 @@ MediumEditor.extensions = {};
 
         setToolbarPosition: function () {
             var container = this.base.getFocusedElement(),
-                selection = this.window.getSelection();
+                selection = this.window.getSelection(),
+                anchorPreview;
 
             // If there isn't a valid selection, bail
             if (!container) {
                 return this;
             }
 
-            if (this.static || !selection.isCollapsed) {
+            if (this.static && !this.relativeContainer) {
+                this.showToolbar();
+                this.positionStaticToolbar(container);
+            } else if (!selection.isCollapsed) {
                 this.showToolbar();
 
                 // we don't need any absolute positioning if relativeContainer is set
                 if (!this.relativeContainer) {
-                    if (this.static) {
-                        this.positionStaticToolbar(container);
-                    } else {
-                        this.positionToolbar(selection);
-                    }
+                    this.positionToolbar(selection);
                 }
+            }
 
-                this.trigger('positionedToolbar', {}, this.base.getFocusedElement());
+            anchorPreview = this.base.getExtensionByName('anchor-preview');
+
+            if (anchorPreview && typeof anchorPreview.hidePreview === 'function') {
+                anchorPreview.hidePreview();
             }
         },
 
@@ -24634,9 +24245,7 @@ MediumEditor.extensions = {};
             return;
         }
 
-        // https://github.com/yabwe/medium-editor/issues/994
-        // Firefox thrown an error when calling `formatBlock` on an empty editable blockContainer that's not a <div>
-        if (MediumEditor.util.isMediumEditorElement(node) && node.children.length === 0 && !MediumEditor.util.isBlockContainer(node)) {
+        if (MediumEditor.util.isMediumEditorElement(node) && node.children.length === 0) {
             this.options.ownerDocument.execCommand('formatBlock', false, 'p');
         }
 
@@ -25152,32 +24761,22 @@ MediumEditor.extensions = {};
 
         on: function (target, event, listener, useCapture) {
             this.events.attachDOMEvent(target, event, listener, useCapture);
-
-            return this;
         },
 
         off: function (target, event, listener, useCapture) {
             this.events.detachDOMEvent(target, event, listener, useCapture);
-
-            return this;
         },
 
         subscribe: function (event, listener) {
             this.events.attachCustomEvent(event, listener);
-
-            return this;
         },
 
         unsubscribe: function (event, listener) {
             this.events.detachCustomEvent(event, listener);
-
-            return this;
         },
 
         trigger: function (name, data, editable) {
             this.events.triggerCustomEvent(name, data, editable);
-
-            return this;
         },
 
         delay: function (fn) {
@@ -25627,7 +25226,7 @@ MediumEditor.parseVersionString = function (release) {
 
 MediumEditor.version = MediumEditor.parseVersionString.call(this, ({
     // grunt-bump looks for this:
-    'version': '5.16.1'
+    'version': '5.14.4'
 }).version);
 
     return MediumEditor;
