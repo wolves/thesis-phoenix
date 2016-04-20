@@ -6,7 +6,8 @@ editing to any page.
 It's inspired by the [Rails gem](https://github.com/infinitered/thesis-rails) by
 the same name and author.
 
-![2016-03-05-enu58](https://cloud.githubusercontent.com/assets/1479215/13549778/137ec256-e2c2-11e5-8c6e-7cd653cbd52b.gif)
+![screen capture on 2016-04-20 at 15-11-10 copy](https://cloud.githubusercontent.com/assets/1775841/14692261/d4734d3a-070a-11e6-866b-eebbc40e6157.gif)
+
 
 ## Installation and Configuration
 
@@ -140,10 +141,11 @@ websites. Please help us improve!
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Write tests for your new feature
-5. Run `rake spec` in the root directory to ensure that all tests pass.
-6. Push to the branch (`git push origin my-new-feature`)
-7. Create new Pull Request
+4. Run `brunch watch` during development
+5. Write tests for your new feature
+6. Run `rake spec` in the root directory to ensure that all tests pass.
+7. Push to the branch (`git push origin my-new-feature`)
+8. Create new Pull Request
 
 ### Key Contributors
 
