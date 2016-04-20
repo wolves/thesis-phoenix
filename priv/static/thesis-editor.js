@@ -3840,20 +3840,6 @@ MediumEditor.extensions = {};
         },
 
         /**
-         *  Clear the current highlighted selection and set the caret to the start or the end of that prior selection, defaults to end.
-         *
-         *  @param {DomDocument} doc            Current document
-         *  @param {boolean} moveCursorToStart  A boolean representing whether or not to set the caret to the beginning of the prior selection.
-         */
-        clearSelection: function (doc, moveCursorToStart) {
-            if (moveCursorToStart) {
-                doc.getSelection().collapseToStart();
-            } else {
-                doc.getSelection().collapseToEnd();
-            }
-        },
-
-        /**
          * Move cursor to the given node with the given offset.
          *
          * @param  {DomDocument} doc     Current document
@@ -3902,26 +3888,18 @@ MediumEditor.extensions = {};
 
         // Helpers for event handling
 
-        attachDOMEvent: function (targets, event, listener, useCapture) {
-            targets = MediumEditor.util.isElement(targets) || [window, document].indexOf(targets) > -1 ? [targets] : targets;
-
-            Array.prototype.forEach.call(targets, function (target) {
-                target.addEventListener(event, listener, useCapture);
-                this.events.push([target, event, listener, useCapture]);
-            }.bind(this));
+        attachDOMEvent: function (target, event, listener, useCapture) {
+            target.addEventListener(event, listener, useCapture);
+            this.events.push([target, event, listener, useCapture]);
         },
 
-        detachDOMEvent: function (targets, event, listener, useCapture) {
-            var index, e;
-            targets = MediumEditor.util.isElement(targets) || [window, document].indexOf(targets) > -1 ? [targets] : targets;
-
-            Array.prototype.forEach.call(targets, function (target) {
-                index = this.indexOfListener(target, event, listener, useCapture);
-                if (index !== -1) {
-                    e = this.events.splice(index, 1)[0];
-                    e[0].removeEventListener(e[1], e[2], e[3]);
-                }
-            }.bind(this));
+        detachDOMEvent: function (target, event, listener, useCapture) {
+            var index = this.indexOfListener(target, event, listener, useCapture),
+                e;
+            if (index !== -1) {
+                e = this.events.splice(index, 1)[0];
+                e[0].removeEventListener(e[1], e[2], e[3]);
+            }
         },
 
         indexOfListener: function (target, event, listener, useCapture) {
@@ -4286,14 +4264,12 @@ MediumEditor.extensions = {};
             }
             // An event triggered which signifies that the user may have changed someting
             // Look in our cache of input for the contenteditables to see if something changed
-            var index = target.getAttribute('medium-editor-index'),
-                html = target.innerHTML;
-
-            if (html !== this.contentCache[index]) {
+            var index = target.getAttribute('medium-editor-index');
+            if (target.innerHTML !== this.contentCache[index]) {
                 // The content has changed since the last time we checked, fire the event
                 this.triggerCustomEvent('editableInput', eventObj, target);
             }
-            this.contentCache[index] = html;
+            this.contentCache[index] = target.innerHTML;
         },
 
         handleDocumentSelectionChange: function (event) {
@@ -4918,11 +4894,6 @@ MediumEditor.extensions = {};
         formSaveLabel: '&#10003;',
         formCloseLabel: '&times;',
 
-        /* activeClass: [string]
-         * set class which added to shown form
-         */
-        activeClass: 'medium-editor-toolbar-form-active',
-
         /* hasForm: [boolean]
          *
          * Setting this to true will cause getForm() to be called
@@ -4945,34 +4916,14 @@ MediumEditor.extensions = {};
          * This function should return true/false reflecting
          * whether the form is currently displayed
          */
-        isDisplayed: function () {
-            if (this.hasForm) {
-                return this.getForm().classList.contains(this.activeClass);
-            }
-            return false;
-        },
-
-        /* hideForm: [function ()]
-         *
-         * This function should show the form element inside
-         * the toolbar container
-         */
-        showForm: function () {
-            if (this.hasForm) {
-                this.getForm().classList.add(this.activeClass);
-            }
-        },
+        isDisplayed: function () {},
 
         /* hideForm: [function ()]
          *
          * This function should hide the form element inside
          * the toolbar container
          */
-        hideForm: function () {
-            if (this.hasForm) {
-                this.getForm().classList.remove(this.activeClass);
-            }
-        },
+        hideForm: function () {},
 
         /************************ Helpers ************************
          * The following are helpers that are either set by MediumEditor
@@ -5161,11 +5112,11 @@ MediumEditor.extensions = {};
 
         // Used by medium-editor when the default toolbar is to be displayed
         isDisplayed: function () {
-            return MediumEditor.extensions.form.prototype.isDisplayed.apply(this);
+            return this.getForm().style.display === 'block';
         },
 
         hideForm: function () {
-            MediumEditor.extensions.form.prototype.hideForm.apply(this);
+            this.getForm().style.display = 'none';
             this.getInput().value = '';
         },
 
@@ -5185,7 +5136,7 @@ MediumEditor.extensions = {};
 
             this.base.saveSelection();
             this.hideToolbarDefaultActions();
-            MediumEditor.extensions.form.prototype.showForm.apply(this);
+            this.getForm().style.display = 'block';
             this.setToolbarPosition();
 
             input.value = opts.url;
@@ -5266,7 +5217,7 @@ MediumEditor.extensions = {};
                 return 'tel:' + value;
             } else {
                 // Check for URL scheme and default to http:// if none found
-                return (urlSchemeRegex.test(value) ? '' : 'http://') + encodeURI(value);
+                return (urlSchemeRegex.test(value) ? '' : 'http://') + value;
             }
         },
 
@@ -5483,15 +5434,6 @@ MediumEditor.extensions = {};
 
         attachToEditables: function () {
             this.subscribe('editableMouseover', this.handleEditableMouseover.bind(this));
-            this.subscribe('positionedToolbar', this.handlePositionedToolbar.bind(this));
-        },
-
-        handlePositionedToolbar: function () {
-            // If the toolbar is visible and positioned, we don't need to hide the preview
-            // when showWhenToolbarIsVisible is true
-            if (!this.showWhenToolbarIsVisible) {
-                this.hidePreview();
-            }
         },
 
         handleClick: function (event) {
@@ -5668,20 +5610,9 @@ MediumEditor.extensions = {};
             this.document.execCommand('AutoUrlDetect', false, false);
         },
 
-        isLastInstance: function () {
-            var activeInstances = 0;
-            for (var i = 0; i < this.window._mediumEditors.length; i++) {
-                var editor = this.window._mediumEditors[i];
-                if (editor !== null && editor.getExtensionByName('autoLink') !== undefined) {
-                    activeInstances++;
-                }
-            }
-            return activeInstances === 1;
-        },
-
         destroy: function () {
             // Turn AutoUrlDetect back on
-            if (this.document.queryCommandSupported('AutoUrlDetect') && this.isLastInstance()) {
+            if (this.document.queryCommandSupported('AutoUrlDetect')) {
                 this.document.execCommand('AutoUrlDetect', false, true);
             }
         },
@@ -6041,12 +5972,8 @@ MediumEditor.extensions = {};
                     event.preventDefault();
                     event.stopPropagation();
 
-                    // command can be a function to execute
-                    if (typeof data.command === 'function') {
-                        data.command.apply(this);
-                    }
                     // command can be false so the shortcut is just disabled
-                    else if (false !== data.command) {
+                    if (false !== data.command) {
                         this.execAction(data.command);
                     }
                 }
@@ -7333,26 +7260,30 @@ MediumEditor.extensions = {};
 
         setToolbarPosition: function () {
             var container = this.base.getFocusedElement(),
-                selection = this.window.getSelection();
+                selection = this.window.getSelection(),
+                anchorPreview;
 
             // If there isn't a valid selection, bail
             if (!container) {
                 return this;
             }
 
-            if (this.static || !selection.isCollapsed) {
+            if (this.static && !this.relativeContainer) {
+                this.showToolbar();
+                this.positionStaticToolbar(container);
+            } else if (!selection.isCollapsed) {
                 this.showToolbar();
 
                 // we don't need any absolute positioning if relativeContainer is set
                 if (!this.relativeContainer) {
-                    if (this.static) {
-                        this.positionStaticToolbar(container);
-                    } else {
-                        this.positionToolbar(selection);
-                    }
+                    this.positionToolbar(selection);
                 }
+            }
 
-                this.trigger('positionedToolbar', {}, this.base.getFocusedElement());
+            anchorPreview = this.base.getExtensionByName('anchor-preview');
+
+            if (anchorPreview && typeof anchorPreview.hidePreview === 'function') {
+                anchorPreview.hidePreview();
             }
         },
 
@@ -7677,9 +7608,7 @@ MediumEditor.extensions = {};
             return;
         }
 
-        // https://github.com/yabwe/medium-editor/issues/994
-        // Firefox thrown an error when calling `formatBlock` on an empty editable blockContainer that's not a <div>
-        if (MediumEditor.util.isMediumEditorElement(node) && node.children.length === 0 && !MediumEditor.util.isBlockContainer(node)) {
+        if (MediumEditor.util.isMediumEditorElement(node) && node.children.length === 0) {
             this.options.ownerDocument.execCommand('formatBlock', false, 'p');
         }
 
@@ -8195,32 +8124,22 @@ MediumEditor.extensions = {};
 
         on: function (target, event, listener, useCapture) {
             this.events.attachDOMEvent(target, event, listener, useCapture);
-
-            return this;
         },
 
         off: function (target, event, listener, useCapture) {
             this.events.detachDOMEvent(target, event, listener, useCapture);
-
-            return this;
         },
 
         subscribe: function (event, listener) {
             this.events.attachCustomEvent(event, listener);
-
-            return this;
         },
 
         unsubscribe: function (event, listener) {
             this.events.detachCustomEvent(event, listener);
-
-            return this;
         },
 
         trigger: function (name, data, editable) {
             this.events.triggerCustomEvent(name, data, editable);
-
-            return this;
         },
 
         delay: function (fn) {
@@ -8670,7 +8589,7 @@ MediumEditor.parseVersionString = function (release) {
 
 MediumEditor.version = MediumEditor.parseVersionString.call(this, ({
     // grunt-bump looks for this:
-    'version': '5.16.1'
+    'version': '5.14.4'
 }).version);
 
     return MediumEditor;
