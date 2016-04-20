@@ -45971,7 +45971,7 @@ var ThesisEditor = function (_React$Component) {
       } else {
         el.classList.remove('thesis-editing');
         this.removeContentEditors();
-        fader.remove();
+        if (fader) fader.remove();
       }
 
       if (this.state.pageModified) {
