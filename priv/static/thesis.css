@@ -3,8 +3,9 @@
 */
 @import url(//fonts.googleapis.com/css?family=Raleway:400,300,700);
 @import url(//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css);
-.medium-editor-anchor-preview, .medium-editor-toolbar {
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+.medium-editor-anchor-preview,
+.medium-editor-toolbar {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   z-index: 2000; }
 
@@ -98,7 +99,8 @@
   padding: inherit;
   margin: inherit; }
 
-.medium-toolbar-arrow-over:before, .medium-toolbar-arrow-under:after {
+.medium-toolbar-arrow-over:before,
+.medium-toolbar-arrow-under:after {
   border-style: solid;
   content: '';
   display: block;
@@ -148,7 +150,7 @@
   text-decoration: underline; }
 
 .medium-editor-toolbar li .medium-editor-action-pre {
-  font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
   font-size: 12px;
   font-weight: 100;
   padding: 15px 0; }
@@ -176,15 +178,17 @@
 .medium-editor-toolbar-form {
   display: none; }
 
-.medium-editor-toolbar-form a, .medium-editor-toolbar-form input {
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; }
+.medium-editor-toolbar-form a,
+.medium-editor-toolbar-form input {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
 .medium-editor-toolbar-form .medium-editor-toolbar-form-row {
   line-height: 14px;
   margin-left: 5px;
   padding-bottom: 5px; }
 
-.medium-editor-toolbar-form .medium-editor-toolbar-input, .medium-editor-toolbar-form label {
+.medium-editor-toolbar-form .medium-editor-toolbar-input,
+.medium-editor-toolbar-form label {
   border: none;
   box-sizing: border-box;
   font-size: 14px;
@@ -193,7 +197,8 @@
   width: 316px;
   display: inline-block; }
 
-.medium-editor-toolbar-form .medium-editor-toolbar-input:focus, .medium-editor-toolbar-form label:focus {
+.medium-editor-toolbar-form .medium-editor-toolbar-input:focus,
+.medium-editor-toolbar-form label:focus {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -224,6 +229,80 @@
 
 .medium-editor-hidden {
   display: none; }
+
+.medium-toolbar-arrow-under:after {
+  border-color: #000 transparent transparent;
+  top: 40px; }
+
+.medium-toolbar-arrow-over:before {
+  border-color: transparent transparent #000; }
+
+.medium-editor-toolbar {
+  background-color: black;
+  border: none; }
+
+.medium-editor-toolbar li button {
+  background-color: transparent;
+  border: none;
+  box-sizing: border-box;
+  color: #ccc;
+  height: 40px;
+  min-width: 40px;
+  padding: 5px 12px;
+  -webkit-transition: background-color .2s ease-in, color .2s ease-in;
+  transition: background-color 0.2s ease-in, color 0.2s ease-in; }
+
+.medium-editor-toolbar li .medium-editor-button-active,
+.medium-editor-toolbar li button:hover {
+  background-color: #545559;
+  color: white; }
+
+.medium-editor-toolbar-form {
+  background: #000;
+  border-radius: 50px;
+  color: #ccc;
+  overflow: hidden; }
+
+.medium-editor-toolbar-form .medium-editor-toolbar-input {
+  background: #000;
+  box-sizing: border-box;
+  color: #ccc;
+  height: 40px;
+  padding-left: 16px;
+  width: 220px; }
+
+.medium-editor-toolbar-form .medium-editor-toolbar-input::-webkit-input-placeholder {
+  color: #f8f5f3;
+  color: rgba(248, 245, 243, 0.8); }
+
+.medium-editor-toolbar-form .medium-editor-toolbar-input:-moz-placeholder {
+  color: #f8f5f3;
+  color: rgba(248, 245, 243, 0.8); }
+
+.medium-editor-toolbar-form .medium-editor-toolbar-input::-moz-placeholder {
+  color: #f8f5f3;
+  color: rgba(248, 245, 243, 0.8); }
+
+.medium-editor-toolbar-form .medium-editor-toolbar-input:-ms-input-placeholder {
+  color: #f8f5f3;
+  color: rgba(248, 245, 243, 0.8); }
+
+.medium-editor-toolbar-form a {
+  color: #ccc;
+  -webkit-transform: translateY(2px);
+  transform: translateY(2px); }
+
+.medium-editor-toolbar-form .medium-editor-toolbar-close {
+  margin-right: 16px; }
+
+.medium-editor-toolbar-anchor-preview {
+  background: #000;
+  border-radius: 50px;
+  padding: 5px 12px; }
+
+.medium-editor-anchor-preview a {
+  color: #ccc;
+  text-decoration: none; }
 
 @-webkit-keyframes barber_pole {
   0% {
@@ -413,6 +492,8 @@ body {
 #thesis-editor, #thesis-modal, #thesis-fader {
   font-family: "Raleway", sans-serif;
   font-weight: normal; }
+  #thesis-editor, #thesis-editor *, #thesis-modal, #thesis-modal *, #thesis-fader, #thesis-fader * {
+    box-sizing: border-box; }
 
 #thesis-modal form {
   margin: 0;
@@ -581,7 +662,8 @@ body {
     cursor: pointer;
     padding: 0px 0px;
     height: 0px;
-    width: auto; }
+    width: auto;
+    margin-bottom: 20px; }
     #thesis-editor .thesis-button.cancel > i {
       background-color: #F1605A; }
       #thesis-editor .thesis-button.cancel > i:hover {
@@ -619,17 +701,12 @@ body {
         transition: background-color 0.3s ease-in-out; }
     #thesis-editor .thesis-button.edit {
       opacity: 1;
-      height: 70px;
-      padding-bottom: 0px !important; }
-    #thesis-editor .thesis-button:hover {
-      min-width: 320px; }
-      #thesis-editor .thesis-button:hover .tooltip {
-        position: relative;
-        right: 0px;
-        opacity: 1;
-        -webkit-transition: all 0.2s ease-out;
-        -moz-transition: all 0.2s ease-out;
-        transition: all 0.2s ease-out; }
+      height: 60px;
+      margin-bottom: 0px; }
+    #thesis-editor .thesis-button:hover .tooltip {
+      right: 80px;
+      opacity: 1;
+      pointer-events: auto; }
     #thesis-editor .thesis-button i {
       position: relative;
       z-index: 2;
@@ -651,9 +728,14 @@ body {
         -moz-transition: background-color 0.3s ease-in-out;
         transition: background-color 0.3s ease-in-out; }
     #thesis-editor .thesis-button .tooltip {
+      -webkit-transition: opacity 0.2s ease-out, right 0.2s ease-out;
+      -moz-transition: opacity 0.2s ease-out, right 0.2s ease-out;
+      transition: opacity 0.2s ease-out, right 0.2s ease-out;
       z-index: 1;
       position: absolute;
-      right: -30px;
+      right: 0px;
+      top: 50%;
+      margin-top: -13px;
       font-size: 13px;
       color: white;
       background: rgba(0, 0, 0, 0.7);
@@ -665,26 +747,34 @@ body {
       vertical-align: middle;
       display: inline-block;
       font-weight: normal;
-      margin-right: 15px;
-      border: 2px solid white; }
+      border: 2px solid white;
+      white-space: nowrap;
+      pointer-events: none; }
+      #thesis-editor .thesis-button .tooltip:before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 100%;
+        width: 30px;
+        height: 60px;
+        top: -19px; }
       #thesis-editor .thesis-button .tooltip.error {
         background: rgba(153, 0, 0, 0.75); }
 
 body.thesis-editing #thesis-editor .thesis-button.edit i {
+  background-size: 30px 30px;
   -webkit-animation: barber_pole 0.7s linear infinite;
   -moz-animation: barber_pole 0.7s linear infinite;
   animation: barber_pole 0.7s linear infinite;
   background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 0.25) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0.25) 75%, transparent 75%);
   background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.25) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0.25) 75%, transparent 75%);
-  background-color: #A0A1A6;
-  background-size: 30px 30px; }
+  background-color: #8b8c92; }
 body.thesis-editing #thesis-editor.active .thesis-button {
   -webkit-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -webkit-transform 0.75s ease-in-out;
   -moz-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -moz-transform 0.75s ease-in-out;
   transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, transform 0.75s ease-in-out;
-  padding: 10px 0px;
   opacity: 1;
-  height: 80px; }
+  height: 60px; }
   body.thesis-editing #thesis-editor.active .thesis-button:nth-child(1) {
     -webkit-transform: rotate(-15.7deg);
     -moz-transform: rotate(-15.7deg);
@@ -754,27 +844,14 @@ body.thesis-editing .thesis-content {
   cursor: crosshair;
   min-height: 1em;
   padding: 5px; }
-  body.thesis-editing .thesis-content:before {
-    -webkit-animation: barber_pole 1.5s linear infinite;
-    -moz-animation: barber_pole 1.5s linear infinite;
-    animation: barber_pole 1.5s linear infinite;
-    background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 0.5) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.5) 75%, transparent 75%);
-    background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.5) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.5) 75%, transparent 75%);
-    background-color: black;
-    background-size: 30px 30px;
-    box-sizing: border-box;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    content: "";
-    z-index: -2;
-    opacity: 0;
-    top: 0;
-    left: 0; }
+  body.thesis-editing .thesis-content, body.thesis-editing .thesis-content * {
+    color: #1E1E1E !important; }
+    body.thesis-editing .thesis-content a, body.thesis-editing .thesis-content * a {
+      text-decoration: underline; }
   body.thesis-editing .thesis-content:after {
-    -webkit-transition: background 0.2s ease-in-out;
-    -moz-transition: background 0.2s ease-in-out;
-    transition: background 0.2s ease-in-out;
+    -webkit-transition: border-color 0.2s ease-in-out;
+    -moz-transition: border-color 0.2s ease-in-out;
+    transition: border-color 0.2s ease-in-out;
     box-sizing: border-box;
     position: absolute;
     width: 100%;
@@ -782,22 +859,22 @@ body.thesis-editing .thesis-content {
     content: "";
     top: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.6);
     z-index: -1;
-    border: dotted 2px white; }
+    border: dotted 3px white; }
   body.thesis-editing .thesis-content:focus {
     box-shadow: none;
     outline: none; }
-  body.thesis-editing .thesis-content:hover:after {
-    background: rgba(0, 0, 0, 0.15); }
-  body.thesis-editing .thesis-content.isModified {
-    content: ""; }
-  body.thesis-editing .thesis-content.in-edit-mode:before {
-    opacity: 0.05; }
+  body.thesis-editing .thesis-content.modified:after {
+    border-color: #91a64f; }
   body.thesis-editing .thesis-content.in-edit-mode:after {
-    background: rgba(0, 0, 0, 0.1); }
-  body.thesis-editing .thesis-content.in-edit-mode:hover:after {
-    background: rgba(0, 0, 0, 0.1); }
+    background-size: 30px 30px;
+    -webkit-animation: barber_pole 4s linear infinite;
+    -moz-animation: barber_pole 4s linear infinite;
+    animation: barber_pole 4s linear infinite;
+    background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%);
+    background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%);
+    background-color: rgba(255, 255, 255, 0.6); }
 
 #thesis-fader {
   top: 0px;
@@ -805,7 +882,7 @@ body.thesis-editing .thesis-content {
   width: 100%;
   height: 100%;
   position: fixed;
-  background-color: rgba(29, 49, 58, 0.15);
+  background-color: rgba(0, 0, 0, 0.4);
   cursor: not-allowed;
   z-index: 1038;
   -webkit-animation: thesis_fader 0.7s ease-in-out;

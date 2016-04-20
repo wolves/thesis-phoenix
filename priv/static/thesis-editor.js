@@ -45794,7 +45794,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var mediumEditorOptions = {
   autoLink: true,
   toolbar: {
-    buttons: ['bold', 'italic', 'underline', 'anchor', 'h1', 'h2', 'h3', 'quote', 'pre', 'image', 'orderedList', 'unorderedList', 'outdent', 'indent', 'removeFormat'],
+    buttons: ['bold', 'italic', 'underline', 'anchor', 'h1', 'h2', 'h3', 'quote', 'orderedlist', 'unorderedlist', 'removeFormat', 'justifyLeft', 'justifyCenter', 'justifyRight'],
     static: true,
     align: 'center',
     sticky: true,
@@ -45825,8 +45825,14 @@ var ThesisEditor = function (_React$Component) {
   _createClass(ThesisEditor, [{
     key: 'editPressed',
     value: function editPressed() {
+      var body = document.querySelector('body');
+
       if (this.state.editing) {
-        this.cancelPressed();
+        if (body.classList.contains('thesis-page-modified')) {
+          this.cancelPressed();
+        } else {
+          this.setState({ editing: false });
+        }
       } else {
         this.setState({ editing: true });
       }
@@ -45876,17 +45882,39 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'trackContentChanges',
     value: function trackContentChanges() {
-      // this.editor.on(target, event, listener, useCapture):
+      var body = document.querySelector('body');
+      var textEditors = this.textContentEditors();
+
+      // html editor
+      this.editor.subscribe('editableInput', function (event, editable) {
+        body.classList.add('thesis-page-modified');
+        editable.classList.add('modified');
+      });
+
+      // TODO: image editor
+
+      // text editor
+      for (var i = 0; i < textEditors.length; i++) {
+        textEditors[i].addEventListener('input', function (e) {
+          e.target.classList.add('modified');
+          body.classList.add('thesis-page-modified');
+        }, false);
+      }
     }
   }, {
     key: 'trackEditableAreaState',
     value: function trackEditableAreaState() {
       var t = this;
       var editors = this.allContentEditors();
+
+      var listener = function listener(e) {
+        t.manageInEditModeClass(e);
+      };
+
       for (var i = 0; i < this.allContentEditors().length; i++) {
-        editors[i].addEventListener('click', function (e) {
-          t.manageInEditModeClass(e);
-        }, false);
+        editors[i].classList.remove('in-edit-mode');
+        editors[i].classList.remove('modified');
+        editors[i].addEventListener('click', listener, false);
       }
     }
   }, {
@@ -45917,7 +45945,9 @@ var ThesisEditor = function (_React$Component) {
     }
   }, {
     key: 'removeInEditModeClass',
-    value: function removeInEditModeClass(els) {
+    value: function removeInEditModeClass() {
+      var els = arguments.length <= 0 || arguments[0] === undefined ? this.allContentEditors() : arguments[0];
+
       for (var i = 0; i < els.length; i++) {
         els[i].classList.remove('in-edit-mode');
       }
@@ -45932,7 +45962,7 @@ var ThesisEditor = function (_React$Component) {
       }
       this.toggleTextEditors(true);
       this.trackEditableAreaState();
-      // this.trackContentChanges()
+      this.trackContentChanges();
     }
   }, {
     key: 'removeContentEditors',
@@ -45982,15 +46012,20 @@ var ThesisEditor = function (_React$Component) {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
       var el = document.querySelector('body');
+      var t = this;
       if (this.state.editing) {
         el.classList.add('thesis-editing');
         this.addContentEditors();
         el.insertAdjacentHTML('beforeend', '<div id="thesis-fader"></div>');
+        var fader = document.querySelector('#thesis-fader');
+        fader.addEventListener('click', function () {
+          t.removeInEditModeClass();
+        }, false);
       } else {
         el.classList.remove('thesis-editing');
         this.removeContentEditors();
-        var fader = document.querySelector('#thesis-fader');
-        fader.remove();
+        var _fader = document.querySelector('#thesis-fader');
+        _fader.remove();
       }
     }
   }, {

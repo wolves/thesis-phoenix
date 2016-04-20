@@ -7,20 +7,14 @@ body.thesis-editing .thesis-content
   min-height : 1em
   padding    : 5px
 
-  &:before
-    @include barber_pole(black, .5, 1.5s)
-    box-sizing : border-box
-    position   : absolute
-    width      : 100%
-    height     : 100%
-    content    : ""
-    z-index    : -2
-    opacity    : 0
-    top        : 0
-    left       : 0
+  &, *
+    color: #1E1E1E !important
+
+    a
+      text-decoration: underline
 
   &:after
-    @include transition(background .2s ease-in-out)
+    @include transition(border-color .2s ease-in-out)
     box-sizing : border-box
     position   : absolute
     width      : 100%
@@ -28,28 +22,18 @@ body.thesis-editing .thesis-content
     content    : ""
     top        : 0
     left       : 0
-    background : rgba(black, .1)
+    background : rgba(white, .6)
     z-index    : -1
-    border     : dotted 2px  white
+    border     : dotted 3px white
 
   &:focus
     box-shadow : none
     outline    : none
 
-  &:hover
+  &.modified
     &:after
-      background: rgba(black, .15)
-
-  &.isModified
-    content: ""
+      border-color: darken($green, 10%)
 
   &.in-edit-mode
-    &:before
-      opacity: .05
-
     &:after
-      background : rgba(black, .1)
-
-    &:hover
-      &:after
-        background : rgba(black, .1)
+      @include barber_pole(rgba(white, .6), rgba(white, .15), 4s)

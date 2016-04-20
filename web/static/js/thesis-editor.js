@@ -15,9 +15,9 @@ const mediumEditorOptions = {
   toolbar: {
     buttons: [
       'bold', 'italic', 'underline', 'anchor',
-      'h1', 'h2', 'h3', 'quote', 'pre', 'image',
-      'orderedList', 'unorderedList', 'outdent', 'indent',
-      'removeFormat'
+      'h1', 'h2', 'h3', 'quote',
+      'orderedlist', 'unorderedlist',
+      'removeFormat', 'justifyLeft', 'justifyCenter', 'justifyRight'
     ],
     static: true,
     align: 'center',
@@ -42,8 +42,14 @@ class ThesisEditor extends React.Component {
   }
 
   editPressed () {
+    let body = document.querySelector('body')
+
     if (this.state.editing) {
-      this.cancelPressed()
+      if (body.classList.contains('thesis-page-modified')) {
+        this.cancelPressed()
+      } else {
+        this.setState({editing: false})
+      }
     } else {
       this.setState({editing: true})
     }
@@ -86,14 +92,38 @@ class ThesisEditor extends React.Component {
   }
 
   trackContentChanges () {
-    // this.editor.on(target, event, listener, useCapture):
+    let body = document.querySelector('body')
+    const textEditors = this.textContentEditors()
+
+    // html editor
+    this.editor.subscribe('editableInput', function (event, editable) {
+      body.classList.add('thesis-page-modified')
+      editable.classList.add('modified')
+    })
+
+    // TODO: image editor
+
+    // text editor
+    for (let i = 0; i < textEditors.length; i++) {
+      textEditors[i].addEventListener('input', function (e) {
+        e.target.classList.add('modified')
+        body.classList.add('thesis-page-modified')
+      }, false)
+    }
   }
 
   trackEditableAreaState () {
     const t = this
     const editors = this.allContentEditors()
+
+    let listener = function (e) {
+      t.manageInEditModeClass(e)
+    }
+
     for (let i = 0; i < this.allContentEditors().length; i++) {
-      editors[i].addEventListener('click', function (e) {t.manageInEditModeClass(e)}, false)
+      editors[i].classList.remove('in-edit-mode')
+      editors[i].classList.remove('modified')
+      editors[i].addEventListener('click', listener, false)
     }
   }
 
@@ -121,7 +151,7 @@ class ThesisEditor extends React.Component {
     el.classList.add('in-edit-mode')
   }
 
-  removeInEditModeClass (els) {
+  removeInEditModeClass (els = this.allContentEditors()) {
     for (let i = 0; i < els.length; i++) {
       els[i].classList.remove('in-edit-mode')
     }
@@ -135,7 +165,7 @@ class ThesisEditor extends React.Component {
     }
     this.toggleTextEditors(true)
     this.trackEditableAreaState()
-  // this.trackContentChanges()
+    this.trackContentChanges()
   }
 
   removeContentEditors () {
@@ -177,10 +207,13 @@ class ThesisEditor extends React.Component {
 
   componentDidUpdate () {
     let el = document.querySelector('body')
+    let t = this
     if (this.state.editing) {
       el.classList.add('thesis-editing')
       this.addContentEditors()
       el.insertAdjacentHTML('beforeend', '<div id="thesis-fader"></div>')
+      let fader = document.querySelector('#thesis-fader')
+      fader.addEventListener('click', function () {t.removeInEditModeClass()}, false)
     } else {
       el.classList.remove('thesis-editing')
       this.removeContentEditors()
