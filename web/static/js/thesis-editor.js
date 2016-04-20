@@ -15,9 +15,9 @@ const mediumEditorOptions = {
   toolbar: {
     buttons: [
       'bold', 'italic', 'underline', 'anchor',
-      'h1', 'h2', 'h3', 'quote', 'pre', 'image',
-      'orderedList', 'unorderedList', 'outdent', 'indent',
-      'removeFormat'
+      'h1', 'h2', 'h3', 'quote',
+      'orderedlist', 'unorderedlist',
+      'removeFormat', 'justifyLeft', 'justifyCenter', 'justifyRight'
     ],
     static: true,
     align: 'center',
@@ -31,7 +31,8 @@ class ThesisEditor extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      editing: false
+      editing: false,
+      pageModified: false
     }
     this.editor = null
 
@@ -42,14 +43,24 @@ class ThesisEditor extends React.Component {
   }
 
   editPressed () {
-    this.setState({editing: !this.state.editing})
+    let body = document.querySelector('body')
+
+    if (this.state.editing) {
+      if (this.state.pageModified) {
+        this.cancelPressed()
+      } else {
+        this.setState({editing: false, pageModified: false})
+      }
+    } else {
+      this.setState({editing: true})
+    }
   }
 
   savePressed () {
     const page = {slug: window.location.pathname}
     const contents = this.contentEditorContents()
     this.postToServer(page, contents)
-    this.setState({editing: false})
+    this.setState({editing: false, pageModified: false})
   }
 
   cancelPressed () {
@@ -81,6 +92,25 @@ class ThesisEditor extends React.Component {
     return document.querySelectorAll('.thesis-content')
   }
 
+  subscribeToContentChanges () {
+    // html editor
+    this.editor.subscribe('editableInput', (event, editable) => {
+      editable.classList.add('modified')
+      this.setState({pageModified: true})
+    })
+
+    // TODO: image editor
+
+    // text editor
+    const textEditors = this.textContentEditors()
+    for (let i = 0; i < textEditors.length; i++) {
+      textEditors[i].addEventListener('input', (e) => {
+        e.target.classList.add('modified')
+        this.setState({pageModified: true})
+      }, false)
+    }
+  }
+
   addContentEditors () {
     if (!this.editor) {
       this.editor = new MediumEditor(this.htmlContentEditors(), mediumEditorOptions)
@@ -88,12 +118,13 @@ class ThesisEditor extends React.Component {
       this.editor.setup() // Rebuild it
     }
     this.toggleTextEditors(true)
+    this.subscribeToContentChanges()
   }
 
   removeContentEditors () {
     if (!this.editor) { return null }
-
     this.editor.destroy()
+    this.editor = null
     this.toggleTextEditors(false)
   }
 
@@ -123,17 +154,32 @@ class ThesisEditor extends React.Component {
     return this.state.editing ? 'active' : ''
   }
 
+  renderEditButtonText () {
+    return this.state.editing ? 'Editing Page' : 'Edit Page'
+  }
+
   componentDidUpdate () {
-    let el = document.querySelector('body')
+    const fader = document.querySelector('#thesis-fader')
+    const el = document.querySelector('body')
+    const editors = this.allContentEditors()
+
     if (this.state.editing) {
       el.classList.add('thesis-editing')
-      this.addContentEditors()
-      el.insertAdjacentHTML('beforeend', '<div class="thesis-fader"></div>')
+      if (!this.editor) this.addContentEditors()
+      if (!fader) el.insertAdjacentHTML('beforeend', '<div id="thesis-fader"></div>')
     } else {
       el.classList.remove('thesis-editing')
       this.removeContentEditors()
-      let fader = document.querySelector('.thesis-fader')
-      fader.remove()
+      if (fader) fader.remove()
+    }
+
+    if (this.state.pageModified) {
+      el.classList.add('thesis-page-modified')
+    } else {
+      el.classList.remove('thesis-page-modified')
+      for (let i = 0; i < editors.length; i++) {
+        editors[i].classList.remove('modified')
+      }
     }
   }
 
@@ -141,12 +187,12 @@ class ThesisEditor extends React.Component {
     // <AddButton />
     // <DeleteButton />
     return (
-      <div id='thesis-editor' className={this.renderEditorClass()}>
-        <SettingsButton />
-        <CancelButton onPress={this.cancelPressed} />
-        <SaveButton onPress={this.savePressed} />
-        <EditButton onPress={this.editPressed} />
-      </div>
+    <div id='thesis-editor' className={this.renderEditorClass()}>
+      <SettingsButton />
+      <CancelButton onPress={this.cancelPressed} />
+      <SaveButton onPress={this.savePressed} />
+      <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
+    </div>
     )
   }
 }

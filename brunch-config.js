@@ -8,6 +8,9 @@ exports.config = {
   files: {
     javascripts: {
       joinTo: 'thesis-editor.js'
+    },
+    stylesheets: {
+      joinTo: 'thesis.css'
     }
   },
 
@@ -22,7 +25,7 @@ exports.config = {
 
   modules: {
     autoRequire: {
-      'thesis-editor.js': ['web/static/thesis-editor']
+      'thesis-editor.js': ['web/static/js/thesis-editor']
     }
   },
 

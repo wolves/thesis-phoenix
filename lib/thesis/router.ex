@@ -39,6 +39,7 @@ defmodule Thesis.Router do
         pipe_through :thesis_pipeline
 
         get "/thesis-editor.js", ApiController, :assets
+        get "/thesis.css", ApiController, :assets
 
         put "/update", ApiController, :update
       end
