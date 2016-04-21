@@ -3840,6 +3840,20 @@ MediumEditor.extensions = {};
         },
 
         /**
+         *  Clear the current highlighted selection and set the caret to the start or the end of that prior selection, defaults to end.
+         *
+         *  @param {DomDocument} doc            Current document
+         *  @param {boolean} moveCursorToStart  A boolean representing whether or not to set the caret to the beginning of the prior selection.
+         */
+        clearSelection: function (doc, moveCursorToStart) {
+            if (moveCursorToStart) {
+                doc.getSelection().collapseToStart();
+            } else {
+                doc.getSelection().collapseToEnd();
+            }
+        },
+
+        /**
          * Move cursor to the given node with the given offset.
          *
          * @param  {DomDocument} doc     Current document
@@ -3888,18 +3902,26 @@ MediumEditor.extensions = {};
 
         // Helpers for event handling
 
-        attachDOMEvent: function (target, event, listener, useCapture) {
-            target.addEventListener(event, listener, useCapture);
-            this.events.push([target, event, listener, useCapture]);
+        attachDOMEvent: function (targets, event, listener, useCapture) {
+            targets = MediumEditor.util.isElement(targets) || [window, document].indexOf(targets) > -1 ? [targets] : targets;
+
+            Array.prototype.forEach.call(targets, function (target) {
+                target.addEventListener(event, listener, useCapture);
+                this.events.push([target, event, listener, useCapture]);
+            }.bind(this));
         },
 
-        detachDOMEvent: function (target, event, listener, useCapture) {
-            var index = this.indexOfListener(target, event, listener, useCapture),
-                e;
-            if (index !== -1) {
-                e = this.events.splice(index, 1)[0];
-                e[0].removeEventListener(e[1], e[2], e[3]);
-            }
+        detachDOMEvent: function (targets, event, listener, useCapture) {
+            var index, e;
+            targets = MediumEditor.util.isElement(targets) || [window, document].indexOf(targets) > -1 ? [targets] : targets;
+
+            Array.prototype.forEach.call(targets, function (target) {
+                index = this.indexOfListener(target, event, listener, useCapture);
+                if (index !== -1) {
+                    e = this.events.splice(index, 1)[0];
+                    e[0].removeEventListener(e[1], e[2], e[3]);
+                }
+            }.bind(this));
         },
 
         indexOfListener: function (target, event, listener, useCapture) {
@@ -4264,12 +4286,14 @@ MediumEditor.extensions = {};
             }
             // An event triggered which signifies that the user may have changed someting
             // Look in our cache of input for the contenteditables to see if something changed
-            var index = target.getAttribute('medium-editor-index');
-            if (target.innerHTML !== this.contentCache[index]) {
+            var index = target.getAttribute('medium-editor-index'),
+                html = target.innerHTML;
+
+            if (html !== this.contentCache[index]) {
                 // The content has changed since the last time we checked, fire the event
                 this.triggerCustomEvent('editableInput', eventObj, target);
             }
-            this.contentCache[index] = target.innerHTML;
+            this.contentCache[index] = html;
         },
 
         handleDocumentSelectionChange: function (event) {
@@ -4894,6 +4918,11 @@ MediumEditor.extensions = {};
         formSaveLabel: '&#10003;',
         formCloseLabel: '&times;',
 
+        /* activeClass: [string]
+         * set class which added to shown form
+         */
+        activeClass: 'medium-editor-toolbar-form-active',
+
         /* hasForm: [boolean]
          *
          * Setting this to true will cause getForm() to be called
@@ -4916,14 +4945,34 @@ MediumEditor.extensions = {};
          * This function should return true/false reflecting
          * whether the form is currently displayed
          */
-        isDisplayed: function () {},
+        isDisplayed: function () {
+            if (this.hasForm) {
+                return this.getForm().classList.contains(this.activeClass);
+            }
+            return false;
+        },
+
+        /* hideForm: [function ()]
+         *
+         * This function should show the form element inside
+         * the toolbar container
+         */
+        showForm: function () {
+            if (this.hasForm) {
+                this.getForm().classList.add(this.activeClass);
+            }
+        },
 
         /* hideForm: [function ()]
          *
          * This function should hide the form element inside
          * the toolbar container
          */
-        hideForm: function () {},
+        hideForm: function () {
+            if (this.hasForm) {
+                this.getForm().classList.remove(this.activeClass);
+            }
+        },
 
         /************************ Helpers ************************
          * The following are helpers that are either set by MediumEditor
@@ -5112,11 +5161,11 @@ MediumEditor.extensions = {};
 
         // Used by medium-editor when the default toolbar is to be displayed
         isDisplayed: function () {
-            return this.getForm().style.display === 'block';
+            return MediumEditor.extensions.form.prototype.isDisplayed.apply(this);
         },
 
         hideForm: function () {
-            this.getForm().style.display = 'none';
+            MediumEditor.extensions.form.prototype.hideForm.apply(this);
             this.getInput().value = '';
         },
 
@@ -5136,7 +5185,7 @@ MediumEditor.extensions = {};
 
             this.base.saveSelection();
             this.hideToolbarDefaultActions();
-            this.getForm().style.display = 'block';
+            MediumEditor.extensions.form.prototype.showForm.apply(this);
             this.setToolbarPosition();
 
             input.value = opts.url;
@@ -5217,7 +5266,7 @@ MediumEditor.extensions = {};
                 return 'tel:' + value;
             } else {
                 // Check for URL scheme and default to http:// if none found
-                return (urlSchemeRegex.test(value) ? '' : 'http://') + value;
+                return (urlSchemeRegex.test(value) ? '' : 'http://') + encodeURI(value);
             }
         },
 
@@ -5434,6 +5483,15 @@ MediumEditor.extensions = {};
 
         attachToEditables: function () {
             this.subscribe('editableMouseover', this.handleEditableMouseover.bind(this));
+            this.subscribe('positionedToolbar', this.handlePositionedToolbar.bind(this));
+        },
+
+        handlePositionedToolbar: function () {
+            // If the toolbar is visible and positioned, we don't need to hide the preview
+            // when showWhenToolbarIsVisible is true
+            if (!this.showWhenToolbarIsVisible) {
+                this.hidePreview();
+            }
         },
 
         handleClick: function (event) {
@@ -5610,9 +5668,20 @@ MediumEditor.extensions = {};
             this.document.execCommand('AutoUrlDetect', false, false);
         },
 
+        isLastInstance: function () {
+            var activeInstances = 0;
+            for (var i = 0; i < this.window._mediumEditors.length; i++) {
+                var editor = this.window._mediumEditors[i];
+                if (editor !== null && editor.getExtensionByName('autoLink') !== undefined) {
+                    activeInstances++;
+                }
+            }
+            return activeInstances === 1;
+        },
+
         destroy: function () {
             // Turn AutoUrlDetect back on
-            if (this.document.queryCommandSupported('AutoUrlDetect')) {
+            if (this.document.queryCommandSupported('AutoUrlDetect') && this.isLastInstance()) {
                 this.document.execCommand('AutoUrlDetect', false, true);
             }
         },
@@ -5972,8 +6041,12 @@ MediumEditor.extensions = {};
                     event.preventDefault();
                     event.stopPropagation();
 
+                    // command can be a function to execute
+                    if (typeof data.command === 'function') {
+                        data.command.apply(this);
+                    }
                     // command can be false so the shortcut is just disabled
-                    if (false !== data.command) {
+                    else if (false !== data.command) {
                         this.execAction(data.command);
                     }
                 }
@@ -7260,30 +7333,26 @@ MediumEditor.extensions = {};
 
         setToolbarPosition: function () {
             var container = this.base.getFocusedElement(),
-                selection = this.window.getSelection(),
-                anchorPreview;
+                selection = this.window.getSelection();
 
             // If there isn't a valid selection, bail
             if (!container) {
                 return this;
             }
 
-            if (this.static && !this.relativeContainer) {
-                this.showToolbar();
-                this.positionStaticToolbar(container);
-            } else if (!selection.isCollapsed) {
+            if (this.static || !selection.isCollapsed) {
                 this.showToolbar();
 
                 // we don't need any absolute positioning if relativeContainer is set
                 if (!this.relativeContainer) {
-                    this.positionToolbar(selection);
+                    if (this.static) {
+                        this.positionStaticToolbar(container);
+                    } else {
+                        this.positionToolbar(selection);
+                    }
                 }
-            }
 
-            anchorPreview = this.base.getExtensionByName('anchor-preview');
-
-            if (anchorPreview && typeof anchorPreview.hidePreview === 'function') {
-                anchorPreview.hidePreview();
+                this.trigger('positionedToolbar', {}, this.base.getFocusedElement());
             }
         },
 
@@ -7608,7 +7677,9 @@ MediumEditor.extensions = {};
             return;
         }
 
-        if (MediumEditor.util.isMediumEditorElement(node) && node.children.length === 0) {
+        // https://github.com/yabwe/medium-editor/issues/994
+        // Firefox thrown an error when calling `formatBlock` on an empty editable blockContainer that's not a <div>
+        if (MediumEditor.util.isMediumEditorElement(node) && node.children.length === 0 && !MediumEditor.util.isBlockContainer(node)) {
             this.options.ownerDocument.execCommand('formatBlock', false, 'p');
         }
 
@@ -8124,22 +8195,32 @@ MediumEditor.extensions = {};
 
         on: function (target, event, listener, useCapture) {
             this.events.attachDOMEvent(target, event, listener, useCapture);
+
+            return this;
         },
 
         off: function (target, event, listener, useCapture) {
             this.events.detachDOMEvent(target, event, listener, useCapture);
+
+            return this;
         },
 
         subscribe: function (event, listener) {
             this.events.attachCustomEvent(event, listener);
+
+            return this;
         },
 
         unsubscribe: function (event, listener) {
             this.events.detachCustomEvent(event, listener);
+
+            return this;
         },
 
         trigger: function (name, data, editable) {
             this.events.triggerCustomEvent(name, data, editable);
+
+            return this;
         },
 
         delay: function (fn) {
@@ -8589,7 +8670,7 @@ MediumEditor.parseVersionString = function (release) {
 
 MediumEditor.version = MediumEditor.parseVersionString.call(this, ({
     // grunt-bump looks for this:
-    'version': '5.14.4'
+    'version': '5.16.1'
 }).version);
 
     return MediumEditor;
@@ -27322,7 +27403,7 @@ var DeleteButton = function (_React$Component) {
         _react2.default.createElement(
           "div",
           { className: "tooltip" },
-          "Delete Page"
+          "Delete This Page"
         ),
         _react2.default.createElement("i", { className: "fa fa-trash fa-2x" })
       );
@@ -27569,6 +27650,14 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _add_button = require('./components/add_button');
+
+var _add_button2 = _interopRequireDefault(_add_button);
+
+var _delete_button = require('./components/delete_button');
+
+var _delete_button2 = _interopRequireDefault(_delete_button);
+
 var _settings_button = require('./components/settings_button');
 
 var _settings_button2 = _interopRequireDefault(_settings_button);
@@ -27600,9 +27689,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-// import AddButton from './components/add_button'
-// import DeleteButton from './components/delete_button'
-
 
 // https://github.com/yabwe/medium-editor#toolbar-options
 var mediumEditorOptions = {
@@ -27626,7 +27712,8 @@ var ThesisEditor = function (_React$Component) {
 
     _this.state = {
       editing: false,
-      pageModified: false
+      pageModified: false,
+      pageToolsHidden: true
     };
     _this.editor = null;
 
@@ -27640,6 +27727,8 @@ var ThesisEditor = function (_React$Component) {
   _createClass(ThesisEditor, [{
     key: 'editPressed',
     value: function editPressed() {
+      var _this2 = this;
+
       var body = document.querySelector('body');
 
       if (this.state.editing) {
@@ -27647,18 +27736,26 @@ var ThesisEditor = function (_React$Component) {
           this.cancelPressed();
         } else {
           this.setState({ editing: false, pageModified: false });
+          setTimeout(function () {
+            _this2.setState({ pageToolsHidden: true });
+          }, 800);
         }
       } else {
-        this.setState({ editing: true });
+        this.setState({ editing: true, pageToolsHidden: false });
       }
     }
   }, {
     key: 'savePressed',
     value: function savePressed() {
+      var _this3 = this;
+
       var page = { slug: window.location.pathname };
       var contents = this.contentEditorContents();
       this.postToServer(page, contents);
       this.setState({ editing: false, pageModified: false });
+      setTimeout(function () {
+        _this3.setState({ pageToolsHidden: true });
+      }, 800);
     }
   }, {
     key: 'cancelPressed',
@@ -27697,13 +27794,15 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'subscribeToContentChanges',
     value: function subscribeToContentChanges() {
-      var _this2 = this;
+      var _this4 = this;
 
       // html editor
-      this.editor.subscribe('editableInput', function (event, editable) {
-        editable.classList.add('modified');
-        _this2.setState({ pageModified: true });
-      });
+      if (this.htmlContentEditors().length > 0) {
+        this.editor.subscribe('editableInput', function (event, editable) {
+          editable.classList.add('modified');
+          _this4.setState({ pageModified: true });
+        });
+      }
 
       // TODO: image editor
 
@@ -27712,7 +27811,7 @@ var ThesisEditor = function (_React$Component) {
       for (var i = 0; i < textEditors.length; i++) {
         textEditors[i].addEventListener('input', function (e) {
           e.target.classList.add('modified');
-          _this2.setState({ pageModified: true });
+          _this4.setState({ pageModified: true });
         }, false);
       }
     }
@@ -27764,7 +27863,10 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'renderEditorClass',
     value: function renderEditorClass() {
-      return this.state.editing ? 'active' : '';
+      var classes = '';
+      classes += this.state.editing ? ' active ' : '';
+      classes += this.state.pageToolsHidden ? ' thesis-page-tools-hidden ' : '';
+      return classes;
     }
   }, {
     key: 'renderEditButtonText',
@@ -27800,14 +27902,14 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      // <AddButton />
-      // <DeleteButton />
       return _react2.default.createElement(
         'div',
         { id: 'thesis-editor', className: this.renderEditorClass() },
+        _react2.default.createElement(_save_button2.default, { onPress: this.savePressed }),
         _react2.default.createElement(_settings_button2.default, null),
         _react2.default.createElement(_cancel_button2.default, { onPress: this.cancelPressed }),
-        _react2.default.createElement(_save_button2.default, { onPress: this.savePressed }),
+        this.state.pageToolsHidden ? _react2.default.createElement(_add_button2.default, null) : null,
+        this.state.pageToolsHidden ? _react2.default.createElement(_delete_button2.default, null) : null,
         _react2.default.createElement(_edit_button2.default, { onPress: this.editPressed, text: this.renderEditButtonText() })
       );
     }

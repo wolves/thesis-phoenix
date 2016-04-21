@@ -1,8 +1,8 @@
 #thesis-editor
   display         : block
   position        : absolute
-  right           : 15px
-  bottom          : 15px
+  right           : 0
+  bottom          : 0
   z-index         : 1040
   position        : fixed
   z-index         : 1040
@@ -10,34 +10,71 @@
   line-height     : 0
   font-size       : 0
   text-decoration : none
+  height          : 85px
+  width           : 85px
+
+  &.active
+    .thesis-button
+      @include curve_buttons(4)
+      opacity        : 1
+      pointer-events : auto
+
+      &.edit i
+        @include barber_pole(darken($gray, 8%), rgba(white, .25))
+
+  &.thesis-page-tools-hidden
+    height: 300px
+
+    &:hover
+      .thesis-button
+        &.add, &.delete
+          @include curve_buttons(6)
+          @include transition-duration(.75s)
+          @include keyframes (animateOpacity)
+            from
+              opacity: 0
+            to
+              opacity: 1
+          @include animation( animateOpacity .75s ease-in-out )
+          opacity        : 1
+          pointer-events : auto
 
   .thesis-button
     @include editor_icons(("cancel": $orange, "delete": $pink, "add": $blue, "save": $green, "settings": $yellow ))
-    @include transition(opacity .75s ease-in-out, right .75s ease-in-out, transform .75s ease-in-out, padding .001s linear .75s, height .001s linear .75s)
-    right         : 0
-    opacity       : 0
-    display       : block
-    float         : right
-    clear         : both
-    text-align    : right
-    position      : relative
-    cursor        : pointer
-    padding       : 0px 0px
-    height        : 0px
-    width         : auto
-    margin-bottom : 20px
+    @include transition(opacity .75s ease-in-out, right .75s ease-in-out, transform .75s ease-in-out)
+    @include transform-origin(100% 100%)
+    right          : 15px
+    opacity        : 0
+    display        : block
+    float          : right
+    clear          : both
+    text-align     : right
+    position       : relative
+    cursor         : pointer
+    padding        : 0px 0px
+    height         : 80px
+    width          : auto
+    padding-bottom : 20px
+    pointer-events : none
+    position       : absolute
 
-    &.edit
-      opacity       : 1
-      height        : 60px
-      margin-bottom : 0px
+    @for $i from 2 to 10
+      &:nth-last-child(#{$i})
+        $modifier: $i - 1
+        bottom: $modifier * 80 - 5 + px
 
     &:hover
-
       .tooltip
-        right          : 80px
-        opacity        : 1
-        pointer-events : auto
+        right   : 80px
+        opacity : 1
+
+    &.edit
+      opacity        : 1 !important
+      height         : 60px !important
+      padding-bottom : 0px !important
+      pointer-events : auto !important
+      bottom         : 15px
+      right          : 15px
 
     i
       position         : relative
@@ -62,8 +99,7 @@
       z-index        : 1
       position       : absolute
       right          : 0px
-      top            : 50%
-      margin-top     : -13px
+      top            : 17px
       font-size      : 13px
       color          : white
       background     : rgba(black, .70)
@@ -80,27 +116,14 @@
       pointer-events : none
 
       &:before
-        content    : ""
-        display    : block
-        position   : absolute
-        left       : 100%
-        width      : 30px
-        height     : 60px
-        top        : -19px
+        content  : ""
+        display  : block
+        position : absolute
+        right    : -25px
+        width    : 40px
+        height   : 60px
+        top      : -19px
+        z-index  : 0
 
       &.error
         background : rgba(darken(red, 20%), .75)
-
-
-body.thesis-editing #thesis-editor
-  .thesis-button
-    &.edit
-      i
-        @include barber_pole(darken($gray, 8%), rgba(white, .25))
-
-  &.active
-    .thesis-button
-      @include curve_buttons(6)
-      @include transition(opacity .75s ease-in-out, right .75s ease-in-out, transform .75s ease-in-out)
-      opacity  : 1
-      height   : 60px

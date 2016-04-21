@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-// import AddButton from './components/add_button'
-// import DeleteButton from './components/delete_button'
+import AddButton from './components/add_button'
+import DeleteButton from './components/delete_button'
 import SettingsButton from './components/settings_button'
 import CancelButton from './components/cancel_button'
 import SaveButton from './components/save_button'
@@ -32,7 +32,8 @@ class ThesisEditor extends React.Component {
     super(props)
     this.state = {
       editing: false,
-      pageModified: false
+      pageModified: false,
+      pageToolsHidden: true
     }
     this.editor = null
 
@@ -50,9 +51,11 @@ class ThesisEditor extends React.Component {
         this.cancelPressed()
       } else {
         this.setState({editing: false, pageModified: false})
+        setTimeout(() => {
+          this.setState({pageToolsHidden: true})}, 800)
       }
     } else {
-      this.setState({editing: true})
+      this.setState({editing: true, pageToolsHidden: false })
     }
   }
 
@@ -61,6 +64,8 @@ class ThesisEditor extends React.Component {
     const contents = this.contentEditorContents()
     this.postToServer(page, contents)
     this.setState({editing: false, pageModified: false})
+    setTimeout(() => {
+      this.setState({pageToolsHidden: true})}, 800)
   }
 
   cancelPressed () {
@@ -94,10 +99,12 @@ class ThesisEditor extends React.Component {
 
   subscribeToContentChanges () {
     // html editor
-    this.editor.subscribe('editableInput', (event, editable) => {
-      editable.classList.add('modified')
-      this.setState({pageModified: true})
-    })
+    if (this.htmlContentEditors().length > 0) {
+      this.editor.subscribe('editableInput', (event, editable) => {
+        editable.classList.add('modified')
+        this.setState({pageModified: true})
+      })
+    }
 
     // TODO: image editor
 
@@ -151,7 +158,10 @@ class ThesisEditor extends React.Component {
   }
 
   renderEditorClass () {
-    return this.state.editing ? 'active' : ''
+    let classes = ''
+    classes += (this.state.editing) ? ' active ' : ''
+    classes += (this.state.pageToolsHidden) ? ' thesis-page-tools-hidden ' : ''
+    return classes
   }
 
   renderEditButtonText () {
@@ -184,13 +194,13 @@ class ThesisEditor extends React.Component {
   }
 
   render () {
-    // <AddButton />
-    // <DeleteButton />
     return (
     <div id='thesis-editor' className={this.renderEditorClass()}>
+      <SaveButton onPress={this.savePressed} />
       <SettingsButton />
       <CancelButton onPress={this.cancelPressed} />
-      <SaveButton onPress={this.savePressed} />
+      {this.state.pageToolsHidden ? <AddButton /> : null}
+      {this.state.pageToolsHidden ? <DeleteButton /> : null}
       <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
     </div>
     )

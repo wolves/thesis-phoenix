@@ -639,20 +639,160 @@ body {
 #thesis-editor {
   display: block;
   position: absolute;
-  right: 15px;
-  bottom: 15px;
+  right: 0;
+  bottom: 0;
   z-index: 1040;
   position: fixed;
   z-index: 1040;
   color: white;
   line-height: 0;
   font-size: 0;
-  text-decoration: none; }
+  text-decoration: none;
+  height: 85px;
+  width: 85px; }
+  #thesis-editor.active .thesis-button {
+    opacity: 1;
+    pointer-events: auto; }
+    #thesis-editor.active .thesis-button:nth-child(1) {
+      -webkit-transform: rotate(-9.42deg);
+      -moz-transform: rotate(-9.42deg);
+      -ms-transform: rotate(-9.42deg);
+      -o-transform: rotate(-9.42deg);
+      transform: rotate(-9.42deg);
+      -webkit-transform-origin: 100% 100%;
+      -moz-transform-origin: 100% 100%;
+      -ms-transform-origin: 100% 100%;
+      -o-transform-origin: 100% 100%;
+      transform-origin: 100% 100%;
+      right: 31px; }
+    #thesis-editor.active .thesis-button:nth-child(2) {
+      -webkit-transform: rotate(-6.28deg);
+      -moz-transform: rotate(-6.28deg);
+      -ms-transform: rotate(-6.28deg);
+      -o-transform: rotate(-6.28deg);
+      transform: rotate(-6.28deg);
+      -webkit-transform-origin: 100% 100%;
+      -moz-transform-origin: 100% 100%;
+      -ms-transform-origin: 100% 100%;
+      -o-transform-origin: 100% 100%;
+      transform-origin: 100% 100%;
+      right: 23px; }
+    #thesis-editor.active .thesis-button:nth-child(3) {
+      -webkit-transform: rotate(-3.14deg);
+      -moz-transform: rotate(-3.14deg);
+      -ms-transform: rotate(-3.14deg);
+      -o-transform: rotate(-3.14deg);
+      transform: rotate(-3.14deg);
+      -webkit-transform-origin: 100% 100%;
+      -moz-transform-origin: 100% 100%;
+      -ms-transform-origin: 100% 100%;
+      -o-transform-origin: 100% 100%;
+      transform-origin: 100% 100%;
+      right: 17.66667px; }
+    #thesis-editor.active .thesis-button.edit i {
+      background-size: 30px 30px;
+      -webkit-animation: barber_pole 0.7s linear infinite;
+      -moz-animation: barber_pole 0.7s linear infinite;
+      animation: barber_pole 0.7s linear infinite;
+      background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 0.25) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0.25) 75%, transparent 75%);
+      background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.25) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0.25) 75%, transparent 75%);
+      background-color: #8b8c92; }
+  #thesis-editor.thesis-page-tools-hidden {
+    height: 300px; }
+    #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.add, #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.delete {
+      -webkit-transition-duration: 0.75s;
+      -moz-transition-duration: 0.75s;
+      transition-duration: 0.75s;
+      -webkit-animation: animateOpacity 0.75s ease-in-out;
+      -moz-animation: animateOpacity 0.75s ease-in-out;
+      animation: animateOpacity 0.75s ease-in-out;
+      opacity: 1;
+      pointer-events: auto; }
+      #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.add:nth-child(1), #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.delete:nth-child(1) {
+        -webkit-transform: rotate(-15.7deg);
+        -moz-transform: rotate(-15.7deg);
+        -ms-transform: rotate(-15.7deg);
+        -o-transform: rotate(-15.7deg);
+        transform: rotate(-15.7deg);
+        -webkit-transform-origin: 100% 100%;
+        -moz-transform-origin: 100% 100%;
+        -ms-transform-origin: 100% 100%;
+        -o-transform-origin: 100% 100%;
+        transform-origin: 100% 100%;
+        right: 75px; }
+      #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.add:nth-child(2), #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.delete:nth-child(2) {
+        -webkit-transform: rotate(-12.56deg);
+        -moz-transform: rotate(-12.56deg);
+        -ms-transform: rotate(-12.56deg);
+        -o-transform: rotate(-12.56deg);
+        transform: rotate(-12.56deg);
+        -webkit-transform-origin: 100% 100%;
+        -moz-transform-origin: 100% 100%;
+        -ms-transform-origin: 100% 100%;
+        -o-transform-origin: 100% 100%;
+        transform-origin: 100% 100%;
+        right: 55px; }
+      #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.add:nth-child(3), #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.delete:nth-child(3) {
+        -webkit-transform: rotate(-9.42deg);
+        -moz-transform: rotate(-9.42deg);
+        -ms-transform: rotate(-9.42deg);
+        -o-transform: rotate(-9.42deg);
+        transform: rotate(-9.42deg);
+        -webkit-transform-origin: 100% 100%;
+        -moz-transform-origin: 100% 100%;
+        -ms-transform-origin: 100% 100%;
+        -o-transform-origin: 100% 100%;
+        transform-origin: 100% 100%;
+        right: 39px; }
+      #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.add:nth-child(4), #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.delete:nth-child(4) {
+        -webkit-transform: rotate(-6.28deg);
+        -moz-transform: rotate(-6.28deg);
+        -ms-transform: rotate(-6.28deg);
+        -o-transform: rotate(-6.28deg);
+        transform: rotate(-6.28deg);
+        -webkit-transform-origin: 100% 100%;
+        -moz-transform-origin: 100% 100%;
+        -ms-transform-origin: 100% 100%;
+        -o-transform-origin: 100% 100%;
+        transform-origin: 100% 100%;
+        right: 27px; }
+      #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.add:nth-child(5), #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.delete:nth-child(5) {
+        -webkit-transform: rotate(-3.14deg);
+        -moz-transform: rotate(-3.14deg);
+        -ms-transform: rotate(-3.14deg);
+        -o-transform: rotate(-3.14deg);
+        transform: rotate(-3.14deg);
+        -webkit-transform-origin: 100% 100%;
+        -moz-transform-origin: 100% 100%;
+        -ms-transform-origin: 100% 100%;
+        -o-transform-origin: 100% 100%;
+        transform-origin: 100% 100%;
+        right: 19px; }
+@-webkit-keyframes animateOpacity {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+@-moz-keyframes animateOpacity {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+@keyframes animateOpacity {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
   #thesis-editor .thesis-button {
-    -webkit-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -webkit-transform 0.75s ease-in-out, padding 0.001s linear 0.75s, height 0.001s linear 0.75s;
-    -moz-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -moz-transform 0.75s ease-in-out, padding 0.001s linear 0.75s, height 0.001s linear 0.75s;
-    transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, transform 0.75s ease-in-out, padding 0.001s linear 0.75s, height 0.001s linear 0.75s;
-    right: 0;
+    -webkit-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -webkit-transform 0.75s ease-in-out;
+    -moz-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -moz-transform 0.75s ease-in-out;
+    transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, transform 0.75s ease-in-out;
+    -webkit-transform-origin: 100% 100%;
+    -moz-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+    -o-transform-origin: 100% 100%;
+    transform-origin: 100% 100%;
+    right: 15px;
     opacity: 0;
     display: block;
     float: right;
@@ -661,9 +801,11 @@ body {
     position: relative;
     cursor: pointer;
     padding: 0px 0px;
-    height: 0px;
+    height: 80px;
     width: auto;
-    margin-bottom: 20px; }
+    padding-bottom: 20px;
+    pointer-events: none;
+    position: absolute; }
     #thesis-editor .thesis-button.cancel > i {
       background-color: #F1605A; }
       #thesis-editor .thesis-button.cancel > i:hover {
@@ -699,14 +841,32 @@ body {
         -webkit-transition: background-color 0.3s ease-in-out;
         -moz-transition: background-color 0.3s ease-in-out;
         transition: background-color 0.3s ease-in-out; }
-    #thesis-editor .thesis-button.edit {
-      opacity: 1;
-      height: 60px;
-      margin-bottom: 0px; }
+    #thesis-editor .thesis-button:nth-last-child(2) {
+      bottom: 75px; }
+    #thesis-editor .thesis-button:nth-last-child(3) {
+      bottom: 155px; }
+    #thesis-editor .thesis-button:nth-last-child(4) {
+      bottom: 235px; }
+    #thesis-editor .thesis-button:nth-last-child(5) {
+      bottom: 315px; }
+    #thesis-editor .thesis-button:nth-last-child(6) {
+      bottom: 395px; }
+    #thesis-editor .thesis-button:nth-last-child(7) {
+      bottom: 475px; }
+    #thesis-editor .thesis-button:nth-last-child(8) {
+      bottom: 555px; }
+    #thesis-editor .thesis-button:nth-last-child(9) {
+      bottom: 635px; }
     #thesis-editor .thesis-button:hover .tooltip {
       right: 80px;
-      opacity: 1;
-      pointer-events: auto; }
+      opacity: 1; }
+    #thesis-editor .thesis-button.edit {
+      opacity: 1 !important;
+      height: 60px !important;
+      padding-bottom: 0px !important;
+      pointer-events: auto !important;
+      bottom: 15px;
+      right: 15px; }
     #thesis-editor .thesis-button i {
       position: relative;
       z-index: 2;
@@ -734,8 +894,7 @@ body {
       z-index: 1;
       position: absolute;
       right: 0px;
-      top: 50%;
-      margin-top: -13px;
+      top: 17px;
       font-size: 13px;
       color: white;
       background: rgba(0, 0, 0, 0.7);
@@ -754,87 +913,13 @@ body {
         content: "";
         display: block;
         position: absolute;
-        left: 100%;
-        width: 30px;
+        right: -25px;
+        width: 40px;
         height: 60px;
-        top: -19px; }
+        top: -19px;
+        z-index: 0; }
       #thesis-editor .thesis-button .tooltip.error {
         background: rgba(153, 0, 0, 0.75); }
-
-body.thesis-editing #thesis-editor .thesis-button.edit i {
-  background-size: 30px 30px;
-  -webkit-animation: barber_pole 0.7s linear infinite;
-  -moz-animation: barber_pole 0.7s linear infinite;
-  animation: barber_pole 0.7s linear infinite;
-  background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 0.25) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0.25) 75%, transparent 75%);
-  background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.25) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.25) 50%, rgba(255, 255, 255, 0.25) 75%, transparent 75%);
-  background-color: #8b8c92; }
-body.thesis-editing #thesis-editor.active .thesis-button {
-  -webkit-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -webkit-transform 0.75s ease-in-out;
-  -moz-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -moz-transform 0.75s ease-in-out;
-  transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, transform 0.75s ease-in-out;
-  opacity: 1;
-  height: 60px; }
-  body.thesis-editing #thesis-editor.active .thesis-button:nth-child(1) {
-    -webkit-transform: rotate(-15.7deg);
-    -moz-transform: rotate(-15.7deg);
-    -ms-transform: rotate(-15.7deg);
-    -o-transform: rotate(-15.7deg);
-    transform: rotate(-15.7deg);
-    -webkit-transform-origin: 100% 100%;
-    -moz-transform-origin: 100% 100%;
-    -ms-transform-origin: 100% 100%;
-    -o-transform-origin: 100% 100%;
-    transform-origin: 100% 100%;
-    right: 60px; }
-  body.thesis-editing #thesis-editor.active .thesis-button:nth-child(2) {
-    -webkit-transform: rotate(-12.56deg);
-    -moz-transform: rotate(-12.56deg);
-    -ms-transform: rotate(-12.56deg);
-    -o-transform: rotate(-12.56deg);
-    transform: rotate(-12.56deg);
-    -webkit-transform-origin: 100% 100%;
-    -moz-transform-origin: 100% 100%;
-    -ms-transform-origin: 100% 100%;
-    -o-transform-origin: 100% 100%;
-    transform-origin: 100% 100%;
-    right: 40px; }
-  body.thesis-editing #thesis-editor.active .thesis-button:nth-child(3) {
-    -webkit-transform: rotate(-9.42deg);
-    -moz-transform: rotate(-9.42deg);
-    -ms-transform: rotate(-9.42deg);
-    -o-transform: rotate(-9.42deg);
-    transform: rotate(-9.42deg);
-    -webkit-transform-origin: 100% 100%;
-    -moz-transform-origin: 100% 100%;
-    -ms-transform-origin: 100% 100%;
-    -o-transform-origin: 100% 100%;
-    transform-origin: 100% 100%;
-    right: 24px; }
-  body.thesis-editing #thesis-editor.active .thesis-button:nth-child(4) {
-    -webkit-transform: rotate(-6.28deg);
-    -moz-transform: rotate(-6.28deg);
-    -ms-transform: rotate(-6.28deg);
-    -o-transform: rotate(-6.28deg);
-    transform: rotate(-6.28deg);
-    -webkit-transform-origin: 100% 100%;
-    -moz-transform-origin: 100% 100%;
-    -ms-transform-origin: 100% 100%;
-    -o-transform-origin: 100% 100%;
-    transform-origin: 100% 100%;
-    right: 12px; }
-  body.thesis-editing #thesis-editor.active .thesis-button:nth-child(5) {
-    -webkit-transform: rotate(-3.14deg);
-    -moz-transform: rotate(-3.14deg);
-    -ms-transform: rotate(-3.14deg);
-    -o-transform: rotate(-3.14deg);
-    transform: rotate(-3.14deg);
-    -webkit-transform-origin: 100% 100%;
-    -moz-transform-origin: 100% 100%;
-    -ms-transform-origin: 100% 100%;
-    -o-transform-origin: 100% 100%;
-    transform-origin: 100% 100%;
-    right: 4px; }
 
 body.thesis-editing .thesis-content {
   position: relative;
