@@ -10,6 +10,6 @@
   @for $i from 1 to $limit
     &:nth-child(#{$i})
       @include transform(rotate(- (($limit - $i) * 3.14)+deg))
-      @include transform-origin(100% 100%)
+      @include transform-origin(0% 100%)
       $right: (($limit  - $i) * $limit) * ($limit + 1 - $i) / 3
       right: $right+15+px

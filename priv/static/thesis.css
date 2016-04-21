@@ -358,11 +358,11 @@
   0% {
     border-color: #1BB6EC; }
   20% {
-    border-color: #A8BA6E; }
+    border-color: #64BA27; }
   40% {
-    border-color: #FFC549; }
+    border-color: #FFC154; }
   60% {
-    border-color: #F1605A; }
+    border-color: #F11809; }
   80% {
     border-color: #CB006C; }
   100% {
@@ -371,11 +371,11 @@
   0% {
     border-color: #1BB6EC; }
   20% {
-    border-color: #A8BA6E; }
+    border-color: #64BA27; }
   40% {
-    border-color: #FFC549; }
+    border-color: #FFC154; }
   60% {
-    border-color: #F1605A; }
+    border-color: #F11809; }
   80% {
     border-color: #CB006C; }
   100% {
@@ -384,11 +384,11 @@
   0% {
     border-color: #1BB6EC; }
   20% {
-    border-color: #A8BA6E; }
+    border-color: #64BA27; }
   40% {
-    border-color: #FFC549; }
+    border-color: #FFC154; }
   60% {
-    border-color: #F1605A; }
+    border-color: #F11809; }
   80% {
     border-color: #CB006C; }
   100% {
@@ -397,11 +397,11 @@
   0% {
     border-color: #1BB6EC; }
   20% {
-    border-color: #A8BA6E; }
+    border-color: #64BA27; }
   40% {
-    border-color: #FFC549; }
+    border-color: #FFC154; }
   60% {
-    border-color: #F1605A; }
+    border-color: #F11809; }
   80% {
     border-color: #CB006C; }
   100% {
@@ -410,11 +410,11 @@
   0% {
     border-color: #1BB6EC; }
   20% {
-    border-color: #A8BA6E; }
+    border-color: #64BA27; }
   40% {
-    border-color: #FFC549; }
+    border-color: #FFC154; }
   60% {
-    border-color: #F1605A; }
+    border-color: #F11809; }
   80% {
     border-color: #CB006C; }
   100% {
@@ -423,11 +423,11 @@
   0% {
     color: #1095c4; }
   20% {
-    color: #91a64f; }
+    color: #4d901e; }
   40% {
-    color: #ffb516; }
+    color: #ffaf21; }
   60% {
-    color: #ed332b; }
+    color: #c01307; }
   80% {
     color: #980051; }
   100% {
@@ -436,11 +436,11 @@
   0% {
     color: #1095c4; }
   20% {
-    color: #91a64f; }
+    color: #4d901e; }
   40% {
-    color: #ffb516; }
+    color: #ffaf21; }
   60% {
-    color: #ed332b; }
+    color: #c01307; }
   80% {
     color: #980051; }
   100% {
@@ -449,11 +449,11 @@
   0% {
     color: #1095c4; }
   20% {
-    color: #91a64f; }
+    color: #4d901e; }
   40% {
-    color: #ffb516; }
+    color: #ffaf21; }
   60% {
-    color: #ed332b; }
+    color: #c01307; }
   80% {
     color: #980051; }
   100% {
@@ -462,11 +462,11 @@
   0% {
     color: #1095c4; }
   20% {
-    color: #91a64f; }
+    color: #4d901e; }
   40% {
-    color: #ffb516; }
+    color: #ffaf21; }
   60% {
-    color: #ed332b; }
+    color: #c01307; }
   80% {
     color: #980051; }
   100% {
@@ -475,11 +475,11 @@
   0% {
     color: #1095c4; }
   20% {
-    color: #91a64f; }
+    color: #4d901e; }
   40% {
-    color: #ffb516; }
+    color: #ffaf21; }
   60% {
-    color: #ed332b; }
+    color: #c01307; }
   80% {
     color: #980051; }
   100% {
@@ -613,13 +613,13 @@ body {
     #thesis-modal .modal-field.submit button, #thesis-modal .modal-field.cancel button {
       height: 60px;
       width: 100%;
-      color: #A8BA6E; }
+      color: #64BA27; }
       #thesis-modal .modal-field.submit button i, #thesis-modal .modal-field.submit button span, #thesis-modal .modal-field.cancel button i, #thesis-modal .modal-field.cancel button span {
         display: inline-block;
         vertical-align: middle;
         margin: 0px 5px; }
       #thesis-modal .modal-field.submit button:hover, #thesis-modal .modal-field.cancel button:hover {
-        background-color: #a8ba6e;
+        background-color: #64ba27;
         box-shadow: 0px 0px 35px 26px white inset;
         -webkit-transition: background-color 0.2s ease-in-out;
         -moz-transition: background-color 0.2s ease-in-out;
@@ -659,11 +659,11 @@ body {
       -ms-transform: rotate(-9.42deg);
       -o-transform: rotate(-9.42deg);
       transform: rotate(-9.42deg);
-      -webkit-transform-origin: 100% 100%;
-      -moz-transform-origin: 100% 100%;
-      -ms-transform-origin: 100% 100%;
-      -o-transform-origin: 100% 100%;
-      transform-origin: 100% 100%;
+      -webkit-transform-origin: 0% 100%;
+      -moz-transform-origin: 0% 100%;
+      -ms-transform-origin: 0% 100%;
+      -o-transform-origin: 0% 100%;
+      transform-origin: 0% 100%;
       right: 31px; }
     #thesis-editor.active .thesis-button:nth-child(2) {
       -webkit-transform: rotate(-6.28deg);
@@ -671,11 +671,11 @@ body {
       -ms-transform: rotate(-6.28deg);
       -o-transform: rotate(-6.28deg);
       transform: rotate(-6.28deg);
-      -webkit-transform-origin: 100% 100%;
-      -moz-transform-origin: 100% 100%;
-      -ms-transform-origin: 100% 100%;
-      -o-transform-origin: 100% 100%;
-      transform-origin: 100% 100%;
+      -webkit-transform-origin: 0% 100%;
+      -moz-transform-origin: 0% 100%;
+      -ms-transform-origin: 0% 100%;
+      -o-transform-origin: 0% 100%;
+      transform-origin: 0% 100%;
       right: 23px; }
     #thesis-editor.active .thesis-button:nth-child(3) {
       -webkit-transform: rotate(-3.14deg);
@@ -683,11 +683,11 @@ body {
       -ms-transform: rotate(-3.14deg);
       -o-transform: rotate(-3.14deg);
       transform: rotate(-3.14deg);
-      -webkit-transform-origin: 100% 100%;
-      -moz-transform-origin: 100% 100%;
-      -ms-transform-origin: 100% 100%;
-      -o-transform-origin: 100% 100%;
-      transform-origin: 100% 100%;
+      -webkit-transform-origin: 0% 100%;
+      -moz-transform-origin: 0% 100%;
+      -ms-transform-origin: 0% 100%;
+      -o-transform-origin: 0% 100%;
+      transform-origin: 0% 100%;
       right: 17.66667px; }
     #thesis-editor.active .thesis-button.edit i {
       background-size: 30px 30px;
@@ -714,11 +714,11 @@ body {
         -ms-transform: rotate(-15.7deg);
         -o-transform: rotate(-15.7deg);
         transform: rotate(-15.7deg);
-        -webkit-transform-origin: 100% 100%;
-        -moz-transform-origin: 100% 100%;
-        -ms-transform-origin: 100% 100%;
-        -o-transform-origin: 100% 100%;
-        transform-origin: 100% 100%;
+        -webkit-transform-origin: 0% 100%;
+        -moz-transform-origin: 0% 100%;
+        -ms-transform-origin: 0% 100%;
+        -o-transform-origin: 0% 100%;
+        transform-origin: 0% 100%;
         right: 75px; }
       #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.add:nth-child(2), #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.delete:nth-child(2) {
         -webkit-transform: rotate(-12.56deg);
@@ -726,11 +726,11 @@ body {
         -ms-transform: rotate(-12.56deg);
         -o-transform: rotate(-12.56deg);
         transform: rotate(-12.56deg);
-        -webkit-transform-origin: 100% 100%;
-        -moz-transform-origin: 100% 100%;
-        -ms-transform-origin: 100% 100%;
-        -o-transform-origin: 100% 100%;
-        transform-origin: 100% 100%;
+        -webkit-transform-origin: 0% 100%;
+        -moz-transform-origin: 0% 100%;
+        -ms-transform-origin: 0% 100%;
+        -o-transform-origin: 0% 100%;
+        transform-origin: 0% 100%;
         right: 55px; }
       #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.add:nth-child(3), #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.delete:nth-child(3) {
         -webkit-transform: rotate(-9.42deg);
@@ -738,11 +738,11 @@ body {
         -ms-transform: rotate(-9.42deg);
         -o-transform: rotate(-9.42deg);
         transform: rotate(-9.42deg);
-        -webkit-transform-origin: 100% 100%;
-        -moz-transform-origin: 100% 100%;
-        -ms-transform-origin: 100% 100%;
-        -o-transform-origin: 100% 100%;
-        transform-origin: 100% 100%;
+        -webkit-transform-origin: 0% 100%;
+        -moz-transform-origin: 0% 100%;
+        -ms-transform-origin: 0% 100%;
+        -o-transform-origin: 0% 100%;
+        transform-origin: 0% 100%;
         right: 39px; }
       #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.add:nth-child(4), #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.delete:nth-child(4) {
         -webkit-transform: rotate(-6.28deg);
@@ -750,11 +750,11 @@ body {
         -ms-transform: rotate(-6.28deg);
         -o-transform: rotate(-6.28deg);
         transform: rotate(-6.28deg);
-        -webkit-transform-origin: 100% 100%;
-        -moz-transform-origin: 100% 100%;
-        -ms-transform-origin: 100% 100%;
-        -o-transform-origin: 100% 100%;
-        transform-origin: 100% 100%;
+        -webkit-transform-origin: 0% 100%;
+        -moz-transform-origin: 0% 100%;
+        -ms-transform-origin: 0% 100%;
+        -o-transform-origin: 0% 100%;
+        transform-origin: 0% 100%;
         right: 27px; }
       #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.add:nth-child(5), #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.delete:nth-child(5) {
         -webkit-transform: rotate(-3.14deg);
@@ -762,11 +762,11 @@ body {
         -ms-transform: rotate(-3.14deg);
         -o-transform: rotate(-3.14deg);
         transform: rotate(-3.14deg);
-        -webkit-transform-origin: 100% 100%;
-        -moz-transform-origin: 100% 100%;
-        -ms-transform-origin: 100% 100%;
-        -o-transform-origin: 100% 100%;
-        transform-origin: 100% 100%;
+        -webkit-transform-origin: 0% 100%;
+        -moz-transform-origin: 0% 100%;
+        -ms-transform-origin: 0% 100%;
+        -o-transform-origin: 0% 100%;
+        transform-origin: 0% 100%;
         right: 19px; }
 @-webkit-keyframes animateOpacity {
   from {
@@ -787,11 +787,11 @@ body {
     -webkit-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -webkit-transform 0.75s ease-in-out;
     -moz-transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, -moz-transform 0.75s ease-in-out;
     transition: opacity 0.75s ease-in-out, right 0.75s ease-in-out, transform 0.75s ease-in-out;
-    -webkit-transform-origin: 100% 100%;
-    -moz-transform-origin: 100% 100%;
-    -ms-transform-origin: 100% 100%;
-    -o-transform-origin: 100% 100%;
-    transform-origin: 100% 100%;
+    -webkit-transform-origin: 0% 100%;
+    -moz-transform-origin: 0% 100%;
+    -ms-transform-origin: 0% 100%;
+    -o-transform-origin: 0% 100%;
+    transform-origin: 0% 100%;
     right: 15px;
     opacity: 0;
     display: block;
@@ -807,9 +807,9 @@ body {
     pointer-events: none;
     position: absolute; }
     #thesis-editor .thesis-button.cancel > i {
-      background-color: #F1605A; }
+      background-color: #F11809; }
       #thesis-editor .thesis-button.cancel > i:hover {
-        background-color: #ee3c34;
+        background-color: #ca1408;
         -webkit-transition: background-color 0.3s ease-in-out;
         -moz-transition: background-color 0.3s ease-in-out;
         transition: background-color 0.3s ease-in-out; }
@@ -828,16 +828,16 @@ body {
         -moz-transition: background-color 0.3s ease-in-out;
         transition: background-color 0.3s ease-in-out; }
     #thesis-editor .thesis-button.save > i {
-      background-color: #A8BA6E; }
+      background-color: #64BA27; }
       #thesis-editor .thesis-button.save > i:hover {
-        background-color: #97ad52;
+        background-color: #529820;
         -webkit-transition: background-color 0.3s ease-in-out;
         -moz-transition: background-color 0.3s ease-in-out;
         transition: background-color 0.3s ease-in-out; }
     #thesis-editor .thesis-button.settings > i {
-      background-color: #FFC549; }
+      background-color: #FFC154; }
       #thesis-editor .thesis-button.settings > i:hover {
-        background-color: #ffb820;
+        background-color: #ffb22b;
         -webkit-transition: background-color 0.3s ease-in-out;
         -moz-transition: background-color 0.3s ease-in-out;
         transition: background-color 0.3s ease-in-out; }
@@ -943,7 +943,7 @@ body.thesis-editing .thesis-content {
     opacity: 0;
     position: absolute;
     content: "MODIFIED";
-    background: #91a64f;
+    background: #4d901e;
     right: 0;
     bottom: -16px;
     line-height: 16px;
@@ -984,7 +984,7 @@ body.thesis-editing .thesis-content {
     height: 16px;
     width: auto; }
   body.thesis-editing .thesis-content.modified:after {
-    border-color: #91a64f; }
+    border-color: #4d901e; }
 
 #thesis-fader {
   top: 0px;
