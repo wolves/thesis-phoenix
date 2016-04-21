@@ -1,0 +1,26 @@
+body.thesis-tray-open
+  left       : -380px
+  overflow-x : hidden
+
+  #thesis-tray
+    left  : auto
+    right : 0
+
+#thesis-tray
+  @include transition(right .3s ease-in-out)
+  position   : fixed
+  width      : 380px
+  height     : 100%
+  right      : -380px
+  bottom     : 0
+  background : white
+  z-index    : 1039
+  box-shadow : 2px 0px 8px lighten($gray, 10%) inset
+
+  .attribution
+    position : absolute
+    bottom   : 0
+    left     : 0
+    width    : 100%
+    padding  : 20px
+  // @extend %form-styles

@@ -6,6 +6,7 @@ import SettingsButton from './components/settings_button'
 import CancelButton from './components/cancel_button'
 import SaveButton from './components/save_button'
 import EditButton from './components/edit_button'
+import AttributionText from './components/attribution_text'
 import MediumEditor from 'medium-editor'
 import Net from './utilities/net'
 
@@ -157,30 +158,16 @@ class ThesisEditor extends React.Component {
     return contents
   }
 
-  renderEditorClass () {
-    let classes = ''
-    classes += (this.state.editing) ? ' active ' : ''
-    classes += (this.state.pageToolsHidden) ? ' thesis-page-tools-hidden ' : ''
-    return classes
-  }
-
-  renderEditButtonText () {
-    return this.state.editing ? 'Editing Page' : 'Edit Page'
-  }
-
   componentDidUpdate () {
-    const fader = document.querySelector('#thesis-fader')
     const el = document.querySelector('body')
     const editors = this.allContentEditors()
 
     if (this.state.editing) {
       el.classList.add('thesis-editing')
       if (!this.editor) this.addContentEditors()
-      if (!fader) el.insertAdjacentHTML('beforeend', '<div id="thesis-fader"></div>')
     } else {
       el.classList.remove('thesis-editing')
       this.removeContentEditors()
-      if (fader) fader.remove()
     }
 
     if (this.state.pageModified) {
@@ -193,18 +180,38 @@ class ThesisEditor extends React.Component {
     }
   }
 
+  renderEditorClass () {
+    let classes = ''
+    classes += (this.state.editing) ? ' active ' : ''
+    classes += (this.state.pageToolsHidden) ? ' thesis-page-tools-hidden ' : ''
+    return classes
+  }
+
+  renderEditButtonText () {
+    return this.state.editing ? 'Editing Page' : 'Edit Page'
+  }
+
+  renderFaderClass () {
+    return this.renderEditorClass()
+  }
+
   render () {
     return (
-    <div id='thesis-editor' className={this.renderEditorClass()}>
-      <SaveButton onPress={this.savePressed} />
-      <SettingsButton />
-      <CancelButton onPress={this.cancelPressed} />
-      {this.state.pageToolsHidden ? <AddButton /> : null}
-      {this.state.pageToolsHidden ? <DeleteButton /> : null}
-      <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
+    <div id="thesis">
+      <div id='thesis-editor' className={this.renderEditorClass()}>
+        <SaveButton onPress={this.savePressed} />
+        <SettingsButton />
+        <CancelButton onPress={this.cancelPressed} />
+        {this.state.pageToolsHidden ? <AddButton /> : null}
+        {this.state.pageToolsHidden ? <DeleteButton /> : null}
+        <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
+      </div>
+      <div id='thesis-fader' className={this.renderFaderClass()}></div>
+      <div id='thesis-tray'>
+      </div>
     </div>
     )
   }
 }
 
-ReactDOM.render(<ThesisEditor />, document.querySelector('#thesis-editor-container'))
+ReactDOM.render(<ThesisEditor />, document.querySelector('#thesis-container'))

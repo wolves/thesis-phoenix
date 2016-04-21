@@ -79,7 +79,7 @@ defmodule Thesis.View do
       iex> {:safe, editor} = Thesis.View.thesis_editor(%Plug.Conn{assigns: %{editable: true}})
       iex> String.contains?(editor, "<style>")
       true
-      iex> String.contains?(editor, "thesis-editor-container")
+      iex> String.contains?(editor, "thesis-container")
       true
       iex> String.contains?(editor, "<script>")
       true
@@ -90,7 +90,7 @@ defmodule Thesis.View do
   @spec thesis_editor(Plug.Conn.t) :: {:safe, String.t}
   def thesis_editor(conn) do
     if editable?(conn) do
-      editor = content_tag(:div, "", id: "thesis-editor-container")
+      editor = content_tag(:div, "", id: "thesis-container")
       safe_concat([thesis_style, editor, thesis_js])
     else
       raw ""
@@ -128,7 +128,7 @@ defmodule Thesis.View do
         }
 
         document.addEventListener('DOMContentLoaded', function (event) {
-          if (document.querySelector('#thesis-editor-container')) {
+          if (document.querySelector('#thesis-container')) {
             loadThesis()
           }
         })

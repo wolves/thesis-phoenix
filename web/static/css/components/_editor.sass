@@ -1,4 +1,9 @@
+body.thesis-tray-open
+  #thesis-editor
+    right: 380px
+
 #thesis-editor
+  @include transition(right .3s ease-in-out)
   display         : block
   position        : absolute
   right           : 0
@@ -29,7 +34,7 @@
       .thesis-button
         &.add, &.delete
           @include curve_buttons(6)
-          @include transition-duration(.75s)
+          @include transition-duration(.3s)
           @include keyframes (animateOpacity)
             from
               opacity: 0

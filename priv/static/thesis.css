@@ -329,165 +329,12 @@
     background-position: 0px 0px; }
   100% {
     background-position: 60px 0px; } }
-@-webkit-keyframes thesis_fader {
-  0% {
-    opacity: 0; }
-  100% {
-    opacity: 1; } }
-@-moz-keyframes thesis_fader {
-  0% {
-    opacity: 0; }
-  100% {
-    opacity: 1; } }
-@-ms-keyframes thesis_fader {
-  0% {
-    opacity: 0; }
-  100% {
-    opacity: 1; } }
-@-o-keyframes thesis_fader {
-  0% {
-    opacity: 0; }
-  100% {
-    opacity: 1; } }
-@keyframes thesis_fader {
-  0% {
-    opacity: 0; }
-  100% {
-    opacity: 1; } }
-@-webkit-keyframes modal_border {
-  0% {
-    border-color: #1BB6EC; }
-  20% {
-    border-color: #64BA27; }
-  40% {
-    border-color: #FFC154; }
-  60% {
-    border-color: #F11809; }
-  80% {
-    border-color: #CB006C; }
-  100% {
-    border-color: #1BB6EC; } }
-@-moz-keyframes modal_border {
-  0% {
-    border-color: #1BB6EC; }
-  20% {
-    border-color: #64BA27; }
-  40% {
-    border-color: #FFC154; }
-  60% {
-    border-color: #F11809; }
-  80% {
-    border-color: #CB006C; }
-  100% {
-    border-color: #1BB6EC; } }
-@-ms-keyframes modal_border {
-  0% {
-    border-color: #1BB6EC; }
-  20% {
-    border-color: #64BA27; }
-  40% {
-    border-color: #FFC154; }
-  60% {
-    border-color: #F11809; }
-  80% {
-    border-color: #CB006C; }
-  100% {
-    border-color: #1BB6EC; } }
-@-o-keyframes modal_border {
-  0% {
-    border-color: #1BB6EC; }
-  20% {
-    border-color: #64BA27; }
-  40% {
-    border-color: #FFC154; }
-  60% {
-    border-color: #F11809; }
-  80% {
-    border-color: #CB006C; }
-  100% {
-    border-color: #1BB6EC; } }
-@keyframes modal_border {
-  0% {
-    border-color: #1BB6EC; }
-  20% {
-    border-color: #64BA27; }
-  40% {
-    border-color: #FFC154; }
-  60% {
-    border-color: #F11809; }
-  80% {
-    border-color: #CB006C; }
-  100% {
-    border-color: #1BB6EC; } }
-@-webkit-keyframes modal_icon_color {
-  0% {
-    color: #1095c4; }
-  20% {
-    color: #4d901e; }
-  40% {
-    color: #ffaf21; }
-  60% {
-    color: #c01307; }
-  80% {
-    color: #980051; }
-  100% {
-    color: #1095c4; } }
-@-moz-keyframes modal_icon_color {
-  0% {
-    color: #1095c4; }
-  20% {
-    color: #4d901e; }
-  40% {
-    color: #ffaf21; }
-  60% {
-    color: #c01307; }
-  80% {
-    color: #980051; }
-  100% {
-    color: #1095c4; } }
-@-ms-keyframes modal_icon_color {
-  0% {
-    color: #1095c4; }
-  20% {
-    color: #4d901e; }
-  40% {
-    color: #ffaf21; }
-  60% {
-    color: #c01307; }
-  80% {
-    color: #980051; }
-  100% {
-    color: #1095c4; } }
-@-o-keyframes modal_icon_color {
-  0% {
-    color: #1095c4; }
-  20% {
-    color: #4d901e; }
-  40% {
-    color: #ffaf21; }
-  60% {
-    color: #c01307; }
-  80% {
-    color: #980051; }
-  100% {
-    color: #1095c4; } }
-@keyframes modal_icon_color {
-  0% {
-    color: #1095c4; }
-  20% {
-    color: #4d901e; }
-  40% {
-    color: #ffaf21; }
-  60% {
-    color: #c01307; }
-  80% {
-    color: #980051; }
-  100% {
-    color: #1095c4; } }
 body {
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out; }
+  -webkit-transition: all 0.3s ease-in-out, left 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out, left 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out, left 0.3s ease-in-out;
+  left: 0;
+  position: relative; }
 
 #thesis-editor, #thesis-modal, #thesis-fader {
   font-family: "Raleway", sans-serif;
@@ -495,148 +342,13 @@ body {
   #thesis-editor, #thesis-editor *, #thesis-modal, #thesis-modal *, #thesis-fader, #thesis-fader * {
     box-sizing: border-box; }
 
-#thesis-modal form {
-  margin: 0;
-  padding: 0; }
-#thesis-modal input,
-#thesis-modal label,
-#thesis-modal select {
-  display: block;
-  font-family: "Raleway", sans-serif;
-  font-size: 12px; }
-#thesis-modal label {
-  font-weight: normal;
-  margin-bottom: 8px; }
-  #thesis-modal label.required:after {
-    content: "*"; }
-  #thesis-modal label abbr {
-    display: none; }
-#thesis-modal textarea,
-#thesis-modal input,
-#thesis-modal button,
-#thesis-modal select[multiple=multiple] {
-  box-sizing: border-box;
-  -webkit-transition: border-color;
-  -moz-transition: border-color;
-  transition: border-color;
-  background-color: white;
-  border: none;
-  box-shadow: none;
-  font-family: "Raleway", sans-serif;
-  font-size: 17px;
-  margin-bottom: 0px;
-  padding: 5px 0px;
-  width: 100%;
-  color: #6c6e74;
-  font-weight: bold; }
-  #thesis-modal textarea::-webkit-input-placeholder,
-  #thesis-modal input::-webkit-input-placeholder,
-  #thesis-modal button::-webkit-input-placeholder,
-  #thesis-modal select[multiple=multiple]::-webkit-input-placeholder {
-    color: #A7AAAB; }
-  #thesis-modal textarea::-moz-placeholder,
-  #thesis-modal input::-moz-placeholder,
-  #thesis-modal button::-moz-placeholder,
-  #thesis-modal select[multiple=multiple]::-moz-placeholder {
-    color: #A7AAAB; }
-  #thesis-modal textarea:-moz-placeholder,
-  #thesis-modal input:-moz-placeholder,
-  #thesis-modal button:-moz-placeholder,
-  #thesis-modal select[multiple=multiple]:-moz-placeholder {
-    color: #A7AAAB; }
-  #thesis-modal textarea:-ms-input-placeholder,
-  #thesis-modal input:-ms-input-placeholder,
-  #thesis-modal button:-ms-input-placeholder,
-  #thesis-modal select[multiple=multiple]:-ms-input-placeholder {
-    color: #A7AAAB; }
-#thesis-modal textarea {
-  resize: vertical;
-  height: 60px; }
-#thesis-modal input[type="search"] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  -o-appearance: none;
-  appearance: none; }
-#thesis-modal input[type="checkbox"], #thesis-modal input[type="radio"] {
-  display: inline;
-  margin-right: 15px; }
-#thesis-modal input[type="file"] {
-  margin-bottom: 8px;
-  width: 100%; }
-#thesis-modal select {
-  width: auto;
-  max-width: 100%;
-  margin-bottom: 8px; }
-#thesis-modal label.checkbox {
-  margin-bottom: 10px; }
-  #thesis-modal label.checkbox input {
-    display: none; }
-  #thesis-modal label.checkbox input:checked + span:before {
-    background: image-url("ico.checkbox-selected.png") no-repeat center center; }
-  #thesis-modal label.checkbox span {
-    font-size: 15px;
-    color: #8C9092;
-    font-weight: normal;
-    line-height: 20px; }
-    #thesis-modal label.checkbox span:before {
-      display: inline-block;
-      margin-right: 8px;
-      background: image-url("ico.checkbox.png") no-repeat center center;
-      width: 20px;
-      height: 20px;
-      content: "";
-      vertical-align: middle; }
-#thesis-modal .modal-field {
-  width: 100%;
-  border-bottom: 1px solid #A0A1A6;
-  clear: both; }
-  #thesis-modal .modal-field::after {
-    clear: both;
-    content: "";
-    display: table; }
-  #thesis-modal .modal-field > span {
-    width: 33%;
-    float: left;
-    display: block;
-    padding: 12px 0px 5px; }
-  #thesis-modal .modal-field > input {
-    width: 66%;
-    float: left; }
-  #thesis-modal .modal-field.submit, #thesis-modal .modal-field.cancel {
-    border-bottom: 0px;
-    margin-bottom: 0px;
-    margin-top: 15px;
-    float: left;
-    width: 50%;
-    clear: none; }
-    #thesis-modal .modal-field.submit button, #thesis-modal .modal-field.cancel button {
-      height: 60px;
-      width: 100%;
-      color: #64BA27; }
-      #thesis-modal .modal-field.submit button i, #thesis-modal .modal-field.submit button span, #thesis-modal .modal-field.cancel button i, #thesis-modal .modal-field.cancel button span {
-        display: inline-block;
-        vertical-align: middle;
-        margin: 0px 5px; }
-      #thesis-modal .modal-field.submit button:hover, #thesis-modal .modal-field.cancel button:hover {
-        background-color: #64ba27;
-        box-shadow: 0px 0px 35px 26px white inset;
-        -webkit-transition: background-color 0.2s ease-in-out;
-        -moz-transition: background-color 0.2s ease-in-out;
-        transition: background-color 0.2s ease-in-out; }
-  #thesis-modal .modal-field.cancel button {
-    color: #CB006C;
-    -webkit-animation: none;
-    -moz-animation: none;
-    animation: none; }
-    #thesis-modal .modal-field.cancel button:hover {
-      background-color: #cb006c;
-      box-shadow: 0px 0px 35px 26px white inset;
-      -webkit-transition: background-color 0.2s ease-in-out;
-      -moz-transition: background-color 0.2s ease-in-out;
-      transition: background-color 0.2s ease-in-out; }
+body.thesis-tray-open #thesis-editor {
+  right: 380px; }
 
 #thesis-editor {
+  -webkit-transition: right 0.3s ease-in-out;
+  -moz-transition: right 0.3s ease-in-out;
+  transition: right 0.3s ease-in-out;
   display: block;
   position: absolute;
   right: 0;
@@ -700,9 +412,9 @@ body {
   #thesis-editor.thesis-page-tools-hidden {
     height: 300px; }
     #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.add, #thesis-editor.thesis-page-tools-hidden:hover .thesis-button.delete {
-      -webkit-transition-duration: 0.75s;
-      -moz-transition-duration: 0.75s;
-      transition-duration: 0.75s;
+      -webkit-transition-duration: 0.3s;
+      -moz-transition-duration: 0.3s;
+      transition-duration: 0.3s;
       -webkit-animation: animateOpacity 0.75s ease-in-out;
       -moz-animation: animateOpacity 0.75s ease-in-out;
       animation: animateOpacity 0.75s ease-in-out;
@@ -987,56 +699,47 @@ body.thesis-editing .thesis-content {
     border-color: #4d901e; }
 
 #thesis-fader {
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
+  -webkit-transition: opacity 0.75s ease-in-out, right 0.3s ease-in-out;
+  -moz-transition: opacity 0.75s ease-in-out, right 0.3s ease-in-out;
+  transition: opacity 0.75s ease-in-out, right 0.3s ease-in-out;
+  bottom: 0px;
+  right: 0px;
   position: fixed;
   background-color: rgba(0, 0, 0, 0.4);
   cursor: not-allowed;
   z-index: 1038;
-  -webkit-animation: thesis_fader 0.2s ease-in-out;
-  -moz-animation: thesis_fader 0.2s ease-in-out;
-  animation: thesis_fader 0.2s ease-in-out; }
+  opacity: 0;
+  width: 100%;
+  height: 100%; }
+  #thesis-fader.active {
+    opacity: 1; }
+  #thesis-fader.thesis-page-tools-hidden {
+    width: 0px;
+    height: 0px; }
 
-#thesis-modal {
-  display: none;
+body.thesis-tray-open {
+  left: -380px;
+  overflow-x: hidden; }
+  body.thesis-tray-open #thesis-tray {
+    left: auto;
+    right: 0; }
+
+#thesis-tray {
+  -webkit-transition: right 0.3s ease-in-out;
+  -moz-transition: right 0.3s ease-in-out;
+  transition: right 0.3s ease-in-out;
   position: fixed;
-  width: 600px;
-  height: auto;
+  width: 380px;
+  height: 100%;
+  right: -380px;
+  bottom: 0;
   background: white;
-  left: 50%;
-  top: 50%;
-  margin-left: -300px;
-  margin-top: -100px;
-  border-radius: 50px;
   z-index: 1039;
-  padding: 25px;
-  border: 3px solid #1BB6EC;
-  box-shadow: 0px 0px 0px 4px white;
-  color: #6c6e74;
-  font-family: "Raleway", sans-serif;
-  -webkit-animation: modal_border 10s ease-in-out infinite;
-  -moz-animation: modal_border 10s ease-in-out infinite;
-  animation: modal_border 10s ease-in-out infinite; }
-  #thesis-modal.settings {
-    margin-top: -252px; }
-  #thesis-modal .modal-icon {
-    text-align: center;
-    font-size: 24px;
-    font-weight: 300;
-    color: #1BB6EC;
-    margin-bottom: 5px;
-    -webkit-animation: modal_icon_color 10s ease-in-out infinite;
-    -moz-animation: modal_icon_color 10s ease-in-out infinite;
-    animation: modal_icon_color 10s ease-in-out infinite; }
-  #thesis-modal .modal-title {
-    text-align: center;
-    font-weight: 300;
-    font-size: 28px;
-    margin-bottom: 15px; }
-  #thesis-modal.windows .modal-field.cancel {
-    float: right; }
-  #thesis-modal.windows .modal-field.save {
-    float: left; }
+  box-shadow: 2px 0px 8px #babbbf inset; }
+  #thesis-tray .attribution {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px; }
 

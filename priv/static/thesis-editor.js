@@ -27309,6 +27309,11 @@ exports.default = AddButton;
 
 });
 
+require.register("web/static/js/components/attribution_text", function(exports, require, module) {
+"use strict";
+
+});
+
 require.register("web/static/js/components/cancel_button", function(exports, require, module) {
 "use strict";
 
@@ -27584,59 +27589,6 @@ exports.default = SettingsButton;
 
 });
 
-require.register("web/static/js/components/style_button", function(exports, require, module) {
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var StyleButton = function (_React$Component) {
-  _inherits(StyleButton, _React$Component);
-
-  function StyleButton() {
-    _classCallCheck(this, StyleButton);
-
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(StyleButton).call(this));
-
-    _this.onToggle = function (e) {
-      e.preventDefault();
-      _this.props.onToggle(_this.props.style);
-    };
-    return _this;
-  }
-
-  _createClass(StyleButton, [{
-    key: 'render',
-    value: function render() {
-      var className = 'RichEditor-styleButton';
-      if (this.props.active) {
-        className += ' RichEditor-activeButton';
-      }
-
-      return _react2.default.createElement(
-        'span',
-        { className: className, onMouseDown: this.onToggle },
-        this.props.label
-      );
-    }
-  }]);
-
-  return StyleButton;
-}(_react2.default.Component);
-
-});
-
 require.register("web/static/js/thesis-editor", function(exports, require, module) {
 'use strict';
 
@@ -27673,6 +27625,10 @@ var _save_button2 = _interopRequireDefault(_save_button);
 var _edit_button = require('./components/edit_button');
 
 var _edit_button2 = _interopRequireDefault(_edit_button);
+
+var _attribution_text = require('./components/attribution_text');
+
+var _attribution_text2 = _interopRequireDefault(_attribution_text);
 
 var _mediumEditor = require('medium-editor');
 
@@ -27861,6 +27817,29 @@ var ThesisEditor = function (_React$Component) {
       return contents;
     }
   }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      var el = document.querySelector('body');
+      var editors = this.allContentEditors();
+
+      if (this.state.editing) {
+        el.classList.add('thesis-editing');
+        if (!this.editor) this.addContentEditors();
+      } else {
+        el.classList.remove('thesis-editing');
+        this.removeContentEditors();
+      }
+
+      if (this.state.pageModified) {
+        el.classList.add('thesis-page-modified');
+      } else {
+        el.classList.remove('thesis-page-modified');
+        for (var i = 0; i < editors.length; i++) {
+          editors[i].classList.remove('modified');
+        }
+      }
+    }
+  }, {
     key: 'renderEditorClass',
     value: function renderEditorClass() {
       var classes = '';
@@ -27874,43 +27853,28 @@ var ThesisEditor = function (_React$Component) {
       return this.state.editing ? 'Editing Page' : 'Edit Page';
     }
   }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      var fader = document.querySelector('#thesis-fader');
-      var el = document.querySelector('body');
-      var editors = this.allContentEditors();
-
-      if (this.state.editing) {
-        el.classList.add('thesis-editing');
-        if (!this.editor) this.addContentEditors();
-        if (!fader) el.insertAdjacentHTML('beforeend', '<div id="thesis-fader"></div>');
-      } else {
-        el.classList.remove('thesis-editing');
-        this.removeContentEditors();
-        if (fader) fader.remove();
-      }
-
-      if (this.state.pageModified) {
-        el.classList.add('thesis-page-modified');
-      } else {
-        el.classList.remove('thesis-page-modified');
-        for (var i = 0; i < editors.length; i++) {
-          editors[i].classList.remove('modified');
-        }
-      }
+    key: 'renderFaderClass',
+    value: function renderFaderClass() {
+      return this.renderEditorClass();
     }
   }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { id: 'thesis-editor', className: this.renderEditorClass() },
-        _react2.default.createElement(_save_button2.default, { onPress: this.savePressed }),
-        _react2.default.createElement(_settings_button2.default, null),
-        _react2.default.createElement(_cancel_button2.default, { onPress: this.cancelPressed }),
-        this.state.pageToolsHidden ? _react2.default.createElement(_add_button2.default, null) : null,
-        this.state.pageToolsHidden ? _react2.default.createElement(_delete_button2.default, null) : null,
-        _react2.default.createElement(_edit_button2.default, { onPress: this.editPressed, text: this.renderEditButtonText() })
+        { id: 'thesis' },
+        _react2.default.createElement(
+          'div',
+          { id: 'thesis-editor', className: this.renderEditorClass() },
+          _react2.default.createElement(_save_button2.default, { onPress: this.savePressed }),
+          _react2.default.createElement(_settings_button2.default, null),
+          _react2.default.createElement(_cancel_button2.default, { onPress: this.cancelPressed }),
+          this.state.pageToolsHidden ? _react2.default.createElement(_add_button2.default, null) : null,
+          this.state.pageToolsHidden ? _react2.default.createElement(_delete_button2.default, null) : null,
+          _react2.default.createElement(_edit_button2.default, { onPress: this.editPressed, text: this.renderEditButtonText() })
+        ),
+        _react2.default.createElement('div', { id: 'thesis-fader', className: this.renderFaderClass() }),
+        _react2.default.createElement('div', { id: 'thesis-tray' })
       );
     }
   }]);
@@ -27918,7 +27882,7 @@ var ThesisEditor = function (_React$Component) {
   return ThesisEditor;
 }(_react2.default.Component);
 
-_reactDom2.default.render(_react2.default.createElement(ThesisEditor, null), document.querySelector('#thesis-editor-container'));
+_reactDom2.default.render(_react2.default.createElement(ThesisEditor, null), document.querySelector('#thesis-container'));
 
 });
 
