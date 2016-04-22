@@ -243,8 +243,8 @@ class ThesisEditor extends React.Component {
         <SaveButton onPress={this.savePressed} />
         <SettingsButton onPress={this.pageSettingsPressed} />
         <CancelButton onPress={this.cancelPressed} />
-        {this.state.pageToolsHidden ? <AddButton onPress={this.addPagePressed} /> : null}
-        {this.state.pageToolsHidden ? <DeleteButton /> : null}
+        {/*this.state.pageToolsHidden ? <AddButton onPress={this.addPagePressed} /> : null*/}
+        {/*this.state.pageToolsHidden ? <DeleteButton /> : null*/}
         <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
       </div>
       <div id='thesis-fader' className={this.renderFaderClass()}></div>

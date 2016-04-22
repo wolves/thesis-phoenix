@@ -27,22 +27,23 @@ body.thesis-tray-open
       &.edit i
         @include barber_pole(darken($gray, 8%), rgba(white, .25))
 
-  &.thesis-page-tools-hidden
-    height: 300px
+  // ENABLE when add/delete buttons are addded
+  // &.thesis-page-tools-hidden
+  //   height: 300px
 
-    &:hover
-      .thesis-button
-        &.add, &.delete
-          @include curve_buttons(6)
-          @include transition-duration(.3s)
-          @include keyframes (animateOpacity)
-            from
-              opacity: 0
-            to
-              opacity: 1
-          @include animation( animateOpacity .75s ease-in-out )
-          opacity        : 1
-          pointer-events : auto
+  //   &:hover
+  //     .thesis-button
+  //       &.add, &.delete
+  //         @include curve_buttons(6)
+  //         @include transition-duration(.3s)
+  //         @include keyframes (animateOpacity)
+  //           from
+  //             opacity: 0
+  //           to
+  //             opacity: 1
+  //         @include animation( animateOpacity .75s ease-in-out )
+  //         opacity        : 1
+  //         pointer-events : auto
 
   .thesis-button
     @include editor_icons(("cancel": $orange, "delete": $pink, "add": $blue, "save": $green, "settings": $yellow ))

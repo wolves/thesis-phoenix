@@ -28093,8 +28093,6 @@ var ThesisEditor = function (_React$Component) {
           _react2.default.createElement(_save_button2.default, { onPress: this.savePressed }),
           _react2.default.createElement(_settings_button2.default, { onPress: this.pageSettingsPressed }),
           _react2.default.createElement(_cancel_button2.default, { onPress: this.cancelPressed }),
-          this.state.pageToolsHidden ? _react2.default.createElement(_add_button2.default, { onPress: this.addPagePressed }) : null,
-          this.state.pageToolsHidden ? _react2.default.createElement(_delete_button2.default, null) : null,
           _react2.default.createElement(_edit_button2.default, { onPress: this.editPressed, text: this.renderEditButtonText() })
         ),
         _react2.default.createElement('div', { id: 'thesis-fader', className: this.renderFaderClass() }),
