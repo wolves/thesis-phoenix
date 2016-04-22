@@ -954,12 +954,3 @@ body.thesis-tray-open {
     letter-spacing: 1.5px;
     margin-bottom: 25px; }
 
-#thesis-tray.page-settings button.thesis-tray-cancel {
-  background: #F15900; }
-  #thesis-tray.page-settings button.thesis-tray-cancel:hover {
-    background: #c84a00; }
-#thesis-tray.page-settings button.thesis-tray-save {
-  background: #64BA27; }
-  #thesis-tray.page-settings button.thesis-tray-save:hover {
-    background: #529820; }
-
