@@ -6,6 +6,7 @@ import SettingsButton from './components/settings_button'
 import CancelButton from './components/cancel_button'
 import SaveButton from './components/save_button'
 import EditButton from './components/edit_button'
+import SettingsTray from './components/settings_tray'
 import AttributionText from './components/attribution_text'
 import MediumEditor from 'medium-editor'
 import Net from './utilities/net'
@@ -34,7 +35,9 @@ class ThesisEditor extends React.Component {
     this.state = {
       editing: false,
       pageModified: false,
-      pageToolsHidden: true
+      pageToolsHidden: true,
+      trayOpen: false,
+      trayType: null
     }
     this.editor = null
 
@@ -42,6 +45,8 @@ class ThesisEditor extends React.Component {
     this.cancelPressed = this.cancelPressed.bind(this)
     this.savePressed = this.savePressed.bind(this)
     this.editPressed = this.editPressed.bind(this)
+    this.addPagePressed = this.addPagePressed.bind(this)
+    this.pageSettingsPressed = this.pageSettingsPressed.bind(this)
   }
 
   editPressed () {
@@ -51,12 +56,12 @@ class ThesisEditor extends React.Component {
       if (this.state.pageModified) {
         this.cancelPressed()
       } else {
-        this.setState({editing: false, pageModified: false})
+        this.setState({editing: false, pageModified: false, trayOpen: false})
         setTimeout(() => {
           this.setState({pageToolsHidden: true})}, 800)
       }
     } else {
-      this.setState({editing: true, pageToolsHidden: false })
+      this.setState({editing: true, pageToolsHidden: false, trayOpen: false})
     }
   }
 
@@ -74,6 +79,14 @@ class ThesisEditor extends React.Component {
       this.setState({editing: false})
       window.location.reload()
     }
+  }
+
+  addPagePressed () {
+    this.setState({trayOpen: !this.state.trayOpen, trayType: 'add-page'})
+  }
+
+  pageSettingsPressed () {
+    this.setState({trayOpen: !this.state.trayOpen, trayType: 'page-settings'})
   }
 
   postToServer (page, contents) {
@@ -178,6 +191,12 @@ class ThesisEditor extends React.Component {
         editors[i].classList.remove('modified')
       }
     }
+
+    if (this.state.trayOpen) {
+      el.classList.add('thesis-tray-open')
+    } else {
+      el.classList.remove('thesis-tray-open')
+    }
   }
 
   renderEditorClass () {
@@ -195,19 +214,43 @@ class ThesisEditor extends React.Component {
     return this.renderEditorClass()
   }
 
+  renderTrayCta () {
+    const type = this.state.trayType
+    if (type == 'add-page') {
+      return 'Save'
+    } else if (type == 'page-settings') {
+      return 'Update'
+    }
+  }
+
+  renderTrayTitle () {
+    const type = this.state.trayType
+    if (type == 'add-page') {
+      return 'Add New Page'
+    } else if (type == 'page-settings') {
+      return 'Page Settings'
+    }
+  }
+
+  renderTrayClass () {
+    return this.state.trayType
+  }
+
   render () {
     return (
     <div id="thesis">
       <div id='thesis-editor' className={this.renderEditorClass()}>
         <SaveButton onPress={this.savePressed} />
-        <SettingsButton />
+        <SettingsButton onPress={this.pageSettingsPressed} />
         <CancelButton onPress={this.cancelPressed} />
-        {this.state.pageToolsHidden ? <AddButton /> : null}
+        {this.state.pageToolsHidden ? <AddButton onPress={this.addPagePressed} /> : null}
         {this.state.pageToolsHidden ? <DeleteButton /> : null}
         <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
       </div>
       <div id='thesis-fader' className={this.renderFaderClass()}></div>
-      <div id='thesis-tray'>
+      <div id='thesis-tray' className={this.renderTrayClass()}>
+        <SettingsTray cta={this.renderTrayCta()} title={this.renderTrayTitle()} />
+        <AttributionText />
       </div>
     </div>
     )

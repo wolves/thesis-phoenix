@@ -1,7 +1,7 @@
 /* medium-editor.js css -- https://cdn.jsdelivr.net/medium-editor/latest/css/medium-editor.min.css
   Retrieved 3/4/2016
 */
-@import url(//fonts.googleapis.com/css?family=Raleway:400,300,700);
+@import url(//fonts.googleapis.com/css?family=Raleway:400,300,700,600);
 @import url(//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css);
 .medium-editor-anchor-preview,
 .medium-editor-toolbar {
@@ -336,11 +336,230 @@ body {
   left: 0;
   position: relative; }
 
-#thesis-editor, #thesis-modal, #thesis-fader {
+#thesis-editor progress, #thesis-editor sub, #thesis-editor sup, #thesis-modal progress, #thesis-modal sub, #thesis-modal sup, #thesis-fader progress, #thesis-fader sub, #thesis-fader sup, #thesis-tray progress, #thesis-tray sub, #thesis-tray sup {
+  vertical-align: baseline; }
+#thesis-editor button, #thesis-editor hr, #thesis-editor input, #thesis-modal button, #thesis-modal hr, #thesis-modal input, #thesis-fader button, #thesis-fader hr, #thesis-fader input, #thesis-tray button, #thesis-tray hr, #thesis-tray input {
+  overflow: visible; }
+#thesis-editor [type=checkbox], #thesis-editor [type=radio], #thesis-editor legend, #thesis-modal [type=checkbox], #thesis-modal [type=radio], #thesis-modal legend, #thesis-fader [type=checkbox], #thesis-fader [type=radio], #thesis-fader legend, #thesis-tray [type=checkbox], #thesis-tray [type=radio], #thesis-tray legend {
+  box-sizing: border-box;
+  padding: 0; }
+#thesis-editor article, #thesis-editor aside, #thesis-editor details, #thesis-editor figcaption, #thesis-editor figure, #thesis-editor footer, #thesis-editor header, #thesis-editor main, #thesis-editor menu, #thesis-editor nav, #thesis-editor section, #thesis-editor summary, #thesis-modal article, #thesis-modal aside, #thesis-modal details, #thesis-modal figcaption, #thesis-modal figure, #thesis-modal footer, #thesis-modal header, #thesis-modal main, #thesis-modal menu, #thesis-modal nav, #thesis-modal section, #thesis-modal summary, #thesis-fader article, #thesis-fader aside, #thesis-fader details, #thesis-fader figcaption, #thesis-fader figure, #thesis-fader footer, #thesis-fader header, #thesis-fader main, #thesis-fader menu, #thesis-fader nav, #thesis-fader section, #thesis-fader summary, #thesis-tray article, #thesis-tray aside, #thesis-tray details, #thesis-tray figcaption, #thesis-tray figure, #thesis-tray footer, #thesis-tray header, #thesis-tray main, #thesis-tray menu, #thesis-tray nav, #thesis-tray section, #thesis-tray summary {
+  display: block; }
+#thesis-editor audio, #thesis-editor canvas, #thesis-editor progress, #thesis-editor video, #thesis-modal audio, #thesis-modal canvas, #thesis-modal progress, #thesis-modal video, #thesis-fader audio, #thesis-fader canvas, #thesis-fader progress, #thesis-fader video, #thesis-tray audio, #thesis-tray canvas, #thesis-tray progress, #thesis-tray video {
+  display: inline-block; }
+#thesis-editor audio:not([controls]), #thesis-modal audio:not([controls]), #thesis-fader audio:not([controls]), #thesis-tray audio:not([controls]) {
+  display: none;
+  height: 0; }
+#thesis-editor [hidden], #thesis-editor template, #thesis-modal [hidden], #thesis-modal template, #thesis-fader [hidden], #thesis-fader template, #thesis-tray [hidden], #thesis-tray template {
+  display: none; }
+#thesis-editor a, #thesis-modal a, #thesis-fader a, #thesis-tray a {
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects; }
+#thesis-editor a:active, #thesis-editor a:hover, #thesis-modal a:active, #thesis-modal a:hover, #thesis-fader a:active, #thesis-fader a:hover, #thesis-tray a:active, #thesis-tray a:hover {
+  outline-width: 0; }
+#thesis-editor abbr[title], #thesis-modal abbr[title], #thesis-fader abbr[title], #thesis-tray abbr[title] {
+  border-bottom: none;
+  text-decoration: underline;
+  text-decoration: underline dotted; }
+#thesis-editor b, #thesis-editor strong, #thesis-modal b, #thesis-modal strong, #thesis-fader b, #thesis-fader strong, #thesis-tray b, #thesis-tray strong {
+  font-weight: bolder; }
+#thesis-editor dfn, #thesis-modal dfn, #thesis-fader dfn, #thesis-tray dfn {
+  font-style: italic; }
+#thesis-editor h1, #thesis-modal h1, #thesis-fader h1, #thesis-tray h1 {
+  font-size: 2em;
+  margin: .67em 0; }
+#thesis-editor mark, #thesis-modal mark, #thesis-fader mark, #thesis-tray mark {
+  background-color: #ff0;
+  color: #000; }
+#thesis-editor small, #thesis-modal small, #thesis-fader small, #thesis-tray small {
+  font-size: 80%; }
+#thesis-editor sub, #thesis-editor sup, #thesis-modal sub, #thesis-modal sup, #thesis-fader sub, #thesis-fader sup, #thesis-tray sub, #thesis-tray sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative; }
+#thesis-editor sub, #thesis-modal sub, #thesis-fader sub, #thesis-tray sub {
+  bottom: -.25em; }
+#thesis-editor sup, #thesis-modal sup, #thesis-fader sup, #thesis-tray sup {
+  top: -.5em; }
+#thesis-editor img, #thesis-modal img, #thesis-fader img, #thesis-tray img {
+  border-style: none; }
+#thesis-editor svg:not(:root), #thesis-modal svg:not(:root), #thesis-fader svg:not(:root), #thesis-tray svg:not(:root) {
+  overflow: hidden; }
+#thesis-editor code, #thesis-editor kbd, #thesis-editor pre, #thesis-editor samp, #thesis-modal code, #thesis-modal kbd, #thesis-modal pre, #thesis-modal samp, #thesis-fader code, #thesis-fader kbd, #thesis-fader pre, #thesis-fader samp, #thesis-tray code, #thesis-tray kbd, #thesis-tray pre, #thesis-tray samp {
+  font-family: monospace,monospace;
+  font-size: 1em; }
+#thesis-editor figure, #thesis-modal figure, #thesis-fader figure, #thesis-tray figure {
+  margin: 1em 40px; }
+#thesis-editor hr, #thesis-modal hr, #thesis-fader hr, #thesis-tray hr {
+  box-sizing: content-box;
+  height: 0; }
+#thesis-editor button, #thesis-editor input, #thesis-editor select, #thesis-editor textarea, #thesis-modal button, #thesis-modal input, #thesis-modal select, #thesis-modal textarea, #thesis-fader button, #thesis-fader input, #thesis-fader select, #thesis-fader textarea, #thesis-tray button, #thesis-tray input, #thesis-tray select, #thesis-tray textarea {
+  font: inherit;
+  margin: 0; }
+#thesis-editor optgroup, #thesis-modal optgroup, #thesis-fader optgroup, #thesis-tray optgroup {
+  font-weight: 700; }
+#thesis-editor button, #thesis-editor select, #thesis-modal button, #thesis-modal select, #thesis-fader button, #thesis-fader select, #thesis-tray button, #thesis-tray select {
+  text-transform: none; }
+#thesis-editor [type=reset], #thesis-editor [type=submit], #thesis-editor button, #thesis-editor html [type=button], #thesis-modal [type=reset], #thesis-modal [type=submit], #thesis-modal button, #thesis-modal html [type=button], #thesis-fader [type=reset], #thesis-fader [type=submit], #thesis-fader button, #thesis-fader html [type=button], #thesis-tray [type=reset], #thesis-tray [type=submit], #thesis-tray button, #thesis-tray html [type=button] {
+  -webkit-appearance: button; }
+#thesis-editor [type=button]::-moz-focus-inner, #thesis-editor [type=reset]::-moz-focus-inner, #thesis-editor [type=submit]::-moz-focus-inner, #thesis-editor button::-moz-focus-inner, #thesis-modal [type=button]::-moz-focus-inner, #thesis-modal [type=reset]::-moz-focus-inner, #thesis-modal [type=submit]::-moz-focus-inner, #thesis-modal button::-moz-focus-inner, #thesis-fader [type=button]::-moz-focus-inner, #thesis-fader [type=reset]::-moz-focus-inner, #thesis-fader [type=submit]::-moz-focus-inner, #thesis-fader button::-moz-focus-inner, #thesis-tray [type=button]::-moz-focus-inner, #thesis-tray [type=reset]::-moz-focus-inner, #thesis-tray [type=submit]::-moz-focus-inner, #thesis-tray button::-moz-focus-inner {
+  border-style: none;
+  padding: 0; }
+#thesis-editor [type=button]:-moz-focusring, #thesis-editor [type=reset]:-moz-focusring, #thesis-editor [type=submit]:-moz-focusring, #thesis-editor button:-moz-focusring, #thesis-modal [type=button]:-moz-focusring, #thesis-modal [type=reset]:-moz-focusring, #thesis-modal [type=submit]:-moz-focusring, #thesis-modal button:-moz-focusring, #thesis-fader [type=button]:-moz-focusring, #thesis-fader [type=reset]:-moz-focusring, #thesis-fader [type=submit]:-moz-focusring, #thesis-fader button:-moz-focusring, #thesis-tray [type=button]:-moz-focusring, #thesis-tray [type=reset]:-moz-focusring, #thesis-tray [type=submit]:-moz-focusring, #thesis-tray button:-moz-focusring {
+  outline: ButtonText dotted 1px; }
+#thesis-editor fieldset, #thesis-modal fieldset, #thesis-fader fieldset, #thesis-tray fieldset {
+  border: 1px solid silver;
+  margin: 0 2px;
+  padding: .35em .625em .75em; }
+#thesis-editor legend, #thesis-modal legend, #thesis-fader legend, #thesis-tray legend {
+  color: inherit;
+  display: table;
+  max-width: 100%;
+  white-space: normal; }
+#thesis-editor textarea, #thesis-modal textarea, #thesis-fader textarea, #thesis-tray textarea {
+  overflow: auto; }
+#thesis-editor [type=number]::-webkit-inner-spin-button, #thesis-editor [type=number]::-webkit-outer-spin-button, #thesis-modal [type=number]::-webkit-inner-spin-button, #thesis-modal [type=number]::-webkit-outer-spin-button, #thesis-fader [type=number]::-webkit-inner-spin-button, #thesis-fader [type=number]::-webkit-outer-spin-button, #thesis-tray [type=number]::-webkit-inner-spin-button, #thesis-tray [type=number]::-webkit-outer-spin-button {
+  height: auto; }
+#thesis-editor [type=search], #thesis-modal [type=search], #thesis-fader [type=search], #thesis-tray [type=search] {
+  -webkit-appearance: textfield;
+  outline-offset: -2px; }
+#thesis-editor [type=search]::-webkit-search-cancel-button, #thesis-editor [type=search]::-webkit-search-decoration, #thesis-modal [type=search]::-webkit-search-cancel-button, #thesis-modal [type=search]::-webkit-search-decoration, #thesis-fader [type=search]::-webkit-search-cancel-button, #thesis-fader [type=search]::-webkit-search-decoration, #thesis-tray [type=search]::-webkit-search-cancel-button, #thesis-tray [type=search]::-webkit-search-decoration {
+  -webkit-appearance: none; }
+#thesis-editor ::-webkit-input-placeholder, #thesis-modal ::-webkit-input-placeholder, #thesis-fader ::-webkit-input-placeholder, #thesis-tray ::-webkit-input-placeholder {
+  color: inherit;
+  opacity: .54; }
+#thesis-editor ::-webkit-file-upload-button, #thesis-modal ::-webkit-file-upload-button, #thesis-fader ::-webkit-file-upload-button, #thesis-tray ::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  font: inherit; }
+#thesis-editor, #thesis-editor *, #thesis-modal, #thesis-modal *, #thesis-fader, #thesis-fader *, #thesis-tray, #thesis-tray * {
+  color: #1E1E1E;
   font-family: "Raleway", sans-serif;
-  font-weight: normal; }
-  #thesis-editor, #thesis-editor *, #thesis-modal, #thesis-modal *, #thesis-fader, #thesis-fader * {
-    box-sizing: border-box; }
+  font-weight: normal;
+  box-sizing: border-box; }
+
+#thesis-tray form {
+  margin: 0;
+  padding: 0; }
+#thesis-tray input,
+#thesis-tray label,
+#thesis-tray select {
+  display: block;
+  font-size: 12px; }
+#thesis-tray label {
+  font-weight: normal;
+  line-height: 0;
+  font-size: 0;
+  position: relative; }
+  #thesis-tray label span {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: block;
+    text-transform: uppercase;
+    line-height: 1;
+    letter-spacing: 1px;
+    margin-bottom: 1px; }
+#thesis-tray textarea,
+#thesis-tray input,
+#thesis-tray button,
+#thesis-tray select[multiple=multiple] {
+  background: rgba(160, 161, 166, 0.15);
+  display: block;
+  border: none;
+  box-shadow: none;
+  font-size: 15px;
+  margin-bottom: 0px;
+  width: 100%;
+  font-weight: 400;
+  text-align: left;
+  height: 55px;
+  line-height: 55px;
+  padding: 0px 10px; }
+  #thesis-tray textarea::-webkit-input-placeholder,
+  #thesis-tray input::-webkit-input-placeholder,
+  #thesis-tray button::-webkit-input-placeholder,
+  #thesis-tray select[multiple=multiple]::-webkit-input-placeholder {
+    text-transform: none;
+    font-weight: 400;
+    color: #6c6e74; }
+  #thesis-tray textarea::-moz-placeholder,
+  #thesis-tray input::-moz-placeholder,
+  #thesis-tray button::-moz-placeholder,
+  #thesis-tray select[multiple=multiple]::-moz-placeholder {
+    text-transform: none;
+    font-weight: 400;
+    color: #6c6e74; }
+  #thesis-tray textarea:-moz-placeholder,
+  #thesis-tray input:-moz-placeholder,
+  #thesis-tray button:-moz-placeholder,
+  #thesis-tray select[multiple=multiple]:-moz-placeholder {
+    text-transform: none;
+    font-weight: 400;
+    color: #6c6e74; }
+  #thesis-tray textarea:-ms-input-placeholder,
+  #thesis-tray input:-ms-input-placeholder,
+  #thesis-tray button:-ms-input-placeholder,
+  #thesis-tray select[multiple=multiple]:-ms-input-placeholder {
+    text-transform: none;
+    font-weight: 400;
+    color: #6c6e74; }
+  #thesis-tray textarea:disabled,
+  #thesis-tray input:disabled,
+  #thesis-tray button:disabled,
+  #thesis-tray select[multiple=multiple]:disabled {
+    color: #6c6e74; }
+  #thesis-tray textarea.invalid,
+  #thesis-tray input.invalid,
+  #thesis-tray button.invalid,
+  #thesis-tray select[multiple=multiple].invalid {
+    background: rgba(231, 53, 54, 0.1); }
+#thesis-tray textarea {
+  resize: vertical;
+  height: 40px;
+  line-height: 1.6;
+  padding: 10px; }
+#thesis-tray button.thesis-tray-cancel,
+#thesis-tray button.thesis-tray-save {
+  -webkit-transition: background 0.2s ease-in-out;
+  -moz-transition: background 0.2s ease-in-out;
+  transition: background 0.2s ease-in-out;
+  background: #CB006C;
+  display: block;
+  color: white;
+  float: left;
+  height: 60px;
+  width: 60px;
+  font-size: 12px;
+  text-align: center;
+  letter-spacing: 0px;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 0px; }
+  #thesis-tray button.thesis-tray-cancel:hover,
+  #thesis-tray button.thesis-tray-save:hover {
+    background: #a20056; }
+#thesis-tray button.thesis-tray-save {
+  float: right;
+  width: 215px;
+  background: #1BB6EC;
+  font-size: 18px;
+  letter-spacing: 0.5px; }
+  #thesis-tray button.thesis-tray-save:hover {
+    background: #119dcd; }
+#thesis-tray .thesis-field-row {
+  margin-bottom: 25px; }
+  #thesis-tray .thesis-field-row::after {
+    clear: both;
+    content: "";
+    display: table; }
+  #thesis-tray .thesis-field-row:last-child {
+    margin-bottom: 0px; }
+  #thesis-tray .thesis-field-row.errors {
+    font-size: 15px;
+    line-height: 1.3;
+    font-weight: 600;
+    text-align: center;
+    color: #E73536; }
 
 body.thesis-tray-open #thesis-editor {
   right: 380px; }
@@ -519,9 +738,9 @@ body.thesis-tray-open #thesis-editor {
     pointer-events: none;
     position: absolute; }
     #thesis-editor .thesis-button.cancel > i {
-      background-color: #F11809; }
+      background-color: #F15900; }
       #thesis-editor .thesis-button.cancel > i:hover {
-        background-color: #ca1408;
+        background-color: #c84a00;
         -webkit-transition: background-color 0.3s ease-in-out;
         -moz-transition: background-color 0.3s ease-in-out;
         transition: background-color 0.3s ease-in-out; }
@@ -591,6 +810,8 @@ body.thesis-tray-open #thesis-editor {
       line-height: 55px;
       text-align: center;
       vertical-align: middle;
+      font-family: "FontAwesome";
+      color: white;
       -webkit-transition: background-color 0.3s ease-in-out;
       -moz-transition: background-color 0.3s ease-in-out;
       transition: background-color 0.3s ease-in-out; }
@@ -734,12 +955,97 @@ body.thesis-tray-open {
   right: -380px;
   bottom: 0;
   background: white;
-  z-index: 1039;
-  box-shadow: 2px 0px 8px #babbbf inset; }
+  z-index: 1039; }
+  #thesis-tray:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 6px;
+    z-index: 10;
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.2);
+    background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.2), white);
+    background-image: linear-gradient(to right,rgba(0, 0, 0, 0.2), white);
+    background-color: white; }
   #thesis-tray .attribution {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 20px; }
+    line-height: 40px;
+    font-size: 13px;
+    text-align: center;
+    font-weight: 300;
+    background: white; }
+    #thesis-tray .attribution a {
+      font-weight: 600;
+      position: relative;
+      color: #E73536;
+      display: inline-block;
+      line-height: 40px; }
+      #thesis-tray .attribution a:after {
+        -webkit-transition: opacity 0.2s ease-in-out;
+        -moz-transition: opacity 0.2s ease-in-out;
+        transition: opacity 0.2s ease-in-out;
+        opacity: 0;
+        content: "";
+        border-bottom: 2px solid #E73536;
+        width: 14px;
+        position: absolute;
+        bottom: 8px;
+        left: 50%;
+        margin-left: -7px; }
+      #thesis-tray .attribution a:hover {
+        text-decoration: none;
+        color: #E73536; }
+        #thesis-tray .attribution a:hover:after {
+          opacity: 1; }
+  #thesis-tray .tray-container {
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    padding-bottom: 40px;
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -moz-box-orient: horizontal;
+    box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -moz-box-direction: normal;
+    box-direction: normal;
+    -webkit-flex-direction: row;
+    -moz-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-direction: row; }
+  #thesis-tray .tray-wrap {
+    margin: auto;
+    width: 100%;
+    text-align: right;
+    padding: 40px; }
+  #thesis-tray .tray-title {
+    text-align: right;
+    border-bottom: 1px solid #A0A1A6;
+    padding-bottom: 5px;
+    font-size: 15px;
+    font-weight: 300;
+    text-transform: uppercase;
+    line-height: 1;
+    letter-spacing: 1.5px;
+    margin-bottom: 25px; }
+
+#thesis-tray.page-settings button.thesis-tray-cancel {
+  background: #F15900; }
+  #thesis-tray.page-settings button.thesis-tray-cancel:hover {
+    background: #c84a00; }
+#thesis-tray.page-settings button.thesis-tray-save {
+  background: #64BA27; }
+  #thesis-tray.page-settings button.thesis-tray-save:hover {
+    background: #529820; }
 
