@@ -88,6 +88,25 @@ becomes...
 <h1><%= content(@conn, "Title identifier", :text, do: "My Title") %></h1>
 ```
 
+### Meta Title and Description
+
+In your layout, you can output the current title and description like so:
+
+```eex
+<title><%= page_title(@conn, "Default Title") %></title>
+<meta name="description" content="<%= page_description(@conn, "Default Description") %>" />
+```
+
+Some prefer to set the page title and description in their controller actions:
+
+```eex
+def about(conn, params) do
+  @title = Thesis.View.page_title(conn, "About My Company")
+  @description = Thesis.View.page_description(conn, "A relevant description here.")
+end
+
+```
+
 ## Authorization
 
 You probably don't want your website editable by the world. Thesis doesn't

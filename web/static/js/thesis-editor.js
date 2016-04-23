@@ -42,11 +42,43 @@ class ThesisEditor extends React.Component {
     this.editor = null
 
     // Rebind context
+    this.trayCanceled = this.trayCanceled.bind(this)
+    this.traySubmitted = this.traySubmitted.bind(this)
     this.cancelPressed = this.cancelPressed.bind(this)
     this.savePressed = this.savePressed.bind(this)
     this.editPressed = this.editPressed.bind(this)
     this.addPagePressed = this.addPagePressed.bind(this)
     this.pageSettingsPressed = this.pageSettingsPressed.bind(this)
+  }
+
+  pathname () {
+    return window.location.pathname
+  }
+
+  pageTitle () {
+    return document.title
+  }
+
+  pageDescription () {
+    const desc = this.descriptionMetaTag()
+    return desc ? desc.content : null
+  }
+
+  descriptionMetaTag () {
+    return document.querySelectorAll('meta[name=description]')[0]
+  }
+
+  trayCanceled () {
+    this.setState({trayOpen: false})
+  }
+
+  traySubmitted (page) {
+    document.title = page.title
+
+    const desc = this.descriptionMetaTag()
+    if (desc) { desc.content = page.description }
+
+    this.setState({trayOpen: false, pageModified: true})
   }
 
   editPressed () {
@@ -57,8 +89,7 @@ class ThesisEditor extends React.Component {
         this.cancelPressed()
       } else {
         this.setState({editing: false, pageModified: false, trayOpen: false})
-        setTimeout(() => {
-          this.setState({pageToolsHidden: true})}, 800)
+        setTimeout(() => this.setState({pageToolsHidden: true}), 800)
       }
     } else {
       this.setState({editing: true, pageToolsHidden: false, trayOpen: false})
@@ -66,12 +97,11 @@ class ThesisEditor extends React.Component {
   }
 
   savePressed () {
-    const page = {slug: window.location.pathname}
+    const page = {slug: this.pathname(), title: this.pageTitle(), description: this.pageDescription()}
     const contents = this.contentEditorContents()
     this.postToServer(page, contents)
     this.setState({editing: false, pageModified: false})
-    setTimeout(() => {
-      this.setState({pageToolsHidden: true})}, 800)
+    setTimeout(() => this.setState({pageToolsHidden: true}), 800)
   }
 
   cancelPressed () {
@@ -249,7 +279,16 @@ class ThesisEditor extends React.Component {
       </div>
       <div id='thesis-fader' className={this.renderFaderClass()}></div>
       <div id='thesis-tray' className={this.renderTrayClass()}>
-        <SettingsTray cta={this.renderTrayCta()} title={this.renderTrayTitle()} />
+        <SettingsTray
+          cta={this.renderTrayCta()}
+          title={this.renderTrayTitle()}
+          path={this.pathname()}
+          hasErrors={false}
+          pageTitle={this.pageTitle()}
+          pageDescription={this.pageDescription()}
+          onCancel={this.trayCanceled}
+          onSubmit={this.traySubmitted}
+        />
         <AttributionText />
       </div>
     </div>

@@ -77,7 +77,7 @@ defmodule Thesis.View do
   Doctests:
 
       iex> {:safe, editor} = Thesis.View.thesis_editor(%Plug.Conn{assigns: %{editable: true}})
-      iex> String.contains?(editor, "<style>")
+      iex> String.contains?(editor, "/thesis/thesis.css")
       true
       iex> String.contains?(editor, "thesis-container")
       true
@@ -96,6 +96,44 @@ defmodule Thesis.View do
       raw ""
     end
   end
+
+  @doc """
+  Outputs the page title or a provided default.
+
+  Doctests:
+
+      iex> page = %Thesis.Page{title: "Test Title"}
+      iex> conn = %Plug.Conn{assigns: %{thesis_page: page}}
+      iex> Thesis.View.page_title(conn, "Default Title")
+      "Test Title"
+      iex> page = %Thesis.Page{}
+      iex> conn = %Plug.Conn{assigns: %{thesis_page: page}}
+      iex> Thesis.View.page_title(conn, "Default Title")
+      "Default Title"
+  """
+  def page_title(%Plug.Conn{assigns: %{thesis_page: page}}, default) do
+    page.title || default
+  end
+  def page_title(_conn, default), do: default
+
+  @doc """
+  Outputs the page title or a provided default.
+
+  Doctests:
+
+      iex> page = %Thesis.Page{description: "Test Description"}
+      iex> conn = %Plug.Conn{assigns: %{thesis_page: page}}
+      iex> Thesis.View.page_description(conn, "Default Description")
+      "Test Description"
+      iex> page = %Thesis.Page{}
+      iex> conn = %Plug.Conn{assigns: %{thesis_page: page}}
+      iex> Thesis.View.page_description(conn, "Default Description")
+      "Default Description"
+  """
+  def page_description(%Plug.Conn{assigns: %{thesis_page: page}}, default) do
+    page.description || default
+  end
+  def page_description(_conn, default), do: default
 
   defp make_page(request_path) do
     %Thesis.Page{slug: request_path}
