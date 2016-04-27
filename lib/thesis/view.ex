@@ -111,10 +111,9 @@ defmodule Thesis.View do
       iex> Thesis.View.page_title(conn, "Default Title")
       "Default Title"
   """
-  def page_title(%Plug.Conn{assigns: %{thesis_page: page}}, default) do
-    page.title || default
+  def page_title(conn, default) do
+    current_page(conn).title || default
   end
-  def page_title(_conn, default), do: default
 
   @doc """
   Outputs the page title or a provided default.
@@ -130,10 +129,9 @@ defmodule Thesis.View do
       iex> Thesis.View.page_description(conn, "Default Description")
       "Default Description"
   """
-  def page_description(%Plug.Conn{assigns: %{thesis_page: page}}, default) do
-    page.description || default
+  def page_description(conn, default) do
+    current_page(conn).description || default
   end
-  def page_description(_conn, default), do: default
 
   defp make_page(request_path) do
     %Thesis.Page{slug: request_path}
