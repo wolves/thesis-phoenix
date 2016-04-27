@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.11.4">
-    <title>Thesis.View – thesis v0.0.12</title>
+    <title>Thesis.View – thesis v0.0.13</title>
     <link rel="stylesheet" href="dist/app-1e374caa3d.css" />
     <script src="dist/sidebar_items.js"></script>
   </head>
@@ -20,17 +20,17 @@
     <i class="icon-menu"></i>
   </button>
 
-
+  
   <a href="api-reference.html" class="sidebar-projectLink">
     <div class="sidebar-projectDetails">
       <h1 class="sidebar-projectName">
         thesis
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.0.12
+        v0.0.13
       </h2>
     </div>
-
+    
   </a>
 
   <div class="sidebar-search">
@@ -41,13 +41,13 @@
   <ul class="sidebar-listNav">
     <li><a id="extras-list" href="#full-list">Pages</a></li>
 
-
+    
       <li><a id="modules-list" href="#full-list">Modules</a></li>
+    
 
+    
 
-
-
-
+    
   </ul>
 
   <ul id="full-list" class="sidebar-fullList"></ul>
@@ -59,13 +59,13 @@
 
 
       <h1>
-        <small class="visible-xs">thesis v0.0.12</small>
+        <small class="visible-xs">thesis v0.0.13</small>
         Thesis.View
-
-
+        
+        
       </h1>
 
-
+      
         <section id="moduledoc" class="docstring">
           <p>Provides several view helper functions, including the primary <a href="#content/4"><code class="inline">content/4</code></a>
 function. Look at individual function documentation to learn more about them.</p>
@@ -84,9 +84,9 @@ yourself:</p>
   # ...</code></pre>
 
         </section>
+      
 
-
-
+      
         <section id="summary" class="details-list">
           <h1 class="section-heading">
             <a class="hover-link" href="#summary">
@@ -94,9 +94,9 @@ yourself:</p>
             </a>
             Summary
           </h1>
+          
 
-
-
+          
   <div class="summary-functions summary">
     <h2>
       <a href="#functions">Functions</a>
@@ -105,45 +105,63 @@ yourself:</p>
   <div class="summary-signature">
     <a href="#content/4">content(conn, name, type, list)</a>
   </div>
-
+  
     <div class="summary-synopsis"><p>Creates an editable content area in an eex template. Returns HTML-safe
 string if type is <code class="inline">:html</code> or just a string if <code class="inline">:text</code></p>
 </div>
-
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="#current_page/1">current_page(conn)</a>
   </div>
-
+  
     <div class="summary-synopsis"><p>Returns the current page as a Thesis.Page{} struct</p>
 </div>
-
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#page_description/2">page_description(conn, default)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Outputs the page title or a provided default</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#page_title/2">page_title(conn, default)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Outputs the page title or a provided default</p>
+</div>
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="#thesis_editor/1">thesis_editor(conn)</a>
   </div>
-
+  
     <div class="summary-synopsis"><p>Checks with the host app to see if the current page is editable by the
 current user, and then renders the editor, style tag, and bootstrap js</p>
 </div>
-
+  
 </div>
 
   </div>
 
 
+          
 
-
-
+          
 
         </section>
+      
 
+      
 
-
-
-
+      
         <section id="functions" class="details-list">
           <h1 class="section-heading">
             <a class="hover-link" href="#functions">
@@ -157,20 +175,20 @@ current user, and then renders the editor, style tag, and bootstrap js</p>
       <i class="icon-link"></i>
     </a>
     <span class="signature">content(conn, name, type, list)</span>
-
+      
   </div>
-
+  
     <div class="specs">
       <h4 class="specs-title">Specs</h4>
       <div class="specs-list">
-
+        
           <pre><code class="elixir">content(Plug.Conn.t, <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, list) ::
   <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a> |
   {:safe, <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>}</code></pre>
-
+        
       </div>
     </div>
-
+  
   <section class="docstring">
     <p>Creates an editable content area in an eex template. Returns HTML-safe
 string if type is <code class="inline">:html</code> or just a string if <code class="inline">:text</code>.</p>
@@ -189,22 +207,68 @@ string if type is <code class="inline">:html</code> or just a string if <code cl
       <i class="icon-link"></i>
     </a>
     <span class="signature">current_page(conn)</span>
-
+      
   </div>
-
+  
     <div class="specs">
       <h4 class="specs-title">Specs</h4>
       <div class="specs-list">
-
+        
           <pre><code class="elixir">current_page(Plug.Conn.t) :: <a href="Thesis.Page.html#t:t/0">Thesis.Page.t</a></code></pre>
-
+        
       </div>
     </div>
-
+  
   <section class="docstring">
     <p>Returns the current page as a Thesis.Page{} struct.</p>
 <pre><code class="iex elixir">iex&gt; Thesis.View.current_page(%Plug.Conn{request_path: &quot;/test&quot;})
 %Thesis.Page{slug: &quot;/test&quot;}</code></pre>
+
+  </section>
+</div>
+<div class="detail" id="page_description/2">
+  <div class="detail-header">
+    <a href="#page_description/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">page_description(conn, default)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>Outputs the page title or a provided default.</p>
+<p>Doctests:</p>
+<pre><code class="iex elixir">iex&gt; page = %Thesis.Page{description: &quot;Test Description&quot;}
+iex&gt; conn = %Plug.Conn{assigns: %{thesis_page: page}}
+iex&gt; Thesis.View.page_description(conn, &quot;Default Description&quot;)
+&quot;Test Description&quot;
+iex&gt; page = %Thesis.Page{}
+iex&gt; conn = %Plug.Conn{assigns: %{thesis_page: page}}
+iex&gt; Thesis.View.page_description(conn, &quot;Default Description&quot;)
+&quot;Default Description&quot;</code></pre>
+
+  </section>
+</div>
+<div class="detail" id="page_title/2">
+  <div class="detail-header">
+    <a href="#page_title/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">page_title(conn, default)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>Outputs the page title or a provided default.</p>
+<p>Doctests:</p>
+<pre><code class="iex elixir">iex&gt; page = %Thesis.Page{title: &quot;Test Title&quot;}
+iex&gt; conn = %Plug.Conn{assigns: %{thesis_page: page}}
+iex&gt; Thesis.View.page_title(conn, &quot;Default Title&quot;)
+&quot;Test Title&quot;
+iex&gt; page = %Thesis.Page{}
+iex&gt; conn = %Plug.Conn{assigns: %{thesis_page: page}}
+iex&gt; Thesis.View.page_title(conn, &quot;Default Title&quot;)
+&quot;Default Title&quot;</code></pre>
 
   </section>
 </div>
@@ -214,25 +278,25 @@ string if type is <code class="inline">:html</code> or just a string if <code cl
       <i class="icon-link"></i>
     </a>
     <span class="signature">thesis_editor(conn)</span>
-
+      
   </div>
-
+  
     <div class="specs">
       <h4 class="specs-title">Specs</h4>
       <div class="specs-list">
-
+        
           <pre><code class="elixir">thesis_editor(Plug.Conn.t) :: {:safe, <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>}</code></pre>
-
+        
       </div>
     </div>
-
+  
   <section class="docstring">
     <p>Checks with the host app to see if the current page is editable by the
 current user, and then renders the editor, style tag, and bootstrap js.</p>
 <p>If not editable, simply returns an empty string.</p>
 <p>Doctests:</p>
 <pre><code class="iex elixir">iex&gt; {:safe, editor} = Thesis.View.thesis_editor(%Plug.Conn{assigns: %{editable: true}})
-iex&gt; String.contains?(editor, &quot;&lt;style&gt;&quot;)
+iex&gt; String.contains?(editor, &quot;/thesis/thesis.css&quot;)
 true
 iex&gt; String.contains?(editor, &quot;thesis-container&quot;)
 true
@@ -246,11 +310,11 @@ iex&gt; Thesis.View.thesis_editor(%Plug.Conn{assigns: %{editable: false}})
 </div>
 
         </section>
+      
 
+      
 
-
-
-
+      
         <footer class="footer">
       <p>
         <span class="line">
