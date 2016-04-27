@@ -1,11 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-// import AddButton from './components/add_button'
-// import DeleteButton from './components/delete_button'
+import AddButton from './components/add_button'
+import DeleteButton from './components/delete_button'
 import SettingsButton from './components/settings_button'
 import CancelButton from './components/cancel_button'
 import SaveButton from './components/save_button'
 import EditButton from './components/edit_button'
+import SettingsTray from './components/settings_tray'
+import AttributionText from './components/attribution_text'
 import MediumEditor from 'medium-editor'
 import Net from './utilities/net'
 
@@ -32,14 +34,51 @@ class ThesisEditor extends React.Component {
     super(props)
     this.state = {
       editing: false,
-      pageModified: false
+      pageModified: false,
+      pageToolsHidden: true,
+      trayOpen: false,
+      trayType: null
     }
     this.editor = null
 
     // Rebind context
+    this.trayCanceled = this.trayCanceled.bind(this)
+    this.traySubmitted = this.traySubmitted.bind(this)
     this.cancelPressed = this.cancelPressed.bind(this)
     this.savePressed = this.savePressed.bind(this)
     this.editPressed = this.editPressed.bind(this)
+    this.addPagePressed = this.addPagePressed.bind(this)
+    this.pageSettingsPressed = this.pageSettingsPressed.bind(this)
+  }
+
+  pathname () {
+    return window.location.pathname
+  }
+
+  pageTitle () {
+    return document.title
+  }
+
+  pageDescription () {
+    const desc = this.descriptionMetaTag()
+    return desc ? desc.content : null
+  }
+
+  descriptionMetaTag () {
+    return document.querySelectorAll('meta[name=description]')[0]
+  }
+
+  trayCanceled () {
+    this.setState({trayOpen: false})
+  }
+
+  traySubmitted (page) {
+    document.title = page.title
+
+    const desc = this.descriptionMetaTag()
+    if (desc) { desc.content = page.description }
+
+    this.setState({trayOpen: false, pageModified: true})
   }
 
   editPressed () {
@@ -49,18 +88,20 @@ class ThesisEditor extends React.Component {
       if (this.state.pageModified) {
         this.cancelPressed()
       } else {
-        this.setState({editing: false, pageModified: false})
+        this.setState({editing: false, pageModified: false, trayOpen: false})
+        setTimeout(() => this.setState({pageToolsHidden: true}), 800)
       }
     } else {
-      this.setState({editing: true})
+      this.setState({editing: true, pageToolsHidden: false, trayOpen: false})
     }
   }
 
   savePressed () {
-    const page = {slug: window.location.pathname}
+    const page = {slug: this.pathname(), title: this.pageTitle(), description: this.pageDescription()}
     const contents = this.contentEditorContents()
     this.postToServer(page, contents)
     this.setState({editing: false, pageModified: false})
+    setTimeout(() => this.setState({pageToolsHidden: true}), 800)
   }
 
   cancelPressed () {
@@ -68,6 +109,14 @@ class ThesisEditor extends React.Component {
       this.setState({editing: false})
       window.location.reload()
     }
+  }
+
+  addPagePressed () {
+    this.setState({trayOpen: !this.state.trayOpen, trayType: 'add-page'})
+  }
+
+  pageSettingsPressed () {
+    this.setState({trayOpen: !this.state.trayOpen, trayType: 'page-settings'})
   }
 
   postToServer (page, contents) {
@@ -94,10 +143,12 @@ class ThesisEditor extends React.Component {
 
   subscribeToContentChanges () {
     // html editor
-    this.editor.subscribe('editableInput', (event, editable) => {
-      editable.classList.add('modified')
-      this.setState({pageModified: true})
-    })
+    if (this.htmlContentEditors().length > 0) {
+      this.editor.subscribe('editableInput', (event, editable) => {
+        editable.classList.add('modified')
+        this.setState({pageModified: true})
+      })
+    }
 
     // TODO: image editor
 
@@ -150,27 +201,16 @@ class ThesisEditor extends React.Component {
     return contents
   }
 
-  renderEditorClass () {
-    return this.state.editing ? 'active' : ''
-  }
-
-  renderEditButtonText () {
-    return this.state.editing ? 'Editing Page' : 'Edit Page'
-  }
-
   componentDidUpdate () {
-    const fader = document.querySelector('#thesis-fader')
     const el = document.querySelector('body')
     const editors = this.allContentEditors()
 
     if (this.state.editing) {
       el.classList.add('thesis-editing')
       if (!this.editor) this.addContentEditors()
-      if (!fader) el.insertAdjacentHTML('beforeend', '<div id="thesis-fader"></div>')
     } else {
       el.classList.remove('thesis-editing')
       this.removeContentEditors()
-      if (fader) fader.remove()
     }
 
     if (this.state.pageModified) {
@@ -181,20 +221,79 @@ class ThesisEditor extends React.Component {
         editors[i].classList.remove('modified')
       }
     }
+
+    if (this.state.trayOpen) {
+      el.classList.add('thesis-tray-open')
+    } else {
+      el.classList.remove('thesis-tray-open')
+    }
+  }
+
+  renderEditorClass () {
+    let classes = ''
+    classes += (this.state.editing) ? ' active ' : ''
+    classes += (this.state.pageToolsHidden) ? ' thesis-page-tools-hidden ' : ''
+    return classes
+  }
+
+  renderEditButtonText () {
+    return this.state.editing ? 'Editing Page' : 'Edit Page'
+  }
+
+  renderFaderClass () {
+    return this.renderEditorClass()
+  }
+
+  renderTrayCta () {
+    const type = this.state.trayType
+    if (type == 'add-page') {
+      return 'Save'
+    } else if (type == 'page-settings') {
+      return 'Update'
+    }
+  }
+
+  renderTrayTitle () {
+    const type = this.state.trayType
+    if (type == 'add-page') {
+      return 'Add New Page'
+    } else if (type == 'page-settings') {
+      return 'Page Settings'
+    }
+  }
+
+  renderTrayClass () {
+    return this.state.trayType
   }
 
   render () {
-    // <AddButton />
-    // <DeleteButton />
     return (
-    <div id='thesis-editor' className={this.renderEditorClass()}>
-      <SettingsButton />
-      <CancelButton onPress={this.cancelPressed} />
-      <SaveButton onPress={this.savePressed} />
-      <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
+    <div id="thesis">
+      <div id='thesis-editor' className={this.renderEditorClass()}>
+        <SaveButton onPress={this.savePressed} />
+        <SettingsButton onPress={this.pageSettingsPressed} />
+        <CancelButton onPress={this.cancelPressed} />
+        {/*this.state.pageToolsHidden ? <AddButton onPress={this.addPagePressed} /> : null*/}
+        {/*this.state.pageToolsHidden ? <DeleteButton /> : null*/}
+        <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
+      </div>
+      <div id='thesis-fader' className={this.renderFaderClass()}></div>
+      <div id='thesis-tray' className={this.renderTrayClass()}>
+        <SettingsTray
+          cta={this.renderTrayCta()}
+          title={this.renderTrayTitle()}
+          path={this.pathname()}
+          hasErrors={false}
+          pageTitle={this.pageTitle()}
+          pageDescription={this.pageDescription()}
+          onCancel={this.trayCanceled}
+          onSubmit={this.traySubmitted}
+        />
+        <AttributionText />
+      </div>
     </div>
     )
   }
 }
 
-ReactDOM.render(<ThesisEditor />, document.querySelector('#thesis-editor-container'))
+ReactDOM.render(<ThesisEditor />, document.querySelector('#thesis-container'))

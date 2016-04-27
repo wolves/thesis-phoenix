@@ -44,4 +44,5 @@ defmodule Thesis.Controller.Plug do
     |> assign(:thesis_page, current_page)
     |> assign(:thesis_content, page_contents)
   end
+
 end

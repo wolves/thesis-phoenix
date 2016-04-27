@@ -28,10 +28,10 @@ const Net = {
   patch: (path, body) => Net.request(path, body, 'PATCH'),
   delete: (path, body) => Net.request(path, body, 'DELETE'),
   request: (path, body, method) => {
-    return fetch(path, {
+    return window.fetch(path, {
       method: method,
       credentials: 'same-origin',
-      headers: new Headers({
+      headers: new window.Headers({
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }),

@@ -27208,7 +27208,7 @@ var AddButton = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         "div",
-        { className: "thesis-button add" },
+        { onClick: this.props.onPress, className: "thesis-button add" },
         _react2.default.createElement(
           "div",
           { className: "tooltip" },
@@ -27225,6 +27225,66 @@ var AddButton = function (_React$Component) {
 AddButton.propTypes = {};
 
 exports.default = AddButton;
+
+});
+
+require.register("web/static/js/components/attribution_text", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var AttributionText = function (_React$Component) {
+  _inherits(AttributionText, _React$Component);
+
+  function AttributionText() {
+    _classCallCheck(this, AttributionText);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(AttributionText).apply(this, arguments));
+  }
+
+  _createClass(AttributionText, [{
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        { className: "attribution" },
+        _react2.default.createElement(
+          "a",
+          { href: "//github.com/infinitered/thesis-phoenix", target: "_blank" },
+          "Thesis"
+        ),
+        " is maintained by ",
+        _react2.default.createElement(
+          "a",
+          { href: "//infinite.red", target: "_blank" },
+          "Infinite Red"
+        )
+      );
+    }
+  }]);
+
+  return AttributionText;
+}(_react2.default.Component);
+
+AttributionText.propTypes = {};
+
+exports.default = AttributionText;
 
 });
 
@@ -27322,7 +27382,7 @@ var DeleteButton = function (_React$Component) {
         _react2.default.createElement(
           "div",
           { className: "tooltip" },
-          "Delete Page"
+          "Delete This Page"
         ),
         _react2.default.createElement("i", { className: "fa fa-trash fa-2x" })
       );
@@ -27483,7 +27543,7 @@ var SettingsButton = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         "div",
-        { className: "thesis-button settings" },
+        { onClick: this.props.onPress, className: "thesis-button settings" },
         _react2.default.createElement(
           "div",
           { className: "tooltip" },
@@ -27503,12 +27563,16 @@ exports.default = SettingsButton;
 
 });
 
-require.register("web/static/js/components/style_button", function(exports, require, module) {
-'use strict';
+require.register("web/static/js/components/settings_tray", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require('react');
+var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -27520,39 +27584,128 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var StyleButton = function (_React$Component) {
-  _inherits(StyleButton, _React$Component);
+// NOTES
+// add 'invalid' class to input to give it a red background
+// add error text to the errors div and toggle the 'hidden' property
+// add the 'disabled' property to inputs that can't be editted if page is static
 
-  function StyleButton() {
-    _classCallCheck(this, StyleButton);
+var SettingsTray = function (_React$Component) {
+  _inherits(SettingsTray, _React$Component);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(StyleButton).call(this));
+  function SettingsTray(props) {
+    _classCallCheck(this, SettingsTray);
 
-    _this.onToggle = function (e) {
-      e.preventDefault();
-      _this.props.onToggle(_this.props.style);
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SettingsTray).call(this, props));
+
+    _this.state = {
+      title: _this.props.pageTitle,
+      description: _this.props.pageDescription,
+      isValid: true
     };
+
+    _this.titleChange = _this.titleChange.bind(_this);
+    _this.descriptionChange = _this.descriptionChange.bind(_this);
+    _this.onSave = _this.onSave.bind(_this);
     return _this;
   }
 
-  _createClass(StyleButton, [{
-    key: 'render',
+  _createClass(SettingsTray, [{
+    key: "titleChange",
+    value: function titleChange(event) {
+      this.setState({ title: event.target.value });
+    }
+  }, {
+    key: "descriptionChange",
+    value: function descriptionChange(event) {
+      this.setState({ description: event.target.value });
+    }
+  }, {
+    key: "onSave",
+    value: function onSave() {
+      this.props.onSubmit(this.state);
+    }
+  }, {
+    key: "render",
     value: function render() {
-      var className = 'RichEditor-styleButton';
-      if (this.props.active) {
-        className += ' RichEditor-activeButton';
-      }
-
       return _react2.default.createElement(
-        'span',
-        { className: className, onMouseDown: this.onToggle },
-        this.props.label
+        "div",
+        { className: "tray-container" },
+        _react2.default.createElement(
+          "div",
+          { className: "tray-wrap" },
+          _react2.default.createElement(
+            "div",
+            { className: "tray-title" },
+            this.props.title
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "thesis-field-row" },
+            _react2.default.createElement(
+              "label",
+              null,
+              _react2.default.createElement(
+                "span",
+                null,
+                "Page Path"
+              ),
+              _react2.default.createElement("input", { type: "text", value: this.props.path, disabled: true })
+            )
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "thesis-field-row" },
+            _react2.default.createElement(
+              "label",
+              null,
+              _react2.default.createElement(
+                "span",
+                null,
+                "Page Title"
+              ),
+              _react2.default.createElement("input", { type: "text", placeholder: "Example Title", value: this.state.title, onChange: this.titleChange })
+            )
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "thesis-field-row" },
+            _react2.default.createElement(
+              "label",
+              null,
+              _react2.default.createElement(
+                "span",
+                null,
+                "Page Description"
+              ),
+              _react2.default.createElement("textarea", { placeholder: "Example page description.", value: this.state.description, onChange: this.descriptionChange })
+            )
+          ),
+          _react2.default.createElement("div", { className: "thesis-field-row errors", hidden: this.state.isValid }),
+          _react2.default.createElement(
+            "div",
+            { className: "thesis-field-row cta" },
+            _react2.default.createElement(
+              "button",
+              { className: "thesis-tray-cancel", onClick: this.props.onCancel },
+              "Cancel"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "thesis-tray-save", onClick: this.onSave },
+              this.props.cta
+            )
+          )
+        )
       );
     }
   }]);
 
-  return StyleButton;
+  return SettingsTray;
 }(_react2.default.Component);
+
+SettingsTray.propTypes = {};
+
+exports.default = SettingsTray;
 
 });
 
@@ -27568,6 +27721,14 @@ var _react2 = _interopRequireDefault(_react);
 var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _add_button = require('./components/add_button');
+
+var _add_button2 = _interopRequireDefault(_add_button);
+
+var _delete_button = require('./components/delete_button');
+
+var _delete_button2 = _interopRequireDefault(_delete_button);
 
 var _settings_button = require('./components/settings_button');
 
@@ -27585,6 +27746,14 @@ var _edit_button = require('./components/edit_button');
 
 var _edit_button2 = _interopRequireDefault(_edit_button);
 
+var _settings_tray = require('./components/settings_tray');
+
+var _settings_tray2 = _interopRequireDefault(_settings_tray);
+
+var _attribution_text = require('./components/attribution_text');
+
+var _attribution_text2 = _interopRequireDefault(_attribution_text);
+
 var _mediumEditor = require('medium-editor');
 
 var _mediumEditor2 = _interopRequireDefault(_mediumEditor);
@@ -27600,9 +27769,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-// import AddButton from './components/add_button'
-// import DeleteButton from './components/delete_button'
-
 
 // https://github.com/yabwe/medium-editor#toolbar-options
 var mediumEditorOptions = {
@@ -27626,39 +27792,94 @@ var ThesisEditor = function (_React$Component) {
 
     _this.state = {
       editing: false,
-      pageModified: false
+      pageModified: false,
+      pageToolsHidden: true,
+      trayOpen: false,
+      trayType: null
     };
     _this.editor = null;
 
     // Rebind context
+    _this.trayCanceled = _this.trayCanceled.bind(_this);
+    _this.traySubmitted = _this.traySubmitted.bind(_this);
     _this.cancelPressed = _this.cancelPressed.bind(_this);
     _this.savePressed = _this.savePressed.bind(_this);
     _this.editPressed = _this.editPressed.bind(_this);
+    _this.addPagePressed = _this.addPagePressed.bind(_this);
+    _this.pageSettingsPressed = _this.pageSettingsPressed.bind(_this);
     return _this;
   }
 
   _createClass(ThesisEditor, [{
+    key: 'pathname',
+    value: function pathname() {
+      return window.location.pathname;
+    }
+  }, {
+    key: 'pageTitle',
+    value: function pageTitle() {
+      return document.title;
+    }
+  }, {
+    key: 'pageDescription',
+    value: function pageDescription() {
+      var desc = this.descriptionMetaTag();
+      return desc ? desc.content : null;
+    }
+  }, {
+    key: 'descriptionMetaTag',
+    value: function descriptionMetaTag() {
+      return document.querySelectorAll('meta[name=description]')[0];
+    }
+  }, {
+    key: 'trayCanceled',
+    value: function trayCanceled() {
+      this.setState({ trayOpen: false });
+    }
+  }, {
+    key: 'traySubmitted',
+    value: function traySubmitted(page) {
+      document.title = page.title;
+
+      var desc = this.descriptionMetaTag();
+      if (desc) {
+        desc.content = page.description;
+      }
+
+      this.setState({ trayOpen: false, pageModified: true });
+    }
+  }, {
     key: 'editPressed',
     value: function editPressed() {
+      var _this2 = this;
+
       var body = document.querySelector('body');
 
       if (this.state.editing) {
         if (this.state.pageModified) {
           this.cancelPressed();
         } else {
-          this.setState({ editing: false, pageModified: false });
+          this.setState({ editing: false, pageModified: false, trayOpen: false });
+          setTimeout(function () {
+            return _this2.setState({ pageToolsHidden: true });
+          }, 800);
         }
       } else {
-        this.setState({ editing: true });
+        this.setState({ editing: true, pageToolsHidden: false, trayOpen: false });
       }
     }
   }, {
     key: 'savePressed',
     value: function savePressed() {
-      var page = { slug: window.location.pathname };
+      var _this3 = this;
+
+      var page = { slug: this.pathname(), title: this.pageTitle(), description: this.pageDescription() };
       var contents = this.contentEditorContents();
       this.postToServer(page, contents);
       this.setState({ editing: false, pageModified: false });
+      setTimeout(function () {
+        return _this3.setState({ pageToolsHidden: true });
+      }, 800);
     }
   }, {
     key: 'cancelPressed',
@@ -27667,6 +27888,16 @@ var ThesisEditor = function (_React$Component) {
         this.setState({ editing: false });
         window.location.reload();
       }
+    }
+  }, {
+    key: 'addPagePressed',
+    value: function addPagePressed() {
+      this.setState({ trayOpen: !this.state.trayOpen, trayType: 'add-page' });
+    }
+  }, {
+    key: 'pageSettingsPressed',
+    value: function pageSettingsPressed() {
+      this.setState({ trayOpen: !this.state.trayOpen, trayType: 'page-settings' });
     }
   }, {
     key: 'postToServer',
@@ -27697,13 +27928,15 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'subscribeToContentChanges',
     value: function subscribeToContentChanges() {
-      var _this2 = this;
+      var _this4 = this;
 
       // html editor
-      this.editor.subscribe('editableInput', function (event, editable) {
-        editable.classList.add('modified');
-        _this2.setState({ pageModified: true });
-      });
+      if (this.htmlContentEditors().length > 0) {
+        this.editor.subscribe('editableInput', function (event, editable) {
+          editable.classList.add('modified');
+          _this4.setState({ pageModified: true });
+        });
+      }
 
       // TODO: image editor
 
@@ -27712,7 +27945,7 @@ var ThesisEditor = function (_React$Component) {
       for (var i = 0; i < textEditors.length; i++) {
         textEditors[i].addEventListener('input', function (e) {
           e.target.classList.add('modified');
-          _this2.setState({ pageModified: true });
+          _this4.setState({ pageModified: true });
         }, false);
       }
     }
@@ -27762,30 +27995,17 @@ var ThesisEditor = function (_React$Component) {
       return contents;
     }
   }, {
-    key: 'renderEditorClass',
-    value: function renderEditorClass() {
-      return this.state.editing ? 'active' : '';
-    }
-  }, {
-    key: 'renderEditButtonText',
-    value: function renderEditButtonText() {
-      return this.state.editing ? 'Editing Page' : 'Edit Page';
-    }
-  }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
-      var fader = document.querySelector('#thesis-fader');
       var el = document.querySelector('body');
       var editors = this.allContentEditors();
 
       if (this.state.editing) {
         el.classList.add('thesis-editing');
         if (!this.editor) this.addContentEditors();
-        if (!fader) el.insertAdjacentHTML('beforeend', '<div id="thesis-fader"></div>');
       } else {
         el.classList.remove('thesis-editing');
         this.removeContentEditors();
-        if (fader) fader.remove();
       }
 
       if (this.state.pageModified) {
@@ -27796,19 +28016,86 @@ var ThesisEditor = function (_React$Component) {
           editors[i].classList.remove('modified');
         }
       }
+
+      if (this.state.trayOpen) {
+        el.classList.add('thesis-tray-open');
+      } else {
+        el.classList.remove('thesis-tray-open');
+      }
+    }
+  }, {
+    key: 'renderEditorClass',
+    value: function renderEditorClass() {
+      var classes = '';
+      classes += this.state.editing ? ' active ' : '';
+      classes += this.state.pageToolsHidden ? ' thesis-page-tools-hidden ' : '';
+      return classes;
+    }
+  }, {
+    key: 'renderEditButtonText',
+    value: function renderEditButtonText() {
+      return this.state.editing ? 'Editing Page' : 'Edit Page';
+    }
+  }, {
+    key: 'renderFaderClass',
+    value: function renderFaderClass() {
+      return this.renderEditorClass();
+    }
+  }, {
+    key: 'renderTrayCta',
+    value: function renderTrayCta() {
+      var type = this.state.trayType;
+      if (type == 'add-page') {
+        return 'Save';
+      } else if (type == 'page-settings') {
+        return 'Update';
+      }
+    }
+  }, {
+    key: 'renderTrayTitle',
+    value: function renderTrayTitle() {
+      var type = this.state.trayType;
+      if (type == 'add-page') {
+        return 'Add New Page';
+      } else if (type == 'page-settings') {
+        return 'Page Settings';
+      }
+    }
+  }, {
+    key: 'renderTrayClass',
+    value: function renderTrayClass() {
+      return this.state.trayType;
     }
   }, {
     key: 'render',
     value: function render() {
-      // <AddButton />
-      // <DeleteButton />
       return _react2.default.createElement(
         'div',
-        { id: 'thesis-editor', className: this.renderEditorClass() },
-        _react2.default.createElement(_settings_button2.default, null),
-        _react2.default.createElement(_cancel_button2.default, { onPress: this.cancelPressed }),
-        _react2.default.createElement(_save_button2.default, { onPress: this.savePressed }),
-        _react2.default.createElement(_edit_button2.default, { onPress: this.editPressed, text: this.renderEditButtonText() })
+        { id: 'thesis' },
+        _react2.default.createElement(
+          'div',
+          { id: 'thesis-editor', className: this.renderEditorClass() },
+          _react2.default.createElement(_save_button2.default, { onPress: this.savePressed }),
+          _react2.default.createElement(_settings_button2.default, { onPress: this.pageSettingsPressed }),
+          _react2.default.createElement(_cancel_button2.default, { onPress: this.cancelPressed }),
+          _react2.default.createElement(_edit_button2.default, { onPress: this.editPressed, text: this.renderEditButtonText() })
+        ),
+        _react2.default.createElement('div', { id: 'thesis-fader', className: this.renderFaderClass() }),
+        _react2.default.createElement(
+          'div',
+          { id: 'thesis-tray', className: this.renderTrayClass() },
+          _react2.default.createElement(_settings_tray2.default, {
+            cta: this.renderTrayCta(),
+            title: this.renderTrayTitle(),
+            path: this.pathname(),
+            hasErrors: false,
+            pageTitle: this.pageTitle(),
+            pageDescription: this.pageDescription(),
+            onCancel: this.trayCanceled,
+            onSubmit: this.traySubmitted
+          }),
+          _react2.default.createElement(_attribution_text2.default, null)
+        )
       );
     }
   }]);
@@ -27816,7 +28103,7 @@ var ThesisEditor = function (_React$Component) {
   return ThesisEditor;
 }(_react2.default.Component);
 
-_reactDom2.default.render(_react2.default.createElement(ThesisEditor, null), document.querySelector('#thesis-editor-container'));
+_reactDom2.default.render(_react2.default.createElement(ThesisEditor, null), document.querySelector('#thesis-container'));
 
 });
 
@@ -27869,10 +28156,10 @@ var Net = {
     return Net.request(path, body, 'DELETE');
   },
   request: function request(path, body, method) {
-    return fetch(path, {
+    return window.fetch(path, {
       method: method,
       credentials: 'same-origin',
-      headers: new Headers({
+      headers: new window.Headers({
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }),
