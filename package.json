@@ -1,6 +1,6 @@
 {
   "name": "thesis",
-  "version": "0.0.11-dev",
+  "version": "0.0.12-dev",
   "main": "./priv/static/thesis.js",
   "repository": {},
   "license" : "MIT",
