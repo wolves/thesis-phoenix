@@ -6,7 +6,7 @@ For automatic setup, see `README.md`.
 
 ```elixir
 def deps do
-  [{:thesis, "~> 0.0.5"}]
+  [{:thesis, "~> 0.0.14"}]
 end
 
 def application do
@@ -30,7 +30,7 @@ config :thesis, Thesis.EctoStore, repo: <MyApp>.Repo
 ```elixir
 defmodule <MyApp>.ThesisAuth do
   def page_is_editable?(conn) do
-    true
+    true # editable by the world
   end
 end
 ```

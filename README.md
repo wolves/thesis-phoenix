@@ -110,37 +110,44 @@ end
 ## Authorization
 
 You probably don't want your website editable by the world. Thesis doesn't
-force you to use any particular authorization strategy. Instead, Thesis will
-call your auth module's `can_edit_page?/1` function and provide the current
-`conn`, which can be used to extract current user session data, the current
-page, and then decide on your own how that should affect authorization.
+force you to use any particular authorization strategy.
+
+Instead, Thesis will call your auth module's `page_is_editable?/1` function
+and provide the current `conn`, which can be used to extract current user
+session data as well as the current page, and then you can decide how that
+should affect authorization.
 
 Here's an example which we use on our own website, [https://infinite.red](https://infinite.red):
 
 ```elixir
 defmodule IrWebsite.ThesisAuth do
   def page_is_editable?(conn) do
-    !!IrWebsite.AuthController.current_user(conn)
+    IrWebsite.AuthController.logged_in?(conn)
   end
 end
 ```
 
-In our `auth_controller.ex` file, the `current_user/1` function looks like this:
+In our `auth_controller.ex` file, the `logged_in?/1` function looks something
+like this:
 
 ```elixir
+  def logged_in?(conn) do
+    !!current_user(conn)
+  end
+
   def current_user(conn) do
     get_session(conn, :current_user)
   end
 ```
 
 So, in this case, we're simply checking to see if the user has been logged in
-or not. Since we're verifying their identity before letting them log in,
-it's safe for us to assume that if they're logged in, they have permission to
-edit the page.
+or not. Since only Infinite Red employees have logins, it's safe for us to
+assume that if they're logged in, they have permission to edit the page.
 
 ## What Thesis Isn't
 
-You can't have it all. Thesis isn't the same as other -bloated- full-functional content management systems out there. This is a list of what it's not now and
+You can't have it all. Thesis isn't the same as other -bloated- full-function
+content management systems out there. This is a list of what it's not now and
 not likely to be in the future.
 
 _We reserve the right to change our mind, however. :-)_
@@ -149,8 +156,7 @@ _We reserve the right to change our mind, however. :-)_
 * Not a full featured CMS
 * Not a full featured WYSIWYG editor
 * Not an authentication or permission system
-* Not a library that works well outside of Phoenix
-
+* Not supported outside of a Phoenix app
 
 ## Contributing
 
@@ -174,11 +180,11 @@ websites. Please help us improve!
 
 Also supported by others on the [Infinite Red](https://infinite.red) team.
 
-### License
+### License: MIT
 
 Copyright (c) 2016 Infinite Red, Inc.
 
 Thesis depends on Elixir, which is under the Apache 2 license, and
-Phoenix, which is also MIT.
+Phoenix, which is MIT.
 
 See LICENSE.md for more information.
