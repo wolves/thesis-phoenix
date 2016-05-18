@@ -21,10 +21,9 @@ defmodule Thesis.View do
         # ...
   """
 
-  import Phoenix.HTML, only: [raw: 1, html_escape: 1, safe_to_string: 1]
+  import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
   import Phoenix.HTML.Tag
   import Thesis.Config
-  import HtmlSanitizeEx
 
   # @styles File.read!(Path.join(__DIR__, "../../priv/static/thesis.css"))
   # @external_resource Path.join(__DIR__, "../../priv/static/thesis.css")
@@ -177,46 +176,15 @@ defmodule Thesis.View do
     Application.get_env(:thesis, :authorization).page_is_editable?(conn)
   end
 
+  def render_editable(page_content) do
+    Thesis.Render.render_editable(page_content)
+  end
+
   defp safe_concat(list) do
     list
     |> Enum.map(&safe_to_string/1)
     |> Enum.join
     |> raw
-  end
-
-  defp render_wrapper_attributes(%{content_type: content_type} = page_content) do
-    classes = "class=\"thesis-content thesis-content-#{content_type}\""
-    data_content_type = "data-thesis-content-type=\"#{content_type}\""
-    data_content_id = "data-thesis-content-id=\"#{page_content.name}\""
-    "#{classes} #{data_content_type} #{data_content_id}"
-  end
-
-  defp render_editable(%{content_type: "html"} = page_content) do
-    raw("""
-      <div #{render_wrapper_attributes(page_content)}>
-        #{basic_html(page_content.content)}
-      </div>
-    """)
-  end
-
-  defp render_editable(%{content_type: "text"} = page_content) do
-    raw("""
-      <div #{render_wrapper_attributes(page_content)}>
-        #{safe_to_string(html_escape(page_content.content))}
-      </div>
-    """)
-  end
-
-  defp render_editable(%{content_type: "image"} = page_content) do
-    raw("""
-      <div #{render_wrapper_attributes(page_content)}>
-        <img src='#{safe_to_string(html_escape(page_content.content))}' />
-      </div>
-    """)
-  end
-
-  defp render_editable(%{content_type: nil} = page_content) do
-    render_editable(Map.put(page_content, :content_type, "text"))
   end
 
   defmacro __using__(_) do

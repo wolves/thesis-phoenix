@@ -26,9 +26,12 @@ defmodule Mix.Tasks.Thesis.Install do
   @doc false
   def thesis_templates do
     template_files = [ {"priv/templates/thesis.install/thesis_auth.exs", "lib/thesis_auth.ex" } ]
-    migration_exists = File.ls!("priv/repo/migrations") |> Enum.map(fn (f) -> String.contains?(f, "create_thesis_tables") end) |> Enum.any?
-    unless migration_exists do
-      template_files = [{"priv/templates/thesis.install/migration.exs", "priv/repo/migrations/#{timestamp}_create_thesis_tables.exs"} | template_files]
+    migration_files = ["create_thesis_tables", "add_meta_to_thesis_page_contents"]
+
+    for filename <- migration_files do
+      unless migration_exists?(filename) do
+        template_files = [{"priv/templates/thesis.install/#{filename}.exs", "priv/repo/migrations/#{timestamp}_#{filename}.exs"} | template_files]
+      end
     end
 
     template_files
@@ -93,4 +96,10 @@ defmodule Mix.Tasks.Thesis.Install do
     end
   end
 
+  defp migration_exists?(filename) do
+    "priv/repo/migrations"
+    |> File.ls!
+    |> Enum.map(fn (f) -> String.contains?(f, filename) end)
+    |> Enum.any?
+  end
 end

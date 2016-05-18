@@ -88,6 +88,21 @@ becomes...
 <h1><%= content(@conn, "Title identifier", :text, do: "My Title") %></h1>
 ```
 
+### Image (by URL)
+
+You can have the user specify an image URL and display the image.
+
+```eex
+<img src="http://placekitten.com/200/300">
+```
+
+becomes...
+
+```eex
+<%= content(@conn, "Image identifier", :image, alt: "My alt tag", do: "http://placekitten.com/200/300")
+%>
+```
+
 ### Meta Title and Description
 
 In your layout, you can output the current title and description like so:
@@ -97,7 +112,7 @@ In your layout, you can output the current title and description like so:
 <meta name="description" content="<%= page_description(@conn, "Default Description") %>" />
 ```
 
-Some prefer to set the page title and description in their controller actions:
+Some prefer to set the page title and description as assigns in their controller actions:
 
 ```eex
 def about(conn, params) do
