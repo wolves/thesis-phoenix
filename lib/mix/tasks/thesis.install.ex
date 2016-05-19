@@ -21,20 +21,21 @@ defmodule Mix.Tasks.Thesis.Install do
     thesis_templates
     thesis_config
     thesis_web
+
+    status_msg("done",
+      "Now run #{IO.ANSI.blue}mix ecto.migrate#{IO.ANSI.reset} to ensure your database is up to date.")
   end
 
   @doc false
   def thesis_templates do
+    migrations = ["create_thesis_tables", "add_meta_to_thesis_page_contents"]
+    migration_files = Enum.filter_map(migrations, &migration_missing?/1, fn (filename) ->
+      {"priv/templates/thesis.install/#{filename}.exs", "priv/repo/migrations/#{timestamp}_#{filename}.exs"}
+    end)
+
     template_files = [ {"priv/templates/thesis.install/thesis_auth.exs", "lib/thesis_auth.ex" } ]
-    migration_files = ["create_thesis_tables", "add_meta_to_thesis_page_contents"]
 
-    for filename <- migration_files do
-      unless migration_exists?(filename) do
-        template_files = [{"priv/templates/thesis.install/#{filename}.exs", "priv/repo/migrations/#{timestamp}_#{filename}.exs"} | template_files]
-      end
-    end
-
-    template_files
+    template_files ++ migration_files
     |> Stream.map(&render_eex/1)
     |> Stream.map(&copy_to_target/1)
     |> Stream.run
@@ -96,10 +97,9 @@ defmodule Mix.Tasks.Thesis.Install do
     end
   end
 
-  defp migration_exists?(filename) do
+  defp migration_missing?(filename) do
     "priv/repo/migrations"
     |> File.ls!
-    |> Enum.map(fn (f) -> String.contains?(f, filename) end)
-    |> Enum.any?
+    |> Enum.all?(fn (f) -> !String.contains?(f, filename) end)
   end
 end

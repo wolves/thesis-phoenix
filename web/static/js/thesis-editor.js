@@ -82,8 +82,6 @@ class ThesisEditor extends React.Component {
   }
 
   editPressed () {
-    let body = document.querySelector('body')
-
     if (this.state.editing) {
       if (this.state.pageModified) {
         this.cancelPressed()
@@ -137,6 +135,10 @@ class ThesisEditor extends React.Component {
     return document.querySelectorAll('.thesis-content-html')
   }
 
+  imageContentEditors () {
+    return document.querySelectorAll('.thesis-content-image')
+  }
+
   allContentEditors () {
     return document.querySelectorAll('.thesis-content')
   }
@@ -177,10 +179,18 @@ class ThesisEditor extends React.Component {
     this.editor.destroy()
     this.editor = null
     this.toggleTextEditors(false)
+    this.toggleImageEditors(false)
   }
 
   toggleTextEditors (editable) {
     const textEditors = this.textContentEditors()
+    for (let i = 0; i < textEditors.length; i++) {
+      textEditors[i].contentEditable = editable
+    }
+  }
+
+  toggleImageEditors (editable) {
+    const imageEditors = this.imageContentEditors()
     for (let i = 0; i < textEditors.length; i++) {
       textEditors[i].contentEditable = editable
     }
@@ -194,11 +204,20 @@ class ThesisEditor extends React.Component {
       const ed = editors[i]
       const id = ed.getAttribute('data-thesis-content-id')
       const t = ed.getAttribute('data-thesis-content-type')
-      const content = ed.innerHTML
-      contents.push({name: id, content_type: t, content: content})
+      const content = this.getContent(t, ed)
+      let meta = "" // TODO: get meta info?
+      contents.push({name: id, content_type: t, content: content, meta: meta})
     }
 
     return contents
+  }
+
+  getContent(t, ed) {
+    if (ed == "image") {
+      return ed.querySelector("img")[1].getAttribute('src')
+    } else {
+      return ed.innerHTML
+    }
   }
 
   componentDidUpdate () {
@@ -246,9 +265,9 @@ class ThesisEditor extends React.Component {
 
   renderTrayCta () {
     const type = this.state.trayType
-    if (type == 'add-page') {
+    if (type === 'add-page') {
       return 'Save'
-    } else if (type == 'page-settings') {
+    } else if (type === 'page-settings') {
       return 'Update'
     }
   }

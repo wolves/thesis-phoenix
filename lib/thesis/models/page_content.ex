@@ -7,6 +7,7 @@ defmodule Thesis.PageContent do
     name: String.t,
     content: String.t | nil,
     content_type: String.t | nil,
+    meta: String.t | nil,
     inserted_at: any,
     updated_at: any
   }
