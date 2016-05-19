@@ -23,35 +23,30 @@ defmodule Thesis.PageContent do
   end
 
   @doc """
-  Returns a keyword list of meta attributes.
-
+  Returns a keyword list of meta attributes from the serialized data.
   ## Doctests:
 
-      iex> m = %Thesis.PageContent{meta: "test=Thing&test2=123"}
+      iex> m = %Thesis.PageContent{meta: ~S({"test":"Thing", "test2":"123"})}
       iex> Thesis.PageContent.meta_attributes(m)
-      [{:test, "Thing"}, {:test2, "123"}]
+      %{test: "Thing", test2: "123"}
   """
+  def meta_attributes(%Thesis.PageContent{meta: nil}), do: []
   def meta_attributes(%Thesis.PageContent{} = page_content) do
     page_content.meta
-    |> String.split("&")
-    |> Enum.map(fn (s) ->
-      {key, value} = String.split(s, "=", parts: 2) |> List.to_tuple
-      {String.to_atom(key), value}
-    end)
+    |> Poison.decode!(keys: :atoms)
   end
 
   @doc """
-  Returns a string, given a keyword list, for storage in the meta field.
+  Returns a serialized string, given a map, for storage in the meta field.
 
   ## Doctests:
 
-      iex> m = [{:test, "Thing"}, {:test2, "123"}]
+      iex> m = %{test: "Thing", test2: "123"}
       iex> Thesis.PageContent.meta_serialize(m)
-      "test=Thing&test2=123"
+      ~S({"test2":"123","test":"Thing"})
   """
-  def meta_serialize(list) when is_list(list) do
-    list
-    |> Enum.map(fn ({k, v}) -> "#{k}=#{v}" end)
-    |> Enum.join("&")
+  def meta_serialize(map) when is_map(map) do
+    map
+    |> Poison.encode!
   end
 end

@@ -1,12 +1,19 @@
 defmodule Thesis.Render do
+  @moduledoc """
+  Renders editable page content, based on the content_type.
+
+  Available content types:
+
+  * html:  WYSIWYG editor, standard HTML output (sanitized)
+  * text:  Raw text, all HTML is escaped, basic contenteditable
+  * image: Displays an image, can replace with URL
+  """
+
   import HtmlSanitizeEx, only: [basic_html: 1]
   import Phoenix.HTML, only: [raw: 1, html_escape: 1, safe_to_string: 1]
 
-  def render_editable(page_content) do
-    do_render_editable(page_content)
-  end
-
-  defp do_render_editable(%{content_type: "html"} = page_content) do
+  @doc false
+  def render_editable(%{content_type: "html"} = page_content) do
     raw("""
       <div #{wrapper_attributes(page_content)}>
         #{basic_html(page_content.content)}
@@ -14,7 +21,7 @@ defmodule Thesis.Render do
     """)
   end
 
-  defp do_render_editable(%{content_type: "text"} = page_content) do
+  def render_editable(%{content_type: "text"} = page_content) do
     raw("""
       <div #{wrapper_attributes(page_content)}>
         #{escape_entities(page_content.content)}
@@ -22,7 +29,7 @@ defmodule Thesis.Render do
     """)
   end
 
-  defp do_render_editable(%{content_type: "image"} = page_content) do
+  def render_editable(%{content_type: "image"} = page_content) do
     raw("""
       <div #{wrapper_attributes(page_content)}>
         <img src="#{escape_entities(page_content.content)}" #{image_attributes(page_content)}>
@@ -30,7 +37,7 @@ defmodule Thesis.Render do
     """)
   end
 
-  defp do_render_editable(%{content_type: nil} = page_content) do
+  def render_editable(%{content_type: nil} = page_content) do
     render_editable(Map.put(page_content, :content_type, "text"))
   end
 
@@ -42,7 +49,10 @@ defmodule Thesis.Render do
   end
 
   defp image_attributes(page_content) do
-    escape_entities("")
+    page_content
+    |> Thesis.PageContent.meta_attributes
+    |> Enum.map(fn ({k, v}) -> "#{k}=\"#{escape_entities(v)}\"" end)
+    |> Enum.join(" ")
   end
 
   defp escape_entities(unsafe) do
