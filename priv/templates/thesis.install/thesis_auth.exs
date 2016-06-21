@@ -1,4 +1,8 @@
 defmodule <%= base %>.ThesisAuth do
+  @moduledoc """
+  Contains functions for handling Thesis authorization.
+  """
+
   def page_is_editable?(conn) do
     # Editable by the world
     true
