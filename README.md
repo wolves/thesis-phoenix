@@ -88,6 +88,23 @@ becomes...
 <h1><%= content(@conn, "Title identifier", :text, do: "My Title") %></h1>
 ```
 
+### Global Content Areas
+
+Content areas in Thesis are page-specific. However, if you want an editable
+region that can be displayed on multiple pages, use the
+`Thesis.View.global_content/4` function. Internally, the page_id will be set
+to `nil` to indicate it applies globally, rather than to a specific page.
+
+```eex
+<%= global_content(@conn, "Footer Text", :html) do %>
+  <h4>Contact Info</h4>
+  <ul>
+    <li>Call us at (800) 555-1212</li>
+    <li>Email us at hello@example.com.</li>
+  </ul>
+<% end %>
+```
+
 ### Meta Title and Description
 
 In your layout, you can output the current title and description like so:

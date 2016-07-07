@@ -27269,7 +27269,7 @@ var AttributionText = function (_React$Component) {
           { href: "//github.com/infinitered/thesis-phoenix", target: "_blank" },
           "Thesis"
         ),
-        " is maintained by ",
+        "is maintained by ",
         _react2.default.createElement(
           "a",
           { href: "//infinite.red", target: "_blank" },
@@ -27988,8 +27988,9 @@ var ThesisEditor = function (_React$Component) {
         var ed = editors[i];
         var id = ed.getAttribute('data-thesis-content-id');
         var t = ed.getAttribute('data-thesis-content-type');
+        var glob = ed.getAttribute('data-thesis-content-global');
         var content = ed.innerHTML;
-        contents.push({ name: id, content_type: t, content: content });
+        contents.push({ name: id, content_type: t, content: content, global: glob });
       }
 
       return contents;

@@ -47,10 +47,36 @@ defmodule Thesis.View do
   end
 
   def content(conn, name, type, do: default_content) when is_binary(default_content) do
+    page = current_page(conn)
+    render_content(conn, page.id, name, type, default_content)
+  end
+
+  @doc """
+  Creates a globally editable content area in an eex template. Returns HTML-safe
+  string if type is `:html` or just a string if `:text`.
+
+  ## Examples
+
+      <%= global_content(@conn, "Title", :text, do: "Default Title") %>
+      <%= global_content(@conn, "Description", :html) do %>
+        <p>Default description</p>
+        <p>Another paragraph</p>
+      <% end %>
+  """
+  @spec global_content(Plug.Conn.t, String.t, String.t, list) :: String.t | {:safe, String.t}
+  def global_content(conn, name, type, do: {:safe, _} = default_content) do
+    global_content(conn, name, type, do: safe_to_string(default_content))
+  end
+
+  def global_content(conn, name, type, do: default_content) when is_binary(default_content) do
+    render_content(conn, nil, name, type, default_content)
+  end
+
+  defp render_content(conn, page_id, name, type, default_content) do
     all_content = conn.assigns[:thesis_content]
     if all_content do
-      page = current_page(conn)
-      content = all_content[name] || make_content(page, name, type, default_content)
+      content = Thesis.PageContent.find(all_content, page_id, name) ||
+        make_content(page_id, name, type, default_content)
       render_editable(content)
     else
       raise controller_missing_text
@@ -137,9 +163,17 @@ defmodule Thesis.View do
     %Thesis.Page{slug: request_path}
   end
 
-  defp make_content(page, name, type, content) do
+  defp make_content(:global, name, type, content) do
+    make_content(nil, name, type, content)
+  end
+
+  defp make_content(%Thesis.Page{id: page_id}, name, type, content) do
+    make_content(page_id, name, type, content)
+  end
+
+  defp make_content(page_id, name, type, content) do
     %Thesis.PageContent{
-      page_id: page.id,
+      page_id: page_id,
       name: name,
       content_type: Atom.to_string(type),
       content: content
@@ -188,7 +222,8 @@ defmodule Thesis.View do
     classes = "class=\"thesis-content thesis-content-#{content_type}\""
     data_content_type = "data-thesis-content-type=\"#{content_type}\""
     data_content_id = "data-thesis-content-id=\"#{page_content.name}\""
-    "#{classes} #{data_content_type} #{data_content_id}"
+    data_global = (page_content.page_id == nil) && "data-thesis-content-global=\"true\"" || ""
+    "#{classes} #{data_content_type} #{data_content_id} #{data_global}"
   end
 
   defp render_editable(%{content_type: "html"} = page_content) do

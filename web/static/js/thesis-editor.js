@@ -194,8 +194,9 @@ class ThesisEditor extends React.Component {
       const ed = editors[i]
       const id = ed.getAttribute('data-thesis-content-id')
       const t = ed.getAttribute('data-thesis-content-type')
+      const glob = ed.getAttribute('data-thesis-content-global')
       const content = ed.innerHTML
-      contents.push({name: id, content_type: t, content: content})
+      contents.push({name: id, content_type: t, content: content, global: glob})
     }
 
     return contents
