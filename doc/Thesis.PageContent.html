@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.11.4">
-    <title>Thesis.PageContent – thesis v0.0.14</title>
+    <title>Thesis.PageContent – thesis v0.0.15</title>
     <link rel="stylesheet" href="dist/app-1e374caa3d.css" />
     <script src="dist/sidebar_items.js"></script>
   </head>
@@ -27,7 +27,7 @@
         thesis
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.0.14
+        v0.0.15
       </h2>
     </div>
     
@@ -59,7 +59,7 @@
 
 
       <h1>
-        <small class="visible-xs">thesis v0.0.14</small>
+        <small class="visible-xs">thesis v0.0.15</small>
         Thesis.PageContent
         
         
@@ -91,6 +91,22 @@
 
 
           
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+    <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#find/3">find(contents, page_id, name)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Selects the right page content from a list</p>
+</div>
+  
+</div>
+
+  </div>
+
 
           
 
@@ -117,6 +133,43 @@
         </section>
       
 
+      
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <i class="icon-link"></i>
+            </a>
+            Functions
+          </h1>
+          <div class="detail" id="find/3">
+  <div class="detail-header">
+    <a href="#find/3" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">find(contents, page_id, name)</span>
+      
+  </div>
+  
+  <section class="docstring">
+    <p>Selects the right page content from a list.</p>
+<pre><code class="iex elixir">iex&gt; foo = [%Thesis.PageContent{id: 1, page_id: nil, name: &quot;Test&quot;},%Thesis.PageContent{id: 2, page_id: 1, name: &quot;Test&quot;},%Thesis.PageContent{id: 3, page_id: 2, name: &quot;Test&quot;},%Thesis.PageContent{id: 4, page_id: nil, name: &quot;Test2&quot;},%Thesis.PageContent{id: 5, page_id: 1, name: &quot;Test2&quot;}]
+iex&gt; Thesis.PageContent.find(foo, nil, &quot;Test&quot;).id == 1
+true
+iex&gt; Thesis.PageContent.find(foo, 1, &quot;Test&quot;).id == 2
+true
+iex&gt; Thesis.PageContent.find(foo, 2, &quot;Test&quot;).id == 3
+true
+iex&gt; Thesis.PageContent.find(foo, nil, &quot;Test2&quot;).id == 4
+true
+iex&gt; Thesis.PageContent.find(foo, 1, &quot;Test2&quot;).id == 5
+true
+iex&gt; Thesis.PageContent.find(foo, 1, &quot;Test7&quot;)
+nil</code></pre>
+
+  </section>
+</div>
+
+        </section>
       
 
       

@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.11.4">
-    <title>Thesis.View – thesis v0.0.14</title>
+    <title>Thesis.View – thesis v0.0.15</title>
     <link rel="stylesheet" href="dist/app-1e374caa3d.css" />
     <script src="dist/sidebar_items.js"></script>
   </head>
@@ -27,7 +27,7 @@
         thesis
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.0.14
+        v0.0.15
       </h2>
     </div>
     
@@ -59,7 +59,7 @@
 
 
       <h1>
-        <small class="visible-xs">thesis v0.0.14</small>
+        <small class="visible-xs">thesis v0.0.15</small>
         Thesis.View
         
         
@@ -117,6 +117,16 @@ string if type is <code class="inline">:html</code> or just a string if <code cl
   </div>
   
     <div class="summary-synopsis"><p>Returns the current page as a Thesis.Page{} struct</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#global_content/4">global_content(conn, name, type, list)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Creates a globally editable content area in an eex template. Returns HTML-safe
+string if type is <code class="inline">:html</code> or just a string if <code class="inline">:text</code></p>
 </div>
   
 </div>
@@ -223,6 +233,38 @@ string if type is <code class="inline">:html</code> or just a string if <code cl
     <p>Returns the current page as a Thesis.Page{} struct.</p>
 <pre><code class="iex elixir">iex&gt; Thesis.View.current_page(%Plug.Conn{request_path: &quot;/test&quot;})
 %Thesis.Page{slug: &quot;/test&quot;}</code></pre>
+
+  </section>
+</div>
+<div class="detail" id="global_content/4">
+  <div class="detail-header">
+    <a href="#global_content/4" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">global_content(conn, name, type, list)</span>
+      
+  </div>
+  
+    <div class="specs">
+      <h4 class="specs-title">Specs</h4>
+      <div class="specs-list">
+        
+          <pre><code class="elixir">global_content(Plug.Conn.t, <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, list) ::
+  <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a> |
+  {:safe, <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>}</code></pre>
+        
+      </div>
+    </div>
+  
+  <section class="docstring">
+    <p>Creates a globally editable content area in an eex template. Returns HTML-safe
+string if type is <code class="inline">:html</code> or just a string if <code class="inline">:text</code>.</p>
+<h2>Examples</h2>
+<pre><code class="elixir">&lt;%= global_content(@conn, &quot;Title&quot;, :text, do: &quot;Default Title&quot;) %&gt;
+&lt;%= global_content(@conn, &quot;Description&quot;, :html) do %&gt;
+  &lt;p&gt;Default description&lt;/p&gt;
+  &lt;p&gt;Another paragraph&lt;/p&gt;
+&lt;% end %&gt;</code></pre>
 
   </section>
 </div>
