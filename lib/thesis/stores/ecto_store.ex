@@ -24,8 +24,7 @@ defmodule Thesis.EctoStore do
   end
 
   def page_contents(%Page{id: page_id}) do
-    repo.all(PageContent, page_id: page_id)
-      |> Map.new(&name_page_content_tuple/1)
+    repo.all(PageContent, page_id: [nil, page_id])
   end
 
   def page_contents(slug) when is_binary(slug) do
@@ -45,23 +44,28 @@ defmodule Thesis.EctoStore do
     preloaded_contents = page_contents(page)
 
     contents_params
-      |> Enum.map(fn(x) -> content_changeset(x, page, preloaded_contents) end)
-      |> Enum.map(fn(x) -> repo.insert_or_update!(x) end)
+    |> Enum.map(fn(x) -> content_changeset(x, page, preloaded_contents) end)
+    |> Enum.map(fn(x) -> repo.insert_or_update!(x) end)
+
     :ok
   end
 
   defp content_changeset(new_contents, page, preloaded_contents) do
     %{"name" => name, "content" => content, "content_type" => content_type} = new_contents
-    page_content = preloaded_contents[name] ||
-      %PageContent{name: name, page_id: page.id, content_type: content_type}
-    Ecto.Changeset.cast(page_content, %{content: content}, ~w(content), [])
+
+    page_id = page_id_or_global(new_contents, page)
+
+    page_content = PageContent.find(preloaded_contents, page_id, name) ||
+      %PageContent{page_id: page_id, name: name}
+    updated_properties = %{content: content, content_type: content_type}
+
+    Ecto.Changeset.cast(page_content, updated_properties, ~w(content content_type), [])
   end
 
   defp slug_page_tuple(%Page{slug: slug} = page) do
     {slug, page}
   end
 
-  defp name_page_content_tuple(%PageContent{name: name} = page_content) do
-    {name, page_content}
-  end
+  defp page_id_or_global(%{"global" => "true"}, _page), do: nil
+  defp page_id_or_global(_content, %Thesis.Page{id: id}), do: id
 end
