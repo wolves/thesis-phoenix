@@ -14,25 +14,17 @@ defmodule Thesis.EctoStore do
   import Thesis.Config
   alias Thesis.{ Page, PageContent }
 
-  def pages do
-    repo.all(Page)
-      |> Map.new(&slug_page_tuple/1)
-  end
-
   def page(slug) when is_binary(slug) do
     repo.get_by(Page, slug: slug)
   end
 
-  def page_contents(%Page{id: page_id}) do
-    repo.all(PageContent, page_id: [nil, page_id])
-  end
-
+  def page_contents(nil), do: []
   def page_contents(slug) when is_binary(slug) do
     page_contents(page(slug))
   end
 
-  def page_contents(nil) do
-    %{}
+  def page_contents(%Page{id: page_id}) do
+    repo.all(PageContent, page_id: [nil, page_id])
   end
 
   def update(%{"slug" => slug} = page_params, contents_params) do
@@ -60,10 +52,6 @@ defmodule Thesis.EctoStore do
     updated_properties = %{content: content, content_type: content_type}
 
     Ecto.Changeset.cast(page_content, updated_properties, ~w(content content_type), [])
-  end
-
-  defp slug_page_tuple(%Page{slug: slug} = page) do
-    {slug, page}
   end
 
   defp page_id_or_global(%{"global" => "true"}, _page), do: nil
