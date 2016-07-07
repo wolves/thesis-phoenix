@@ -1,5 +1,7 @@
 # Thesis
 
+[![Build Status](https://semaphoreci.com/api/v1/projects/0540dbb0-887a-45dd-9190-baa19b2ca9fb/816876/badge.svg)](https://semaphoreci.com/ir/thesis-phoenix)
+
 Thesis is an Elixir/Phoenix hex package for quickly and easily adding content
 editing to any page.
 
