@@ -25,6 +25,12 @@ const mediumEditorOptions = {
     align: 'center',
     sticky: true,
     updateOnEmptySelection: true
+  },
+  paste: {
+    forcePlainText: false,
+    cleanPastedHTML: true,
+    cleanAttrs: ['class', 'style', 'dir'],
+    cleanTags: ['meta', 'pre']
   }
 }
 
