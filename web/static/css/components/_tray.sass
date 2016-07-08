@@ -7,7 +7,7 @@ body.thesis-tray-open
     right : 0
 
 #thesis-tray
-  @include transition(right .3s ease-in-out)
+  +transition(right .3s ease-in-out)
   position   : fixed
   width      : 380px
   height     : 100%
@@ -26,7 +26,7 @@ body.thesis-tray-open
     width          : 6px
     z-index        : 10
     pointer-events : none
-    @include linear-gradient(left, rgba(black, .2), white)
+    +linear-gradient(left, rgba(black, .2), white)
     background-color : white
 
   .attribution
@@ -48,7 +48,7 @@ body.thesis-tray-open
       line-height : 40px
 
       &:after
-        @include transition(opacity .2s ease-in-out)
+        +transition(opacity .2s ease-in-out)
         opacity       : 0
         content       : ""
         border-bottom : 2px solid $ir-red
@@ -69,8 +69,8 @@ body.thesis-tray-open
     height         : 100%
     overflow       : scroll
     padding-bottom : 40px
-    @include display(flex)
-    @include flex-direction( row )
+    +display(flex)
+    +flex-direction( row )
 
   .tray-wrap
     margin        : auto

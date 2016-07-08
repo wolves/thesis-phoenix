@@ -25,6 +25,12 @@ const mediumEditorOptions = {
     align: 'center',
     sticky: true,
     updateOnEmptySelection: true
+  },
+  paste: {
+    forcePlainText: false,
+    cleanPastedHTML: true,
+    cleanAttrs: ['class', 'style', 'dir'],
+    cleanTags: ['meta', 'pre']
   }
 }
 
@@ -288,8 +294,7 @@ class ThesisEditor extends React.Component {
           pageTitle={this.pageTitle()}
           pageDescription={this.pageDescription()}
           onCancel={this.trayCanceled}
-          onSubmit={this.traySubmitted}
-        />
+          onSubmit={this.traySubmitted} />
         <AttributionText />
       </div>
     </div>

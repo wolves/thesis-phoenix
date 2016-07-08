@@ -335,6 +335,9 @@ body {
   transition: all 0.3s ease-in-out, left 0.3s ease-in-out;
   left: 0;
   position: relative; }
+  body [tabindex="99999"] {
+    box-shadow: none;
+    outline: none; }
 
 #thesis-editor progress, #thesis-editor sub, #thesis-editor sup, #thesis-modal progress, #thesis-modal sub, #thesis-modal sup, #thesis-fader progress, #thesis-fader sub, #thesis-fader sup, #thesis-tray progress, #thesis-tray sub, #thesis-tray sup {
   vertical-align: baseline; }
@@ -431,6 +434,9 @@ body {
 #thesis-editor ::-webkit-file-upload-button, #thesis-modal ::-webkit-file-upload-button, #thesis-fader ::-webkit-file-upload-button, #thesis-tray ::-webkit-file-upload-button {
   -webkit-appearance: button;
   font: inherit; }
+#thesis-editor button, #thesis-modal button, #thesis-fader button, #thesis-tray button {
+  min-width: 0px;
+  border-radius: 0; }
 #thesis-editor, #thesis-editor *, #thesis-modal, #thesis-modal *, #thesis-fader, #thesis-fader *, #thesis-tray, #thesis-tray * {
   color: #1E1E1E;
   font-family: "Raleway", sans-serif;
@@ -817,7 +823,8 @@ body.thesis-editing .thesis-content {
     border: dotted 3px white; }
   body.thesis-editing .thesis-content:focus {
     box-shadow: none;
-    outline: none; }
+    outline: none;
+    cursor: text; }
     body.thesis-editing .thesis-content:focus:after {
       background-size: 30px 30px;
       -webkit-animation: barber_pole 4s linear infinite;

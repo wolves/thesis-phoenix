@@ -223,7 +223,7 @@ defmodule Thesis.View do
     data_content_type = "data-thesis-content-type=\"#{content_type}\""
     data_content_id = "data-thesis-content-id=\"#{page_content.name}\""
     data_global = (page_content.page_id == nil) && "data-thesis-content-global=\"true\"" || ""
-    "#{classes} #{data_content_type} #{data_content_id} #{data_global}"
+    "#{classes} #{data_content_type} #{data_content_id} #{data_global} tabindex=\"99999\""
   end
 
   defp render_editable(%{content_type: "html"} = page_content) do
