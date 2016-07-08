@@ -14,7 +14,7 @@ body.thesis-editing .thesis-content
       text-decoration: underline
 
   &:before
-    @include transition(opacity .2s ease-in-out)
+    +transition(opacity .2s ease-in-out)
     height         : 0px
     width          : 0px
     display        : block
@@ -34,7 +34,7 @@ body.thesis-editing .thesis-content
     pointer-events : none
 
   &:after
-    @include transition(border-color .2s ease-in-out)
+    +transition(border-color .2s ease-in-out)
     box-sizing       : border-box
     position         : absolute
     width            : 100%
@@ -49,9 +49,10 @@ body.thesis-editing .thesis-content
   &:focus
     box-shadow : none
     outline    : none
+    cursor     : text
 
     &:after
-      @include barber_pole(rgba(white, .6), rgba(white, .15), 4s)
+      +barber_pole(rgba(white, .6), rgba(white, .15), 4s)
 
   &.modified
     &:before

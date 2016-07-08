@@ -3,7 +3,7 @@ body.thesis-tray-open
     right: 380px
 
 #thesis-editor
-  @include transition(right .3s ease-in-out)
+  +transition(right .3s ease-in-out)
   display         : block
   position        : absolute
   right           : 0
@@ -20,12 +20,12 @@ body.thesis-tray-open
 
   &.active
     .thesis-button
-      @include curve_buttons(4)
+      +curve_buttons(4)
       opacity        : 1
       pointer-events : auto
 
       &.edit i
-        @include barber_pole(darken($gray, 8%), rgba(white, .25))
+        +barber_pole(darken($gray, 8%), rgba(white, .25))
 
   // ENABLE when add/delete buttons are addded
   // &.thesis-page-tools-hidden
@@ -34,21 +34,21 @@ body.thesis-tray-open
   //   &:hover
   //     .thesis-button
   //       &.add, &.delete
-  //         @include curve_buttons(6)
-  //         @include transition-duration(.3s)
-  //         @include keyframes (animateOpacity)
+  //         +curve_buttons(6)
+  //         +transition-duration(.3s)
+  //         +keyframes (animateOpacity)
   //           from
   //             opacity: 0
   //           to
   //             opacity: 1
-  //         @include animation( animateOpacity .75s ease-in-out )
+  //         +animation( animateOpacity .75s ease-in-out )
   //         opacity        : 1
   //         pointer-events : auto
 
   .thesis-button
-    @include editor_icons(("cancel": $orange, "delete": $pink, "add": $blue, "save": $green, "settings": $yellow ))
-    @include transition(opacity .75s ease-in-out, right .75s ease-in-out, transform .75s ease-in-out)
-    @include transform-origin(0% 100%)
+    +editor_icons(("cancel": $orange, "delete": $pink, "add": $blue, "save": $green, "settings": $yellow ))
+    +transition(opacity .75s ease-in-out, right .75s ease-in-out, transform .75s ease-in-out)
+    +transform-origin(0% 100%)
     right          : 15px
     opacity        : 0
     display        : block
@@ -96,14 +96,14 @@ body.thesis-tray-open
       vertical-align   : middle
       font-family      : $fontawesome
       color            : white
-      @include transition(background-color .3s ease-in-out)
+      +transition(background-color .3s ease-in-out)
 
       &:hover
         background-color: darken($gray, 8%)
-        @include transition(background-color .3s ease-in-out)
+        +transition(background-color .3s ease-in-out)
 
     .tooltip
-      @include transition(opacity .2s ease-out, right .2s ease-out)
+      +transition(opacity .2s ease-out, right .2s ease-out)
       z-index        : 1
       position       : absolute
       right          : 0px
