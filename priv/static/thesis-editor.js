@@ -28174,8 +28174,7 @@ var ThesisEditor = function (_React$Component) {
             pageTitle: this.pageTitle(),
             pageDescription: this.pageDescription(),
             onCancel: this.trayCanceled,
-            onSubmit: this.traySubmitted
-          }),
+            onSubmit: this.traySubmitted }),
           _react2.default.createElement(_attribution_text2.default, null)
         )
       );

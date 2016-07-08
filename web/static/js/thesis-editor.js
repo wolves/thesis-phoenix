@@ -288,8 +288,7 @@ class ThesisEditor extends React.Component {
           pageTitle={this.pageTitle()}
           pageDescription={this.pageDescription()}
           onCancel={this.trayCanceled}
-          onSubmit={this.traySubmitted}
-        />
+          onSubmit={this.traySubmitted} />
         <AttributionText />
       </div>
     </div>
