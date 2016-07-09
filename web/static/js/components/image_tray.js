@@ -20,6 +20,17 @@ class ImageTray extends React.Component {
     this.onSave = this.onSave.bind(this)
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.data !== null) {
+      this.setState({
+        contentId: nextProps.data.contentId,
+        url: nextProps.data.url,
+        alt: nextProps.data.alt,
+        isValid: true
+      })
+    }
+  }
+
   urlChange (event) {
     this.setState({url: event.target.value})
   }
@@ -33,15 +44,7 @@ class ImageTray extends React.Component {
   }
 
   previewImageStyle () {
-    return {
-      backgroundImage: `url(${this.state.url})`,
-      backgroundSize: 'contain',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      height: 150,
-      border: '10px solid white',
-      boxShadow: '0px 0px 1px #e9e9e9'
-    }
+    return {backgroundImage: `url(${this.state.url})`}
   }
 
   render () {
@@ -52,7 +55,7 @@ class ImageTray extends React.Component {
             Image URL
           </div>
           <div className="thesis-field-row">
-            <div style={this.previewImageStyle()}></div>
+            <div className="tray-image-preview" style={this.previewImageStyle()}></div>
           </div>
           <div className="thesis-field-row">
             <label>
@@ -81,6 +84,7 @@ class ImageTray extends React.Component {
       </div>
     )
   }
+
 }
 
 export default ImageTray

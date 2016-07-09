@@ -27535,7 +27535,7 @@ exports.default = EditButton;
 });
 
 require.register("web/static/js/components/image_tray", function(exports, require, module) {
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -27543,7 +27543,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require('react');
+var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -27582,93 +27582,97 @@ var ImageTray = function (_React$Component) {
   }
 
   _createClass(ImageTray, [{
-    key: 'urlChange',
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {
+      if (nextProps.data !== null) {
+        this.setState({
+          contentId: nextProps.data.contentId,
+          url: nextProps.data.url,
+          alt: nextProps.data.alt,
+          isValid: true
+        });
+      }
+    }
+  }, {
+    key: "urlChange",
     value: function urlChange(event) {
       this.setState({ url: event.target.value });
     }
   }, {
-    key: 'altChange',
+    key: "altChange",
     value: function altChange(event) {
       this.setState({ alt: event.target.value });
     }
   }, {
-    key: 'onSave',
+    key: "onSave",
     value: function onSave() {
       this.props.onSubmit(this.state);
     }
   }, {
-    key: 'previewImageStyle',
+    key: "previewImageStyle",
     value: function previewImageStyle() {
-      return {
-        backgroundImage: 'url(' + this.state.url + ')',
-        backgroundSize: 'contain',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        height: 150,
-        border: '10px solid white',
-        boxShadow: '0px 0px 1px #e9e9e9'
-      };
+      return { backgroundImage: "url(" + this.state.url + ")" };
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       return _react2.default.createElement(
-        'div',
-        { className: 'tray-container' },
+        "div",
+        { className: "tray-container" },
         _react2.default.createElement(
-          'div',
-          { className: 'tray-wrap' },
+          "div",
+          { className: "tray-wrap" },
           _react2.default.createElement(
-            'div',
-            { className: 'tray-title' },
-            'Image URL'
+            "div",
+            { className: "tray-title" },
+            "Image URL"
           ),
           _react2.default.createElement(
-            'div',
-            { className: 'thesis-field-row' },
-            _react2.default.createElement('div', { style: this.previewImageStyle() })
+            "div",
+            { className: "thesis-field-row" },
+            _react2.default.createElement("div", { className: "tray-image-preview", style: this.previewImageStyle() })
           ),
           _react2.default.createElement(
-            'div',
-            { className: 'thesis-field-row' },
+            "div",
+            { className: "thesis-field-row" },
             _react2.default.createElement(
-              'label',
+              "label",
               null,
               _react2.default.createElement(
-                'span',
+                "span",
                 null,
-                'Image URL'
+                "Image URL"
               ),
-              _react2.default.createElement('input', { type: 'text', placeholder: 'http://placekitten.com/200/300', value: this.state.url, onChange: this.urlChange })
+              _react2.default.createElement("input", { type: "text", placeholder: "http://placekitten.com/200/300", value: this.state.url, onChange: this.urlChange })
             )
           ),
           _react2.default.createElement(
-            'div',
-            { className: 'thesis-field-row' },
+            "div",
+            { className: "thesis-field-row" },
             _react2.default.createElement(
-              'label',
+              "label",
               null,
               _react2.default.createElement(
-                'span',
+                "span",
                 null,
-                'Alt Text'
+                "Alt Text"
               ),
-              _react2.default.createElement('input', { type: 'text', placeholder: 'Describe the image', value: this.state.alt, onChange: this.altChange })
+              _react2.default.createElement("input", { type: "text", placeholder: "Describe the image", value: this.state.alt, onChange: this.altChange })
             )
           ),
-          _react2.default.createElement('div', { className: 'thesis-field-row errors', hidden: this.state.isValid }),
+          _react2.default.createElement("div", { className: "thesis-field-row errors", hidden: this.state.isValid }),
           _react2.default.createElement(
-            'div',
-            { className: 'thesis-field-row cta' },
+            "div",
+            { className: "thesis-field-row cta" },
             _react2.default.createElement(
-              'button',
-              { className: 'thesis-tray-cancel', onClick: this.props.onCancel },
-              'Cancel'
+              "button",
+              { className: "thesis-tray-cancel", onClick: this.props.onCancel },
+              "Cancel"
             ),
             _react2.default.createElement(
-              'button',
-              { className: 'thesis-tray-save', onClick: this.onSave },
-              'Apply'
+              "button",
+              { className: "thesis-tray-save", onClick: this.onSave },
+              "Apply"
             )
           )
         )
@@ -28284,7 +28288,7 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'trayCanceled',
     value: function trayCanceled() {
-      this.setState({ trayOpen: false });
+      this.setState({ trayOpen: false, trayData: null });
     }
   }, {
     key: 'settingsTraySubmitted',
@@ -28302,17 +28306,21 @@ var ThesisEditor = function (_React$Component) {
     key: 'imageTraySubmitted',
     value: function imageTraySubmitted(data) {
       var editor = document.querySelector('[data-thesis-content-id="' + data.contentId + '"');
-      var img = editor.querySelector('img');
-
       editor.classList.add('modified');
 
       var meta = JSON.stringify({ alt: data.alt });
       editor.setAttribute('data-thesis-content-meta', meta);
 
-      img.src = data.url;
-      img.alt = data.alt;
+      var type = editor.getAttribute('data-thesis-content-type');
+      if (type === 'image') {
+        var img = editor.querySelector('img');
+        img.src = data.url;
+        img.alt = data.alt;
+      } else if (type === 'background_image') {
+        editor.style.backgroundImage = 'url("' + data.url + '")';
+      }
 
-      this.setState({ trayOpen: false, pageModified: true });
+      this.setState({ trayOpen: false, pageModified: true, trayData: null });
     }
   }, {
     key: 'editPressed',
@@ -28361,7 +28369,11 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'pageSettingsPressed',
     value: function pageSettingsPressed() {
-      this.setState({ trayOpen: !this.state.trayOpen, trayType: 'page-settings' });
+      if (this.state.trayOpen && this.state.trayType !== 'page-settings') {
+        this.setState({ trayType: 'page-settings' });
+      } else {
+        this.setState({ trayOpen: !this.state.trayOpen, trayType: 'page-settings' });
+      }
     }
   }, {
     key: 'postToServer',
@@ -28444,10 +28456,16 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'clickedImageEditor',
     value: function clickedImageEditor(e) {
-      e.currentTarget.classList.add('modified');
       var id = e.currentTarget.getAttribute('data-thesis-content-id');
+      var type = e.currentTarget.getAttribute('data-thesis-content-type');
       var meta = JSON.parse(e.currentTarget.getAttribute('data-thesis-content-meta'));
-      var url = e.currentTarget.querySelector('img').getAttribute('src');
+      var url = '';
+
+      if (type === 'image') {
+        url = e.currentTarget.querySelector('img').getAttribute('src');
+      } else if (type === 'background_image') {
+        url = this.get_url_from_style(e.currentTarget.style.backgroundImage);
+      }
 
       this.setState({
         pageModified: true,
@@ -28478,7 +28496,6 @@ var ThesisEditor = function (_React$Component) {
       this.editor.destroy();
       this.editor = null;
       this.toggleTextEditors(false);
-      this.toggleImageEditors(false);
       this.unsubscribeFromContentChanges();
       this.rawHtmlEditor.disable();
     }
@@ -28489,14 +28506,6 @@ var ThesisEditor = function (_React$Component) {
       for (var i = 0; i < textEditors.length; i++) {
         textEditors[i].contentEditable = editable;
       }
-    }
-  }, {
-    key: 'toggleImageEditors',
-    value: function toggleImageEditors(editable) {
-      // const imageEditors = this.imageContentEditors()
-      // for (let i = 0; i < textEditors.length; i++) {
-      //   textEditors[i].contentEditable = editable
-      // }
     }
   }, {
     key: 'contentEditorContents',
@@ -28518,11 +28527,18 @@ var ThesisEditor = function (_React$Component) {
       return contents;
     }
   }, {
+    key: 'get_url_from_style',
+    value: function get_url_from_style(style) {
+      return style.replace('url("', '').replace('")', '');
+    }
+  }, {
     key: 'getContent',
     value: function getContent(t, ed) {
       if (t == 'image') {
         console.log('281');
         return ed.querySelector('img').getAttribute('src');
+      } else if (t == 'background_image') {
+        return this.get_url_from_style(ed.style.backgroundImage);
       } else {
         console.log('284');
         return ed.innerHTML;

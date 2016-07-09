@@ -85,7 +85,7 @@ class ThesisEditor extends React.Component {
   }
 
   trayCanceled () {
-    this.setState({trayOpen: false})
+    this.setState({trayOpen: false, trayData: null})
   }
 
   settingsTraySubmitted (page) {
@@ -99,17 +99,21 @@ class ThesisEditor extends React.Component {
 
   imageTraySubmitted (data) {
     const editor = document.querySelector(`[data-thesis-content-id="${data.contentId}"`)
-    const img = editor.querySelector('img')
-
     editor.classList.add('modified')
 
     const meta = JSON.stringify({alt: data.alt})
     editor.setAttribute('data-thesis-content-meta', meta)
 
-    img.src = data.url
-    img.alt = data.alt
+    const type = editor.getAttribute('data-thesis-content-type')
+    if (type === 'image') {
+      const img = editor.querySelector('img')
+      img.src = data.url
+      img.alt = data.alt
+    } else if (type === 'background_image') {
+      editor.style.backgroundImage = `url("${data.url}")`
+    }
 
-    this.setState({trayOpen: false, pageModified: true})
+    this.setState({trayOpen: false, pageModified: true, trayData: null})
   }
 
   editPressed () {
@@ -145,7 +149,11 @@ class ThesisEditor extends React.Component {
   }
 
   pageSettingsPressed () {
-    this.setState({trayOpen: !this.state.trayOpen, trayType: 'page-settings'})
+    if (this.state.trayOpen && this.state.trayType !== 'page-settings') {
+      this.setState({trayType: 'page-settings'})
+    } else {
+      this.setState({trayOpen: !this.state.trayOpen, trayType: 'page-settings'})
+    }
   }
 
   postToServer (page, contents) {
@@ -218,10 +226,16 @@ class ThesisEditor extends React.Component {
   }
 
   clickedImageEditor (e) {
-    e.currentTarget.classList.add('modified')
     const id = e.currentTarget.getAttribute('data-thesis-content-id')
+    const type = e.currentTarget.getAttribute('data-thesis-content-type')
     const meta = JSON.parse(e.currentTarget.getAttribute('data-thesis-content-meta'))
-    const url = e.currentTarget.querySelector('img').getAttribute('src')
+    let url = ''
+
+    if (type === 'image') {
+      url = e.currentTarget.querySelector('img').getAttribute('src')
+    } else if (type === 'background_image') {
+      url = this.get_url_from_style(e.currentTarget.style.backgroundImage)
+    }
 
     this.setState({
       pageModified: true,
@@ -248,7 +262,6 @@ class ThesisEditor extends React.Component {
     this.editor.destroy()
     this.editor = null
     this.toggleTextEditors(false)
-    this.toggleImageEditors(false)
     this.unsubscribeFromContentChanges()
     this.rawHtmlEditor.disable()
   }
@@ -258,13 +271,6 @@ class ThesisEditor extends React.Component {
     for (let i = 0; i < textEditors.length; i++) {
       textEditors[i].contentEditable = editable
     }
-  }
-
-  toggleImageEditors (editable) {
-    // const imageEditors = this.imageContentEditors()
-    // for (let i = 0; i < textEditors.length; i++) {
-    //   textEditors[i].contentEditable = editable
-    // }
   }
 
   contentEditorContents () {
@@ -285,10 +291,16 @@ class ThesisEditor extends React.Component {
     return contents
   }
 
+  get_url_from_style (style) {
+    return style.replace('url("', '').replace('")', '')
+  }
+
   getContent (t, ed) {
     if (t == 'image') {
       console.log('281')
       return ed.querySelector('img').getAttribute('src')
+    } else if (t == 'background_image') {
+      return this.get_url_from_style(ed.style.backgroundImage)
     } else {
       console.log('284')
       return ed.innerHTML
@@ -383,6 +395,7 @@ class ThesisEditor extends React.Component {
     </div>
     )
   }
+
 }
 
 ReactDOM.render(<ThesisEditor />, document.querySelector('#thesis-container'))

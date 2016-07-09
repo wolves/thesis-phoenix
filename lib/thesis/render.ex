@@ -47,10 +47,9 @@ defmodule Thesis.Render do
 
   def render_editable(%{content_type: "background_image"} = page_content, opts) do
     raw("""
-      <div #{wrapper_attributes(Map.put(page_content, :styles, background_image_string(page_content.content)))}></div>
+      <div #{wrapper_attributes(page_content, Keyword.put(opts, :styles, background_image_string(page_content.content)))}></div>
     """)
   end
-
 
   def render_editable(%{content_type: nil} = page_content, opts) do
     render_editable(Map.put(page_content, :content_type, "text"), opts)
@@ -64,7 +63,7 @@ defmodule Thesis.Render do
     data_content_meta = "data-thesis-content-meta=\"#{escape_entities(page_content.meta)}\""
     data_global = (page_content.page_id == nil) && "data-thesis-content-global=\"true\"" || ""
     tab_index = "tabindex=\"9999\""
-    styles = "style=\"box-shadow: none; outline: none; #{page_content.styles || ""}\""
+    styles = "style=\"box-shadow: none; outline: none; #{opts[:styles]}\""
     tab_index = "tabindex=\"9999\" style=\"box-shadow: none; outline: none;\""
     "#{id} #{classes} #{data_content_type} #{data_content_id} #{data_global} #{styles} #{tab_index} #{data_content_meta}"
   end

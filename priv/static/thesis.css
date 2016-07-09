@@ -962,4 +962,11 @@ body.thesis-tray-open {
     line-height: 1;
     letter-spacing: 1.5px;
     margin-bottom: 25px; }
+  #thesis-tray .tray-image-preview {
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 160px;
+    border: 8px solid white;
+    box-shadow: 0 0 0 1px rgba(160, 161, 166, 0.35); }
 
