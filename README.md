@@ -19,7 +19,7 @@ _If you are having problems, view `README_INSTALL.md` for manual instructions._
 
 ```elixir
 def deps do
-  [{:thesis, "~> 0.0.14"}]
+  [{:thesis, "~> 0.0.16"}]
 end
 
 def application do
@@ -103,6 +103,22 @@ becomes...
 ```eex
 <%= content(@conn, "Image identifier", :image, alt: "My alt tag", do: "http://placekitten.com/200/300")
 %>
+
+### Global Content Areas
+
+Content areas in Thesis are page-specific. However, if you want an editable
+region that can be displayed on multiple pages, use the
+`Thesis.View.global_content/4` function. Internally, the page_id will be set
+to `nil` to indicate it applies globally, rather than to a specific page.
+
+```eex
+<%= global_content(@conn, "Footer Text", :html) do %>
+  <h4>Contact Info</h4>
+  <ul>
+    <li>Call us at (800) 555-1212</li>
+    <li>Email us at hello@example.com.</li>
+  </ul>
+<% end %>
 ```
 
 ### Meta Title and Description
@@ -194,6 +210,7 @@ websites. Please help us improve!
 * Jamon Holmgren [@jamonholmgren](https://twitter.com/jamonholmgren)
 * Ken Miller [@seriousken](https://github.com/kemiller)
 * Daniel Berkompas [@dberkom](https://twitter.com/dberkom)
+* Yulian Glukhenko [@yulianglukhenko](https://github.com/yulianglukhenko)
 
 Also supported by others on the [Infinite Red](https://infinite.red) team.
 

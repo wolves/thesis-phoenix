@@ -45,7 +45,9 @@ defmodule Thesis.Render do
     classes = "class=\"thesis-content thesis-content-#{content_type}\""
     data_content_type = "data-thesis-content-type=\"#{content_type}\""
     data_content_id = "data-thesis-content-id=\"#{page_content.name}\""
-    "#{classes} #{data_content_type} #{data_content_id}"
+    data_global = (page_content.page_id == nil) && "data-thesis-content-global=\"true\"" || ""
+    tab_index = "tabindex=\"9999\" style=\"box-shadow: none; outline: none;\""
+    "#{classes} #{data_content_type} #{data_content_id} #{data_global} #{tab_index}"
   end
 
   defp image_attributes(page_content) do

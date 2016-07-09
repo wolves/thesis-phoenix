@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.11.4">
-    <title>Thesis.Store – thesis v0.0.14</title>
+    <title>Thesis.Store – thesis v0.0.16</title>
     <link rel="stylesheet" href="dist/app-1e374caa3d.css" />
     <script src="dist/sidebar_items.js"></script>
   </head>
@@ -27,7 +27,7 @@
         thesis
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.0.14
+        v0.0.16
       </h2>
     </div>
     
@@ -59,7 +59,7 @@
 
 
       <h1>
-        <small class="visible-xs">thesis v0.0.14</small>
+        <small class="visible-xs">thesis v0.0.16</small>
         Thesis.Store
         
           <small>behaviour</small>
@@ -71,7 +71,7 @@
         <section id="moduledoc" class="docstring">
           <p>Thesis.Store is an Elixir “behaviour” that defines the public function
 interface necessary for Thesis to use a particular store module.</p>
-<p>There are currently five required functions, as described below.</p>
+<p>There are currently three required functions, as described below.</p>
 
         </section>
       
@@ -109,19 +109,9 @@ interface necessary for Thesis to use a particular store module.</p>
     <a href="#c:page_contents/1">page_contents(arg0)</a>
   </div>
   
-    <div class="summary-synopsis"><p>Returns a map consisting of string keys and Thesis.PageContent structs
-for the given Thesis.Page struct. This is generally used to populate the
-page content using the Thesis.View.content/4 function</p>
-</div>
-  
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
-    <a href="#c:pages/0">pages()</a>
-  </div>
-  
-    <div class="summary-synopsis"><p>Returns all pages currently in the database, as a list of Thesis.Page
-structs. Will return an empty list if none are found</p>
+    <div class="summary-synopsis"><p>Returns a list of related Thesis.PageContent structs both for the given
+Thesis.Page struct and global content areas. This is generally used to
+populate the page content using the Thesis.View.content/4 function</p>
 </div>
   
 </div>
@@ -192,39 +182,15 @@ string keys and Thesis.PageContent structs. Returns <code class="inline">:ok</co
       <h4 class="specs-title">Specs</h4>
       <div class="specs-list">
         
-          <pre><code class="elixir">page_contents(<a href="Thesis.Page.html#t:t/0">Thesis.Page.t</a>) :: %{<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a> => <a href="Thesis.PageContent.html#t:t/0">Thesis.PageContent.t</a>}</code></pre>
+          <pre><code class="elixir">page_contents(<a href="Thesis.Page.html#t:t/0">Thesis.Page.t</a>) :: [<a href="Thesis.PageContent.html#t:t/0">Thesis.PageContent.t</a>]</code></pre>
         
       </div>
     </div>
   
   <section class="docstring">
-    <p>Returns a map consisting of string keys and Thesis.PageContent structs
-for the given Thesis.Page struct. This is generally used to populate the
-page content using the Thesis.View.content/4 function.</p>
-
-  </section>
-</div>
-<div class="detail" id="c:pages/0">
-  <div class="detail-header">
-    <a href="#c:pages/0" class="detail-link" title="Link to this callback">
-      <i class="icon-link"></i>
-    </a>
-    <span class="signature">pages()</span>
-      
-  </div>
-  
-    <div class="specs">
-      <h4 class="specs-title">Specs</h4>
-      <div class="specs-list">
-        
-          <pre><code class="elixir">pages :: %{<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a> => <a href="Thesis.Page.html#t:t/0">Thesis.Page.t</a>}</code></pre>
-        
-      </div>
-    </div>
-  
-  <section class="docstring">
-    <p>Returns all pages currently in the database, as a list of Thesis.Page
-structs. Will return an empty list if none are found.</p>
+    <p>Returns a list of related Thesis.PageContent structs both for the given
+Thesis.Page struct and global content areas. This is generally used to
+populate the page content using the Thesis.View.content/4 function.</p>
 
   </section>
 </div>

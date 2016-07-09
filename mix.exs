@@ -1,6 +1,6 @@
 defmodule Thesis.Mixfile do
   use Mix.Project
-  @version "0.0.14" # REMEMBER TO UPDATE package.json and both READMEs!
+  @version "0.0.16" # REMEMBER TO UPDATE package.json and both READMEs!
 
   def project do
     [
@@ -25,7 +25,7 @@ defmodule Thesis.Mixfile do
       {:phoenix_html, ">= 0.0.0"},
       {:ecto, ">= 0.0.0"},
       {:plug, "~> 1.0"},
-      {:html_sanitize_ex, "~> 0.1.0"},
+      {:html_sanitize_ex, "~> 1.0.0"},
       {:ex_doc, ">= 0.0.0", only: [:dev]},
       {:earmark, ">= 0.0.0", only: [:dev]},
       {:dialyze, ">= 0.0.0", only: [:test, :dev]}

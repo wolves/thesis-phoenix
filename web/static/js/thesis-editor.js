@@ -25,6 +25,12 @@ const mediumEditorOptions = {
     align: 'center',
     sticky: true,
     updateOnEmptySelection: true
+  },
+  paste: {
+    forcePlainText: false,
+    cleanPastedHTML: true,
+    cleanAttrs: ['class', 'style', 'dir'],
+    cleanTags: ['meta', 'pre']
   }
 }
 
@@ -204,9 +210,11 @@ class ThesisEditor extends React.Component {
       const ed = editors[i]
       const id = ed.getAttribute('data-thesis-content-id')
       const t = ed.getAttribute('data-thesis-content-type')
+
       const content = this.getContent(t, ed)
-      let meta = "" // TODO: get meta info?
-      contents.push({name: id, content_type: t, content: content, meta: meta})
+      const meta = "" // TODO: get meta info?
+      const glob = ed.getAttribute('data-thesis-content-global')
+      contents.push({name: id, content_type: t, content: content, meta: meta, global: glob})
     }
 
     return contents
@@ -306,8 +314,7 @@ class ThesisEditor extends React.Component {
           pageTitle={this.pageTitle()}
           pageDescription={this.pageDescription()}
           onCancel={this.trayCanceled}
-          onSubmit={this.traySubmitted}
-        />
+          onSubmit={this.traySubmitted} />
         <AttributionText />
       </div>
     </div>
