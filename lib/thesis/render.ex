@@ -62,10 +62,10 @@ defmodule Thesis.Render do
     data_content_id = "data-thesis-content-id=\"#{escape_entities(page_content.name)}\""
     data_content_meta = "data-thesis-content-meta=\"#{escape_entities(page_content.meta)}\""
     data_global = (page_content.page_id == nil) && "data-thesis-content-global=\"true\"" || ""
+    tab_index = "tabindex=\"9999\"" # not used until required
+    styles = "style=\"#{opts[:styles]}\"" # add the following when required: box-shadow: none; outline: none;
     tab_index = "tabindex=\"9999\""
-    styles = "style=\"box-shadow: none; outline: none; #{opts[:styles]}\""
-    tab_index = "tabindex=\"9999\""
-    "#{id} #{classes} #{data_content_type} #{data_content_id} #{data_global} #{tab_index} #{styles} #{data_content_meta}"
+    "#{id} #{classes} #{data_content_type} #{data_content_id} #{data_global} #{styles} #{data_content_meta}"
   end
 
   defp image_attributes(page_content) do
