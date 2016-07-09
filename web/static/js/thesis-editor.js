@@ -162,7 +162,7 @@ class ThesisEditor extends React.Component {
   }
 
   imageContentEditors () {
-    return document.querySelectorAll('.thesis-content-image')
+    return document.querySelectorAll('.thesis-content-image, .thesis-content-background_image')
   }
 
   allContentEditors () {
@@ -276,12 +276,12 @@ class ThesisEditor extends React.Component {
     return contents
   }
 
-  getContent(t, ed) {
-    if (t == "image") {
-      console.log("281")
-      return ed.querySelector("img").getAttribute('src')
+  getContent (t, ed) {
+    if (t == 'image') {
+      console.log('281')
+      return ed.querySelector('img').getAttribute('src')
     } else {
-      console.log("284")
+      console.log('284')
       return ed.innerHTML
     }
   }
@@ -334,39 +334,36 @@ class ThesisEditor extends React.Component {
   }
 
   renderTray () {
-    if (this.state.trayType == "page-settings") {
+    if (this.state.trayType == 'page-settings') {
       return <SettingsTray
-        path={this.pathname()}
-        hasErrors={false}
-        pageTitle={this.pageTitle()}
-        pageDescription={this.pageDescription()}
-        onCancel={this.trayCanceled}
-        onSubmit={this.settingsTraySubmitted} />
-    } else if (this.state.trayType == "image-upload") {
-      return <ImageTray
-        data={this.state.trayData}
-        onCancel={this.trayCanceled}
-        onSubmit={this.imageTraySubmitted} />
+               path={this.pathname()}
+               hasErrors={false}
+               pageTitle={this.pageTitle()}
+               pageDescription={this.pageDescription()}
+               onCancel={this.trayCanceled}
+               onSubmit={this.settingsTraySubmitted} />
+    } else if (this.state.trayType == 'image-upload') {
+      return <ImageTray data={this.state.trayData} onCancel={this.trayCanceled} onSubmit={this.imageTraySubmitted} />
     }
   }
 
   render () {
     return (
-      <div id="thesis">
-        <div id='thesis-editor' className={this.renderEditorClass()}>
-          <SaveButton onPress={this.savePressed} />
-          <SettingsButton onPress={this.pageSettingsPressed} />
-          <CancelButton onPress={this.cancelPressed} />
-          {/*this.state.pageToolsHidden ? <AddButton onPress={this.addPagePressed} /> : null*/}
-          {/*this.state.pageToolsHidden ? <DeleteButton /> : null*/}
-          <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
-        </div>
-        <div id='thesis-fader' className={this.renderFaderClass()}></div>
-        <div id='thesis-tray' className={this.renderTrayClass()}>
-          {this.renderTray()}
-          <AttributionText />
-        </div>
+    <div id="thesis">
+      <div id='thesis-editor' className={this.renderEditorClass()}>
+        <SaveButton onPress={this.savePressed} />
+        <SettingsButton onPress={this.pageSettingsPressed} />
+        <CancelButton onPress={this.cancelPressed} />
+        {/*this.state.pageToolsHidden ? <AddButton onPress={this.addPagePressed} /> : null*/}
+        {/*this.state.pageToolsHidden ? <DeleteButton /> : null*/}
+        <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
       </div>
+      <div id='thesis-fader' className={this.renderFaderClass()}></div>
+      <div id='thesis-tray' className={this.renderTrayClass()}>
+        {this.renderTray()}
+        <AttributionText />
+      </div>
+    </div>
     )
   }
 }

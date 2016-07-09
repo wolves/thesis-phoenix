@@ -37,6 +37,12 @@ defmodule Thesis.Render do
     """)
   end
 
+  def render_editable(%{content_type: "background_image"} = page_content) do
+    raw("""
+      <div #{wrapper_attributes(Map.put(page_content, :styles, background_image_string(page_content.content)))}></div>
+    """)
+  end
+
   def render_editable(%{content_type: nil} = page_content) do
     render_editable(Map.put(page_content, :content_type, "text"))
   end
@@ -47,8 +53,9 @@ defmodule Thesis.Render do
     data_content_id = "data-thesis-content-id=\"#{escape_entities(page_content.name)}\""
     data_content_meta = "data-thesis-content-meta=\"#{escape_entities(page_content.meta)}\""
     data_global = (page_content.page_id == nil) && "data-thesis-content-global=\"true\"" || ""
-    tab_index = "tabindex=\"9999\" style=\"box-shadow: none; outline: none;\""
-    "#{classes} #{data_content_type} #{data_content_id} #{data_global} #{tab_index} #{data_content_meta}"
+    tab_index = "tabindex=\"9999\""
+    styles = "style=\"box-shadow: none; outline: none; #{page_content.styles || ""}\""
+    "#{classes} #{data_content_type} #{data_content_id} #{data_global} #{tab_index} #{styles} #{data_content_meta}"
   end
 
   defp image_attributes(page_content) do
@@ -56,6 +63,10 @@ defmodule Thesis.Render do
     |> Thesis.PageContent.meta_attributes
     |> Enum.map(fn ({k, v}) -> "#{k}=\"#{escape_entities(v)}\"" end)
     |> Enum.join(" ")
+  end
+
+  defp background_image_string(content) do
+    "background-image: url(#{escape_entities(content)})"
   end
 
   defp escape_entities(unsafe) do
