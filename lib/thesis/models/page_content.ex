@@ -69,6 +69,12 @@ defmodule Thesis.PageContent do
       iex> Thesis.PageContent.meta_serialize(m)
       ~S({"test2":"123","test":"Thing"})
   """
+  def meta_serialize(keyword_list) when is_list(keyword_list) do
+    keyword_list
+    |> Enum.into(%{})
+    |> meta_serialize
+  end
+
   def meta_serialize(map) when is_map(map) do
     map
     |> Poison.encode!

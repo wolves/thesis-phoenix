@@ -41,13 +41,9 @@ defmodule Thesis.View do
       <% end %>
   """
   @spec content(Plug.Conn.t, String.t, String.t, list) :: String.t | {:safe, String.t}
-  def content(conn, name, type, do: {:safe, _} = default_content) do
-    content(conn, name, type, do: safe_to_string(default_content))
-  end
-
-  def content(conn, name, type, do: default_content) when is_binary(default_content) do
+  def content(conn, name, type, opts \\ []) do
     page = current_page(conn)
-    render_content(conn, page.id, name, type, default_content)
+    render_content(conn, page.id, name, type, opts)
   end
 
   @doc """
@@ -63,20 +59,16 @@ defmodule Thesis.View do
       <% end %>
   """
   @spec global_content(Plug.Conn.t, String.t, String.t, list) :: String.t | {:safe, String.t}
-  def global_content(conn, name, type, do: {:safe, _} = default_content) do
-    global_content(conn, name, type, do: safe_to_string(default_content))
+  def global_content(conn, name, type, opts \\ []) do
+    render_content(conn, nil, name, type, opts)
   end
 
-  def global_content(conn, name, type, do: default_content) when is_binary(default_content) do
-    render_content(conn, nil, name, type, default_content)
-  end
-
-  defp render_content(conn, page_id, name, type, default_content) do
+  defp render_content(conn, page_id, name, type, opts) do
     all_content = conn.assigns[:thesis_content]
     if all_content do
       content = Thesis.PageContent.find(all_content, page_id, name) ||
-        make_content(page_id, name, type, default_content)
-      render_editable(content)
+        make_content(page_id, name, type, safe_to_string(opts[:do]), opts)
+      Thesis.Render.render_editable(content)
     else
       raise controller_missing_text
     end
@@ -162,20 +154,21 @@ defmodule Thesis.View do
     %Thesis.Page{slug: request_path}
   end
 
-  defp make_content(:global, name, type, content) do
-    make_content(nil, name, type, content)
+  defp make_content(:global, name, type, content, meta) do
+    make_content(nil, name, type, content, meta)
   end
 
-  defp make_content(%Thesis.Page{id: page_id}, name, type, content) do
-    make_content(page_id, name, type, content)
+  defp make_content(%Thesis.Page{id: page_id}, name, type, content, meta) do
+    make_content(page_id, name, type, content, meta)
   end
 
-  defp make_content(page_id, name, type, content) do
+  defp make_content(page_id, name, type, content, meta) do
     %Thesis.PageContent{
       page_id: page_id,
       name: name,
       content_type: Atom.to_string(type),
-      content: content
+      content: content,
+      meta: Thesis.PageContent.meta_serialize(meta)
     }
   end
 
@@ -208,10 +201,6 @@ defmodule Thesis.View do
 
   defp editable?(conn) do
     Application.get_env(:thesis, :authorization).page_is_editable?(conn)
-  end
-
-  def render_editable(page_content) do
-    Thesis.Render.render_editable(page_content)
   end
 
   defp safe_concat(list) do

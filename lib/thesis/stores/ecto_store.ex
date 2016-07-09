@@ -43,15 +43,17 @@ defmodule Thesis.EctoStore do
   end
 
   defp content_changeset(new_contents, page, preloaded_contents) do
-    %{"name" => name, "content" => content, "content_type" => content_type} = new_contents
+    %{ "name" => name, "content" => content, "content_type" => content_type } = new_contents
+    meta = Thesis.PageContent.meta_serialize(new_contents["meta"])
 
     page_id = page_id_or_global(new_contents, page)
 
     page_content = PageContent.find(preloaded_contents, page_id, name) ||
       %PageContent{page_id: page_id, name: name}
-    updated_properties = %{content: content, content_type: content_type}
 
-    Ecto.Changeset.cast(page_content, updated_properties, ~w(content content_type), [])
+    updated_properties = %{content: content, content_type: content_type, meta: meta}
+
+    Ecto.Changeset.cast(page_content, updated_properties, ~w(content content_type meta), [])
   end
 
   defp page_id_or_global(%{"global" => "true"}, _page), do: nil

@@ -159,6 +159,7 @@ class ThesisEditor extends React.Component {
     }
 
     // TODO: image editor
+    const imageEditors = this.imageContentEditors()
 
     // text editor
     const textEditors = this.textContentEditors()
