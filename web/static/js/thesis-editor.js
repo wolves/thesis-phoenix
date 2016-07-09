@@ -12,6 +12,10 @@ import AttributionText from './components/attribution_text'
 import MediumEditor from 'medium-editor'
 import Net from './utilities/net'
 
+// Content types
+import RawHtmlEditor from './content_types/raw_html'
+import RawHtmlTray from './components/raw_html_tray'
+
 // https://github.com/yabwe/medium-editor#toolbar-options
 const mediumEditorOptions = {
   autoLink: true,
@@ -47,6 +51,7 @@ class ThesisEditor extends React.Component {
       trayType: null
     }
     this.editor = null
+    this.rawHtmlEditor = new RawHtmlEditor(this)
 
     // Rebind context
     this.trayCanceled = this.trayCanceled.bind(this)
@@ -124,7 +129,7 @@ class ThesisEditor extends React.Component {
     const page = {slug: this.pathname(), title: this.pageTitle(), description: this.pageDescription()}
     const contents = this.contentEditorContents()
     this.postToServer(page, contents)
-    this.setState({editing: false, pageModified: false})
+    this.setState({editing: false, pageModified: false, trayOpen: false})
     setTimeout(() => this.setState({pageToolsHidden: true}), 800)
   }
 
@@ -232,6 +237,8 @@ class ThesisEditor extends React.Component {
     } else {
       this.editor.setup() // Rebuild it
     }
+    this.rawHtmlEditor.enable()
+
     this.toggleTextEditors(true)
     this.subscribeToContentChanges()
   }
@@ -242,6 +249,8 @@ class ThesisEditor extends React.Component {
     this.editor = null
     this.toggleTextEditors(false)
     this.toggleImageEditors(false)
+    this.unsubscribeFromContentChanges()
+    this.rawHtmlEditor.disable()
   }
 
   toggleTextEditors (editable) {
@@ -336,14 +345,22 @@ class ThesisEditor extends React.Component {
   renderTray () {
     if (this.state.trayType == 'page-settings') {
       return <SettingsTray
-               path={this.pathname()}
-               hasErrors={false}
-               pageTitle={this.pageTitle()}
-               pageDescription={this.pageDescription()}
-               onCancel={this.trayCanceled}
-               onSubmit={this.settingsTraySubmitted} />
-    } else if (this.state.trayType == 'image-upload') {
-      return <ImageTray data={this.state.trayData} onCancel={this.trayCanceled} onSubmit={this.imageTraySubmitted} />
+        path={this.pathname()}
+        hasErrors={false}
+        pageTitle={this.pageTitle()}
+        pageDescription={this.pageDescription()}
+        onCancel={this.trayCanceled}
+        onSubmit={this.settingsTraySubmitted} />
+    } else if (this.state.trayType == "image-upload") {
+      return <ImageTray
+        data={this.state.trayData}
+        onCancel={this.trayCanceled}
+        onSubmit={this.imageTraySubmitted} />
+    } else if (this.state.trayType == "raw-html") {
+      return <RawHtmlTray
+        data={this.state.trayData}
+        onCancel={this.trayCanceled}
+        onSubmit={this.rawHtmlEditor.onSubmit} />
     }
   }
 

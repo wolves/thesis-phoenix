@@ -64,7 +64,7 @@ class SettingsTray extends React.Component {
               Cancel
             </button>
             <button className="thesis-tray-save" onClick={this.onSave}>
-              Save
+              Apply
             </button>
           </div>
         </div>
