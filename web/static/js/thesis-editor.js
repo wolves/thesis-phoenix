@@ -7,6 +7,7 @@ import CancelButton from './components/cancel_button'
 import SaveButton from './components/save_button'
 import EditButton from './components/edit_button'
 import SettingsTray from './components/settings_tray'
+import ImageTray from './components/image_tray'
 import AttributionText from './components/attribution_text'
 import MediumEditor from 'medium-editor'
 import Net from './utilities/net'
@@ -49,12 +50,16 @@ class ThesisEditor extends React.Component {
 
     // Rebind context
     this.trayCanceled = this.trayCanceled.bind(this)
-    this.traySubmitted = this.traySubmitted.bind(this)
+    this.settingsTraySubmitted = this.settingsTraySubmitted.bind(this)
+    this.imageTraySubmitted = this.imageTraySubmitted.bind(this)
     this.cancelPressed = this.cancelPressed.bind(this)
     this.savePressed = this.savePressed.bind(this)
     this.editPressed = this.editPressed.bind(this)
     this.addPagePressed = this.addPagePressed.bind(this)
     this.pageSettingsPressed = this.pageSettingsPressed.bind(this)
+    this.changedHtmlEditor = this.changedHtmlEditor.bind(this)
+    this.changedTextEditor = this.changedTextEditor.bind(this)
+    this.clickedImageEditor = this.clickedImageEditor.bind(this)
   }
 
   pathname () {
@@ -78,11 +83,26 @@ class ThesisEditor extends React.Component {
     this.setState({trayOpen: false})
   }
 
-  traySubmitted (page) {
+  settingsTraySubmitted (page) {
     document.title = page.title
 
     const desc = this.descriptionMetaTag()
     if (desc) { desc.content = page.description }
+
+    this.setState({trayOpen: false, pageModified: true})
+  }
+
+  imageTraySubmitted (data) {
+    const editor = document.querySelector(`[data-thesis-content-id="${data.contentId}"`)
+    const img = editor.querySelector('img')
+
+    editor.classList.add('modified')
+
+    const meta = JSON.stringify({alt: data.alt})
+    editor.setAttribute('data-thesis-content-meta', meta)
+
+    img.src = data.url
+    img.alt = data.alt
 
     this.setState({trayOpen: false, pageModified: true})
   }
@@ -164,7 +184,7 @@ class ThesisEditor extends React.Component {
     // image editor
     const imageEditors = this.imageContentEditors()
     for (let i = 0; i < imageEditors.length; i++) {
-      imageEditors[i].addEventListener('click', this.changedImageEditor, false)
+      imageEditors[i].addEventListener('click', this.clickedImageEditor, false)
     }
   }
 
@@ -178,7 +198,7 @@ class ThesisEditor extends React.Component {
     // image editor
     const imageEditors = this.imageContentEditors()
     for (let i = 0; i < imageEditors.length; i++) {
-      imageEditors[i].removeEventListener('click', this.changedImageEditor, false)
+      imageEditors[i].removeEventListener('click', this.clickedImageEditor, false)
     }
   }
 
@@ -188,14 +208,22 @@ class ThesisEditor extends React.Component {
   }
 
   changedTextEditor (e) {
-    e.target.classList.add('modified')
+    e.currentTarget.classList.add('modified')
     this.setState({pageModified: true})
   }
 
-  changedImageEditor (e) {
-    e.target.classList.add('modified')
-    this.setState({pageModified: true, imageEditorModal: e.target})
-    // TODO: show modal
+  clickedImageEditor (e) {
+    e.currentTarget.classList.add('modified')
+    const id = e.currentTarget.getAttribute('data-thesis-content-id')
+    const meta = JSON.parse(e.currentTarget.getAttribute('data-thesis-content-meta'))
+    const url = e.currentTarget.querySelector('img').getAttribute('src')
+
+    this.setState({
+      pageModified: true,
+      trayOpen: true,
+      trayType: 'image-upload',
+      trayData: { contentId: id, url: url, alt: meta.alt }
+    })
   }
 
   addContentEditors () {
@@ -238,9 +266,9 @@ class ThesisEditor extends React.Component {
       const ed = editors[i]
       const id = ed.getAttribute('data-thesis-content-id')
       const t = ed.getAttribute('data-thesis-content-type')
+      const meta = ed.getAttribute('data-thesis-content-meta')
 
       const content = this.getContent(t, ed)
-      const meta = "" // TODO: get meta info?
       const glob = ed.getAttribute('data-thesis-content-global')
       contents.push({name: id, content_type: t, content: content, meta: meta, global: glob})
     }
@@ -249,9 +277,11 @@ class ThesisEditor extends React.Component {
   }
 
   getContent(t, ed) {
-    if (ed == "image") {
-      return ed.querySelector("img")[1].getAttribute('src')
+    if (t == "image") {
+      console.log("281")
+      return ed.querySelector("img").getAttribute('src')
     } else {
+      console.log("284")
       return ed.innerHTML
     }
   }
@@ -299,53 +329,44 @@ class ThesisEditor extends React.Component {
     return this.renderEditorClass()
   }
 
-  renderTrayCta () {
-    const type = this.state.trayType
-    if (type === 'add-page') {
-      return 'Save'
-    } else if (type === 'page-settings') {
-      return 'Update'
-    }
-  }
-
-  renderTrayTitle () {
-    const type = this.state.trayType
-    if (type == 'add-page') {
-      return 'Add New Page'
-    } else if (type == 'page-settings') {
-      return 'Page Settings'
-    }
-  }
-
   renderTrayClass () {
     return this.state.trayType
   }
 
+  renderTray () {
+    if (this.state.trayType == "page-settings") {
+      return <SettingsTray
+        path={this.pathname()}
+        hasErrors={false}
+        pageTitle={this.pageTitle()}
+        pageDescription={this.pageDescription()}
+        onCancel={this.trayCanceled}
+        onSubmit={this.settingsTraySubmitted} />
+    } else if (this.state.trayType == "image-upload") {
+      return <ImageTray
+        data={this.state.trayData}
+        onCancel={this.trayCanceled}
+        onSubmit={this.imageTraySubmitted} />
+    }
+  }
+
   render () {
     return (
-    <div id="thesis">
-      <div id='thesis-editor' className={this.renderEditorClass()}>
-        <SaveButton onPress={this.savePressed} />
-        <SettingsButton onPress={this.pageSettingsPressed} />
-        <CancelButton onPress={this.cancelPressed} />
-        {/*this.state.pageToolsHidden ? <AddButton onPress={this.addPagePressed} /> : null*/}
-        {/*this.state.pageToolsHidden ? <DeleteButton /> : null*/}
-        <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
+      <div id="thesis">
+        <div id='thesis-editor' className={this.renderEditorClass()}>
+          <SaveButton onPress={this.savePressed} />
+          <SettingsButton onPress={this.pageSettingsPressed} />
+          <CancelButton onPress={this.cancelPressed} />
+          {/*this.state.pageToolsHidden ? <AddButton onPress={this.addPagePressed} /> : null*/}
+          {/*this.state.pageToolsHidden ? <DeleteButton /> : null*/}
+          <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
+        </div>
+        <div id='thesis-fader' className={this.renderFaderClass()}></div>
+        <div id='thesis-tray' className={this.renderTrayClass()}>
+          {this.renderTray()}
+          <AttributionText />
+        </div>
       </div>
-      <div id='thesis-fader' className={this.renderFaderClass()}></div>
-      <div id='thesis-tray' className={this.renderTrayClass()}>
-        <SettingsTray
-          cta={this.renderTrayCta()}
-          title={this.renderTrayTitle()}
-          path={this.pathname()}
-          hasErrors={false}
-          pageTitle={this.pageTitle()}
-          pageDescription={this.pageDescription()}
-          onCancel={this.trayCanceled}
-          onSubmit={this.traySubmitted} />
-        <AttributionText />
-      </div>
-    </div>
     )
   }
 }

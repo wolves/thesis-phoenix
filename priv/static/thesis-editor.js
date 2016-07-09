@@ -28078,6 +28078,156 @@ exports.default = EditButton;
 
 });
 
+require.register("web/static/js/components/image_tray", function(exports, require, module) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// NOTES
+// add 'invalid' class to input to give it a red background
+// add error text to the errors div and toggle the 'hidden' property
+// add the 'disabled' property to inputs that can't be editted if page is static
+
+var ImageTray = function (_React$Component) {
+  _inherits(ImageTray, _React$Component);
+
+  function ImageTray(props) {
+    _classCallCheck(this, ImageTray);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ImageTray).call(this, props));
+
+    _this.state = {
+      contentId: _this.props.data.contentId,
+      url: _this.props.data.url,
+      alt: _this.props.data.alt,
+      isValid: true
+    };
+
+    _this.urlChange = _this.urlChange.bind(_this);
+    _this.altChange = _this.altChange.bind(_this);
+    _this.onSave = _this.onSave.bind(_this);
+    return _this;
+  }
+
+  _createClass(ImageTray, [{
+    key: 'urlChange',
+    value: function urlChange(event) {
+      this.setState({ url: event.target.value });
+    }
+  }, {
+    key: 'altChange',
+    value: function altChange(event) {
+      this.setState({ alt: event.target.value });
+    }
+  }, {
+    key: 'onSave',
+    value: function onSave() {
+      this.props.onSubmit(this.state);
+    }
+  }, {
+    key: 'previewImageStyle',
+    value: function previewImageStyle() {
+      return {
+        backgroundImage: 'url(' + this.state.url + ')',
+        backgroundSize: 'contain',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        height: 150,
+        border: '10px solid white',
+        boxShadow: '0px 0px 1px #e9e9e9'
+      };
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'tray-container' },
+        _react2.default.createElement(
+          'div',
+          { className: 'tray-wrap' },
+          _react2.default.createElement(
+            'div',
+            { className: 'tray-title' },
+            'Image URL'
+          ),
+          _react2.default.createElement('input', { type: 'hidden', value: '{this.props.data.contentId}' }),
+          _react2.default.createElement(
+            'div',
+            { className: 'thesis-field-row' },
+            _react2.default.createElement('div', { style: this.previewImageStyle() })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'thesis-field-row' },
+            _react2.default.createElement(
+              'label',
+              null,
+              _react2.default.createElement(
+                'span',
+                null,
+                'Image URL'
+              ),
+              _react2.default.createElement('input', { type: 'text', placeholder: 'http://placekitten.com/200/300', value: this.state.url, onChange: this.urlChange })
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'thesis-field-row' },
+            _react2.default.createElement(
+              'label',
+              null,
+              _react2.default.createElement(
+                'span',
+                null,
+                'Alt Text'
+              ),
+              _react2.default.createElement('input', { type: 'text', placeholder: 'Describe the image', value: this.state.alt, onChange: this.altChange })
+            )
+          ),
+          _react2.default.createElement('div', { className: 'thesis-field-row errors', hidden: this.state.isValid }),
+          _react2.default.createElement(
+            'div',
+            { className: 'thesis-field-row cta' },
+            _react2.default.createElement(
+              'button',
+              { className: 'thesis-tray-cancel', onClick: this.props.onCancel },
+              'Cancel'
+            ),
+            _react2.default.createElement(
+              'button',
+              { className: 'thesis-tray-save', onClick: this.onSave },
+              'Save'
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return ImageTray;
+}(_react2.default.Component);
+
+exports.default = ImageTray;
+
+});
+
 require.register("web/static/js/components/save_button", function(exports, require, module) {
 "use strict";
 
@@ -28261,7 +28411,7 @@ var SettingsTray = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "tray-title" },
-            this.props.title
+            "Page Settings"
           ),
           _react2.default.createElement(
             "div",
@@ -28317,7 +28467,7 @@ var SettingsTray = function (_React$Component) {
             _react2.default.createElement(
               "button",
               { className: "thesis-tray-save", onClick: this.onSave },
-              this.props.cta
+              "Save"
             )
           )
         )
@@ -28327,8 +28477,6 @@ var SettingsTray = function (_React$Component) {
 
   return SettingsTray;
 }(_react2.default.Component);
-
-SettingsTray.propTypes = {};
 
 exports.default = SettingsTray;
 
@@ -28374,6 +28522,10 @@ var _edit_button2 = _interopRequireDefault(_edit_button);
 var _settings_tray = require('./components/settings_tray');
 
 var _settings_tray2 = _interopRequireDefault(_settings_tray);
+
+var _image_tray = require('./components/image_tray');
+
+var _image_tray2 = _interopRequireDefault(_image_tray);
 
 var _attribution_text = require('./components/attribution_text');
 
@@ -28432,12 +28584,16 @@ var ThesisEditor = function (_React$Component) {
 
     // Rebind context
     _this.trayCanceled = _this.trayCanceled.bind(_this);
-    _this.traySubmitted = _this.traySubmitted.bind(_this);
+    _this.settingsTraySubmitted = _this.settingsTraySubmitted.bind(_this);
+    _this.imageTraySubmitted = _this.imageTraySubmitted.bind(_this);
     _this.cancelPressed = _this.cancelPressed.bind(_this);
     _this.savePressed = _this.savePressed.bind(_this);
     _this.editPressed = _this.editPressed.bind(_this);
     _this.addPagePressed = _this.addPagePressed.bind(_this);
     _this.pageSettingsPressed = _this.pageSettingsPressed.bind(_this);
+    _this.changedHtmlEditor = _this.changedHtmlEditor.bind(_this);
+    _this.changedTextEditor = _this.changedTextEditor.bind(_this);
+    _this.clickedImageEditor = _this.clickedImageEditor.bind(_this);
     return _this;
   }
 
@@ -28468,14 +28624,30 @@ var ThesisEditor = function (_React$Component) {
       this.setState({ trayOpen: false });
     }
   }, {
-    key: 'traySubmitted',
-    value: function traySubmitted(page) {
+    key: 'settingsTraySubmitted',
+    value: function settingsTraySubmitted(page) {
       document.title = page.title;
 
       var desc = this.descriptionMetaTag();
       if (desc) {
         desc.content = page.description;
       }
+
+      this.setState({ trayOpen: false, pageModified: true });
+    }
+  }, {
+    key: 'imageTraySubmitted',
+    value: function imageTraySubmitted(data) {
+      var editor = document.querySelector('[data-thesis-content-id="' + data.contentId + '"');
+      var img = editor.querySelector('img');
+
+      editor.classList.add('modified');
+
+      var meta = JSON.stringify({ alt: data.alt });
+      editor.setAttribute('data-thesis-content-meta', meta);
+
+      img.src = data.url;
+      img.alt = data.alt;
 
       this.setState({ trayOpen: false, pageModified: true });
     }
@@ -28576,7 +28748,7 @@ var ThesisEditor = function (_React$Component) {
       // image editor
       var imageEditors = this.imageContentEditors();
       for (var _i = 0; _i < imageEditors.length; _i++) {
-        imageEditors[_i].addEventListener('click', this.changedImageEditor, false);
+        imageEditors[_i].addEventListener('click', this.clickedImageEditor, false);
       }
     }
   }, {
@@ -28591,7 +28763,7 @@ var ThesisEditor = function (_React$Component) {
       // image editor
       var imageEditors = this.imageContentEditors();
       for (var _i2 = 0; _i2 < imageEditors.length; _i2++) {
-        imageEditors[_i2].removeEventListener('click', this.changedImageEditor, false);
+        imageEditors[_i2].removeEventListener('click', this.clickedImageEditor, false);
       }
     }
   }, {
@@ -28603,15 +28775,23 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'changedTextEditor',
     value: function changedTextEditor(e) {
-      e.target.classList.add('modified');
+      e.currentTarget.classList.add('modified');
       this.setState({ pageModified: true });
     }
   }, {
-    key: 'changedImageEditor',
-    value: function changedImageEditor(e) {
-      e.target.classList.add('modified');
-      this.setState({ pageModified: true, imageEditorModal: e.target });
-      // TODO: show modal
+    key: 'clickedImageEditor',
+    value: function clickedImageEditor(e) {
+      e.currentTarget.classList.add('modified');
+      var id = e.currentTarget.getAttribute('data-thesis-content-id');
+      var meta = JSON.parse(e.currentTarget.getAttribute('data-thesis-content-meta'));
+      var url = e.currentTarget.querySelector('img').getAttribute('src');
+
+      this.setState({
+        pageModified: true,
+        trayOpen: true,
+        trayType: 'image-upload',
+        trayData: { contentId: id, url: url, alt: meta.alt }
+      });
     }
   }, {
     key: 'addContentEditors',
@@ -28661,9 +28841,9 @@ var ThesisEditor = function (_React$Component) {
         var ed = editors[i];
         var id = ed.getAttribute('data-thesis-content-id');
         var t = ed.getAttribute('data-thesis-content-type');
+        var meta = ed.getAttribute('data-thesis-content-meta');
 
         var content = this.getContent(t, ed);
-        var meta = ""; // TODO: get meta info?
         var glob = ed.getAttribute('data-thesis-content-global');
         contents.push({ name: id, content_type: t, content: content, meta: meta, global: glob });
       }
@@ -28673,9 +28853,11 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'getContent',
     value: function getContent(t, ed) {
-      if (ed == "image") {
-        return ed.querySelector("img")[1].getAttribute('src');
+      if (t == "image") {
+        console.log("281");
+        return ed.querySelector("img").getAttribute('src');
       } else {
+        console.log("284");
         return ed.innerHTML;
       }
     }
@@ -28727,29 +28909,27 @@ var ThesisEditor = function (_React$Component) {
       return this.renderEditorClass();
     }
   }, {
-    key: 'renderTrayCta',
-    value: function renderTrayCta() {
-      var type = this.state.trayType;
-      if (type === 'add-page') {
-        return 'Save';
-      } else if (type === 'page-settings') {
-        return 'Update';
-      }
-    }
-  }, {
-    key: 'renderTrayTitle',
-    value: function renderTrayTitle() {
-      var type = this.state.trayType;
-      if (type == 'add-page') {
-        return 'Add New Page';
-      } else if (type == 'page-settings') {
-        return 'Page Settings';
-      }
-    }
-  }, {
     key: 'renderTrayClass',
     value: function renderTrayClass() {
       return this.state.trayType;
+    }
+  }, {
+    key: 'renderTray',
+    value: function renderTray() {
+      if (this.state.trayType == "page-settings") {
+        return _react2.default.createElement(_settings_tray2.default, {
+          path: this.pathname(),
+          hasErrors: false,
+          pageTitle: this.pageTitle(),
+          pageDescription: this.pageDescription(),
+          onCancel: this.trayCanceled,
+          onSubmit: this.settingsTraySubmitted });
+      } else if (this.state.trayType == "image-upload") {
+        return _react2.default.createElement(_image_tray2.default, {
+          data: this.state.trayData,
+          onCancel: this.trayCanceled,
+          onSubmit: this.imageTraySubmitted });
+      }
     }
   }, {
     key: 'render',
@@ -28769,15 +28949,7 @@ var ThesisEditor = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { id: 'thesis-tray', className: this.renderTrayClass() },
-          _react2.default.createElement(_settings_tray2.default, {
-            cta: this.renderTrayCta(),
-            title: this.renderTrayTitle(),
-            path: this.pathname(),
-            hasErrors: false,
-            pageTitle: this.pageTitle(),
-            pageDescription: this.pageDescription(),
-            onCancel: this.trayCanceled,
-            onSubmit: this.traySubmitted }),
+          this.renderTray(),
           _react2.default.createElement(_attribution_text2.default, null)
         )
       );

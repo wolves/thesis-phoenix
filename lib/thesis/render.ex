@@ -44,10 +44,11 @@ defmodule Thesis.Render do
   defp wrapper_attributes(%{content_type: content_type} = page_content) do
     classes = "class=\"thesis-content thesis-content-#{content_type}\""
     data_content_type = "data-thesis-content-type=\"#{content_type}\""
-    data_content_id = "data-thesis-content-id=\"#{page_content.name}\""
+    data_content_id = "data-thesis-content-id=\"#{escape_entities(page_content.name)}\""
+    data_content_meta = "data-thesis-content-meta=\"#{escape_entities(page_content.meta)}\""
     data_global = (page_content.page_id == nil) && "data-thesis-content-global=\"true\"" || ""
     tab_index = "tabindex=\"9999\" style=\"box-shadow: none; outline: none;\""
-    "#{classes} #{data_content_type} #{data_content_id} #{data_global} #{tab_index}"
+    "#{classes} #{data_content_type} #{data_content_id} #{data_global} #{tab_index} #{data_content_meta}"
   end
 
   defp image_attributes(page_content) do

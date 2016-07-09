@@ -33,48 +33,44 @@ class SettingsTray extends React.Component {
 
   render () {
     return (
-    <div className="tray-container">
-      <div className="tray-wrap">
-        <div className="tray-title">
-          {this.props.title}
-        </div>
-        <div className="thesis-field-row">
-          <label>
-            <span>Page Path</span>
-            <input type="text" value={this.props.path} disabled />
-          </label>
-        </div>
-        <div className="thesis-field-row">
-          <label>
-            <span>Page Title</span>
-            <input type="text" placeholder="Example Title" value={this.state.title} onChange={this.titleChange} />
-          </label>
-        </div>
-        <div className="thesis-field-row">
-          <label>
-            <span>Page Description</span>
-            <textarea placeholder="Example page description." value={this.state.description} onChange={this.descriptionChange}></textarea>
-          </label>
-        </div>
-        <div className="thesis-field-row errors" hidden={this.state.isValid}>
-          {/* Errors go here. Toggle the hidden property depending on error count. */}
-        </div>
-        <div className="thesis-field-row cta">
-          <button className="thesis-tray-cancel" onClick={this.props.onCancel}>
-            Cancel
-          </button>
-          <button className="thesis-tray-save" onClick={this.onSave}>
-            {this.props.cta}
-          </button>
+      <div className="tray-container">
+        <div className="tray-wrap">
+          <div className="tray-title">
+            Page Settings
+          </div>
+          <div className="thesis-field-row">
+            <label>
+              <span>Page Path</span>
+              <input type="text" value={this.props.path} disabled />
+            </label>
+          </div>
+          <div className="thesis-field-row">
+            <label>
+              <span>Page Title</span>
+              <input type="text" placeholder="Example Title" value={this.state.title} onChange={this.titleChange} />
+            </label>
+          </div>
+          <div className="thesis-field-row">
+            <label>
+              <span>Page Description</span>
+              <textarea placeholder="Example page description." value={this.state.description} onChange={this.descriptionChange}></textarea>
+            </label>
+          </div>
+          <div className="thesis-field-row errors" hidden={this.state.isValid}>
+            {/* Errors go here. Toggle the hidden property depending on error count. */}
+          </div>
+          <div className="thesis-field-row cta">
+            <button className="thesis-tray-cancel" onClick={this.props.onCancel}>
+              Cancel
+            </button>
+            <button className="thesis-tray-save" onClick={this.onSave}>
+              Save
+            </button>
+          </div>
         </div>
       </div>
-    </div>
     )
   }
-}
-
-SettingsTray.propTypes = {
-
 }
 
 export default SettingsTray
