@@ -21,14 +21,15 @@ defmodule Thesis.Mixfile do
 
   defp deps do
     [
-      {:phoenix, ">= 0.0.0"},
-      {:phoenix_html, ">= 0.0.0"},
-      {:ecto, ">= 0.0.0"},
-      {:plug, "~> 1.0"},
-      {:html_sanitize_ex, "~> 1.0.0"},
-      {:ex_doc, ">= 0.0.0", only: [:dev]},
-      {:earmark, ">= 0.0.0", only: [:dev]},
-      {:dialyze, ">= 0.0.0", only: [:test, :dev]}
+      {:phoenix, ">= 1.0.0"},
+      {:phoenix_html, ">= 2.0.0"},
+      {:ecto, ">= 2.0.0"},
+      {:plug, ">= 1.0.0"},
+      {:poison, ">= 2.0.0"},
+      {:html_sanitize_ex, ">= 1.0.1"},
+      {:ex_doc, ">= 0.12.0", only: [:dev]},
+      {:earmark, ">= 0.2.0", only: [:dev]},
+      {:dialyze, ">= 0.2.0", only: [:test, :dev]}
     ]
   end
 

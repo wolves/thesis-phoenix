@@ -58,14 +58,19 @@ defmodule Thesis.Render do
   end
 
   defp wrapper_attributes(%{content_type: content_type} = page_content, opts) do
-    classes = "class=\"thesis-content thesis-content-#{content_type} #{opts[:classes]}\""
+    # TODO: Refactor into nicer pipeline
+    # TODO: Update to String.trim when we only support Elixir >= 1.3 in the future.
+    empty_class = (String.strip("#{page_content.content}") == "") && "thesis-content-empty" || ""
+    classes = "class=\"thesis-content thesis-content-#{content_type} #{empty_class} #{opts[:classes]}\""
     id = "id=\"#{opts[:id] || parameterize("thesis-content-" <> page_content.name)}\""
     data_content_type = "data-thesis-content-type=\"#{content_type}\""
     data_content_id = "data-thesis-content-id=\"#{escape_entities(page_content.name)}\""
     data_content_meta = "data-thesis-content-meta=\"#{escape_entities(page_content.meta)}\""
     data_global = (page_content.page_id == nil) && "data-thesis-content-global=\"true\"" || ""
     styles = "style=\"#{opts[:styles]}\"" # add the following when required: box-shadow: none; outline: none;
-    "#{id} #{classes} #{data_content_type} #{data_content_id} #{data_global} #{data_content_meta} #{styles}"
+    [ id, classes, data_content_type, data_content_id, data_global, data_content_meta, styles ]
+    |> Enum.reject(fn s -> String.strip(s) == "" end)
+    |> Enum.join(" ")
   end
 
   defp image_attributes(page_content) do

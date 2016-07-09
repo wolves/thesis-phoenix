@@ -7,7 +7,7 @@
 .medium-editor-toolbar {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
-  z-index: 2001; }
+  z-index: 200; }
 
 @-webkit-keyframes medium-editor-image-loading {
   0% {
@@ -773,7 +773,7 @@ body.thesis-tray-open #thesis-editor {
 
 body.thesis-editing .thesis-content {
   position: relative;
-  z-index: 1039 !important;
+  z-index: 1039;
   min-width: 40px;
   display: block;
   cursor: crosshair;
