@@ -124,6 +124,7 @@ becomes...
 ```eex
 <%= content(@conn, "Image identifier", :image, alt: "My alt tag", do: "http://placekitten.com/200/300")
 %>
+```
 
 #### Style
 
@@ -136,6 +137,7 @@ becomes...
 ```eex
 <%= content(@conn, "Image identifier", :background_image, do: "http://placekitten.com/200/300")
 %>
+```
 
 ### Global Content Areas
 
