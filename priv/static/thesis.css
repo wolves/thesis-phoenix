@@ -784,6 +784,8 @@ body.thesis-editing .thesis-content {
   background-color: gray; }
   body.thesis-editing .thesis-content.thesis-content-raw_html > * {
     pointer-events: none; }
+  body.thesis-editing .thesis-content.thesis-content-text > div {
+    display: none !important; }
   body.thesis-editing .thesis-content, body.thesis-editing .thesis-content * {
     color: #1E1E1E !important; }
     body.thesis-editing .thesis-content a, body.thesis-editing .thesis-content * a {

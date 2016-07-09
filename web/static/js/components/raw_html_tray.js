@@ -18,6 +18,16 @@ class RawHtmlTray extends React.Component {
     this.onSave = this.onSave.bind(this)
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.data !== null) {
+      this.setState({
+        contentId: nextProps.data.contentId,
+        content: nextProps.data.content.trim(),
+        isValid: true
+      })
+    }
+  }
+
   contentChange (event) {
     this.setState({content: event.target.value})
   }

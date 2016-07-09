@@ -24,7 +24,7 @@ class RawHtmlEditor {
     this.removeOverlay(e.currentTarget)
 
     const id = e.currentTarget.getAttribute('data-thesis-content-id')
-    const content = e.currentTarget.innerHTML
+    const content = e.currentTarget.innerHTML.trim()
 
     // TODO: Not very happy about how this reaches back into the Thesis editor
     // to set its state. Refactor in the future.

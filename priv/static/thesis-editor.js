@@ -27733,6 +27733,17 @@ var RawHtmlTray = function (_React$Component) {
   }
 
   _createClass(RawHtmlTray, [{
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {
+      if (nextProps.data !== null) {
+        this.setState({
+          contentId: nextProps.data.contentId,
+          content: nextProps.data.content.trim(),
+          isValid: true
+        });
+      }
+    }
+  }, {
     key: "contentChange",
     value: function contentChange(event) {
       this.setState({ content: event.target.value });
@@ -28094,7 +28105,7 @@ var RawHtmlEditor = function () {
       this.removeOverlay(e.currentTarget);
 
       var id = e.currentTarget.getAttribute('data-thesis-content-id');
-      var content = e.currentTarget.innerHTML;
+      var content = e.currentTarget.innerHTML.trim();
 
       // TODO: Not very happy about how this reaches back into the Thesis editor
       // to set its state. Refactor in the future.
@@ -28418,6 +28429,7 @@ var ThesisEditor = function (_React$Component) {
       var textEditors = this.textContentEditors();
       for (var i = 0; i < textEditors.length; i++) {
         textEditors[i].addEventListener('input', this.changedTextEditor, false);
+        textEditors[i].addEventListener('keydown', this.changedTextEditor, false);
       }
 
       // image editor
@@ -28433,6 +28445,7 @@ var ThesisEditor = function (_React$Component) {
       var textEditors = this.textContentEditors();
       for (var i = 0; i < textEditors.length; i++) {
         textEditors[i].removeEventListener('input', this.changedTextEditor, false);
+        textEditors[i].removeEventListener('keydown', this.changedTextEditor, false);
       }
 
       // image editor
@@ -28452,6 +28465,7 @@ var ThesisEditor = function (_React$Component) {
     value: function changedTextEditor(e) {
       e.currentTarget.classList.add('modified');
       this.setState({ pageModified: true });
+      if (e.keyCode === 13) e.preventDefault();
     }
   }, {
     key: 'clickedImageEditor',
@@ -28535,12 +28549,10 @@ var ThesisEditor = function (_React$Component) {
     key: 'getContent',
     value: function getContent(t, ed) {
       if (t == 'image') {
-        console.log('281');
         return ed.querySelector('img').getAttribute('src');
       } else if (t == 'background_image') {
         return this.get_url_from_style(ed.style.backgroundImage);
       } else {
-        console.log('284');
         return ed.innerHTML;
       }
     }

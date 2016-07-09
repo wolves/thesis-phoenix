@@ -192,6 +192,7 @@ class ThesisEditor extends React.Component {
     const textEditors = this.textContentEditors()
     for (let i = 0; i < textEditors.length; i++) {
       textEditors[i].addEventListener('input', this.changedTextEditor, false)
+      textEditors[i].addEventListener('keydown', this.changedTextEditor, false)
     }
 
     // image editor
@@ -206,6 +207,7 @@ class ThesisEditor extends React.Component {
     const textEditors = this.textContentEditors()
     for (let i = 0; i < textEditors.length; i++) {
       textEditors[i].removeEventListener('input', this.changedTextEditor, false)
+      textEditors[i].removeEventListener('keydown', this.changedTextEditor, false)
     }
 
     // image editor
@@ -223,6 +225,7 @@ class ThesisEditor extends React.Component {
   changedTextEditor (e) {
     e.currentTarget.classList.add('modified')
     this.setState({pageModified: true})
+    if (e.keyCode === 13) e.preventDefault()
   }
 
   clickedImageEditor (e) {
@@ -297,12 +300,10 @@ class ThesisEditor extends React.Component {
 
   getContent (t, ed) {
     if (t == 'image') {
-      console.log('281')
       return ed.querySelector('img').getAttribute('src')
     } else if (t == 'background_image') {
       return this.get_url_from_style(ed.style.backgroundImage)
     } else {
-      console.log('284')
       return ed.innerHTML
     }
   }
