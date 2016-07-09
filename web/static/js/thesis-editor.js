@@ -152,23 +152,50 @@ class ThesisEditor extends React.Component {
   subscribeToContentChanges () {
     // html editor
     if (this.htmlContentEditors().length > 0) {
-      this.editor.subscribe('editableInput', (event, editable) => {
-        editable.classList.add('modified')
-        this.setState({pageModified: true})
-      })
+      this.editor.subscribe('editableInput', this.changedHtmlEditor)
     }
-
-    // TODO: image editor
-    const imageEditors = this.imageContentEditors()
 
     // text editor
     const textEditors = this.textContentEditors()
     for (let i = 0; i < textEditors.length; i++) {
-      textEditors[i].addEventListener('input', (e) => {
-        e.target.classList.add('modified')
-        this.setState({pageModified: true})
-      }, false)
+      textEditors[i].addEventListener('input', this.changedTextEditor, false)
     }
+
+    // image editor
+    const imageEditors = this.imageContentEditors()
+    for (let i = 0; i < imageEditors.length; i++) {
+      imageEditors[i].addEventListener('click', this.changedImageEditor, false)
+    }
+  }
+
+  unsubscribeFromContentChanges () {
+    // text editor
+    const textEditors = this.textContentEditors()
+    for (let i = 0; i < textEditors.length; i++) {
+      textEditors[i].removeEventListener('input', this.changedTextEditor, false)
+    }
+
+    // image editor
+    const imageEditors = this.imageContentEditors()
+    for (let i = 0; i < imageEditors.length; i++) {
+      imageEditors[i].removeEventListener('click', this.changedImageEditor, false)
+    }
+  }
+
+  changedHtmlEditor (event, editable) {
+    editable.classList.add('modified')
+    this.setState({pageModified: true})
+  }
+
+  changedTextEditor (e) {
+    e.target.classList.add('modified')
+    this.setState({pageModified: true})
+  }
+
+  changedImageEditor (e) {
+    e.target.classList.add('modified')
+    this.setState({pageModified: true, imageEditorModal: e.target})
+    // TODO: show modal
   }
 
   addContentEditors () {
@@ -197,10 +224,10 @@ class ThesisEditor extends React.Component {
   }
 
   toggleImageEditors (editable) {
-    const imageEditors = this.imageContentEditors()
-    for (let i = 0; i < textEditors.length; i++) {
-      textEditors[i].contentEditable = editable
-    }
+    // const imageEditors = this.imageContentEditors()
+    // for (let i = 0; i < textEditors.length; i++) {
+    //   textEditors[i].contentEditable = editable
+    // }
   }
 
   contentEditorContents () {
