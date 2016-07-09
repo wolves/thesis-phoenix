@@ -1,15 +1,26 @@
-# Thesis
+# Thesis Content Editing System
 
 [![Build Status](https://semaphoreci.com/api/v1/projects/0540dbb0-887a-45dd-9190-baa19b2ca9fb/816876/badge.svg)](https://semaphoreci.com/ir/thesis-phoenix)
 
-Thesis is an Elixir/Phoenix hex package for quickly and easily adding content
-editing to any page.
+Thesis is a lightweight and flexible Elixir/Phoenix hex package for quickly and easily
+adding content editing to any page on a Phoenix website.
 
-It's inspired by the [Rails gem](https://github.com/infinitered/thesis-rails) by
-the same name and author.
+It's not quite a Phoenix CMS, so we call it a Phoenix CES -- content editing system.
+
+See also the Thesis [Rails gem](https://github.com/infinitered/thesis-rails).
 
 ![screen capture on 2016-04-20 at 15-11-10 copy](https://cloud.githubusercontent.com/assets/1775841/14692261/d4734d3a-070a-11e6-866b-eebbc40e6157.gif)
 
+## Thesis Features
+
+* Elixir/Phoenix hex package, uses React.js for its user interface
+* Lightweight, bolt-on, doesn't hijack your development workflow
+* On-page rich text editing
+* On-page plain text editing
+* Raw HTML editing for Youtube embeds or other flexible uses
+* Image URL editing, both `img` tag and `div` with background image
+* Page meta title and description editing
+* Easily bring your own authentication system in one tiny function
 
 ## Installation and Configuration
 
@@ -30,7 +41,7 @@ end
 #### 2. Run `mix thesis.install`
 
 This install script will add Thesis to your `config.exs` and `web.ex`, as well
-as generate a migration and an authorization module in `lib/thesis_auth.ex`.
+as generate migrations and an authorization module in your `lib/thesis_auth.ex`.
 
 #### 3. Add the Thesis editor to your layout
 
@@ -48,15 +59,15 @@ $ mix ecto.migrate
 ## Making Pages Editable
 
 Use the `Thesis.View.content/4` view helper function to make a content area
-editable. If you added `use Thesis.View` in your `web.ex` file, this function
+editable. If you have `use Thesis.View` in your `web.ex` file, this function
 is already available on all of your views.
 
 Thesis will add a wrapper `<div>` around editable HTML and plain-text content
-areas.
+areas, both in read mode and edit mode, so plan your CSS accordingly.
 
 ### Rich Text Areas
 
-Simply wrap your HTML in a `content` function call.
+Simply wrap your HTML in a `content` function call, specifying `html` as the content type.
 
 ```eex
 <h1>Title</h1>
@@ -92,7 +103,7 @@ becomes...
 
 ### Custom HTML Areas
 
-For video embeds, iframes, and any other custom HTML, use the this content area:
+For video embeds, iframes, and any other custom HTML, use the `:raw_html` content type:
 
 ```eex
 <iframe width="560" height="315" src="https://www.youtube.com/embed/5SVLs_NN_uY" frameborder="0" allowfullscreen></iframe>
@@ -106,14 +117,9 @@ becomes...
 <% end %>
 ```
 
-### Image (by URL)
+### Images (by URL)
 
-You can have the user specify an image URL and display the image.
-
-There are 2 methods of displaying images: 1 - with an `<img />` tag; 2 - using a `background-image: url()` style on a
-div.
-
-#### Tag
+You can have the user specify an image URL and display the image with the `image` content type.
 
 ```eex
 <img src="http://placekitten.com/200/300">
@@ -126,7 +132,8 @@ becomes...
 %>
 ```
 
-#### Style
+If you prefer to use a `div` with a background image, you can use the `background_image`
+content type.
 
 ```eex
 <div style="background-image: url(http://placekitten.com/200/300)"></div>
@@ -139,12 +146,14 @@ becomes...
 %>
 ```
 
+_Note: Image uploads are coming soon._
+
 ### Global Content Areas
 
 Content areas in Thesis are page-specific. However, if you want an editable
-region that can be displayed on multiple pages, use the
-`Thesis.View.global_content/4` function. Internally, the page_id will be set
-to `nil` to indicate it applies globally, rather than to a specific page.
+area that can be displayed on multiple pages, use the
+`Thesis.View.global_content/4` function. Any page using that content area identifier
+will display the edited content across the whole website.
 
 ```eex
 <%= global_content(@conn, "Footer Text", :html) do %>
@@ -168,9 +177,10 @@ classes by specifying `id` and `classes`, respectively.
 <% end %>
 ```
 
-### Meta Title and Description
+### Page Meta Title and Description
 
-In your layout, you can output the current title and description like so:
+Thesis provides a settings tray to edit each page's title and description. In your
+layout, you can output the current title and description like so:
 
 ```eex
 <title><%= page_title(@conn, "Default Title") %></title>
@@ -184,7 +194,6 @@ def about(conn, params) do
   @title = Thesis.View.page_title(conn, "About My Company")
   @description = Thesis.View.page_description(conn, "A relevant description here.")
 end
-
 ```
 
 ## Authorization
@@ -201,6 +210,8 @@ Here's an example which we use on our own website, [https://infinite.red](https:
 
 ```elixir
 defmodule IrWebsite.ThesisAuth do
+  @behaviour Thesis.Auth
+
   def page_is_editable?(conn) do
     IrWebsite.AuthController.logged_in?(conn)
   end
@@ -224,15 +235,32 @@ So, in this case, we're simply checking to see if the user has been logged in
 or not. Since only Infinite Red employees have logins, it's safe for us to
 assume that if they're logged in, they have permission to edit the page.
 
+If you use [Guardian](https://github.com/ueberauth/guardian) or something similar,
+you may need additional manipulations to your `conn` to properly authenticate the
+user. Add those to your auth module like this:
+
+```eex
+defmodule MyApp.ThesisAuth do
+  @moduledoc """
+  Contains functions for handling Thesis authorization.
+  """
+
+  def page_is_editable?(conn) do
+    conn
+    |> Guardian.Plug.VerifySession.call(%{})
+    |> Guardian.Plug.LoadResource.call(%{})
+    |> MyApp.SessionController.logged_in_and_admin?
+  end
+end
+```
+
 ## What Thesis Isn't
 
 You can't have it all. Thesis isn't the same as other -bloated- full-function
 content management systems out there. This is a list of what it's not now and
 not likely to be in the future.
 
-_We reserve the right to change our mind, however. :-)_
-
-* Not a WordPress Replacement
+* Not a complete WordPress Replacement
 * Not a full featured CMS
 * Not a full featured WYSIWYG editor
 * Not an authentication or permission system

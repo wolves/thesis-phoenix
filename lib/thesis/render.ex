@@ -4,9 +4,11 @@ defmodule Thesis.Render do
 
   Available content types:
 
-  * html:  WYSIWYG editor, standard HTML output (sanitized)
-  * text:  Raw text, all HTML is escaped, basic contenteditable
-  * image: Displays an image, can replace with URL
+  * html: WYSIWYG editor, standard HTML output (sanitized)
+  * raw_html: Edit the HTML directly, *not* sanitized -- use carefully
+  * text: Raw text, all HTML is escaped, basic contenteditable
+  * image: Displays an image, can edit the URL and alt tag
+  * background_image: Displays an image as a background image on a div, can edit the URL
   """
 
   import HtmlSanitizeEx, only: [basic_html: 1]
@@ -57,15 +59,13 @@ defmodule Thesis.Render do
 
   defp wrapper_attributes(%{content_type: content_type} = page_content, opts) do
     classes = "class=\"thesis-content thesis-content-#{content_type} #{opts[:classes]}\""
-    id = opts[:id] && "id=\"#{opts[:id]}\"" || ""
+    id = "id=\"#{opts[:id] || parameterize("thesis-content-" <> page_content.name)}\""
     data_content_type = "data-thesis-content-type=\"#{content_type}\""
     data_content_id = "data-thesis-content-id=\"#{escape_entities(page_content.name)}\""
     data_content_meta = "data-thesis-content-meta=\"#{escape_entities(page_content.meta)}\""
     data_global = (page_content.page_id == nil) && "data-thesis-content-global=\"true\"" || ""
-    tab_index = "tabindex=\"9999\"" # not used until required
     styles = "style=\"#{opts[:styles]}\"" # add the following when required: box-shadow: none; outline: none;
-    tab_index = "tabindex=\"9999\""
-    "#{id} #{classes} #{data_content_type} #{data_content_id} #{data_global} #{styles} #{data_content_meta}"
+    "#{id} #{classes} #{data_content_type} #{data_content_id} #{data_global} #{data_content_meta} #{styles}"
   end
 
   defp image_attributes(page_content) do
@@ -83,6 +83,12 @@ defmodule Thesis.Render do
     unsafe
     |> html_escape
     |> safe_to_string
+  end
+
+  defp parameterize(str) do
+    Regex.split(~r/\%20|\s/, str)
+    |> Enum.join("-")
+    |> String.downcase
   end
 
 end
