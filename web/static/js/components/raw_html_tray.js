@@ -5,43 +5,25 @@ import React from 'react'
 // add error text to the errors div and toggle the 'hidden' property
 // add the 'disabled' property to inputs that can't be editted if page is static
 
-class ImageTray extends React.Component {
+class RawHtmlTray extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       contentId: this.props.data.contentId,
-      url: this.props.data.url,
-      alt: this.props.data.alt,
+      content: this.props.data.content,
       isValid: true
     }
 
-    this.urlChange = this.urlChange.bind(this)
-    this.altChange = this.altChange.bind(this)
+    this.contentChange = this.contentChange.bind(this)
     this.onSave = this.onSave.bind(this)
   }
 
-  urlChange (event) {
-    this.setState({url: event.target.value})
-  }
-
-  altChange (event) {
-    this.setState({alt: event.target.value})
+  contentChange (event) {
+    this.setState({content: event.target.value})
   }
 
   onSave () {
     this.props.onSubmit(this.state)
-  }
-
-  previewImageStyle () {
-    return {
-      backgroundImage: `url(${this.state.url})`,
-      backgroundSize: 'contain',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      height: 150,
-      border: '10px solid white',
-      boxShadow: '0px 0px 1px #e9e9e9'
-    }
   }
 
   render () {
@@ -49,21 +31,12 @@ class ImageTray extends React.Component {
       <div className="tray-container">
         <div className="tray-wrap">
           <div className="tray-title">
-            Image URL
-          </div>
-          <div className="thesis-field-row">
-            <div style={this.previewImageStyle()}></div>
+            Raw HTML
           </div>
           <div className="thesis-field-row">
             <label>
-              <span>Image URL</span>
-              <input type="text" placeholder="http://placekitten.com/200/300" value={this.state.url} onChange={this.urlChange} />
-            </label>
-          </div>
-          <div className="thesis-field-row">
-            <label>
-              <span>Alt Text</span>
-              <input type="text" placeholder="Describe the image" value={this.state.alt} onChange={this.altChange} />
+              <span>HTML code</span>
+              <textarea placeholder="<h1>Any HTML you like</h1>" value={this.state.content} onChange={this.contentChange}></textarea>
             </label>
           </div>
           <div className="thesis-field-row errors" hidden={this.state.isValid}>
@@ -83,4 +56,4 @@ class ImageTray extends React.Component {
   }
 }
 
-export default ImageTray
+export default RawHtmlTray

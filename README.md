@@ -121,6 +121,18 @@ to `nil` to indicate it applies globally, rather than to a specific page.
 <% end %>
 ```
 
+### Customizing the Thesis markup
+
+Thesis adds an additional `<div>` around your editable content areas. Sometimes,
+you need to modify that markup directly. You can provide an ID and additional
+classes by specifying `id` and `classes`, respectively.
+
+```eex
+<%= content(@conn, "Ident", :html, id: "my-id", classes: "more classes") do %>
+  <h1>Title</h1>
+<% end %>
+```
+
 ### Meta Title and Description
 
 In your layout, you can output the current title and description like so:

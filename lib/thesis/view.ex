@@ -68,7 +68,7 @@ defmodule Thesis.View do
     if all_content do
       content = Thesis.PageContent.find(all_content, page_id, name) ||
         make_content(page_id, name, type, stringify(opts[:do]), Keyword.delete(opts, :do))
-      Thesis.Render.render_editable(content)
+      Thesis.Render.render_editable(content, opts)
     else
       raise controller_missing_text
     end
