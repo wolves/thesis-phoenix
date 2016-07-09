@@ -64,8 +64,8 @@ defmodule Thesis.Render do
     data_global = (page_content.page_id == nil) && "data-thesis-content-global=\"true\"" || ""
     tab_index = "tabindex=\"9999\""
     styles = "style=\"box-shadow: none; outline: none; #{opts[:styles]}\""
-    tab_index = "tabindex=\"9999\" style=\"box-shadow: none; outline: none;\""
-    "#{id} #{classes} #{data_content_type} #{data_content_id} #{data_global} #{styles} #{tab_index} #{data_content_meta}"
+    tab_index = "tabindex=\"9999\""
+    "#{id} #{classes} #{data_content_type} #{data_content_id} #{data_global} #{tab_index} #{styles} #{data_content_meta}"
   end
 
   defp image_attributes(page_content) do
