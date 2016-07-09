@@ -67,7 +67,7 @@ defmodule Thesis.View do
     all_content = conn.assigns[:thesis_content]
     if all_content do
       content = Thesis.PageContent.find(all_content, page_id, name) ||
-        make_content(page_id, name, type, safe_to_string(opts[:do]), opts)
+        make_content(page_id, name, type, stringify(opts[:do]), opts)
       Thesis.Render.render_editable(content)
     else
       raise controller_missing_text
@@ -205,10 +205,13 @@ defmodule Thesis.View do
 
   defp safe_concat(list) do
     list
-    |> Enum.map(&safe_to_string/1)
+    |> Enum.map(&stringify/1)
     |> Enum.join
     |> raw
   end
+
+  defp stringify(str) when is_binary(str), do: str
+  defp stringify(str), do: safe_to_string(str)
 
   defmacro __using__(_) do
     # Reserved for future use
