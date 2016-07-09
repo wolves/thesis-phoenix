@@ -90,9 +90,30 @@ becomes...
 <h1><%= content(@conn, "Title identifier", :text, do: "My Title") %></h1>
 ```
 
+### Custom HTML Areas
+
+For video embeds, iframes, and any other custom HTML, use the this content area:
+
+```eex
+<iframe width="560" height="315" src="https://www.youtube.com/embed/5SVLs_NN_uY" frameborder="0" allowfullscreen></iframe>
+```
+
+becomes...
+
+```eex
+<%= content(@conn, "Section identifier", :raw_html) do %>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/5SVLs_NN_uY" frameborder="0" allowfullscreen></iframe>
+<% end %>
+```
+
 ### Image (by URL)
 
 You can have the user specify an image URL and display the image.
+
+There are 2 methods of displaying images: 1 - with an `<img />` tag; 2 - using a `background-image: url()` style on a
+div.
+
+#### Tag
 
 ```eex
 <img src="http://placekitten.com/200/300">
@@ -102,6 +123,18 @@ becomes...
 
 ```eex
 <%= content(@conn, "Image identifier", :image, alt: "My alt tag", do: "http://placekitten.com/200/300")
+%>
+
+#### Style
+
+```eex
+<div style="background-image: url(http://placekitten.com/200/300)"></div>
+```
+
+becomes...
+
+```eex
+<%= content(@conn, "Image identifier", :background_image, do: "http://placekitten.com/200/300")
 %>
 
 ### Global Content Areas
@@ -213,7 +246,7 @@ websites. Please help us improve!
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Run `brunch watch` during development
 5. Write tests for your new feature
-6. Run `rake spec` in the root directory to ensure that all tests pass.
+6. Run `mix test` in the root directory to ensure that all tests pass.
 7. Push to the branch (`git push origin my-new-feature`)
 8. Create new Pull Request
 
