@@ -6,7 +6,7 @@ For automatic setup, see `README.md`.
 
 ```elixir
 def deps do
-  [{:thesis, "~> 0.0.16"}]
+  [{:thesis, "~> 0.0.17"}]
 end
 
 def application do
@@ -21,7 +21,7 @@ Run `mix deps.get`.
 ```elixir
 config :thesis,
   store: Thesis.EctoStore,
-  authorization: IrWebsite.ThesisAuth
+  authorization: <MyApp>.ThesisAuth
 config :thesis, Thesis.EctoStore, repo: <MyApp>.Repo
 ```
 
@@ -29,6 +29,8 @@ config :thesis, Thesis.EctoStore, repo: <MyApp>.Repo
 
 ```elixir
 defmodule <MyApp>.ThesisAuth do
+  @behaviour Thesis.Auth
+
   def page_is_editable?(conn) do
     true # editable by the world
   end
@@ -55,6 +57,7 @@ defmodule <MyApp>.Repo.Migrations.CreateThesisTables do
       add :name, :string, nil: false
       add :content, :text,  default: "Edit this content area"
       add :content_type, :string, default: "html"
+      add :meta, :text
 
       timestamps
     end
@@ -75,6 +78,35 @@ end
 $ mix ecto.migrate
 ```
 
-#### 7. Done!
+#### 7. Add Thesis.Controller, Thesis.View, and Thesis.Router to your `web/web.ex` file
+
+```elixir
+      def controller do
+        quote do
+          use Phoenix.Controller
+          use Thesis.Controller
+
+          # ...
+        end
+      end
+
+      def view do
+        quote do
+          use Phoenix.View, root: "web/templates"
+          use Thesis.View
+
+          # ...
+        end
+      end
+
+      def router do
+        quote do
+          use Phoenix.Router
+          use Thesis.Router
+        end
+      end
+```
+
+#### 8. Done!
 
 Now, start adding content areas. See the `README.md` for further instructions.

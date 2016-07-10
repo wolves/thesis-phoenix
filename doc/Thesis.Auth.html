@@ -5,10 +5,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.12.0">
-    <title>Thesis.Page – thesis v0.0.17</title>
+    <title>Thesis.Auth – thesis v0.0.17</title>
     <link rel="stylesheet" href="dist/app-88251e7c81.css" />
     
-      <link rel="canonical" href="https://hexdocs.pm/thesis/Thesis.Page.html" />
+      <link rel="canonical" href="https://hexdocs.pm/thesis/Thesis.Auth.html" />
     
     <script src="dist/sidebar_items.js"></script>
   </head>
@@ -61,11 +61,27 @@
 
       <h1>
         <small class="visible-xs">thesis v0.0.17</small>
-        Thesis.Page
+        Thesis.Auth
+        
+          <small>behaviour</small>
         
         
       </h1>
 
+      
+        <section id="moduledoc" class="docstring">
+          <p>Thesis.Auth is an Elixir “behaviour” that defines the public function
+interface necessary for Thesis to determine whether the current session
+has the authority to edit.</p>
+<p>There is only one required functions, as described below.</p>
+<p>Ensure that your app specifies the proper module in your configuration options.
+For example, in <code class="inline">config/config.ex</code>:</p>
+<pre><code class="elixir">config :thesis,
+  store: Thesis.EctoStore,
+  authorization: MyApp.ThesisAuth
+config :thesis, Thesis.EctoStore, repo: MyApp.Repo</code></pre>
+
+        </section>
       
 
       
@@ -77,51 +93,85 @@
             Summary
           </h1>
           
-  <div class="summary-types summary">
+
+          
+
+          
+
+          
+  <div class="summary-callbacks summary">
     <h2>
-      <a href="#types">Types</a>
+      <a href="#callbacks">Callbacks</a>
     </h2>
     <div class="summary-row">
   <div class="summary-signature">
-    <a href="#t:t/0">t()</a>
+    <a href="#c:page_is_editable?/1">page_is_editable?(arg0)</a>
   </div>
+  
+    <div class="summary-synopsis"><p>Returns true/false, whether a page is editable or not. Used to determine
+whether to load and display the Thesis editor and also whether to allow
+updates to Thesis.Page and Thesis.PageContent areas</p>
+</div>
   
 </div>
 
   </div>
 
 
-          
-
-          
-
-          
-
         </section>
       
 
       
-        <section id="types" class="types details-list">
+
+      
+
+      
+
+      
+        <section id="callbacks" class="details-list">
           <h1 class="section-heading">
-            <a class="hover-link" href="#types">
+            <a class="hover-link" href="#callbacks">
               <i class="icon-link"></i>
             </a>
-            Types
+            Callbacks
           </h1>
-          <div class="types-list">
-            <div id="t:t/0" class="type-detail">
-  <pre><code class="elixir"><a href="#t:t/0">t</a> :: %Thesis.Page{__meta__: term, description: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a> | nil, id: any, inserted_at: any, slug: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, title: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a> | nil, updated_at: any}</code></pre>
+          <div class="detail" id="c:page_is_editable?/1">
+  <div class="detail-header">
+    <a href="#c:page_is_editable?/1" class="detail-link" title="Link to this callback">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">page_is_editable?(arg0)</span>
+    
+    
+  </div>
   
+    <div class="specs">
+      <h4 class="specs-title">Specs</h4>
+      <div class="specs-list">
+        
+          <pre><code class="elixir">page_is_editable?(Plug.Conn.t) :: boolean</code></pre>
+        
+      </div>
+    </div>
+  
+  <section class="docstring">
+    <p>Returns true/false, whether a page is editable or not. Used to determine
+whether to load and display the Thesis editor and also whether to allow
+updates to Thesis.Page and Thesis.PageContent areas.</p>
+<p>Typical example:</p>
+<pre><code class="elixir">defmodule MyApp.ThesisAuth do
+  @behaviour Thesis.Auth
+
+  def page_is_editable?(conn) do
+    conn
+    |&gt; MyApp.AuthController.current_user_is_admin?(conn)
+  end
+end</code></pre>
+
+  </section>
 </div>
 
-          </div>
         </section>
-      
-
-      
-
-      
-
       
           <footer class="footer">
         <p>
