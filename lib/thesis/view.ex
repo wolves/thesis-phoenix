@@ -21,10 +21,9 @@ defmodule Thesis.View do
         # ...
   """
 
-  import Phoenix.HTML, only: [raw: 1, html_escape: 1, safe_to_string: 1]
+  import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
   import Phoenix.HTML.Tag
   import Thesis.Config
-  import HtmlSanitizeEx
 
   # @styles File.read!(Path.join(__DIR__, "../../priv/static/thesis.css"))
   # @external_resource Path.join(__DIR__, "../../priv/static/thesis.css")
@@ -42,13 +41,9 @@ defmodule Thesis.View do
       <% end %>
   """
   @spec content(Plug.Conn.t, String.t, String.t, list) :: String.t | {:safe, String.t}
-  def content(conn, name, type, do: {:safe, _} = default_content) do
-    content(conn, name, type, do: safe_to_string(default_content))
-  end
-
-  def content(conn, name, type, do: default_content) when is_binary(default_content) do
+  def content(conn, name, type, opts \\ []) do
     page = current_page(conn)
-    render_content(conn, page.id, name, type, default_content)
+    render_content(conn, page.id, name, type, opts)
   end
 
   @doc """
@@ -64,20 +59,16 @@ defmodule Thesis.View do
       <% end %>
   """
   @spec global_content(Plug.Conn.t, String.t, String.t, list) :: String.t | {:safe, String.t}
-  def global_content(conn, name, type, do: {:safe, _} = default_content) do
-    global_content(conn, name, type, do: safe_to_string(default_content))
+  def global_content(conn, name, type, opts \\ []) do
+    render_content(conn, nil, name, type, opts)
   end
 
-  def global_content(conn, name, type, do: default_content) when is_binary(default_content) do
-    render_content(conn, nil, name, type, default_content)
-  end
-
-  defp render_content(conn, page_id, name, type, default_content) do
+  defp render_content(conn, page_id, name, type, opts) do
     all_content = conn.assigns[:thesis_content]
     if all_content do
       content = Thesis.PageContent.find(all_content, page_id, name) ||
-        make_content(page_id, name, type, default_content)
-      render_editable(content)
+        make_content(page_id, name, type, stringify(opts[:do]), Keyword.delete(opts, :do))
+      Thesis.Render.render_editable(content, opts)
     else
       raise controller_missing_text
     end
@@ -163,20 +154,21 @@ defmodule Thesis.View do
     %Thesis.Page{slug: request_path}
   end
 
-  defp make_content(:global, name, type, content) do
-    make_content(nil, name, type, content)
+  defp make_content(:global, name, type, content, meta) do
+    make_content(nil, name, type, content, meta)
   end
 
-  defp make_content(%Thesis.Page{id: page_id}, name, type, content) do
-    make_content(page_id, name, type, content)
+  defp make_content(%Thesis.Page{id: page_id}, name, type, content, meta) do
+    make_content(page_id, name, type, content, meta)
   end
 
-  defp make_content(page_id, name, type, content) do
+  defp make_content(page_id, name, type, content, meta) do
     %Thesis.PageContent{
       page_id: page_id,
       name: name,
       content_type: Atom.to_string(type),
-      content: content
+      content: content,
+      meta: Thesis.PageContent.meta_serialize(meta)
     }
   end
 
@@ -213,47 +205,13 @@ defmodule Thesis.View do
 
   defp safe_concat(list) do
     list
-    |> Enum.map(&safe_to_string/1)
+    |> Enum.map(&stringify/1)
     |> Enum.join
     |> raw
   end
 
-  defp render_wrapper_attributes(%{content_type: content_type} = page_content) do
-    classes = "class=\"thesis-content thesis-content-#{content_type}\""
-    data_content_type = "data-thesis-content-type=\"#{content_type}\""
-    data_content_id = "data-thesis-content-id=\"#{page_content.name}\""
-    data_global = (page_content.page_id == nil) && "data-thesis-content-global=\"true\"" || ""
-    tab_index = "tabindex=\"9999\" style=\"box-shadow: none; outline: none;\""
-    "#{classes} #{data_content_type} #{data_content_id} #{data_global} #{tab_index}"
-  end
-
-  defp render_editable(%{content_type: "html"} = page_content) do
-    raw("""
-      <div #{render_wrapper_attributes(page_content)}>
-        #{basic_html(page_content.content)}
-      </div>
-    """)
-  end
-
-  defp render_editable(%{content_type: "text"} = page_content) do
-    raw("""
-      <div #{render_wrapper_attributes(page_content)}>
-        #{safe_to_string(html_escape(page_content.content))}
-      </div>
-    """)
-  end
-
-  defp render_editable(%{content_type: "image"} = page_content) do
-    raw("""
-      <div #{render_wrapper_attributes(page_content)}>
-        <img src='#{safe_to_string(html_escape(page_content.content))}' />
-      </div>
-    """)
-  end
-
-  defp render_editable(%{content_type: nil} = page_content) do
-    render_editable(Map.put(page_content, :content_type, "text"))
-  end
+  defp stringify(str) when is_binary(str), do: str
+  defp stringify(str), do: safe_to_string(str)
 
   defmacro __using__(_) do
     # Reserved for future use

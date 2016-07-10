@@ -780,7 +780,12 @@ body.thesis-editing .thesis-content {
   min-height: 1em;
   padding: 5px;
   box-shadow: none;
-  outline: none; }
+  outline: none;
+  background-color: gray; }
+  body.thesis-editing .thesis-content.thesis-content-raw_html > * {
+    pointer-events: none; }
+  body.thesis-editing .thesis-content.thesis-content-raw_html:empty {
+    padding: 20px 0px; }
   body.thesis-editing .thesis-content, body.thesis-editing .thesis-content * {
     color: #1E1E1E !important; }
     body.thesis-editing .thesis-content a, body.thesis-editing .thesis-content * a {
@@ -959,4 +964,11 @@ body.thesis-tray-open {
     line-height: 1;
     letter-spacing: 1.5px;
     margin-bottom: 25px; }
+  #thesis-tray .tray-image-preview {
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 160px;
+    border: 8px solid white;
+    box-shadow: 0 0 0 1px rgba(160, 161, 166, 0.35); }
 

@@ -7,6 +7,7 @@ defmodule Thesis.PageContent do
     name: String.t,
     content: String.t | nil,
     content_type: String.t | nil,
+    meta: String.t | nil,
     inserted_at: any,
     updated_at: any
   }
@@ -17,6 +18,7 @@ defmodule Thesis.PageContent do
     field :name, :string
     field :content, :string
     field :content_type, :string
+    field :meta, :string
 
     timestamps
   end
@@ -42,6 +44,40 @@ defmodule Thesis.PageContent do
   def find(contents, page_id, name) do
     contents
     |> Enum.find(fn c -> c.name == name && c.page_id == page_id end)
+  end
+
+  @doc """
+  Returns a keyword list of meta attributes from the serialized data.
+  ## Doctests:
+
+      iex> m = %Thesis.PageContent{meta: ~S({"test":"Thing", "test2":"123"})}
+      iex> Thesis.PageContent.meta_attributes(m)
+      %{test: "Thing", test2: "123"}
+  """
+  def meta_attributes(%Thesis.PageContent{meta: nil}), do: []
+  def meta_attributes(%Thesis.PageContent{} = page_content) do
+    page_content.meta
+    |> Poison.decode!(keys: :atoms)
+  end
+
+  @doc """
+  Returns a serialized string, given a map, for storage in the meta field.
+
+  ## Doctests:
+
+      iex> m = %{test: "Thing", test2: "123"}
+      iex> Thesis.PageContent.meta_serialize(m)
+      ~S({"test2":"123","test":"Thing"})
+  """
+  def meta_serialize(keyword_list) when is_list(keyword_list) do
+    keyword_list
+    |> Enum.into(%{})
+    |> meta_serialize
+  end
+
+  def meta_serialize(map) when is_map(map) do
+    map
+    |> Poison.encode!
   end
 
 end

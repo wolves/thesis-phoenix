@@ -7,32 +7,14 @@ import CancelButton from './components/cancel_button'
 import SaveButton from './components/save_button'
 import EditButton from './components/edit_button'
 import SettingsTray from './components/settings_tray'
+import ImageTray from './components/image_tray'
 import AttributionText from './components/attribution_text'
-import MediumEditor from 'medium-editor'
 import Net from './utilities/net'
 
-// https://github.com/yabwe/medium-editor#toolbar-options
-const mediumEditorOptions = {
-  autoLink: true,
-  toolbar: {
-    buttons: [
-      'bold', 'italic', 'underline', 'anchor',
-      'h1', 'h2', 'h3', 'quote',
-      'orderedlist', 'unorderedlist',
-      'removeFormat', 'justifyLeft', 'justifyCenter', 'justifyRight'
-    ],
-    static: true,
-    align: 'center',
-    sticky: true,
-    updateOnEmptySelection: true
-  },
-  paste: {
-    forcePlainText: false,
-    cleanPastedHTML: true,
-    cleanAttrs: ['class', 'style', 'dir'],
-    cleanTags: ['meta', 'pre']
-  }
-}
+// Content types
+import HtmlEditor from './content_types/html'
+import RawHtmlEditor from './content_types/raw_html'
+import RawHtmlTray from './components/raw_html_tray'
 
 class ThesisEditor extends React.Component {
 
@@ -45,16 +27,21 @@ class ThesisEditor extends React.Component {
       trayOpen: false,
       trayType: null
     }
-    this.editor = null
+    this.htmlEditor = new HtmlEditor(this)
+    this.rawHtmlEditor = new RawHtmlEditor(this)
 
     // Rebind context
     this.trayCanceled = this.trayCanceled.bind(this)
-    this.traySubmitted = this.traySubmitted.bind(this)
+    this.settingsTraySubmitted = this.settingsTraySubmitted.bind(this)
+    this.imageTraySubmitted = this.imageTraySubmitted.bind(this)
     this.cancelPressed = this.cancelPressed.bind(this)
     this.savePressed = this.savePressed.bind(this)
     this.editPressed = this.editPressed.bind(this)
     this.addPagePressed = this.addPagePressed.bind(this)
     this.pageSettingsPressed = this.pageSettingsPressed.bind(this)
+    // this.changedHtmlEditor = this.changedHtmlEditor.bind(this)
+    this.changedTextEditor = this.changedTextEditor.bind(this)
+    this.clickedImageEditor = this.clickedImageEditor.bind(this)
   }
 
   pathname () {
@@ -75,10 +62,10 @@ class ThesisEditor extends React.Component {
   }
 
   trayCanceled () {
-    this.setState({trayOpen: false})
+    this.setState({trayOpen: false, trayData: null})
   }
 
-  traySubmitted (page) {
+  settingsTraySubmitted (page) {
     document.title = page.title
 
     const desc = this.descriptionMetaTag()
@@ -87,9 +74,26 @@ class ThesisEditor extends React.Component {
     this.setState({trayOpen: false, pageModified: true})
   }
 
-  editPressed () {
-    let body = document.querySelector('body')
+  imageTraySubmitted (data) {
+    const editor = document.querySelector(`[data-thesis-content-id="${data.contentId}"`)
+    editor.classList.add('modified')
 
+    const meta = JSON.stringify({alt: data.alt})
+    editor.setAttribute('data-thesis-content-meta', meta)
+
+    const type = editor.getAttribute('data-thesis-content-type')
+    if (type === 'image') {
+      const img = editor.querySelector('img')
+      img.src = data.url
+      img.alt = data.alt
+    } else if (type === 'background_image') {
+      editor.style.backgroundImage = `url("${data.url}")`
+    }
+
+    this.setState({trayOpen: false, pageModified: true, trayData: null})
+  }
+
+  editPressed () {
     if (this.state.editing) {
       if (this.state.pageModified) {
         this.cancelPressed()
@@ -106,7 +110,7 @@ class ThesisEditor extends React.Component {
     const page = {slug: this.pathname(), title: this.pageTitle(), description: this.pageDescription()}
     const contents = this.contentEditorContents()
     this.postToServer(page, contents)
-    this.setState({editing: false, pageModified: false})
+    this.setState({editing: false, pageModified: false, trayOpen: false})
     setTimeout(() => this.setState({pageToolsHidden: true}), 800)
   }
 
@@ -122,7 +126,11 @@ class ThesisEditor extends React.Component {
   }
 
   pageSettingsPressed () {
-    this.setState({trayOpen: !this.state.trayOpen, trayType: 'page-settings'})
+    if (this.state.trayOpen && this.state.trayType !== 'page-settings') {
+      this.setState({trayType: 'page-settings'})
+    } else {
+      this.setState({trayOpen: !this.state.trayOpen, trayType: 'page-settings'})
+    }
   }
 
   postToServer (page, contents) {
@@ -139,8 +147,8 @@ class ThesisEditor extends React.Component {
     return document.querySelectorAll('.thesis-content-text')
   }
 
-  htmlContentEditors () {
-    return document.querySelectorAll('.thesis-content-html')
+  imageContentEditors () {
+    return document.querySelectorAll('.thesis-content-image, .thesis-content-background_image')
   }
 
   allContentEditors () {
@@ -148,41 +156,74 @@ class ThesisEditor extends React.Component {
   }
 
   subscribeToContentChanges () {
-    // html editor
-    if (this.htmlContentEditors().length > 0) {
-      this.editor.subscribe('editableInput', (event, editable) => {
-        editable.classList.add('modified')
-        this.setState({pageModified: true})
-      })
-    }
-
-    // TODO: image editor
-
     // text editor
     const textEditors = this.textContentEditors()
     for (let i = 0; i < textEditors.length; i++) {
-      textEditors[i].addEventListener('input', (e) => {
-        e.target.classList.add('modified')
-        this.setState({pageModified: true})
-      }, false)
+      textEditors[i].addEventListener('input', this.changedTextEditor, false)
+      textEditors[i].addEventListener('keydown', this.changedTextEditor, false)
+    }
+
+    // image editor
+    const imageEditors = this.imageContentEditors()
+    for (let i = 0; i < imageEditors.length; i++) {
+      imageEditors[i].addEventListener('click', this.clickedImageEditor, false)
     }
   }
 
-  addContentEditors () {
-    if (!this.editor) {
-      this.editor = new MediumEditor(this.htmlContentEditors(), mediumEditorOptions)
-    } else {
-      this.editor.setup() // Rebuild it
+  unsubscribeFromContentChanges () {
+    // text editor
+    const textEditors = this.textContentEditors()
+    for (let i = 0; i < textEditors.length; i++) {
+      textEditors[i].removeEventListener('input', this.changedTextEditor, false)
+      textEditors[i].removeEventListener('keydown', this.changedTextEditor, false)
     }
+
+    // image editor
+    const imageEditors = this.imageContentEditors()
+    for (let i = 0; i < imageEditors.length; i++) {
+      imageEditors[i].removeEventListener('click', this.clickedImageEditor, false)
+    }
+  }
+
+  changedTextEditor (e) {
+    e.currentTarget.classList.add('modified')
+    this.setState({pageModified: true})
+    if (e.keyCode === 13) e.preventDefault()
+  }
+
+  clickedImageEditor (e) {
+    const id = e.currentTarget.getAttribute('data-thesis-content-id')
+    const type = e.currentTarget.getAttribute('data-thesis-content-type')
+    const meta = JSON.parse(e.currentTarget.getAttribute('data-thesis-content-meta'))
+    let url = ''
+
+    if (type === 'image') {
+      url = e.currentTarget.querySelector('img').getAttribute('src')
+    } else if (type === 'background_image') {
+      url = this.getUrlFromStyle(e.currentTarget.style.backgroundImage)
+    }
+
+    this.setState({
+      pageModified: true,
+      trayOpen: true,
+      trayType: 'image-upload',
+      trayData: { contentId: id, url: url, alt: meta.alt }
+    })
+  }
+
+  addContentEditors () {
+    this.htmlEditor.enable()
+    this.rawHtmlEditor.enable()
+
     this.toggleTextEditors(true)
     this.subscribeToContentChanges()
   }
 
   removeContentEditors () {
-    if (!this.editor) { return null }
-    this.editor.destroy()
-    this.editor = null
     this.toggleTextEditors(false)
+    this.unsubscribeFromContentChanges()
+    this.htmlEditor.disable()
+    this.rawHtmlEditor.disable()
   }
 
   toggleTextEditors (editable) {
@@ -200,12 +241,28 @@ class ThesisEditor extends React.Component {
       const ed = editors[i]
       const id = ed.getAttribute('data-thesis-content-id')
       const t = ed.getAttribute('data-thesis-content-type')
+      const meta = ed.getAttribute('data-thesis-content-meta')
+
+      const content = this.getContent(t, ed)
       const glob = ed.getAttribute('data-thesis-content-global')
-      const content = ed.innerHTML
-      contents.push({name: id, content_type: t, content: content, global: glob})
+      contents.push({name: id, content_type: t, content: content, meta: meta, global: glob})
     }
 
     return contents
+  }
+
+  getUrlFromStyle (style) {
+    return style.replace('url("', '').replace('")', '')
+  }
+
+  getContent (t, ed) {
+    if (t === 'image') {
+      return ed.querySelector('img').getAttribute('src')
+    } else if (t === 'background_image') {
+      return this.getUrlFromStyle(ed.style.backgroundImage)
+    } else {
+      return ed.innerHTML
+    }
   }
 
   componentDidUpdate () {
@@ -251,55 +308,52 @@ class ThesisEditor extends React.Component {
     return this.renderEditorClass()
   }
 
-  renderTrayCta () {
-    const type = this.state.trayType
-    if (type == 'add-page') {
-      return 'Save'
-    } else if (type == 'page-settings') {
-      return 'Update'
-    }
-  }
-
-  renderTrayTitle () {
-    const type = this.state.trayType
-    if (type == 'add-page') {
-      return 'Add New Page'
-    } else if (type == 'page-settings') {
-      return 'Page Settings'
-    }
-  }
-
   renderTrayClass () {
     return this.state.trayType
   }
 
+  renderTray () {
+    if (this.state.trayType == 'page-settings') {
+      return <SettingsTray
+        path={this.pathname()}
+        hasErrors={false}
+        pageTitle={this.pageTitle()}
+        pageDescription={this.pageDescription()}
+        onCancel={this.trayCanceled}
+        onSubmit={this.settingsTraySubmitted} />
+    } else if (this.state.trayType == "image-upload") {
+      return <ImageTray
+        data={this.state.trayData}
+        onCancel={this.trayCanceled}
+        onSubmit={this.imageTraySubmitted} />
+    } else if (this.state.trayType == "raw-html") {
+      return <RawHtmlTray
+        data={this.state.trayData}
+        onCancel={this.trayCanceled}
+        onSubmit={this.rawHtmlEditor.onSubmit} />
+    }
+  }
+
   render () {
     return (
-    <div id="thesis">
-      <div id='thesis-editor' className={this.renderEditorClass()}>
-        <SaveButton onPress={this.savePressed} />
-        <SettingsButton onPress={this.pageSettingsPressed} />
-        <CancelButton onPress={this.cancelPressed} />
-        {/*this.state.pageToolsHidden ? <AddButton onPress={this.addPagePressed} /> : null*/}
-        {/*this.state.pageToolsHidden ? <DeleteButton /> : null*/}
-        <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
+      <div id="thesis">
+        <div id='thesis-editor' className={this.renderEditorClass()}>
+          <SaveButton onPress={this.savePressed} />
+          <SettingsButton onPress={this.pageSettingsPressed} />
+          <CancelButton onPress={this.cancelPressed} />
+          {/*this.state.pageToolsHidden ? <AddButton onPress={this.addPagePressed} /> : null*/}
+          {/*this.state.pageToolsHidden ? <DeleteButton /> : null*/}
+          <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
+        </div>
+        <div id='thesis-fader' className={this.renderFaderClass()}></div>
+        <div id='thesis-tray' className={this.renderTrayClass()}>
+          {this.renderTray()}
+          <AttributionText />
+        </div>
       </div>
-      <div id='thesis-fader' className={this.renderFaderClass()}></div>
-      <div id='thesis-tray' className={this.renderTrayClass()}>
-        <SettingsTray
-          cta={this.renderTrayCta()}
-          title={this.renderTrayTitle()}
-          path={this.pathname()}
-          hasErrors={false}
-          pageTitle={this.pageTitle()}
-          pageDescription={this.pageDescription()}
-          onCancel={this.trayCanceled}
-          onSubmit={this.traySubmitted} />
-        <AttributionText />
-      </div>
-    </div>
     )
   }
+
 }
 
 ReactDOM.render(<ThesisEditor />, document.querySelector('#thesis-container'))

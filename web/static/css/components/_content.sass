@@ -8,6 +8,21 @@ body.thesis-editing .thesis-content
   padding    : 5px
   box-shadow : none
   outline    : none
+  background-color : gray
+
+  // span.thesis-content-overlay
+  //   position: absolute
+  //   top: 0
+  //   left: 0
+  //   +size(100%)
+  //   z-index: 1000
+
+  &.thesis-content-raw_html
+    > *
+      pointer-events: none
+
+    &:empty
+      padding: 20px 0px
 
   &, *
     color: #1E1E1E !important

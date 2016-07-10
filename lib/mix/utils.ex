@@ -2,14 +2,6 @@ defmodule Mix.Thesis.Utils do
   @moduledoc false
 
   @doc false
-  def get_package_path do
-    __ENV__.file
-    |> Path.dirname
-    |> String.split("/lib/mix")
-    |> hd
-  end
-
-  @doc false
   def get_module do
     Mix.Project.get
     |> Module.split
@@ -19,7 +11,7 @@ defmodule Mix.Thesis.Utils do
 
   @doc false
   def status_msg(status, message),
-    do: IO.puts "#{IO.ANSI.green}* #{status}#{IO.ANSI.reset} #{message}"
+    do: IO.puts "#{IO.ANSI.green}* #{String.rjust(status, 10)}#{IO.ANSI.reset} #{message}"
 
   @doc false
   def debug(message), do: IO.puts "==> #{message}"
@@ -49,9 +41,10 @@ defmodule Mix.Thesis.Utils do
   @doc false
   def copy_to_target({contents, target}) do
     if File.exists?(target) do
-      status_msg("exists", "#{target}")
+      status_msg("exists", target)
     else
       File.write!(target, contents)
+      status_msg("creating", target)
     end
   end
 

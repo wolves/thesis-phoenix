@@ -27534,6 +27534,280 @@ exports.default = EditButton;
 
 });
 
+require.register("web/static/js/components/image_tray", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// NOTES
+// add 'invalid' class to input to give it a red background
+// add error text to the errors div and toggle the 'hidden' property
+// add the 'disabled' property to inputs that can't be editted if page is static
+
+var ImageTray = function (_React$Component) {
+  _inherits(ImageTray, _React$Component);
+
+  function ImageTray(props) {
+    _classCallCheck(this, ImageTray);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ImageTray).call(this, props));
+
+    _this.state = {
+      contentId: _this.props.data.contentId,
+      url: _this.props.data.url,
+      alt: _this.props.data.alt,
+      isValid: true
+    };
+
+    _this.urlChange = _this.urlChange.bind(_this);
+    _this.altChange = _this.altChange.bind(_this);
+    _this.onSave = _this.onSave.bind(_this);
+    return _this;
+  }
+
+  _createClass(ImageTray, [{
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {
+      if (nextProps.data !== null) {
+        this.setState({
+          contentId: nextProps.data.contentId,
+          url: nextProps.data.url,
+          alt: nextProps.data.alt,
+          isValid: true
+        });
+      }
+    }
+  }, {
+    key: "urlChange",
+    value: function urlChange(event) {
+      this.setState({ url: event.target.value });
+    }
+  }, {
+    key: "altChange",
+    value: function altChange(event) {
+      this.setState({ alt: event.target.value });
+    }
+  }, {
+    key: "onSave",
+    value: function onSave() {
+      this.props.onSubmit(this.state);
+    }
+  }, {
+    key: "previewImageStyle",
+    value: function previewImageStyle() {
+      return { backgroundImage: "url(" + this.state.url + ")" };
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        { className: "tray-container" },
+        _react2.default.createElement(
+          "div",
+          { className: "tray-wrap" },
+          _react2.default.createElement(
+            "div",
+            { className: "tray-title" },
+            "Image URL"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "thesis-field-row" },
+            _react2.default.createElement("div", { className: "tray-image-preview", style: this.previewImageStyle() })
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "thesis-field-row" },
+            _react2.default.createElement(
+              "label",
+              null,
+              _react2.default.createElement(
+                "span",
+                null,
+                "Image URL"
+              ),
+              _react2.default.createElement("input", { type: "text", placeholder: "http://placekitten.com/200/300", value: this.state.url, onChange: this.urlChange })
+            )
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "thesis-field-row" },
+            _react2.default.createElement(
+              "label",
+              null,
+              _react2.default.createElement(
+                "span",
+                null,
+                "Alt Text"
+              ),
+              _react2.default.createElement("input", { type: "text", placeholder: "Describe the image", value: this.state.alt, onChange: this.altChange })
+            )
+          ),
+          _react2.default.createElement("div", { className: "thesis-field-row errors", hidden: this.state.isValid }),
+          _react2.default.createElement(
+            "div",
+            { className: "thesis-field-row cta" },
+            _react2.default.createElement(
+              "button",
+              { className: "thesis-tray-cancel", onClick: this.props.onCancel },
+              "Cancel"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "thesis-tray-save", onClick: this.onSave },
+              "Apply"
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return ImageTray;
+}(_react2.default.Component);
+
+exports.default = ImageTray;
+
+});
+
+require.register("web/static/js/components/raw_html_tray", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// NOTES
+// add 'invalid' class to input to give it a red background
+// add error text to the errors div and toggle the 'hidden' property
+// add the 'disabled' property to inputs that can't be editted if page is static
+
+var RawHtmlTray = function (_React$Component) {
+  _inherits(RawHtmlTray, _React$Component);
+
+  function RawHtmlTray(props) {
+    _classCallCheck(this, RawHtmlTray);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RawHtmlTray).call(this, props));
+
+    _this.state = {
+      contentId: _this.props.data.contentId,
+      content: _this.props.data.content,
+      isValid: true
+    };
+
+    _this.contentChange = _this.contentChange.bind(_this);
+    _this.onSave = _this.onSave.bind(_this);
+    return _this;
+  }
+
+  _createClass(RawHtmlTray, [{
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {
+      if (nextProps.data !== null) {
+        this.setState({
+          contentId: nextProps.data.contentId,
+          content: nextProps.data.content.trim(),
+          isValid: true
+        });
+      }
+    }
+  }, {
+    key: "contentChange",
+    value: function contentChange(event) {
+      this.setState({ content: event.target.value });
+    }
+  }, {
+    key: "onSave",
+    value: function onSave() {
+      this.props.onSubmit(this.state);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        { className: "tray-container" },
+        _react2.default.createElement(
+          "div",
+          { className: "tray-wrap" },
+          _react2.default.createElement(
+            "div",
+            { className: "tray-title" },
+            "Raw HTML"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "thesis-field-row" },
+            _react2.default.createElement(
+              "label",
+              null,
+              _react2.default.createElement(
+                "span",
+                null,
+                "HTML code"
+              ),
+              _react2.default.createElement("textarea", { placeholder: "<h1>Any HTML you like</h1>", value: this.state.content, onChange: this.contentChange })
+            )
+          ),
+          _react2.default.createElement("div", { className: "thesis-field-row errors", hidden: this.state.isValid }),
+          _react2.default.createElement(
+            "div",
+            { className: "thesis-field-row cta" },
+            _react2.default.createElement(
+              "button",
+              { className: "thesis-tray-cancel", onClick: this.props.onCancel },
+              "Cancel"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "thesis-tray-save", onClick: this.onSave },
+              "Apply"
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return RawHtmlTray;
+}(_react2.default.Component);
+
+exports.default = RawHtmlTray;
+
+});
+
 require.register("web/static/js/components/save_button", function(exports, require, module) {
 "use strict";
 
@@ -27717,7 +27991,7 @@ var SettingsTray = function (_React$Component) {
           _react2.default.createElement(
             "div",
             { className: "tray-title" },
-            this.props.title
+            "Page Settings"
           ),
           _react2.default.createElement(
             "div",
@@ -27773,7 +28047,7 @@ var SettingsTray = function (_React$Component) {
             _react2.default.createElement(
               "button",
               { className: "thesis-tray-save", onClick: this.onSave },
-              this.props.cta
+              "Apply"
             )
           )
         )
@@ -27784,9 +28058,162 @@ var SettingsTray = function (_React$Component) {
   return SettingsTray;
 }(_react2.default.Component);
 
-SettingsTray.propTypes = {};
-
 exports.default = SettingsTray;
+
+});
+
+require.register("web/static/js/content_types/html", function(exports, require, module) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _mediumEditor = require('medium-editor');
+
+var _mediumEditor2 = _interopRequireDefault(_mediumEditor);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var HtmlEditor = function () {
+  function HtmlEditor(thesis) {
+    _classCallCheck(this, HtmlEditor);
+
+    this.thesis = thesis;
+    this.editor = null;
+    this.editors = document.querySelectorAll('.thesis-content-html');
+    this.changedHtmlEditor = this.changedHtmlEditor.bind(this);
+  }
+
+  _createClass(HtmlEditor, [{
+    key: 'enable',
+    value: function enable() {
+      // html editor
+      if (!this.editor) {
+        this.editor = new _mediumEditor2.default(this.editors, this.mediumEditorOptions());
+      } else {
+        this.editor.setup(); // Rebuild it
+      }
+      this.editor.subscribe('editableInput', this.changedHtmlEditor);
+    }
+  }, {
+    key: 'disable',
+    value: function disable() {
+      if (!this.editor) {
+        return null;
+      }
+      this.editor.destroy();
+      this.editor = null;
+    }
+  }, {
+    key: 'changedHtmlEditor',
+    value: function changedHtmlEditor(event, editable) {
+      editable.classList.add('modified');
+
+      // TODO: Find a better way to represent that this has been modified
+      this.thesis.setState({ pageModified: true });
+    }
+  }, {
+    key: 'mediumEditorOptions',
+    value: function mediumEditorOptions() {
+      // https://github.com/yabwe/medium-editor#toolbar-options
+      return {
+        autoLink: true,
+        toolbar: {
+          buttons: ['bold', 'italic', 'underline', 'anchor', 'h1', 'h2', 'h3', 'quote', 'orderedlist', 'unorderedlist', 'removeFormat', 'justifyLeft', 'justifyCenter', 'justifyRight'],
+          static: true,
+          align: 'center',
+          sticky: true,
+          updateOnEmptySelection: true
+        },
+        paste: {
+          forcePlainText: false,
+          cleanPastedHTML: true,
+          cleanAttrs: ['class', 'style', 'dir'],
+          cleanTags: ['meta', 'pre']
+        }
+      };
+    }
+  }]);
+
+  return HtmlEditor;
+}();
+
+exports.default = HtmlEditor;
+
+});
+
+require.register("web/static/js/content_types/raw_html", function(exports, require, module) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var RawHtmlEditor = function () {
+  function RawHtmlEditor(thesis) {
+    _classCallCheck(this, RawHtmlEditor);
+
+    this.thesis = thesis;
+    this.editors = document.querySelectorAll('.thesis-content-raw_html');
+    this.clicked = this.clicked.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  _createClass(RawHtmlEditor, [{
+    key: 'enable',
+    value: function enable() {
+      for (var i = 0; i < this.editors.length; i++) {
+        this.editors[i].addEventListener('click', this.clicked, false);
+      }
+    }
+  }, {
+    key: 'disable',
+    value: function disable() {
+      for (var i = 0; i < this.editors.length; i++) {
+        this.editors[i].removeEventListener('click', this.clicked, false);
+      }
+    }
+  }, {
+    key: 'clicked',
+    value: function clicked(e) {
+      var id = e.currentTarget.getAttribute('data-thesis-content-id');
+      var content = e.currentTarget.innerHTML.trim();
+
+      // TODO: Not very happy about how this reaches back into the Thesis editor
+      // to set its state. Refactor in the future.
+      this.thesis.setState({
+        pageModified: true,
+        trayOpen: true,
+        trayType: 'raw-html',
+        trayData: { contentId: id, content: content }
+      });
+    }
+  }, {
+    key: 'onSubmit',
+    value: function onSubmit(data) {
+      var editor = document.querySelector('[data-thesis-content-id="' + data.contentId + '"');
+      editor.classList.add('modified');
+      editor.innerHTML = data.content;
+
+      // TODO: Not very happy about how this reaches back into the Thesis editor
+      // to set its state. Refactor in the future.
+      this.thesis.setState({ trayOpen: false, pageModified: true });
+    }
+  }]);
+
+  return RawHtmlEditor;
+}();
+
+exports.default = RawHtmlEditor;
 
 });
 
@@ -27831,17 +28258,29 @@ var _settings_tray = require('./components/settings_tray');
 
 var _settings_tray2 = _interopRequireDefault(_settings_tray);
 
+var _image_tray = require('./components/image_tray');
+
+var _image_tray2 = _interopRequireDefault(_image_tray);
+
 var _attribution_text = require('./components/attribution_text');
 
 var _attribution_text2 = _interopRequireDefault(_attribution_text);
 
-var _mediumEditor = require('medium-editor');
-
-var _mediumEditor2 = _interopRequireDefault(_mediumEditor);
-
 var _net = require('./utilities/net');
 
 var _net2 = _interopRequireDefault(_net);
+
+var _html = require('./content_types/html');
+
+var _html2 = _interopRequireDefault(_html);
+
+var _raw_html = require('./content_types/raw_html');
+
+var _raw_html2 = _interopRequireDefault(_raw_html);
+
+var _raw_html_tray = require('./components/raw_html_tray');
+
+var _raw_html_tray2 = _interopRequireDefault(_raw_html_tray);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27851,23 +28290,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// https://github.com/yabwe/medium-editor#toolbar-options
-var mediumEditorOptions = {
-  autoLink: true,
-  toolbar: {
-    buttons: ['bold', 'italic', 'underline', 'anchor', 'h1', 'h2', 'h3', 'quote', 'orderedlist', 'unorderedlist', 'removeFormat', 'justifyLeft', 'justifyCenter', 'justifyRight'],
-    static: true,
-    align: 'center',
-    sticky: true,
-    updateOnEmptySelection: true
-  },
-  paste: {
-    forcePlainText: false,
-    cleanPastedHTML: true,
-    cleanAttrs: ['class', 'style', 'dir'],
-    cleanTags: ['meta', 'pre']
-  }
-};
+// Content types
+
 
 var ThesisEditor = function (_React$Component) {
   _inherits(ThesisEditor, _React$Component);
@@ -27884,16 +28308,21 @@ var ThesisEditor = function (_React$Component) {
       trayOpen: false,
       trayType: null
     };
-    _this.editor = null;
+    _this.htmlEditor = new _html2.default(_this);
+    _this.rawHtmlEditor = new _raw_html2.default(_this);
 
     // Rebind context
     _this.trayCanceled = _this.trayCanceled.bind(_this);
-    _this.traySubmitted = _this.traySubmitted.bind(_this);
+    _this.settingsTraySubmitted = _this.settingsTraySubmitted.bind(_this);
+    _this.imageTraySubmitted = _this.imageTraySubmitted.bind(_this);
     _this.cancelPressed = _this.cancelPressed.bind(_this);
     _this.savePressed = _this.savePressed.bind(_this);
     _this.editPressed = _this.editPressed.bind(_this);
     _this.addPagePressed = _this.addPagePressed.bind(_this);
     _this.pageSettingsPressed = _this.pageSettingsPressed.bind(_this);
+    // this.changedHtmlEditor = this.changedHtmlEditor.bind(this)
+    _this.changedTextEditor = _this.changedTextEditor.bind(_this);
+    _this.clickedImageEditor = _this.clickedImageEditor.bind(_this);
     return _this;
   }
 
@@ -27921,11 +28350,11 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'trayCanceled',
     value: function trayCanceled() {
-      this.setState({ trayOpen: false });
+      this.setState({ trayOpen: false, trayData: null });
     }
   }, {
-    key: 'traySubmitted',
-    value: function traySubmitted(page) {
+    key: 'settingsTraySubmitted',
+    value: function settingsTraySubmitted(page) {
       document.title = page.title;
 
       var desc = this.descriptionMetaTag();
@@ -27936,11 +28365,29 @@ var ThesisEditor = function (_React$Component) {
       this.setState({ trayOpen: false, pageModified: true });
     }
   }, {
+    key: 'imageTraySubmitted',
+    value: function imageTraySubmitted(data) {
+      var editor = document.querySelector('[data-thesis-content-id="' + data.contentId + '"');
+      editor.classList.add('modified');
+
+      var meta = JSON.stringify({ alt: data.alt });
+      editor.setAttribute('data-thesis-content-meta', meta);
+
+      var type = editor.getAttribute('data-thesis-content-type');
+      if (type === 'image') {
+        var img = editor.querySelector('img');
+        img.src = data.url;
+        img.alt = data.alt;
+      } else if (type === 'background_image') {
+        editor.style.backgroundImage = 'url("' + data.url + '")';
+      }
+
+      this.setState({ trayOpen: false, pageModified: true, trayData: null });
+    }
+  }, {
     key: 'editPressed',
     value: function editPressed() {
       var _this2 = this;
-
-      var body = document.querySelector('body');
 
       if (this.state.editing) {
         if (this.state.pageModified) {
@@ -27963,7 +28410,7 @@ var ThesisEditor = function (_React$Component) {
       var page = { slug: this.pathname(), title: this.pageTitle(), description: this.pageDescription() };
       var contents = this.contentEditorContents();
       this.postToServer(page, contents);
-      this.setState({ editing: false, pageModified: false });
+      this.setState({ editing: false, pageModified: false, trayOpen: false });
       setTimeout(function () {
         return _this3.setState({ pageToolsHidden: true });
       }, 800);
@@ -27984,7 +28431,11 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'pageSettingsPressed',
     value: function pageSettingsPressed() {
-      this.setState({ trayOpen: !this.state.trayOpen, trayType: 'page-settings' });
+      if (this.state.trayOpen && this.state.trayType !== 'page-settings') {
+        this.setState({ trayType: 'page-settings' });
+      } else {
+        this.setState({ trayOpen: !this.state.trayOpen, trayType: 'page-settings' });
+      }
     }
   }, {
     key: 'postToServer',
@@ -28003,9 +28454,9 @@ var ThesisEditor = function (_React$Component) {
       return document.querySelectorAll('.thesis-content-text');
     }
   }, {
-    key: 'htmlContentEditors',
-    value: function htmlContentEditors() {
-      return document.querySelectorAll('.thesis-content-html');
+    key: 'imageContentEditors',
+    value: function imageContentEditors() {
+      return document.querySelectorAll('.thesis-content-image, .thesis-content-background_image');
     }
   }, {
     key: 'allContentEditors',
@@ -28015,47 +28466,79 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'subscribeToContentChanges',
     value: function subscribeToContentChanges() {
-      var _this4 = this;
-
-      // html editor
-      if (this.htmlContentEditors().length > 0) {
-        this.editor.subscribe('editableInput', function (event, editable) {
-          editable.classList.add('modified');
-          _this4.setState({ pageModified: true });
-        });
-      }
-
-      // TODO: image editor
-
       // text editor
       var textEditors = this.textContentEditors();
       for (var i = 0; i < textEditors.length; i++) {
-        textEditors[i].addEventListener('input', function (e) {
-          e.target.classList.add('modified');
-          _this4.setState({ pageModified: true });
-        }, false);
+        textEditors[i].addEventListener('input', this.changedTextEditor, false);
+        textEditors[i].addEventListener('keydown', this.changedTextEditor, false);
       }
+
+      // image editor
+      var imageEditors = this.imageContentEditors();
+      for (var _i = 0; _i < imageEditors.length; _i++) {
+        imageEditors[_i].addEventListener('click', this.clickedImageEditor, false);
+      }
+    }
+  }, {
+    key: 'unsubscribeFromContentChanges',
+    value: function unsubscribeFromContentChanges() {
+      // text editor
+      var textEditors = this.textContentEditors();
+      for (var i = 0; i < textEditors.length; i++) {
+        textEditors[i].removeEventListener('input', this.changedTextEditor, false);
+        textEditors[i].removeEventListener('keydown', this.changedTextEditor, false);
+      }
+
+      // image editor
+      var imageEditors = this.imageContentEditors();
+      for (var _i2 = 0; _i2 < imageEditors.length; _i2++) {
+        imageEditors[_i2].removeEventListener('click', this.clickedImageEditor, false);
+      }
+    }
+  }, {
+    key: 'changedTextEditor',
+    value: function changedTextEditor(e) {
+      e.currentTarget.classList.add('modified');
+      this.setState({ pageModified: true });
+      if (e.keyCode === 13) e.preventDefault();
+    }
+  }, {
+    key: 'clickedImageEditor',
+    value: function clickedImageEditor(e) {
+      var id = e.currentTarget.getAttribute('data-thesis-content-id');
+      var type = e.currentTarget.getAttribute('data-thesis-content-type');
+      var meta = JSON.parse(e.currentTarget.getAttribute('data-thesis-content-meta'));
+      var url = '';
+
+      if (type === 'image') {
+        url = e.currentTarget.querySelector('img').getAttribute('src');
+      } else if (type === 'background_image') {
+        url = this.getUrlFromStyle(e.currentTarget.style.backgroundImage);
+      }
+
+      this.setState({
+        pageModified: true,
+        trayOpen: true,
+        trayType: 'image-upload',
+        trayData: { contentId: id, url: url, alt: meta.alt }
+      });
     }
   }, {
     key: 'addContentEditors',
     value: function addContentEditors() {
-      if (!this.editor) {
-        this.editor = new _mediumEditor2.default(this.htmlContentEditors(), mediumEditorOptions);
-      } else {
-        this.editor.setup(); // Rebuild it
-      }
+      this.htmlEditor.enable();
+      this.rawHtmlEditor.enable();
+
       this.toggleTextEditors(true);
       this.subscribeToContentChanges();
     }
   }, {
     key: 'removeContentEditors',
     value: function removeContentEditors() {
-      if (!this.editor) {
-        return null;
-      }
-      this.editor.destroy();
-      this.editor = null;
       this.toggleTextEditors(false);
+      this.unsubscribeFromContentChanges();
+      this.htmlEditor.disable();
+      this.rawHtmlEditor.disable();
     }
   }, {
     key: 'toggleTextEditors',
@@ -28075,12 +28558,30 @@ var ThesisEditor = function (_React$Component) {
         var ed = editors[i];
         var id = ed.getAttribute('data-thesis-content-id');
         var t = ed.getAttribute('data-thesis-content-type');
+        var meta = ed.getAttribute('data-thesis-content-meta');
+
+        var content = this.getContent(t, ed);
         var glob = ed.getAttribute('data-thesis-content-global');
-        var content = ed.innerHTML;
-        contents.push({ name: id, content_type: t, content: content, global: glob });
+        contents.push({ name: id, content_type: t, content: content, meta: meta, global: glob });
       }
 
       return contents;
+    }
+  }, {
+    key: 'getUrlFromStyle',
+    value: function getUrlFromStyle(style) {
+      return style.replace('url("', '').replace('")', '');
+    }
+  }, {
+    key: 'getContent',
+    value: function getContent(t, ed) {
+      if (t === 'image') {
+        return ed.querySelector('img').getAttribute('src');
+      } else if (t === 'background_image') {
+        return this.getUrlFromStyle(ed.style.backgroundImage);
+      } else {
+        return ed.innerHTML;
+      }
     }
   }, {
     key: 'componentDidUpdate',
@@ -28130,29 +28631,32 @@ var ThesisEditor = function (_React$Component) {
       return this.renderEditorClass();
     }
   }, {
-    key: 'renderTrayCta',
-    value: function renderTrayCta() {
-      var type = this.state.trayType;
-      if (type == 'add-page') {
-        return 'Save';
-      } else if (type == 'page-settings') {
-        return 'Update';
-      }
-    }
-  }, {
-    key: 'renderTrayTitle',
-    value: function renderTrayTitle() {
-      var type = this.state.trayType;
-      if (type == 'add-page') {
-        return 'Add New Page';
-      } else if (type == 'page-settings') {
-        return 'Page Settings';
-      }
-    }
-  }, {
     key: 'renderTrayClass',
     value: function renderTrayClass() {
       return this.state.trayType;
+    }
+  }, {
+    key: 'renderTray',
+    value: function renderTray() {
+      if (this.state.trayType == 'page-settings') {
+        return _react2.default.createElement(_settings_tray2.default, {
+          path: this.pathname(),
+          hasErrors: false,
+          pageTitle: this.pageTitle(),
+          pageDescription: this.pageDescription(),
+          onCancel: this.trayCanceled,
+          onSubmit: this.settingsTraySubmitted });
+      } else if (this.state.trayType == "image-upload") {
+        return _react2.default.createElement(_image_tray2.default, {
+          data: this.state.trayData,
+          onCancel: this.trayCanceled,
+          onSubmit: this.imageTraySubmitted });
+      } else if (this.state.trayType == "raw-html") {
+        return _react2.default.createElement(_raw_html_tray2.default, {
+          data: this.state.trayData,
+          onCancel: this.trayCanceled,
+          onSubmit: this.rawHtmlEditor.onSubmit });
+      }
     }
   }, {
     key: 'render',
@@ -28172,15 +28676,7 @@ var ThesisEditor = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { id: 'thesis-tray', className: this.renderTrayClass() },
-          _react2.default.createElement(_settings_tray2.default, {
-            cta: this.renderTrayCta(),
-            title: this.renderTrayTitle(),
-            path: this.pathname(),
-            hasErrors: false,
-            pageTitle: this.pageTitle(),
-            pageDescription: this.pageDescription(),
-            onCancel: this.trayCanceled,
-            onSubmit: this.traySubmitted }),
+          this.renderTray(),
           _react2.default.createElement(_attribution_text2.default, null)
         )
       );
