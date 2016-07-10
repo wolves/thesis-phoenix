@@ -13,31 +13,9 @@ import MediumEditor from 'medium-editor'
 import Net from './utilities/net'
 
 // Content types
+import HtmlEditor from './content_types/html'
 import RawHtmlEditor from './content_types/raw_html'
 import RawHtmlTray from './components/raw_html_tray'
-
-// https://github.com/yabwe/medium-editor#toolbar-options
-const mediumEditorOptions = {
-  autoLink: true,
-  toolbar: {
-    buttons: [
-      'bold', 'italic', 'underline', 'anchor',
-      'h1', 'h2', 'h3', 'quote',
-      'orderedlist', 'unorderedlist',
-      'removeFormat', 'justifyLeft', 'justifyCenter', 'justifyRight'
-    ],
-    static: true,
-    align: 'center',
-    sticky: true,
-    updateOnEmptySelection: true
-  },
-  paste: {
-    forcePlainText: false,
-    cleanPastedHTML: true,
-    cleanAttrs: ['class', 'style', 'dir'],
-    cleanTags: ['meta', 'pre']
-  }
-}
 
 class ThesisEditor extends React.Component {
 
@@ -50,7 +28,7 @@ class ThesisEditor extends React.Component {
       trayOpen: false,
       trayType: null
     }
-    this.editor = null
+    this.htmlEditor = new HtmlEditor(this)
     this.rawHtmlEditor = new RawHtmlEditor(this)
 
     // Rebind context
@@ -62,7 +40,7 @@ class ThesisEditor extends React.Component {
     this.editPressed = this.editPressed.bind(this)
     this.addPagePressed = this.addPagePressed.bind(this)
     this.pageSettingsPressed = this.pageSettingsPressed.bind(this)
-    this.changedHtmlEditor = this.changedHtmlEditor.bind(this)
+    // this.changedHtmlEditor = this.changedHtmlEditor.bind(this)
     this.changedTextEditor = this.changedTextEditor.bind(this)
     this.clickedImageEditor = this.clickedImageEditor.bind(this)
   }
@@ -170,10 +148,6 @@ class ThesisEditor extends React.Component {
     return document.querySelectorAll('.thesis-content-text')
   }
 
-  htmlContentEditors () {
-    return document.querySelectorAll('.thesis-content-html')
-  }
-
   imageContentEditors () {
     return document.querySelectorAll('.thesis-content-image, .thesis-content-background_image')
   }
@@ -183,11 +157,6 @@ class ThesisEditor extends React.Component {
   }
 
   subscribeToContentChanges () {
-    // html editor
-    if (this.htmlContentEditors().length > 0) {
-      this.editor.subscribe('editableInput', this.changedHtmlEditor)
-    }
-
     // text editor
     const textEditors = this.textContentEditors()
     for (let i = 0; i < textEditors.length; i++) {
@@ -217,11 +186,6 @@ class ThesisEditor extends React.Component {
     }
   }
 
-  changedHtmlEditor (event, editable) {
-    editable.classList.add('modified')
-    this.setState({pageModified: true})
-  }
-
   changedTextEditor (e) {
     e.currentTarget.classList.add('modified')
     this.setState({pageModified: true})
@@ -237,7 +201,7 @@ class ThesisEditor extends React.Component {
     if (type === 'image') {
       url = e.currentTarget.querySelector('img').getAttribute('src')
     } else if (type === 'background_image') {
-      url = this.get_url_from_style(e.currentTarget.style.backgroundImage)
+      url = this.getUrlFromStyle(e.currentTarget.style.backgroundImage)
     }
 
     this.setState({
@@ -249,11 +213,7 @@ class ThesisEditor extends React.Component {
   }
 
   addContentEditors () {
-    if (!this.editor) {
-      this.editor = new MediumEditor(this.htmlContentEditors(), mediumEditorOptions)
-    } else {
-      this.editor.setup() // Rebuild it
-    }
+    this.htmlEditor.enable()
     this.rawHtmlEditor.enable()
 
     this.toggleTextEditors(true)
@@ -261,11 +221,9 @@ class ThesisEditor extends React.Component {
   }
 
   removeContentEditors () {
-    if (!this.editor) { return null }
-    this.editor.destroy()
-    this.editor = null
     this.toggleTextEditors(false)
     this.unsubscribeFromContentChanges()
+    this.htmlEditor.disable()
     this.rawHtmlEditor.disable()
   }
 
@@ -294,15 +252,15 @@ class ThesisEditor extends React.Component {
     return contents
   }
 
-  get_url_from_style (style) {
+  getUrlFromStyle (style) {
     return style.replace('url("', '').replace('")', '')
   }
 
   getContent (t, ed) {
-    if (t == 'image') {
+    if (t === 'image') {
       return ed.querySelector('img').getAttribute('src')
-    } else if (t == 'background_image') {
-      return this.get_url_from_style(ed.style.backgroundImage)
+    } else if (t === 'background_image') {
+      return this.getUrlFromStyle(ed.style.backgroundImage)
     } else {
       return ed.innerHTML
     }
@@ -379,21 +337,21 @@ class ThesisEditor extends React.Component {
 
   render () {
     return (
-    <div id="thesis">
-      <div id='thesis-editor' className={this.renderEditorClass()}>
-        <SaveButton onPress={this.savePressed} />
-        <SettingsButton onPress={this.pageSettingsPressed} />
-        <CancelButton onPress={this.cancelPressed} />
-        {/*this.state.pageToolsHidden ? <AddButton onPress={this.addPagePressed} /> : null*/}
-        {/*this.state.pageToolsHidden ? <DeleteButton /> : null*/}
-        <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
+      <div id="thesis">
+        <div id='thesis-editor' className={this.renderEditorClass()}>
+          <SaveButton onPress={this.savePressed} />
+          <SettingsButton onPress={this.pageSettingsPressed} />
+          <CancelButton onPress={this.cancelPressed} />
+          {/*this.state.pageToolsHidden ? <AddButton onPress={this.addPagePressed} /> : null*/}
+          {/*this.state.pageToolsHidden ? <DeleteButton /> : null*/}
+          <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
+        </div>
+        <div id='thesis-fader' className={this.renderFaderClass()}></div>
+        <div id='thesis-tray' className={this.renderTrayClass()}>
+          {this.renderTray()}
+          <AttributionText />
+        </div>
       </div>
-      <div id='thesis-fader' className={this.renderFaderClass()}></div>
-      <div id='thesis-tray' className={this.renderTrayClass()}>
-        {this.renderTray()}
-        <AttributionText />
-      </div>
-    </div>
     )
   }
 

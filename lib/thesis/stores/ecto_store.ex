@@ -44,7 +44,6 @@ defmodule Thesis.EctoStore do
 
   defp content_changeset(new_contents, page, preloaded_contents) do
     %{ "name" => name, "content" => content, "content_type" => content_type } = new_contents
-    # meta = Thesis.PageContent.meta_serialize(new_contents["meta"])
 
     page_id = page_id_or_global(new_contents, page)
 

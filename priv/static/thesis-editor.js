@@ -28606,6 +28606,86 @@ exports.default = SettingsTray;
 
 });
 
+require.register("web/static/js/content_types/html", function(exports, require, module) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var HtmlEditor = function () {
+  function HtmlEditor(thesis) {
+    _classCallCheck(this, HtmlEditor);
+
+    this.thesis = thesis;
+    this.editor = null;
+    this.editors = document.querySelectorAll('.thesis-content-html');
+    this.clicked = this.clicked.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  _createClass(HtmlEditor, [{
+    key: 'enable',
+    value: function enable() {
+      // html editor
+      if (!this.editor) {
+        this.editor = new MediumEditor(this.editors, mediumEditorOptions);
+      } else {
+        this.editor.setup(); // Rebuild it
+      }
+      this.editor.subscribe('editableInput', this.changedHtmlEditor);
+    }
+  }, {
+    key: 'disable',
+    value: function disable() {
+      if (!this.editor) {
+        return null;
+      }
+      this.editor.destroy();
+      this.editor = null;
+    }
+  }, {
+    key: 'changedHtmlEditor',
+    value: function changedHtmlEditor(event, editable) {
+      editable.classList.add('modified');
+
+      // TODO: Find a better way to represent that this has been modified
+      this.thesis.setState({ pageModified: true });
+    }
+  }, {
+    key: 'mediumEditorOptions',
+    value: function mediumEditorOptions() {
+      // https://github.com/yabwe/medium-editor#toolbar-options
+      return {
+        autoLink: true,
+        toolbar: {
+          buttons: ['bold', 'italic', 'underline', 'anchor', 'h1', 'h2', 'h3', 'quote', 'orderedlist', 'unorderedlist', 'removeFormat', 'justifyLeft', 'justifyCenter', 'justifyRight'],
+          static: true,
+          align: 'center',
+          sticky: true,
+          updateOnEmptySelection: true
+        },
+        paste: {
+          forcePlainText: false,
+          cleanPastedHTML: true,
+          cleanAttrs: ['class', 'style', 'dir'],
+          cleanTags: ['meta', 'pre']
+        }
+      };
+    }
+  }]);
+
+  return HtmlEditor;
+}();
+
+exports.default = RawHtmlEditor;
+
+});
+
 require.register("web/static/js/content_types/raw_html", function(exports, require, module) {
 'use strict';
 
@@ -28631,7 +28711,6 @@ var RawHtmlEditor = function () {
     key: 'enable',
     value: function enable() {
       for (var i = 0; i < this.editors.length; i++) {
-        this.addOverlay(this.editors[i]);
         this.editors[i].addEventListener('click', this.clicked, false);
       }
     }
@@ -28639,15 +28718,12 @@ var RawHtmlEditor = function () {
     key: 'disable',
     value: function disable() {
       for (var i = 0; i < this.editors.length; i++) {
-        this.removeOverlay(this.editors[i]);
         this.editors[i].removeEventListener('click', this.clicked, false);
       }
     }
   }, {
     key: 'clicked',
     value: function clicked(e) {
-      this.removeOverlay(e.currentTarget);
-
       var id = e.currentTarget.getAttribute('data-thesis-content-id');
       var content = e.currentTarget.innerHTML.trim();
 
@@ -28666,22 +28742,10 @@ var RawHtmlEditor = function () {
       var editor = document.querySelector('[data-thesis-content-id="' + data.contentId + '"');
       editor.classList.add('modified');
       editor.innerHTML = data.content;
-      this.addOverlay(editor);
 
       // TODO: Not very happy about how this reaches back into the Thesis editor
       // to set its state. Refactor in the future.
       this.thesis.setState({ trayOpen: false, pageModified: true });
-    }
-  }, {
-    key: 'addOverlay',
-    value: function addOverlay(editor) {
-      // editor.addChild("<span class='thesis-content-overlay'></span>")
-    }
-  }, {
-    key: 'removeOverlay',
-    value: function removeOverlay(editor) {
-      // const overlay = editor.querySelector("span.thesis-content-overlay")
-      // editor.removeChild(overlay)
     }
   }]);
 
@@ -28749,6 +28813,10 @@ var _net = require('./utilities/net');
 
 var _net2 = _interopRequireDefault(_net);
 
+var _html = require('./content_types/html');
+
+var _html2 = _interopRequireDefault(_html);
+
 var _raw_html = require('./content_types/raw_html');
 
 var _raw_html2 = _interopRequireDefault(_raw_html);
@@ -28768,24 +28836,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // Content types
 
 
-// https://github.com/yabwe/medium-editor#toolbar-options
-var mediumEditorOptions = {
-  autoLink: true,
-  toolbar: {
-    buttons: ['bold', 'italic', 'underline', 'anchor', 'h1', 'h2', 'h3', 'quote', 'orderedlist', 'unorderedlist', 'removeFormat', 'justifyLeft', 'justifyCenter', 'justifyRight'],
-    static: true,
-    align: 'center',
-    sticky: true,
-    updateOnEmptySelection: true
-  },
-  paste: {
-    forcePlainText: false,
-    cleanPastedHTML: true,
-    cleanAttrs: ['class', 'style', 'dir'],
-    cleanTags: ['meta', 'pre']
-  }
-};
-
 var ThesisEditor = function (_React$Component) {
   _inherits(ThesisEditor, _React$Component);
 
@@ -28801,7 +28851,7 @@ var ThesisEditor = function (_React$Component) {
       trayOpen: false,
       trayType: null
     };
-    _this.editor = null;
+    _this.htmlEditor = new _html2.default(_this);
     _this.rawHtmlEditor = new _raw_html2.default(_this);
 
     // Rebind context
@@ -28813,7 +28863,7 @@ var ThesisEditor = function (_React$Component) {
     _this.editPressed = _this.editPressed.bind(_this);
     _this.addPagePressed = _this.addPagePressed.bind(_this);
     _this.pageSettingsPressed = _this.pageSettingsPressed.bind(_this);
-    _this.changedHtmlEditor = _this.changedHtmlEditor.bind(_this);
+    // this.changedHtmlEditor = this.changedHtmlEditor.bind(this)
     _this.changedTextEditor = _this.changedTextEditor.bind(_this);
     _this.clickedImageEditor = _this.clickedImageEditor.bind(_this);
     return _this;
@@ -28947,11 +28997,6 @@ var ThesisEditor = function (_React$Component) {
       return document.querySelectorAll('.thesis-content-text');
     }
   }, {
-    key: 'htmlContentEditors',
-    value: function htmlContentEditors() {
-      return document.querySelectorAll('.thesis-content-html');
-    }
-  }, {
     key: 'imageContentEditors',
     value: function imageContentEditors() {
       return document.querySelectorAll('.thesis-content-image, .thesis-content-background_image');
@@ -28964,11 +29009,6 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'subscribeToContentChanges',
     value: function subscribeToContentChanges() {
-      // html editor
-      if (this.htmlContentEditors().length > 0) {
-        this.editor.subscribe('editableInput', this.changedHtmlEditor);
-      }
-
       // text editor
       var textEditors = this.textContentEditors();
       for (var i = 0; i < textEditors.length; i++) {
@@ -28999,12 +29039,6 @@ var ThesisEditor = function (_React$Component) {
       }
     }
   }, {
-    key: 'changedHtmlEditor',
-    value: function changedHtmlEditor(event, editable) {
-      editable.classList.add('modified');
-      this.setState({ pageModified: true });
-    }
-  }, {
     key: 'changedTextEditor',
     value: function changedTextEditor(e) {
       e.currentTarget.classList.add('modified');
@@ -29022,7 +29056,7 @@ var ThesisEditor = function (_React$Component) {
       if (type === 'image') {
         url = e.currentTarget.querySelector('img').getAttribute('src');
       } else if (type === 'background_image') {
-        url = this.get_url_from_style(e.currentTarget.style.backgroundImage);
+        url = this.getUrlFromStyle(e.currentTarget.style.backgroundImage);
       }
 
       this.setState({
@@ -29035,11 +29069,7 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'addContentEditors',
     value: function addContentEditors() {
-      if (!this.editor) {
-        this.editor = new _mediumEditor2.default(this.htmlContentEditors(), mediumEditorOptions);
-      } else {
-        this.editor.setup(); // Rebuild it
-      }
+      this.htmlEditor.enable();
       this.rawHtmlEditor.enable();
 
       this.toggleTextEditors(true);
@@ -29048,13 +29078,9 @@ var ThesisEditor = function (_React$Component) {
   }, {
     key: 'removeContentEditors',
     value: function removeContentEditors() {
-      if (!this.editor) {
-        return null;
-      }
-      this.editor.destroy();
-      this.editor = null;
       this.toggleTextEditors(false);
       this.unsubscribeFromContentChanges();
+      this.htmlEditor.disable();
       this.rawHtmlEditor.disable();
     }
   }, {
@@ -29085,17 +29111,17 @@ var ThesisEditor = function (_React$Component) {
       return contents;
     }
   }, {
-    key: 'get_url_from_style',
-    value: function get_url_from_style(style) {
+    key: 'getUrlFromStyle',
+    value: function getUrlFromStyle(style) {
       return style.replace('url("', '').replace('")', '');
     }
   }, {
     key: 'getContent',
     value: function getContent(t, ed) {
-      if (t == 'image') {
+      if (t === 'image') {
         return ed.querySelector('img').getAttribute('src');
-      } else if (t == 'background_image') {
-        return this.get_url_from_style(ed.style.backgroundImage);
+      } else if (t === 'background_image') {
+        return this.getUrlFromStyle(ed.style.backgroundImage);
       } else {
         return ed.innerHTML;
       }

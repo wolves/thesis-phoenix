@@ -25,7 +25,7 @@ defmodule Thesis.Mixfile do
       {:phoenix_html, ">= 2.0.0"},
       {:ecto, ">= 2.0.0"},
       {:plug, ">= 1.0.0"},
-      {:poison, ">= 2.0.0"},
+      {:poison, ">= 1.0.0"},
       {:html_sanitize_ex, ">= 1.0.1"},
       {:ex_doc, ">= 0.12.0", only: [:dev]},
       {:earmark, ">= 0.2.0", only: [:dev]},
