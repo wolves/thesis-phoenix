@@ -1,3 +1,5 @@
+import MediumEditor from 'medium-editor'
+
 class HtmlEditor {
   constructor (thesis) {
     this.thesis = thesis
@@ -9,7 +11,7 @@ class HtmlEditor {
   enable () {
     // html editor
     if (!this.editor) {
-      this.editor = new MediumEditor(this.editors, mediumEditorOptions)
+      this.editor = new MediumEditor(this.editors, this.mediumEditorOptions())
     } else {
       this.editor.setup() // Rebuild it
     }
