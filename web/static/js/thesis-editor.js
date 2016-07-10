@@ -9,7 +9,6 @@ import EditButton from './components/edit_button'
 import SettingsTray from './components/settings_tray'
 import ImageTray from './components/image_tray'
 import AttributionText from './components/attribution_text'
-import MediumEditor from 'medium-editor'
 import Net from './utilities/net'
 
 // Content types
