@@ -3,8 +3,7 @@ class HtmlEditor {
     this.thesis = thesis
     this.editor = null
     this.editors = document.querySelectorAll('.thesis-content-html')
-    this.clicked = this.clicked.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
+    this.changedHtmlEditor = this.changedHtmlEditor.bind(this)
   }
 
   enable () {
@@ -57,4 +56,4 @@ class HtmlEditor {
 
 }
 
-export default RawHtmlEditor
+export default HtmlEditor
