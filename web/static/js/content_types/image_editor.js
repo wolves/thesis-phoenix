@@ -1,3 +1,4 @@
+import React from 'react'
 import ImageTray from './image_tray'
 
 class ImageEditor {
@@ -38,7 +39,7 @@ class ImageEditor {
     }
 
     // TODO: Find a better way
-    this.setState({
+    this.thesis.setState({
       pageModified: true,
       trayOpen: true,
       trayType: 'image-url',

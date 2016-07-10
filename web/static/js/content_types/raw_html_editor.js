@@ -1,3 +1,4 @@
+import React from 'react'
 import RawHtmlTray from './raw_html_tray'
 
 class RawHtmlEditor {
@@ -55,7 +56,7 @@ class RawHtmlEditor {
 
   tray (data) {
     return <RawHtmlTray
-      data={trayData}
+      data={data}
       onCancel={this.thesis.trayCanceled}
       onSubmit={this.onSubmit} />
   }

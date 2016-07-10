@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 
 class AttributionText extends React.Component {
   render () {
@@ -9,10 +9,6 @@ class AttributionText extends React.Component {
     </div>
     )
   }
-}
-
-AttributionText.propTypes = {
-
 }
 
 export default AttributionText

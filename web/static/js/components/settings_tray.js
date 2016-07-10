@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 
 // NOTES
 // add 'invalid' class to input to give it a red background

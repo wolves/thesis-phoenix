@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 
 class EditButton extends React.Component {
   render () {
@@ -10,10 +10,6 @@ class EditButton extends React.Component {
     </div>
     )
   }
-}
-
-EditButton.propTypes = {
-
 }
 
 export default EditButton

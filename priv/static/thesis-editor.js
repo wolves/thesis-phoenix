@@ -27847,8 +27847,6 @@ var AddButton = function (_React$Component) {
   return AddButton;
 }(_react2.default.Component);
 
-AddButton.propTypes = {};
-
 exports.default = AddButton;
 
 });
@@ -27907,8 +27905,6 @@ var AttributionText = function (_React$Component) {
   return AttributionText;
 }(_react2.default.Component);
 
-AttributionText.propTypes = {};
-
 exports.default = AttributionText;
 
 });
@@ -27961,8 +27957,6 @@ var CancelButton = function (_React$Component) {
 
   return CancelButton;
 }(_react2.default.Component);
-
-CancelButton.propTypes = {};
 
 exports.default = CancelButton;
 
@@ -28017,8 +28011,6 @@ var DeleteButton = function (_React$Component) {
   return DeleteButton;
 }(_react2.default.Component);
 
-DeleteButton.propTypes = {};
-
 exports.default = DeleteButton;
 
 });
@@ -28071,8 +28063,6 @@ var EditButton = function (_React$Component) {
 
   return EditButton;
 }(_react2.default.Component);
-
-EditButton.propTypes = {};
 
 exports.default = EditButton;
 
@@ -28127,8 +28117,6 @@ var SaveButton = function (_React$Component) {
   return SaveButton;
 }(_react2.default.Component);
 
-SaveButton.propTypes = {};
-
 exports.default = SaveButton;
 
 });
@@ -28181,8 +28169,6 @@ var SettingsButton = function (_React$Component) {
 
   return SettingsButton;
 }(_react2.default.Component);
-
-SettingsButton.propTypes = {};
 
 exports.default = SettingsButton;
 
@@ -28431,6 +28417,10 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
 var _image_tray = require('./image_tray');
 
 var _image_tray2 = _interopRequireDefault(_image_tray);
@@ -28483,7 +28473,7 @@ var ImageEditor = function () {
       }
 
       // TODO: Find a better way
-      this.setState({
+      this.thesis.setState({
         pageModified: true,
         trayOpen: true,
         trayType: 'image-url',
@@ -28493,7 +28483,7 @@ var ImageEditor = function () {
   }, {
     key: 'tray',
     value: function tray(trayData) {
-      return React.createElement(_image_tray2.default, {
+      return _react2.default.createElement(_image_tray2.default, {
         data: trayData,
         onCancel: this.thesis.trayCanceled,
         onSubmit: this.onSubmit });
@@ -28705,6 +28695,10 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
 var _raw_html_tray = require('./raw_html_tray');
 
 var _raw_html_tray2 = _interopRequireDefault(_raw_html_tray);
@@ -28776,8 +28770,8 @@ var RawHtmlEditor = function () {
   }, {
     key: 'tray',
     value: function tray(data) {
-      return React.createElement(_raw_html_tray2.default, {
-        data: trayData,
+      return _react2.default.createElement(_raw_html_tray2.default, {
+        data: data,
         onCancel: this.thesis.trayCanceled,
         onSubmit: this.onSubmit });
     }

@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 
 class AddButton extends React.Component {
   render () {
@@ -10,10 +10,6 @@ class AddButton extends React.Component {
     </div>
     )
   }
-}
-
-AddButton.propTypes = {
-
 }
 
 export default AddButton
