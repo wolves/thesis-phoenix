@@ -10,7 +10,6 @@ exports.config = {
       joinTo: 'thesis-editor.js'
     },
     stylesheets: {
-      defaultExtension: 'sass',
       joinTo: 'thesis.css'
     }
   },
