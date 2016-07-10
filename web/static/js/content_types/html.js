@@ -57,4 +57,4 @@ class HtmlEditor {
 
 }
 
-export default RawHtmlEditor
+export default HtmlEditor

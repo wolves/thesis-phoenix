@@ -28138,7 +28138,7 @@ var HtmlEditor = function () {
   return HtmlEditor;
 }();
 
-exports.default = RawHtmlEditor;
+exports.default = HtmlEditor;
 
 });
 
