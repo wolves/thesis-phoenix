@@ -27847,8 +27847,6 @@ var AddButton = function (_React$Component) {
   return AddButton;
 }(_react2.default.Component);
 
-AddButton.propTypes = {};
-
 exports.default = AddButton;
 
 });
@@ -27907,8 +27905,6 @@ var AttributionText = function (_React$Component) {
   return AttributionText;
 }(_react2.default.Component);
 
-AttributionText.propTypes = {};
-
 exports.default = AttributionText;
 
 });
@@ -27961,8 +27957,6 @@ var CancelButton = function (_React$Component) {
 
   return CancelButton;
 }(_react2.default.Component);
-
-CancelButton.propTypes = {};
 
 exports.default = CancelButton;
 
@@ -28017,8 +28011,6 @@ var DeleteButton = function (_React$Component) {
   return DeleteButton;
 }(_react2.default.Component);
 
-DeleteButton.propTypes = {};
-
 exports.default = DeleteButton;
 
 });
@@ -28072,13 +28064,476 @@ var EditButton = function (_React$Component) {
   return EditButton;
 }(_react2.default.Component);
 
-EditButton.propTypes = {};
-
 exports.default = EditButton;
 
 });
 
-require.register("web/static/js/components/image_tray", function(exports, require, module) {
+require.register("web/static/js/components/save_button", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SaveButton = function (_React$Component) {
+  _inherits(SaveButton, _React$Component);
+
+  function SaveButton() {
+    _classCallCheck(this, SaveButton);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(SaveButton).apply(this, arguments));
+  }
+
+  _createClass(SaveButton, [{
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        { onClick: this.props.onPress, className: "thesis-button save" },
+        _react2.default.createElement(
+          "div",
+          { className: "tooltip" },
+          "Save Changes"
+        ),
+        _react2.default.createElement("i", { className: "fa fa-save fa-2x" })
+      );
+    }
+  }]);
+
+  return SaveButton;
+}(_react2.default.Component);
+
+exports.default = SaveButton;
+
+});
+
+require.register("web/static/js/components/settings_button", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SettingsButton = function (_React$Component) {
+  _inherits(SettingsButton, _React$Component);
+
+  function SettingsButton() {
+    _classCallCheck(this, SettingsButton);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(SettingsButton).apply(this, arguments));
+  }
+
+  _createClass(SettingsButton, [{
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        { onClick: this.props.onPress, className: "thesis-button settings" },
+        _react2.default.createElement(
+          "div",
+          { className: "tooltip" },
+          "Page Settings"
+        ),
+        _react2.default.createElement("i", { className: "fa fa-wrench fa-2x" })
+      );
+    }
+  }]);
+
+  return SettingsButton;
+}(_react2.default.Component);
+
+exports.default = SettingsButton;
+
+});
+
+require.register("web/static/js/components/settings_tray", function(exports, require, module) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// NOTES
+// add 'invalid' class to input to give it a red background
+// add error text to the errors div and toggle the 'hidden' property
+// add the 'disabled' property to inputs that can't be editted if page is static
+
+var SettingsTray = function (_React$Component) {
+  _inherits(SettingsTray, _React$Component);
+
+  function SettingsTray(props) {
+    _classCallCheck(this, SettingsTray);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SettingsTray).call(this, props));
+
+    _this.state = {
+      title: _this.props.pageTitle,
+      description: _this.props.pageDescription,
+      isValid: true
+    };
+
+    _this.titleChange = _this.titleChange.bind(_this);
+    _this.descriptionChange = _this.descriptionChange.bind(_this);
+    _this.onSave = _this.onSave.bind(_this);
+    return _this;
+  }
+
+  _createClass(SettingsTray, [{
+    key: "titleChange",
+    value: function titleChange(event) {
+      this.setState({ title: event.target.value });
+    }
+  }, {
+    key: "descriptionChange",
+    value: function descriptionChange(event) {
+      this.setState({ description: event.target.value });
+    }
+  }, {
+    key: "onSave",
+    value: function onSave() {
+      this.props.onSubmit(this.state);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        { className: "tray-container" },
+        _react2.default.createElement(
+          "div",
+          { className: "tray-wrap" },
+          _react2.default.createElement(
+            "div",
+            { className: "tray-title" },
+            "Page Settings"
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "thesis-field-row" },
+            _react2.default.createElement(
+              "label",
+              null,
+              _react2.default.createElement(
+                "span",
+                null,
+                "Page Path"
+              ),
+              _react2.default.createElement("input", { type: "text", value: this.props.path, disabled: true })
+            )
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "thesis-field-row" },
+            _react2.default.createElement(
+              "label",
+              null,
+              _react2.default.createElement(
+                "span",
+                null,
+                "Page Title"
+              ),
+              _react2.default.createElement("input", { type: "text", placeholder: "Example Title", value: this.state.title, onChange: this.titleChange })
+            )
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "thesis-field-row" },
+            _react2.default.createElement(
+              "label",
+              null,
+              _react2.default.createElement(
+                "span",
+                null,
+                "Page Description"
+              ),
+              _react2.default.createElement("textarea", { placeholder: "Example page description.", value: this.state.description, onChange: this.descriptionChange })
+            )
+          ),
+          _react2.default.createElement("div", { className: "thesis-field-row errors", hidden: this.state.isValid }),
+          _react2.default.createElement(
+            "div",
+            { className: "thesis-field-row cta" },
+            _react2.default.createElement(
+              "button",
+              { className: "thesis-tray-cancel", onClick: this.props.onCancel },
+              "Cancel"
+            ),
+            _react2.default.createElement(
+              "button",
+              { className: "thesis-tray-save", onClick: this.onSave },
+              "Apply"
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return SettingsTray;
+}(_react2.default.Component);
+
+exports.default = SettingsTray;
+
+});
+
+require.register("web/static/js/content_types/html_editor", function(exports, require, module) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _mediumEditor = require('medium-editor');
+
+var _mediumEditor2 = _interopRequireDefault(_mediumEditor);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var HtmlEditor = function () {
+  function HtmlEditor(thesis) {
+    _classCallCheck(this, HtmlEditor);
+
+    this.thesis = thesis;
+    this.editor = null;
+    this.editors = document.querySelectorAll('.thesis-content-html');
+    this.enabled = false;
+
+    this.changedHtmlEditor = this.changedHtmlEditor.bind(this);
+  }
+
+  _createClass(HtmlEditor, [{
+    key: 'enable',
+    value: function enable() {
+      if (this.enabled) return;
+      if (!this.editor) {
+        this.editor = new _mediumEditor2.default(this.editors, this.mediumEditorOptions());
+        this.editor.subscribe('editableInput', this.changedHtmlEditor);
+      }
+      this.enabled = true;
+    }
+  }, {
+    key: 'disable',
+    value: function disable() {
+      if (!this.enabled) return;
+      this.editor.destroy();
+      this.editor = null;
+      this.enabled = false;
+    }
+  }, {
+    key: 'content',
+    value: function content(ed) {
+      return ed.innerHTML;
+    }
+  }, {
+    key: 'changedHtmlEditor',
+    value: function changedHtmlEditor(event, editable) {
+      editable.classList.add('modified');
+
+      // TODO: Find a better way to represent that this has been modified
+      this.thesis.setState({ pageModified: true });
+    }
+  }, {
+    key: 'mediumEditorOptions',
+    value: function mediumEditorOptions() {
+      // https://github.com/yabwe/medium-editor#toolbar-options
+      return {
+        autoLink: true,
+        toolbar: {
+          buttons: ['bold', 'italic', 'underline', 'anchor', 'h1', 'h2', 'h3', 'quote', 'orderedlist', 'unorderedlist', 'removeFormat', 'justifyLeft', 'justifyCenter', 'justifyRight'],
+          static: true,
+          align: 'center',
+          sticky: true,
+          updateOnEmptySelection: true
+        },
+        paste: {
+          forcePlainText: false,
+          cleanPastedHTML: true,
+          cleanAttrs: ['class', 'style', 'dir'],
+          cleanTags: ['meta', 'pre']
+        }
+      };
+    }
+  }]);
+
+  return HtmlEditor;
+}();
+
+exports.default = HtmlEditor;
+
+});
+
+require.register("web/static/js/content_types/image_editor", function(exports, require, module) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _image_tray = require('./image_tray');
+
+var _image_tray2 = _interopRequireDefault(_image_tray);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ImageEditor = function () {
+  function ImageEditor(thesis) {
+    _classCallCheck(this, ImageEditor);
+
+    this.thesis = thesis;
+    this.editors = document.querySelectorAll('.thesis-content-image, .thesis-content-background_image');
+    this.enabled = false;
+    this.clicked = this.clicked.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  _createClass(ImageEditor, [{
+    key: 'enable',
+    value: function enable() {
+      if (this.enabled) return;
+      for (var i = 0; i < this.editors.length; i++) {
+        this.editors[i].addEventListener('click', this.clicked, false);
+      }
+      this.enabled = true;
+    }
+  }, {
+    key: 'disable',
+    value: function disable() {
+      if (!this.enabled) return;
+      for (var i = 0; i < this.editors.length; i++) {
+        this.editors[i].removeEventListener('click', this.clicked, false);
+      }
+      this.enabled = false;
+    }
+  }, {
+    key: 'clicked',
+    value: function clicked(e) {
+      var id = e.currentTarget.getAttribute('data-thesis-content-id');
+      var type = e.currentTarget.getAttribute('data-thesis-content-type');
+      var meta = JSON.parse(e.currentTarget.getAttribute('data-thesis-content-meta'));
+      var url = '';
+
+      if (type === 'image') {
+        url = e.currentTarget.querySelector('img').getAttribute('src');
+      } else if (type === 'background_image') {
+        url = this.getUrlFromStyle(e.currentTarget.style.backgroundImage);
+      }
+
+      // TODO: Find a better way
+      this.thesis.setState({
+        pageModified: true,
+        trayOpen: true,
+        trayType: 'image-url',
+        trayData: { contentId: id, url: url, alt: meta.alt }
+      });
+    }
+  }, {
+    key: 'tray',
+    value: function tray(trayData) {
+      return _react2.default.createElement(_image_tray2.default, {
+        data: trayData,
+        onCancel: this.thesis.trayCanceled,
+        onSubmit: this.onSubmit });
+    }
+  }, {
+    key: 'onSubmit',
+    value: function onSubmit(data) {
+      var editor = document.querySelector('[data-thesis-content-id="' + data.contentId + '"');
+      editor.classList.add('modified');
+
+      var meta = JSON.stringify({ alt: data.alt });
+      editor.setAttribute('data-thesis-content-meta', meta);
+
+      var type = editor.getAttribute('data-thesis-content-type');
+      if (type === 'image') {
+        var img = editor.querySelector('img');
+        img.src = data.url;
+        img.alt = data.alt;
+      } else if (type === 'background_image') {
+        editor.style.backgroundImage = 'url("' + data.url + '")';
+      }
+
+      // TODO: better way to close tray
+      this.thesis.setState({ trayOpen: false, pageModified: true, trayData: null });
+    }
+  }, {
+    key: 'getContent',
+    value: function getContent(ed) {
+      var type = ed.getAttribute('data-thesis-content-type');
+      if (type === 'image') {
+        return ed.querySelector('img').getAttribute('src');
+      } else {
+        return this.getUrlFromStyle(ed.style.backgroundImage);
+      }
+    }
+  }, {
+    key: 'getUrlFromStyle',
+    value: function getUrlFromStyle(style) {
+      return style.replace('url("', '').replace('")', '');
+    }
+  }]);
+
+  return ImageEditor;
+}();
+
+exports.default = ImageEditor;
+
+});
+
+require.register("web/static/js/content_types/image_tray", function(exports, require, module) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28231,7 +28686,105 @@ exports.default = ImageTray;
 
 });
 
-require.register("web/static/js/components/raw_html_tray", function(exports, require, module) {
+require.register("web/static/js/content_types/raw_html_editor", function(exports, require, module) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _raw_html_tray = require('./raw_html_tray');
+
+var _raw_html_tray2 = _interopRequireDefault(_raw_html_tray);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var RawHtmlEditor = function () {
+  function RawHtmlEditor(thesis) {
+    _classCallCheck(this, RawHtmlEditor);
+
+    this.thesis = thesis;
+    this.editors = document.querySelectorAll('.thesis-content-raw_html');
+    this.clicked = this.clicked.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.enabled = false;
+  }
+
+  _createClass(RawHtmlEditor, [{
+    key: 'enable',
+    value: function enable() {
+      if (this.enabled) return;
+      for (var i = 0; i < this.editors.length; i++) {
+        this.editors[i].addEventListener('click', this.clicked, false);
+      }
+      this.enabled = true;
+    }
+  }, {
+    key: 'disable',
+    value: function disable() {
+      if (!this.enabled) return;
+      for (var i = 0; i < this.editors.length; i++) {
+        this.editors[i].removeEventListener('click', this.clicked, false);
+      }
+      this.enabled = false;
+    }
+  }, {
+    key: 'content',
+    value: function content(ed) {
+      return ed.innerHTML;
+    }
+  }, {
+    key: 'clicked',
+    value: function clicked(e) {
+      var id = e.currentTarget.getAttribute('data-thesis-content-id');
+      var content = e.currentTarget.innerHTML.trim();
+
+      // TODO: Not very happy about how this reaches back into the Thesis editor
+      // to set its state. Refactor in the future.
+      this.thesis.setState({
+        pageModified: true,
+        trayOpen: true,
+        trayType: 'raw-html',
+        trayData: { contentId: id, content: content }
+      });
+    }
+  }, {
+    key: 'onSubmit',
+    value: function onSubmit(data) {
+      var editor = document.querySelector('[data-thesis-content-id="' + data.contentId + '"');
+      editor.classList.add('modified');
+      editor.innerHTML = data.content;
+
+      // TODO: Not very happy about how this reaches back into the Thesis editor
+      // to set its state. Refactor in the future.
+      this.thesis.setState({ trayOpen: false, pageModified: true });
+    }
+  }, {
+    key: 'tray',
+    value: function tray(data) {
+      return _react2.default.createElement(_raw_html_tray2.default, {
+        data: data,
+        onCancel: this.thesis.trayCanceled,
+        onSubmit: this.onSubmit });
+    }
+  }]);
+
+  return RawHtmlEditor;
+}();
+
+exports.default = RawHtmlEditor;
+
+});
+
+require.register("web/static/js/content_types/raw_html_tray", function(exports, require, module) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28352,261 +28905,7 @@ exports.default = RawHtmlTray;
 
 });
 
-require.register("web/static/js/components/save_button", function(exports, require, module) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var SaveButton = function (_React$Component) {
-  _inherits(SaveButton, _React$Component);
-
-  function SaveButton() {
-    _classCallCheck(this, SaveButton);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(SaveButton).apply(this, arguments));
-  }
-
-  _createClass(SaveButton, [{
-    key: "render",
-    value: function render() {
-      return _react2.default.createElement(
-        "div",
-        { onClick: this.props.onPress, className: "thesis-button save" },
-        _react2.default.createElement(
-          "div",
-          { className: "tooltip" },
-          "Save Changes"
-        ),
-        _react2.default.createElement("i", { className: "fa fa-save fa-2x" })
-      );
-    }
-  }]);
-
-  return SaveButton;
-}(_react2.default.Component);
-
-SaveButton.propTypes = {};
-
-exports.default = SaveButton;
-
-});
-
-require.register("web/static/js/components/settings_button", function(exports, require, module) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var SettingsButton = function (_React$Component) {
-  _inherits(SettingsButton, _React$Component);
-
-  function SettingsButton() {
-    _classCallCheck(this, SettingsButton);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(SettingsButton).apply(this, arguments));
-  }
-
-  _createClass(SettingsButton, [{
-    key: "render",
-    value: function render() {
-      return _react2.default.createElement(
-        "div",
-        { onClick: this.props.onPress, className: "thesis-button settings" },
-        _react2.default.createElement(
-          "div",
-          { className: "tooltip" },
-          "Page Settings"
-        ),
-        _react2.default.createElement("i", { className: "fa fa-wrench fa-2x" })
-      );
-    }
-  }]);
-
-  return SettingsButton;
-}(_react2.default.Component);
-
-SettingsButton.propTypes = {};
-
-exports.default = SettingsButton;
-
-});
-
-require.register("web/static/js/components/settings_tray", function(exports, require, module) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-// NOTES
-// add 'invalid' class to input to give it a red background
-// add error text to the errors div and toggle the 'hidden' property
-// add the 'disabled' property to inputs that can't be editted if page is static
-
-var SettingsTray = function (_React$Component) {
-  _inherits(SettingsTray, _React$Component);
-
-  function SettingsTray(props) {
-    _classCallCheck(this, SettingsTray);
-
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SettingsTray).call(this, props));
-
-    _this.state = {
-      title: _this.props.pageTitle,
-      description: _this.props.pageDescription,
-      isValid: true
-    };
-
-    _this.titleChange = _this.titleChange.bind(_this);
-    _this.descriptionChange = _this.descriptionChange.bind(_this);
-    _this.onSave = _this.onSave.bind(_this);
-    return _this;
-  }
-
-  _createClass(SettingsTray, [{
-    key: "titleChange",
-    value: function titleChange(event) {
-      this.setState({ title: event.target.value });
-    }
-  }, {
-    key: "descriptionChange",
-    value: function descriptionChange(event) {
-      this.setState({ description: event.target.value });
-    }
-  }, {
-    key: "onSave",
-    value: function onSave() {
-      this.props.onSubmit(this.state);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return _react2.default.createElement(
-        "div",
-        { className: "tray-container" },
-        _react2.default.createElement(
-          "div",
-          { className: "tray-wrap" },
-          _react2.default.createElement(
-            "div",
-            { className: "tray-title" },
-            "Page Settings"
-          ),
-          _react2.default.createElement(
-            "div",
-            { className: "thesis-field-row" },
-            _react2.default.createElement(
-              "label",
-              null,
-              _react2.default.createElement(
-                "span",
-                null,
-                "Page Path"
-              ),
-              _react2.default.createElement("input", { type: "text", value: this.props.path, disabled: true })
-            )
-          ),
-          _react2.default.createElement(
-            "div",
-            { className: "thesis-field-row" },
-            _react2.default.createElement(
-              "label",
-              null,
-              _react2.default.createElement(
-                "span",
-                null,
-                "Page Title"
-              ),
-              _react2.default.createElement("input", { type: "text", placeholder: "Example Title", value: this.state.title, onChange: this.titleChange })
-            )
-          ),
-          _react2.default.createElement(
-            "div",
-            { className: "thesis-field-row" },
-            _react2.default.createElement(
-              "label",
-              null,
-              _react2.default.createElement(
-                "span",
-                null,
-                "Page Description"
-              ),
-              _react2.default.createElement("textarea", { placeholder: "Example page description.", value: this.state.description, onChange: this.descriptionChange })
-            )
-          ),
-          _react2.default.createElement("div", { className: "thesis-field-row errors", hidden: this.state.isValid }),
-          _react2.default.createElement(
-            "div",
-            { className: "thesis-field-row cta" },
-            _react2.default.createElement(
-              "button",
-              { className: "thesis-tray-cancel", onClick: this.props.onCancel },
-              "Cancel"
-            ),
-            _react2.default.createElement(
-              "button",
-              { className: "thesis-tray-save", onClick: this.onSave },
-              "Apply"
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return SettingsTray;
-}(_react2.default.Component);
-
-exports.default = SettingsTray;
-
-});
-
-require.register("web/static/js/content_types/html", function(exports, require, module) {
+require.register("web/static/js/content_types/text_editor", function(exports, require, module) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28615,149 +28914,63 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _mediumEditor = require('medium-editor');
-
-var _mediumEditor2 = _interopRequireDefault(_mediumEditor);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var HtmlEditor = function () {
-  function HtmlEditor(thesis) {
-    _classCallCheck(this, HtmlEditor);
+var TextEditor = function () {
+  function TextEditor(thesis) {
+    _classCallCheck(this, TextEditor);
 
     this.thesis = thesis;
-    this.editor = null;
-    this.editors = document.querySelectorAll('.thesis-content-html');
-    this.changedHtmlEditor = this.changedHtmlEditor.bind(this);
+    this.editors = document.querySelectorAll('.thesis-content-text');
+    this.enabled = false;
+
+    this.changed = this.changed.bind(this);
   }
 
-  _createClass(HtmlEditor, [{
+  _createClass(TextEditor, [{
     key: 'enable',
     value: function enable() {
-      // html editor
-      if (!this.editor) {
-        this.editor = new _mediumEditor2.default(this.editors, this.mediumEditorOptions());
-      } else {
-        this.editor.setup(); // Rebuild it
+      if (this.enabled) return;
+      for (var i = 0; i < this.editors.length; i++) {
+        var ed = this.editors[i];
+        ed.contentEditable = true;
+        ed.addEventListener('input', this.changed, false);
+        ed.addEventListener('keydown', this.changed, false);
       }
-      this.editor.subscribe('editableInput', this.changedHtmlEditor);
+      this.enabled = true;
     }
   }, {
     key: 'disable',
     value: function disable() {
-      if (!this.editor) {
-        return null;
+      if (!this.enabled) return;
+      for (var i = 0; i < this.editors.length; i++) {
+        var ed = this.editors[i];
+        ed.contentEditable = false;
+        ed.removeEventListener('input', this.changed, false);
+        ed.removeEventListener('keydown', this.changed, false);
       }
-      this.editor.destroy();
-      this.editor = null;
+      this.enabled = false;
     }
   }, {
-    key: 'changedHtmlEditor',
-    value: function changedHtmlEditor(event, editable) {
-      editable.classList.add('modified');
+    key: 'content',
+    value: function content(ed) {
+      return ed.textContent;
+    }
+  }, {
+    key: 'changed',
+    value: function changed(e) {
+      e.currentTarget.classList.add('modified');
+      if (e.keyCode === 13) e.preventDefault();
 
-      // TODO: Find a better way to represent that this has been modified
+      // TODO: Change this
       this.thesis.setState({ pageModified: true });
     }
-  }, {
-    key: 'mediumEditorOptions',
-    value: function mediumEditorOptions() {
-      // https://github.com/yabwe/medium-editor#toolbar-options
-      return {
-        autoLink: true,
-        toolbar: {
-          buttons: ['bold', 'italic', 'underline', 'anchor', 'h1', 'h2', 'h3', 'quote', 'orderedlist', 'unorderedlist', 'removeFormat', 'justifyLeft', 'justifyCenter', 'justifyRight'],
-          static: true,
-          align: 'center',
-          sticky: true,
-          updateOnEmptySelection: true
-        },
-        paste: {
-          forcePlainText: false,
-          cleanPastedHTML: true,
-          cleanAttrs: ['class', 'style', 'dir'],
-          cleanTags: ['meta', 'pre']
-        }
-      };
-    }
   }]);
 
-  return HtmlEditor;
+  return TextEditor;
 }();
 
-exports.default = HtmlEditor;
-
-});
-
-require.register("web/static/js/content_types/raw_html", function(exports, require, module) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var RawHtmlEditor = function () {
-  function RawHtmlEditor(thesis) {
-    _classCallCheck(this, RawHtmlEditor);
-
-    this.thesis = thesis;
-    this.editors = document.querySelectorAll('.thesis-content-raw_html');
-    this.clicked = this.clicked.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  _createClass(RawHtmlEditor, [{
-    key: 'enable',
-    value: function enable() {
-      for (var i = 0; i < this.editors.length; i++) {
-        this.editors[i].addEventListener('click', this.clicked, false);
-      }
-    }
-  }, {
-    key: 'disable',
-    value: function disable() {
-      for (var i = 0; i < this.editors.length; i++) {
-        this.editors[i].removeEventListener('click', this.clicked, false);
-      }
-    }
-  }, {
-    key: 'clicked',
-    value: function clicked(e) {
-      var id = e.currentTarget.getAttribute('data-thesis-content-id');
-      var content = e.currentTarget.innerHTML.trim();
-
-      // TODO: Not very happy about how this reaches back into the Thesis editor
-      // to set its state. Refactor in the future.
-      this.thesis.setState({
-        pageModified: true,
-        trayOpen: true,
-        trayType: 'raw-html',
-        trayData: { contentId: id, content: content }
-      });
-    }
-  }, {
-    key: 'onSubmit',
-    value: function onSubmit(data) {
-      var editor = document.querySelector('[data-thesis-content-id="' + data.contentId + '"');
-      editor.classList.add('modified');
-      editor.innerHTML = data.content;
-
-      // TODO: Not very happy about how this reaches back into the Thesis editor
-      // to set its state. Refactor in the future.
-      this.thesis.setState({ trayOpen: false, pageModified: true });
-    }
-  }]);
-
-  return RawHtmlEditor;
-}();
-
-exports.default = RawHtmlEditor;
+exports.default = TextEditor;
 
 });
 
@@ -28802,10 +29015,6 @@ var _settings_tray = require('./components/settings_tray');
 
 var _settings_tray2 = _interopRequireDefault(_settings_tray);
 
-var _image_tray = require('./components/image_tray');
-
-var _image_tray2 = _interopRequireDefault(_image_tray);
-
 var _attribution_text = require('./components/attribution_text');
 
 var _attribution_text2 = _interopRequireDefault(_attribution_text);
@@ -28814,17 +29023,21 @@ var _net = require('./utilities/net');
 
 var _net2 = _interopRequireDefault(_net);
 
-var _html = require('./content_types/html');
+var _html_editor = require('./content_types/html_editor');
 
-var _html2 = _interopRequireDefault(_html);
+var _html_editor2 = _interopRequireDefault(_html_editor);
 
-var _raw_html = require('./content_types/raw_html');
+var _raw_html_editor = require('./content_types/raw_html_editor');
 
-var _raw_html2 = _interopRequireDefault(_raw_html);
+var _raw_html_editor2 = _interopRequireDefault(_raw_html_editor);
 
-var _raw_html_tray = require('./components/raw_html_tray');
+var _image_editor = require('./content_types/image_editor');
 
-var _raw_html_tray2 = _interopRequireDefault(_raw_html_tray);
+var _image_editor2 = _interopRequireDefault(_image_editor);
+
+var _text_editor = require('./content_types/text_editor');
+
+var _text_editor2 = _interopRequireDefault(_text_editor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28852,21 +29065,19 @@ var ThesisEditor = function (_React$Component) {
       trayOpen: false,
       trayType: null
     };
-    _this.htmlEditor = new _html2.default(_this);
-    _this.rawHtmlEditor = new _raw_html2.default(_this);
+    _this.htmlEditor = new _html_editor2.default(_this);
+    _this.rawHtmlEditor = new _raw_html_editor2.default(_this);
+    _this.imageEditor = new _image_editor2.default(_this);
+    _this.textEditor = new _text_editor2.default(_this);
 
     // Rebind context
     _this.trayCanceled = _this.trayCanceled.bind(_this);
     _this.settingsTraySubmitted = _this.settingsTraySubmitted.bind(_this);
-    _this.imageTraySubmitted = _this.imageTraySubmitted.bind(_this);
     _this.cancelPressed = _this.cancelPressed.bind(_this);
     _this.savePressed = _this.savePressed.bind(_this);
     _this.editPressed = _this.editPressed.bind(_this);
-    _this.addPagePressed = _this.addPagePressed.bind(_this);
+    // this.addPagePressed = this.addPagePressed.bind(this)
     _this.pageSettingsPressed = _this.pageSettingsPressed.bind(_this);
-    // this.changedHtmlEditor = this.changedHtmlEditor.bind(this)
-    _this.changedTextEditor = _this.changedTextEditor.bind(_this);
-    _this.clickedImageEditor = _this.clickedImageEditor.bind(_this);
     return _this;
   }
 
@@ -28909,26 +29120,6 @@ var ThesisEditor = function (_React$Component) {
       this.setState({ trayOpen: false, pageModified: true });
     }
   }, {
-    key: 'imageTraySubmitted',
-    value: function imageTraySubmitted(data) {
-      var editor = document.querySelector('[data-thesis-content-id="' + data.contentId + '"');
-      editor.classList.add('modified');
-
-      var meta = JSON.stringify({ alt: data.alt });
-      editor.setAttribute('data-thesis-content-meta', meta);
-
-      var type = editor.getAttribute('data-thesis-content-type');
-      if (type === 'image') {
-        var img = editor.querySelector('img');
-        img.src = data.url;
-        img.alt = data.alt;
-      } else if (type === 'background_image') {
-        editor.style.backgroundImage = 'url("' + data.url + '")';
-      }
-
-      this.setState({ trayOpen: false, pageModified: true, trayData: null });
-    }
-  }, {
     key: 'editPressed',
     value: function editPressed() {
       var _this2 = this;
@@ -28967,11 +29158,11 @@ var ThesisEditor = function (_React$Component) {
         window.location.reload();
       }
     }
-  }, {
-    key: 'addPagePressed',
-    value: function addPagePressed() {
-      this.setState({ trayOpen: !this.state.trayOpen, trayType: 'add-page' });
-    }
+
+    // addPagePressed () {
+    //   this.setState({trayOpen: !this.state.trayOpen, trayType: 'add-page'})
+    // }
+
   }, {
     key: 'pageSettingsPressed',
     value: function pageSettingsPressed() {
@@ -28993,104 +29184,25 @@ var ThesisEditor = function (_React$Component) {
       });
     }
   }, {
-    key: 'textContentEditors',
-    value: function textContentEditors() {
-      return document.querySelectorAll('.thesis-content-text');
-    }
-  }, {
-    key: 'imageContentEditors',
-    value: function imageContentEditors() {
-      return document.querySelectorAll('.thesis-content-image, .thesis-content-background_image');
-    }
-  }, {
     key: 'allContentEditors',
     value: function allContentEditors() {
       return document.querySelectorAll('.thesis-content');
-    }
-  }, {
-    key: 'subscribeToContentChanges',
-    value: function subscribeToContentChanges() {
-      // text editor
-      var textEditors = this.textContentEditors();
-      for (var i = 0; i < textEditors.length; i++) {
-        textEditors[i].addEventListener('input', this.changedTextEditor, false);
-        textEditors[i].addEventListener('keydown', this.changedTextEditor, false);
-      }
-
-      // image editor
-      var imageEditors = this.imageContentEditors();
-      for (var _i = 0; _i < imageEditors.length; _i++) {
-        imageEditors[_i].addEventListener('click', this.clickedImageEditor, false);
-      }
-    }
-  }, {
-    key: 'unsubscribeFromContentChanges',
-    value: function unsubscribeFromContentChanges() {
-      // text editor
-      var textEditors = this.textContentEditors();
-      for (var i = 0; i < textEditors.length; i++) {
-        textEditors[i].removeEventListener('input', this.changedTextEditor, false);
-        textEditors[i].removeEventListener('keydown', this.changedTextEditor, false);
-      }
-
-      // image editor
-      var imageEditors = this.imageContentEditors();
-      for (var _i2 = 0; _i2 < imageEditors.length; _i2++) {
-        imageEditors[_i2].removeEventListener('click', this.clickedImageEditor, false);
-      }
-    }
-  }, {
-    key: 'changedTextEditor',
-    value: function changedTextEditor(e) {
-      e.currentTarget.classList.add('modified');
-      this.setState({ pageModified: true });
-      if (e.keyCode === 13) e.preventDefault();
-    }
-  }, {
-    key: 'clickedImageEditor',
-    value: function clickedImageEditor(e) {
-      var id = e.currentTarget.getAttribute('data-thesis-content-id');
-      var type = e.currentTarget.getAttribute('data-thesis-content-type');
-      var meta = JSON.parse(e.currentTarget.getAttribute('data-thesis-content-meta'));
-      var url = '';
-
-      if (type === 'image') {
-        url = e.currentTarget.querySelector('img').getAttribute('src');
-      } else if (type === 'background_image') {
-        url = this.getUrlFromStyle(e.currentTarget.style.backgroundImage);
-      }
-
-      this.setState({
-        pageModified: true,
-        trayOpen: true,
-        trayType: 'image-upload',
-        trayData: { contentId: id, url: url, alt: meta.alt }
-      });
     }
   }, {
     key: 'addContentEditors',
     value: function addContentEditors() {
       this.htmlEditor.enable();
       this.rawHtmlEditor.enable();
-
-      this.toggleTextEditors(true);
-      this.subscribeToContentChanges();
+      this.imageEditor.enable();
+      this.textEditor.enable();
     }
   }, {
     key: 'removeContentEditors',
     value: function removeContentEditors() {
-      this.toggleTextEditors(false);
-      this.unsubscribeFromContentChanges();
       this.htmlEditor.disable();
       this.rawHtmlEditor.disable();
-    }
-  }, {
-    key: 'toggleTextEditors',
-    value: function toggleTextEditors(editable) {
-      var textEditors = this.textContentEditors();
-      for (var i = 0; i < textEditors.length; i++) {
-        textEditors[i].contentEditable = editable;
-      }
+      this.imageEditor.disable();
+      this.textEditor.disable();
     }
   }, {
     key: 'contentEditorContents',
@@ -29112,17 +29224,16 @@ var ThesisEditor = function (_React$Component) {
       return contents;
     }
   }, {
-    key: 'getUrlFromStyle',
-    value: function getUrlFromStyle(style) {
-      return style.replace('url("', '').replace('")', '');
-    }
-  }, {
     key: 'getContent',
     value: function getContent(t, ed) {
-      if (t === 'image') {
-        return ed.querySelector('img').getAttribute('src');
-      } else if (t === 'background_image') {
-        return this.getUrlFromStyle(ed.style.backgroundImage);
+      if (t === 'image' || t === 'background_image') {
+        return this.imageEditor.getContent(ed);
+      } else if (t === 'text') {
+        return this.textEditor.content(ed);
+      } else if (t === 'html') {
+        return this.htmlEditor.content(ed);
+      } else if (t === 'raw_html') {
+        return this.rawHtmlEditor.content(ed);
       } else {
         return ed.innerHTML;
       }
@@ -29135,7 +29246,7 @@ var ThesisEditor = function (_React$Component) {
 
       if (this.state.editing) {
         el.classList.add('thesis-editing');
-        if (!this.editor) this.addContentEditors();
+        this.addContentEditors();
       } else {
         el.classList.remove('thesis-editing');
         this.removeContentEditors();
@@ -29190,16 +29301,10 @@ var ThesisEditor = function (_React$Component) {
           pageDescription: this.pageDescription(),
           onCancel: this.trayCanceled,
           onSubmit: this.settingsTraySubmitted });
-      } else if (this.state.trayType == "image-upload") {
-        return _react2.default.createElement(_image_tray2.default, {
-          data: this.state.trayData,
-          onCancel: this.trayCanceled,
-          onSubmit: this.imageTraySubmitted });
+      } else if (this.state.trayType == "image-url") {
+        return this.imageEditor.tray(this.state.trayData);
       } else if (this.state.trayType == "raw-html") {
-        return _react2.default.createElement(_raw_html_tray2.default, {
-          data: this.state.trayData,
-          onCancel: this.trayCanceled,
-          onSubmit: this.rawHtmlEditor.onSubmit });
+        return this.rawHtmlEditor.tray(this.state.trayData);
       }
     }
   }, {

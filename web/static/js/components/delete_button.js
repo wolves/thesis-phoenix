@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 
 class DeleteButton extends React.Component {
   render () {
@@ -10,10 +10,6 @@ class DeleteButton extends React.Component {
     </div>
     )
   }
-}
-
-DeleteButton.propTypes = {
-
 }
 
 export default DeleteButton
