@@ -167,9 +167,10 @@ will display the edited content across the whole website.
 
 ### Customizing the Thesis markup
 
-Thesis adds an additional `<div>` around your editable content areas. Sometimes,
-you need to modify that markup directly. You can provide an ID and additional
-classes by specifying `id` and `classes`, respectively.
+Thesis adds an additional `<div>` around your editable content areas. We suggest that
+you not style these divs heavily, since Thesis uses them as editors and adds its own styles
+in edit-mode. However, sometimes, you need to modify that markup slightly for better presentation.
+You can provide an ID and additional classes by specifying `id` and `classes`, respectively.
 
 ```eex
 <%= content(@conn, "Ident", :html, id: "my-id", classes: "more classes") do %>
