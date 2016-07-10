@@ -91,6 +91,7 @@ defmodule Thesis.Render do
   end
 
   defp parameterize(str) do
+    str = Regex.replace(~r/[^a-z0-9\-\s]/i, str, "")
     Regex.split(~r/\%20|\s/, str)
     |> Enum.join("-")
     |> String.downcase
