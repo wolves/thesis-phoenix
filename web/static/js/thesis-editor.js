@@ -7,14 +7,14 @@ import CancelButton from './components/cancel_button'
 import SaveButton from './components/save_button'
 import EditButton from './components/edit_button'
 import SettingsTray from './components/settings_tray'
-import ImageTray from './components/image_tray'
 import AttributionText from './components/attribution_text'
 import Net from './utilities/net'
 
 // Content types
-import HtmlEditor from './content_types/html'
-import RawHtmlEditor from './content_types/raw_html'
-import RawHtmlTray from './components/raw_html_tray'
+import HtmlEditor from './content_types/html_editor'
+import RawHtmlEditor from './content_types/raw_html_editor'
+import ImageEditor from './content_types/image_editor'
+import TextEditor from './content_types/text_editor'
 
 class ThesisEditor extends React.Component {
 
@@ -29,19 +29,17 @@ class ThesisEditor extends React.Component {
     }
     this.htmlEditor = new HtmlEditor(this)
     this.rawHtmlEditor = new RawHtmlEditor(this)
+    this.imageEditor = new ImageEditor(this)
+    this.textEditor = new TextEditor(this)
 
     // Rebind context
     this.trayCanceled = this.trayCanceled.bind(this)
     this.settingsTraySubmitted = this.settingsTraySubmitted.bind(this)
-    this.imageTraySubmitted = this.imageTraySubmitted.bind(this)
     this.cancelPressed = this.cancelPressed.bind(this)
     this.savePressed = this.savePressed.bind(this)
     this.editPressed = this.editPressed.bind(this)
-    this.addPagePressed = this.addPagePressed.bind(this)
+    // this.addPagePressed = this.addPagePressed.bind(this)
     this.pageSettingsPressed = this.pageSettingsPressed.bind(this)
-    // this.changedHtmlEditor = this.changedHtmlEditor.bind(this)
-    this.changedTextEditor = this.changedTextEditor.bind(this)
-    this.clickedImageEditor = this.clickedImageEditor.bind(this)
   }
 
   pathname () {
@@ -74,25 +72,6 @@ class ThesisEditor extends React.Component {
     this.setState({trayOpen: false, pageModified: true})
   }
 
-  imageTraySubmitted (data) {
-    const editor = document.querySelector(`[data-thesis-content-id="${data.contentId}"`)
-    editor.classList.add('modified')
-
-    const meta = JSON.stringify({alt: data.alt})
-    editor.setAttribute('data-thesis-content-meta', meta)
-
-    const type = editor.getAttribute('data-thesis-content-type')
-    if (type === 'image') {
-      const img = editor.querySelector('img')
-      img.src = data.url
-      img.alt = data.alt
-    } else if (type === 'background_image') {
-      editor.style.backgroundImage = `url("${data.url}")`
-    }
-
-    this.setState({trayOpen: false, pageModified: true, trayData: null})
-  }
-
   editPressed () {
     if (this.state.editing) {
       if (this.state.pageModified) {
@@ -121,9 +100,9 @@ class ThesisEditor extends React.Component {
     }
   }
 
-  addPagePressed () {
-    this.setState({trayOpen: !this.state.trayOpen, trayType: 'add-page'})
-  }
+  // addPagePressed () {
+  //   this.setState({trayOpen: !this.state.trayOpen, trayType: 'add-page'})
+  // }
 
   pageSettingsPressed () {
     if (this.state.trayOpen && this.state.trayType !== 'page-settings') {
@@ -143,94 +122,22 @@ class ThesisEditor extends React.Component {
     })
   }
 
-  textContentEditors () {
-    return document.querySelectorAll('.thesis-content-text')
-  }
-
-  imageContentEditors () {
-    return document.querySelectorAll('.thesis-content-image, .thesis-content-background_image')
-  }
-
   allContentEditors () {
     return document.querySelectorAll('.thesis-content')
-  }
-
-  subscribeToContentChanges () {
-    // text editor
-    const textEditors = this.textContentEditors()
-    for (let i = 0; i < textEditors.length; i++) {
-      textEditors[i].addEventListener('input', this.changedTextEditor, false)
-      textEditors[i].addEventListener('keydown', this.changedTextEditor, false)
-    }
-
-    // image editor
-    const imageEditors = this.imageContentEditors()
-    for (let i = 0; i < imageEditors.length; i++) {
-      imageEditors[i].addEventListener('click', this.clickedImageEditor, false)
-    }
-  }
-
-  unsubscribeFromContentChanges () {
-    // text editor
-    const textEditors = this.textContentEditors()
-    for (let i = 0; i < textEditors.length; i++) {
-      textEditors[i].removeEventListener('input', this.changedTextEditor, false)
-      textEditors[i].removeEventListener('keydown', this.changedTextEditor, false)
-    }
-
-    // image editor
-    const imageEditors = this.imageContentEditors()
-    for (let i = 0; i < imageEditors.length; i++) {
-      imageEditors[i].removeEventListener('click', this.clickedImageEditor, false)
-    }
-  }
-
-  changedTextEditor (e) {
-    e.currentTarget.classList.add('modified')
-    this.setState({pageModified: true})
-    if (e.keyCode === 13) e.preventDefault()
-  }
-
-  clickedImageEditor (e) {
-    const id = e.currentTarget.getAttribute('data-thesis-content-id')
-    const type = e.currentTarget.getAttribute('data-thesis-content-type')
-    const meta = JSON.parse(e.currentTarget.getAttribute('data-thesis-content-meta'))
-    let url = ''
-
-    if (type === 'image') {
-      url = e.currentTarget.querySelector('img').getAttribute('src')
-    } else if (type === 'background_image') {
-      url = this.getUrlFromStyle(e.currentTarget.style.backgroundImage)
-    }
-
-    this.setState({
-      pageModified: true,
-      trayOpen: true,
-      trayType: 'image-upload',
-      trayData: { contentId: id, url: url, alt: meta.alt }
-    })
   }
 
   addContentEditors () {
     this.htmlEditor.enable()
     this.rawHtmlEditor.enable()
-
-    this.toggleTextEditors(true)
-    this.subscribeToContentChanges()
+    this.imageEditor.enable()
+    this.textEditor.enable()
   }
 
   removeContentEditors () {
-    this.toggleTextEditors(false)
-    this.unsubscribeFromContentChanges()
     this.htmlEditor.disable()
     this.rawHtmlEditor.disable()
-  }
-
-  toggleTextEditors (editable) {
-    const textEditors = this.textContentEditors()
-    for (let i = 0; i < textEditors.length; i++) {
-      textEditors[i].contentEditable = editable
-    }
+    this.imageEditor.disable()
+    this.textEditor.disable()
   }
 
   contentEditorContents () {
@@ -251,15 +158,15 @@ class ThesisEditor extends React.Component {
     return contents
   }
 
-  getUrlFromStyle (style) {
-    return style.replace('url("', '').replace('")', '')
-  }
-
   getContent (t, ed) {
-    if (t === 'image') {
-      return ed.querySelector('img').getAttribute('src')
-    } else if (t === 'background_image') {
-      return this.getUrlFromStyle(ed.style.backgroundImage)
+    if (t === 'image' || t === 'background_image') {
+      return this.imageEditor.getContent(ed)
+    } else if (t === 'text') {
+      return this.textEditor.content(ed)
+    } else if (t === 'html') {
+      return this.htmlEditor.content(ed)
+    } else if (t === 'raw_html') {
+      return this.rawHtmlEditor.content(ed)
     } else {
       return ed.innerHTML
     }
@@ -271,7 +178,7 @@ class ThesisEditor extends React.Component {
 
     if (this.state.editing) {
       el.classList.add('thesis-editing')
-      if (!this.editor) this.addContentEditors()
+      this.addContentEditors()
     } else {
       el.classList.remove('thesis-editing')
       this.removeContentEditors()
@@ -321,16 +228,10 @@ class ThesisEditor extends React.Component {
         pageDescription={this.pageDescription()}
         onCancel={this.trayCanceled}
         onSubmit={this.settingsTraySubmitted} />
-    } else if (this.state.trayType == "image-upload") {
-      return <ImageTray
-        data={this.state.trayData}
-        onCancel={this.trayCanceled}
-        onSubmit={this.imageTraySubmitted} />
+    } else if (this.state.trayType == "image-url") {
+      return this.imageEditor.tray(this.state.trayData)
     } else if (this.state.trayType == "raw-html") {
-      return <RawHtmlTray
-        data={this.state.trayData}
-        onCancel={this.trayCanceled}
-        onSubmit={this.rawHtmlEditor.onSubmit} />
+      return this.rawHtmlEditor.tray(this.state.trayData)
     }
   }
 

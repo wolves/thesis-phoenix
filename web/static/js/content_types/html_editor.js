@@ -5,23 +5,29 @@ class HtmlEditor {
     this.thesis = thesis
     this.editor = null
     this.editors = document.querySelectorAll('.thesis-content-html')
+    this.enabled = false
+
     this.changedHtmlEditor = this.changedHtmlEditor.bind(this)
   }
 
   enable () {
-    // html editor
+    if (this.enabled) return
     if (!this.editor) {
       this.editor = new MediumEditor(this.editors, this.mediumEditorOptions())
-    } else {
-      this.editor.setup() // Rebuild it
+      this.editor.subscribe('editableInput', this.changedHtmlEditor)
     }
-    this.editor.subscribe('editableInput', this.changedHtmlEditor)
+    this.enabled = true
   }
 
   disable () {
-    if (!this.editor) { return null }
+    if (!this.enabled) return
     this.editor.destroy()
     this.editor = null
+    this.enabled = false
+  }
+
+  content (ed) {
+    return ed.innerHTML
   }
 
   changedHtmlEditor (event, editable) {
