@@ -12,7 +12,7 @@ class HtmlEditor {
 
   enable () {
     if (this.enabled) return
-    if (!this.editor) {
+    if (!this.editor && this.editors.length > 0) {
       this.editor = new MediumEditor(this.editors, this.mediumEditorOptions())
       this.editor.subscribe('editableInput', this.changedHtmlEditor)
     }
@@ -21,7 +21,7 @@ class HtmlEditor {
 
   disable () {
     if (!this.enabled) return
-    this.editor.destroy()
+    if (this.editor) this.editor.destroy()
     this.editor = null
     this.enabled = false
   }
@@ -44,7 +44,7 @@ class HtmlEditor {
       toolbar: {
         buttons: [
           'bold', 'italic', 'underline', 'anchor',
-          'h1', 'h2', 'h3', 'quote',
+          'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'quote',
           'orderedlist', 'unorderedlist',
           'removeFormat', 'justifyLeft', 'justifyCenter', 'justifyRight'
         ],

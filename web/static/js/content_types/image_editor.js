@@ -2,10 +2,11 @@ import React from 'react'
 import ImageTray from './image_tray'
 
 class ImageEditor {
-  constructor (thesis) {
+  constructor (thesis, opts) {
     this.thesis = thesis
     this.editors = document.querySelectorAll('.thesis-content-image, .thesis-content-background_image')
     this.enabled = false
+    this.ospryPublicKey = opts.ospryPublicKey
     this.clicked = this.clicked.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
@@ -50,6 +51,7 @@ class ImageEditor {
   tray (trayData) {
     return <ImageTray
       data={trayData}
+      ospryPublicKey={this.ospryPublicKey}
       onCancel={this.thesis.trayCanceled}
       onSubmit={this.onSubmit} />
   }

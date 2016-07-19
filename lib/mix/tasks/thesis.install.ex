@@ -91,6 +91,9 @@ defmodule Mix.Tasks.Thesis.Install do
         store: Thesis.EctoStore,
         authorization: #{Mix.Phoenix.base}.ThesisAuth
       config :thesis, Thesis.EctoStore, repo: #{Mix.Phoenix.base}.Repo
+      # If you want to use Ospry.io file uploads:
+      # config :thesis, Thesis.OspryUploader,
+      #  ospry_public_key: "pk-prod-asdfasdfasdfasdfasdf"
       """
     else
       status_msg("skipping", "thesis config. It already exists.")

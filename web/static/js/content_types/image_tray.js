@@ -1,4 +1,7 @@
 import React from 'react'
+import ospryBuilder from '../utilities/ospry'
+
+const Ospry = ospryBuilder(window)
 
 // NOTES
 // add 'invalid' class to input to give it a red background
@@ -12,12 +15,15 @@ class ImageTray extends React.Component {
       contentId: this.props.data.contentId,
       url: this.props.data.url,
       alt: this.props.data.alt,
-      isValid: true
+      isValid: true,
+      fileName: ""
     }
 
     this.urlChange = this.urlChange.bind(this)
     this.altChange = this.altChange.bind(this)
     this.onSave = this.onSave.bind(this)
+    this.onUpload = this.onUpload.bind(this)
+    this.uploadFile = this.uploadFile.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -26,7 +32,8 @@ class ImageTray extends React.Component {
         contentId: nextProps.data.contentId,
         url: nextProps.data.url,
         alt: nextProps.data.alt,
-        isValid: true
+        isValid: true,
+        fileName: ""
       })
     }
   }
@@ -43,8 +50,45 @@ class ImageTray extends React.Component {
     this.props.onSubmit(this.state)
   }
 
+  onUpload (err, metadata) {
+    this.setState({url: metadata.url })
+  }
+
+  uploadFile (e) {
+    this.setState({fileName: e.target.files[0].name})
+
+    const ospry = new Ospry(this.props.ospryPublicKey)
+
+    e.preventDefault()
+    const form = e.target
+    ospry.up({
+      form: form,
+      imageReady: this.onUpload
+    })
+  }
+
+  renderInputFileName () {
+    return this.state.fileName
+  }
+
   previewImageStyle () {
     return {backgroundImage: `url(${this.state.url})`}
+  }
+
+  renderOspryForm () {
+    if (this.props.ospryPublicKey) {
+      return (
+        <div className="thesis-field-row">
+          <label>
+            <span>Upload Image</span>
+            <form onChange={this.uploadFile} className="tray-file-upload">
+              <span>{this.renderInputFileName()}</span>
+              <input type="file" accept=".jpg,.jpeg,.png,.gif,image/png"/>
+            </form>
+          </label>
+        </div>
+      )
+    }
   }
 
   render () {
@@ -63,6 +107,7 @@ class ImageTray extends React.Component {
               <input type="text" placeholder="http://placekitten.com/200/300" value={this.state.url} onChange={this.urlChange} />
             </label>
           </div>
+          {this.renderOspryForm()}
           <div className="thesis-field-row">
             <label>
               <span>Alt Text</span>

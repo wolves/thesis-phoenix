@@ -29,7 +29,7 @@ class ThesisEditor extends React.Component {
     }
     this.htmlEditor = new HtmlEditor(this)
     this.rawHtmlEditor = new RawHtmlEditor(this)
-    this.imageEditor = new ImageEditor(this)
+    this.imageEditor = new ImageEditor(this, {ospryPublicKey: this.ospryPublicKey()})
     this.textEditor = new TextEditor(this)
 
     // Rebind context
@@ -40,6 +40,11 @@ class ThesisEditor extends React.Component {
     this.editPressed = this.editPressed.bind(this)
     // this.addPagePressed = this.addPagePressed.bind(this)
     this.pageSettingsPressed = this.pageSettingsPressed.bind(this)
+  }
+
+  ospryPublicKey () {
+    return document.querySelector('#thesis-container')
+                   .getAttribute('data-ospry-public-key')
   }
 
   pathname () {

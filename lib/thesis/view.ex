@@ -107,7 +107,7 @@ defmodule Thesis.View do
   @spec thesis_editor(Plug.Conn.t) :: {:safe, String.t}
   def thesis_editor(conn) do
     if editable?(conn) do
-      editor = content_tag(:div, "", id: "thesis-container")
+      editor = content_tag(:div, "", id: "thesis-container", data_ospry_public_key: ospry_public_key)
       safe_concat([thesis_style, editor, thesis_js])
     else
       raw ""

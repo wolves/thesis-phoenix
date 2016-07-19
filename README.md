@@ -146,7 +146,25 @@ becomes...
 %>
 ```
 
-_Note: Image uploads are coming soon._
+### Image Uploads
+
+Included in Thesis is an adapter for Ospry.io, which is a service that
+offers the first 1,000 images and 1 GB of monthly download bandwidth
+for free.
+
+1. Sign up at [https://ospry.io/sign-up](https://ospry.io/sign-up)
+2. Verify your email
+3. Create a production subdomain (assets.example.com)
+3. Copy your production public key to the Thesis config:
+
+```elixir
+config :thesis, Thesis.OspryUploader,
+  ospry_public_key: "pk-prod-abcdefghijklmnopqrstuvwxyz0123456789"
+```
+
+That's it! Restart your server and image content areas will now contain a
+file upload field. _Note: You'll need to add a valid credit card if you
+anticipate exceeding Ospry.io limits._
 
 ### Global Content Areas
 
@@ -275,7 +293,7 @@ websites. Please help us improve!
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Run `brunch watch` during development
+4. Run `brunch watch -p` during development
 5. Write tests for your new feature
 6. Run `mix test` in the root directory to ensure that all tests pass.
 7. Push to the branch (`git push origin my-new-feature`)
