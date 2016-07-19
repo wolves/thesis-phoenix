@@ -44,7 +44,7 @@ class HtmlEditor {
       toolbar: {
         buttons: [
           'bold', 'italic', 'underline', 'anchor',
-          'h1', 'h2', 'h3', 'quote',
+          'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'quote',
           'orderedlist', 'unorderedlist',
           'removeFormat', 'justifyLeft', 'justifyCenter', 'justifyRight'
         ],
