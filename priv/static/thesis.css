@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* medium-editor.js css -- https://cdn.jsdelivr.net/medium-editor/latest/css/medium-editor.min.css
   Retrieved 3/4/2016
 */
@@ -971,4 +972,42 @@ body.thesis-tray-open {
     height: 160px;
     border: 8px solid white;
     box-shadow: 0 0 0 1px rgba(160, 161, 166, 0.35); }
+  #thesis-tray .tray-file-upload {
+    background: rgba(160, 161, 166, 0.15);
+    display: block;
+    cursor: pointer;
+    height: 55px;
+    padding: 0px 10px 0 0;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
+    #thesis-tray .tray-file-upload, #thesis-tray .tray-file-upload span {
+      line-height: 55px;
+      font-size: 15px;
+      font-weight: 400;
+      text-align: left;
+      vertical-align: middle;
+      text-transform: none; }
+    #thesis-tray .tray-file-upload span {
+      display: inline; }
+    #thesis-tray .tray-file-upload:hover:before {
+      background: rgba(160, 161, 166, 0.65); }
+    #thesis-tray .tray-file-upload:before {
+      -webkit-transition: background 0.2s ease-in-out;
+      -moz-transition: background 0.2s ease-in-out;
+      transition: background 0.2s ease-in-out;
+      height: 55px;
+      width: 55px;
+      content: "";
+      background: rgba(160, 161, 166, 0.5);
+      display: inline-block;
+      margin-right: 10px;
+      font-family: "FontAwesome";
+      color: white;
+      font-size: 33px;
+      text-align: center;
+      vertical-align: middle; }
+    #thesis-tray .tray-file-upload input {
+      display: none; }
 

@@ -159,7 +159,7 @@ for free.
 
 ```elixir
 config :thesis, Thesis.OspryUploader,
-  public_key: "pk-prod-abcdefghijklmnopqrstuvwxyz0123456789"
+  ospry_public_key: "pk-prod-abcdefghijklmnopqrstuvwxyz0123456789"
 ```
 
 That's it! Restart your server and image content areas will now contain a

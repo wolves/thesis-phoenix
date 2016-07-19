@@ -15,7 +15,8 @@ class ImageTray extends React.Component {
       contentId: this.props.data.contentId,
       url: this.props.data.url,
       alt: this.props.data.alt,
-      isValid: true
+      isValid: true,
+      fileName: ""
     }
 
     this.urlChange = this.urlChange.bind(this)
@@ -31,7 +32,8 @@ class ImageTray extends React.Component {
         contentId: nextProps.data.contentId,
         url: nextProps.data.url,
         alt: nextProps.data.alt,
-        isValid: true
+        isValid: true,
+        fileName: ""
       })
     }
   }
@@ -53,14 +55,20 @@ class ImageTray extends React.Component {
   }
 
   uploadFile (e) {
+    this.setState({fileName: e.target.files[0].name})
+
     const ospry = new Ospry(this.props.ospryPublicKey)
 
     e.preventDefault()
     const form = e.target
     ospry.up({
       form: form,
-      imageReady: this.onUpload,
+      imageReady: this.onUpload
     })
+  }
+
+  renderInputFileName () {
+    return this.state.fileName
   }
 
   previewImageStyle () {
@@ -73,7 +81,10 @@ class ImageTray extends React.Component {
         <div className="thesis-field-row">
           <label>
             <span>Upload Image</span>
-            <form onChange={this.uploadFile}><input type="file" /></form>
+            <form onChange={this.uploadFile} className="tray-file-upload">
+              <span>{this.renderInputFileName()}</span>
+              <input type="file" accept=".jpg,.jpeg,.png,.gif,image/png"/>
+            </form>
           </label>
         </div>
       )
