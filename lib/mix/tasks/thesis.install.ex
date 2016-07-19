@@ -29,9 +29,10 @@ defmodule Mix.Tasks.Thesis.Install do
   @doc false
   def thesis_templates do
     migrations = ["create_thesis_tables", "add_meta_to_thesis_page_contents"]
-    migration_files = Enum.filter_map(migrations, &migration_missing?/1, fn (filename) ->
-      {"priv/templates/thesis.install/#{filename}.exs", "priv/repo/migrations/#{timestamp}_#{filename}.exs"}
-    end)
+    migration_files = migrations
+                      |> Enum.filter(&migration_missing?/1)
+                      |> Enum.with_index
+                      |> Enum.map(&migration_tuple/1)
 
     template_files = [ {"priv/templates/thesis.install/thesis_auth.exs", "lib/thesis_auth.ex" } ]
 
@@ -101,5 +102,10 @@ defmodule Mix.Tasks.Thesis.Install do
     "priv/repo/migrations"
     |> File.ls!
     |> Enum.all?(fn (f) -> !String.contains?(f, filename) end)
+  end
+
+  defp migration_tuple({filename, i}) do
+    ts = String.to_integer(timestamp) + i
+    {"priv/templates/thesis.install/#{filename}.exs", "priv/repo/migrations/#{ts}_#{filename}.exs"}
   end
 end
