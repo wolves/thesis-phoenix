@@ -293,7 +293,7 @@ websites. Please help us improve!
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Run `brunch watch` during development
+4. Run `brunch watch -p` during development
 5. Write tests for your new feature
 6. Run `mix test` in the root directory to ensure that all tests pass.
 7. Push to the branch (`git push origin my-new-feature`)
