@@ -12,7 +12,7 @@ class HtmlEditor {
 
   enable () {
     if (this.enabled) return
-    if (!this.editor) {
+    if (!this.editor && this.editors.length > 0) {
       this.editor = new MediumEditor(this.editors, this.mediumEditorOptions())
       this.editor.subscribe('editableInput', this.changedHtmlEditor)
     }
@@ -21,7 +21,7 @@ class HtmlEditor {
 
   disable () {
     if (!this.enabled) return
-    this.editor.destroy()
+    if (this.editor) this.editor.destroy()
     this.editor = null
     this.enabled = false
   }
