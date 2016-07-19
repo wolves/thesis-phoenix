@@ -23,6 +23,9 @@ config :thesis,
   store: Thesis.EctoStore,
   authorization: <MyApp>.ThesisAuth
 config :thesis, Thesis.EctoStore, repo: <MyApp>.Repo
+# If you want to use Ospry.io file uploads:
+# config :thesis, Thesis.OspryUploader,
+#  ospry_public_key: "pk-prod-asdfasdfasdfasdfasdf"
 ```
 
 #### 3. Create `lib/thesis_auth.ex`
