@@ -154,7 +154,7 @@ for free.
 
 1. Sign up at [https://ospry.io/sign-up](https://ospry.io/sign-up)
 2. Verify your email
-3. Create a production subdomain
+3. Create a production subdomain (assets.example.com)
 3. Copy your production public key to the Thesis config:
 
 ```elixir
