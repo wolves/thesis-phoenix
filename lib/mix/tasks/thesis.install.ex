@@ -37,17 +37,11 @@ defmodule Mix.Tasks.Thesis.Install do
 
   @doc false
   def thesis_templates do
-<<<<<<< Updated upstream
     migrations = ["create_thesis_tables", "add_meta_to_thesis_page_contents"]
-    migration_files = migrations
+    migration_files = @migrations
                       |> Enum.filter(&migration_missing?/1)
                       |> Enum.with_index
                       |> Enum.map(&migration_tuple/1)
-=======
-    migration_files = Enum.filter_map(@migrations, &migration_missing?/1, fn (filename) ->
-      {"priv/templates/thesis.install/#{filename}.exs", "priv/repo/migrations/#{timestamp}_#{filename}.exs"}
-    end)
->>>>>>> Stashed changes
 
     @template_files ++ migration_files
     |> Stream.map(&render_eex/1)
