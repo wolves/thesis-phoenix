@@ -23,6 +23,26 @@ defmodule Thesis.Controller do
   defmacro __using__(_) do
     quote do
       plug Thesis.Controller.Plug
+
+      def render_dynamic_page(conn, view, opts \\ []) do
+        templates = view.__templates__
+        page = conn.assigns[:thesis_page]
+        if page && page.id do
+          template =  if page.template in templates do
+                        page.template
+                      else
+                        opts[:default]
+                      end
+          conn
+          |> put_view(view)
+          |> put_status(200)
+          |> render(template)
+        else
+          render_404(conn)
+        end
+      end
+
+      def render_404(nil), do: nil
     end
   end
 

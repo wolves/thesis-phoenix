@@ -14,6 +14,10 @@ defmodule Thesis.EctoStore do
   import Thesis.Config
   alias Thesis.{ Page, PageContent }
 
+  def pages do
+    repo.all(Thesis.Page)
+  end
+
   def page(slug) when is_binary(slug) do
     repo.get_by(Page, slug: slug)
   end

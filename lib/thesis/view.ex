@@ -214,7 +214,6 @@ defmodule Thesis.View do
   defp stringify(str), do: safe_to_string(str)
 
   defmacro __using__(_) do
-    # Reserved for future use
     quote do
       import unquote(__MODULE__)
     end
