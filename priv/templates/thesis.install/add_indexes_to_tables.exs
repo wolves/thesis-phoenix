@@ -23,7 +23,5 @@ defmodule <%= base %>.Repo.Migrations.AddIndexToTables do
     end
 
     remove index(:thesis_pages, [:slug])
-
-    remove index(:thesis_page_contents, [:page_id])
   end
 end
