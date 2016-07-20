@@ -30,7 +30,7 @@ _If you are having problems, view `README_INSTALL.md` for manual instructions._
 
 ```elixir
 def deps do
-  [{:thesis, "~> 0.0.19"}]
+  [{:thesis, "~> 0.0.20"}]
 end
 
 def application do

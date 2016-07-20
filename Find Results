@@ -1,0 +1,31 @@
+Searching 154 files for "0.0.19" (case sensitive)
+
+/Users/jh/Code/Elixir/thesis/mix.exs:
+    1  defmodule Thesis.Mixfile do
+    2    use Mix.Project
+    3:   @version "0.0.19" # REMEMBER TO UPDATE package.json and both READMEs!
+    4
+    5    def project do
+
+/Users/jh/Code/Elixir/thesis/package.json:
+    1  {
+    2    "name": "thesis",
+    3:   "version": "0.0.19-dev",
+    4    "main": "./priv/static/thesis.js",
+    5    "repository": {},
+
+/Users/jh/Code/Elixir/thesis/README.md:
+   31  ```elixir
+   32  def deps do
+   33:   [{:thesis, "~> 0.0.19"}]
+   34  end
+   35
+
+/Users/jh/Code/Elixir/thesis/README_INSTALL.md:
+    7  ```elixir
+    8  def deps do
+    9:   [{:thesis, "~> 0.0.19"}]
+   10  end
+   11
+
+4 matches across 4 files
