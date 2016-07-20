@@ -2,6 +2,15 @@ defmodule Mix.Tasks.Thesis.Install do
   use Mix.Task
   import Mix.Thesis.Utils
 
+  @migrations [
+    "create_thesis_tables",
+    "add_meta_to_thesis_page_contents",
+    "add_indexes_to_tables"
+  ]
+  @template_files [
+    {"priv/templates/thesis.install/thesis_auth.exs", "lib/thesis_auth.ex" }
+  ]
+
   @shortdoc "Generates Thesis code in your Phoenix app"
 
   @moduledoc """
@@ -28,15 +37,19 @@ defmodule Mix.Tasks.Thesis.Install do
 
   @doc false
   def thesis_templates do
+<<<<<<< Updated upstream
     migrations = ["create_thesis_tables", "add_meta_to_thesis_page_contents"]
     migration_files = migrations
                       |> Enum.filter(&migration_missing?/1)
                       |> Enum.with_index
                       |> Enum.map(&migration_tuple/1)
+=======
+    migration_files = Enum.filter_map(@migrations, &migration_missing?/1, fn (filename) ->
+      {"priv/templates/thesis.install/#{filename}.exs", "priv/repo/migrations/#{timestamp}_#{filename}.exs"}
+    end)
+>>>>>>> Stashed changes
 
-    template_files = [ {"priv/templates/thesis.install/thesis_auth.exs", "lib/thesis_auth.ex" } ]
-
-    template_files ++ migration_files
+    @template_files ++ migration_files
     |> Stream.map(&render_eex/1)
     |> Stream.map(&copy_to_target/1)
     |> Stream.run
