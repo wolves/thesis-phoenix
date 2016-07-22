@@ -24,21 +24,41 @@ defmodule Thesis.Controller do
     quote do
       plug Thesis.Controller.Plug
 
-      def render_dynamic_page(conn, view, opts \\ []) do
-        templates = view.__templates__
+      @doc """
+      Renders a page that exists only in the database, as opposed to a page that
+      is defined in the router.
+
+      This function will also redirect to the page's `redirect_url` if it is set.
+      However, if the user is in edit mode, we will render the default template and
+      display an alert telling them about the redirect. This gives the user a chance
+      to edit where this page redirects to.
+      """
+      def render_dynamic(conn, opts \\ []) do
         page = conn.assigns[:thesis_page]
         if page && page.id do
-          template =  if page.template in templates do
-                        page.template
-                      else
-                        opts[:default]
-                      end
-          conn
-          |> put_view(view)
-          |> put_status(200)
-          |> render(template)
+          do_render_dynamic(conn, page, opts)
         else
           render_404(conn)
+        end
+      end
+
+      defp do_render_dynamic(conn, page, opts) do
+        if page.redirect_url && !conn.assigns[:thesis_editable] do
+          conn
+          |> put_status(301)
+          |> redirect(to: page.redirect_url) |> halt()
+        else
+          conn
+          |> put_status(200)
+          |> render(page_template(page, view_module(conn), opts))
+        end
+      end
+
+      defp page_template(page, view, opts) do
+        if page.template in elem(view.__templates__, 2) do
+          page.template
+        else
+          opts[:default]
         end
       end
 
@@ -63,6 +83,7 @@ defmodule Thesis.Controller.Plug do
     conn
     |> assign(:thesis_page, current_page)
     |> assign(:thesis_content, page_contents)
+    |> assign(:thesis_editable, auth.page_is_editable?(conn))
   end
 
 end

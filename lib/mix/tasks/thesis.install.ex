@@ -5,7 +5,8 @@ defmodule Mix.Tasks.Thesis.Install do
   @migrations [
     "create_thesis_tables",
     "add_meta_to_thesis_page_contents",
-    "add_indexes_to_tables"
+    "add_indexes_to_tables",
+    "add_template_and_redirect_url_to_thesis_pages"
   ]
   @template_files [
     {"priv/templates/thesis.install/thesis_auth.exs", "lib/thesis_auth.ex" }

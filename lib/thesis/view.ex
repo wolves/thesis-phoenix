@@ -93,7 +93,7 @@ defmodule Thesis.View do
 
   Doctests:
 
-      iex> {:safe, editor} = Thesis.View.thesis_editor(%Plug.Conn{assigns: %{editable: true}})
+      iex> {:safe, editor} = Thesis.View.thesis_editor(%Plug.Conn{assigns: %{thesis_editable: true}})
       iex> String.contains?(editor, "/thesis/thesis.css")
       true
       iex> String.contains?(editor, "thesis-container")
@@ -101,7 +101,7 @@ defmodule Thesis.View do
       iex> String.contains?(editor, "<script>")
       true
 
-      iex> Thesis.View.thesis_editor(%Plug.Conn{assigns: %{editable: false}})
+      iex> Thesis.View.thesis_editor(%Plug.Conn{assigns: %{thesis_editable: false}})
       {:safe, ""}
   """
   @spec thesis_editor(Plug.Conn.t) :: {:safe, String.t}
@@ -200,7 +200,7 @@ defmodule Thesis.View do
   end
 
   defp editable?(conn) do
-    Application.get_env(:thesis, :authorization).page_is_editable?(conn)
+    !!conn.assigns[:thesis_editable]
   end
 
   defp safe_concat(list) do

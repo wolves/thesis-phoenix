@@ -5,6 +5,8 @@ defmodule Thesis.Page do
     id: any,
     slug: String.t,
     title: String.t | nil,
+    template: String.t | nil,
+    redirect_url: String.t | nil,
     description: String.t | nil,
     inserted_at: any,
     updated_at: any
@@ -13,6 +15,8 @@ defmodule Thesis.Page do
   schema "thesis_pages" do
     field :slug, :string
     field :title, :string
+    field :template, :string
+    field :redirect_url, :string
     field :description, :string
 
     timestamps
