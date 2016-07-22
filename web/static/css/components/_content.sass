@@ -41,9 +41,9 @@ body.thesis-editing .thesis-content
     background     : darken($green, 10%)
     right          : 0
     bottom         : -16px
-    line-height    : 16px
+    line-height    : 0
+    font-size      : 0
     color          : white
-    font-size      : 12px
     font-weight    : bold
     text-transform : uppercase
     font-family    : $raleway
@@ -73,9 +73,11 @@ body.thesis-editing .thesis-content
 
   &.modified
     &:before
-      opacity        : 1
-      height         : 16px
-      width          : auto
+      opacity     : 1
+      height      : 16px
+      width       : auto
+      line-height : 16px
+      font-size   : 12px
 
     &:after
       border-color: darken($green, 10%)
