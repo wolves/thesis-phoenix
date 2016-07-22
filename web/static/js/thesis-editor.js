@@ -23,25 +23,23 @@ class ThesisEditor extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      editing: false,
-      page: {
-        path:         this.pathname(),
-        title:        this.pageTitle(),
-        description:  this.pageDescription(),
-        template:     this.pageTemplate(),
-        redirectURL:  this.pageRedirectURL(),
-      },
-      pageModified: false,
-      pageToolsHidden: true,
-      trayOpen: false,
-      trayType: null
+      editing:          false,
+      path:             this.pathname(),
+      title:            this.pageTitle(),
+      description:      this.pageDescription(),
+      template:         this.pageTemplate(),
+      redirectURL:      this.pageRedirectURL(),
+      pageModified:     false,
+      pageToolsHidden:  true,
+      trayOpen:         false,
+      trayType:         null
     }
     this.htmlEditor = new HtmlEditor(this)
     this.rawHtmlEditor = new RawHtmlEditor(this)
     this.imageEditor = new ImageEditor(this, {ospryPublicKey: this.ospryPublicKey()})
     this.textEditor = new TextEditor(this)
 
-    this.warnURLRedirect(this.state.page.redirectURL)
+    this.warnURLRedirect(this.state.redirectURL)
 
     // Rebind context
     this.trayCanceled = this.trayCanceled.bind(this)
@@ -93,16 +91,27 @@ class ThesisEditor extends React.Component {
     this.setState({trayOpen: false, trayData: null})
   }
 
-  settingsTraySubmitted (page) {
-    this.setState({
-      trayOpen: false,
-      pageModified: true,
-      page: {
-        title:        page.title,
-        description:  page.description,
-        redirectURL:  page.redirectURL
+  settingsTraySubmitted (data) {
+    if (data.new) {
+      const page = {
+        slug:           data.path,
+        title:          data.title,
+        description:    data.description,
+        redirect_url:   data.redirectURL,
+        template:       data.template
       }
-    })
+      this.postToServer(page, [])
+    } else {
+      this.setState({
+        trayOpen: false,
+        pageModified: true,
+        path:         data.path,
+        title:        data.title,
+        description:  data.description,
+        template:     data.template,
+        redirectURL:  data.redirectURL
+      })
+    }
   }
 
   addPagePressed () {
@@ -124,11 +133,11 @@ class ThesisEditor extends React.Component {
 
   savePressed () {
     const page = {
-      slug:           this.state.page.path,
-      title:          this.state.page.title,
-      description:    this.state.page.description,
-      redirect_url:   this.state.page.redirectURL,
-      template:       this.state.page.template
+      slug:           this.state.path,
+      title:          this.state.title,
+      description:    this.state.description,
+      redirect_url:   this.state.redirectURL,
+      template:       this.state.template
     }
     const contents = this.contentEditorContents()
     this.postToServer(page, contents)
@@ -151,8 +160,12 @@ class ThesisEditor extends React.Component {
 
   postToServer (page, contents) {
     Net.put('/thesis/update', {page, contents}).then((resp) => {
-      this.setState({editing: false, pageModified: false, trayOpen: false})
-      this.setState({pageToolsHidden: true})
+      if (page.slug != window.location.pathname) {
+        window.location = page.slug
+      } else {
+        this.setState({editing: false, pageModified: false, trayOpen: false})
+        this.setState({pageToolsHidden: true})
+      }
     }).catch((err) => {
       alert(err)
     })
@@ -235,9 +248,9 @@ class ThesisEditor extends React.Component {
       el.classList.remove('thesis-tray-open')
     }
 
-    document.title = this.state.page.title
-    this.pageDescriptionMetaTag().content = this.state.page.description
-    thesisContainer.setAttribute('data-redirect-url', this.state.page.redirectURL)
+    document.title = this.state.title
+    this.pageDescriptionMetaTag().content = this.state.description
+    thesisContainer.setAttribute('data-redirect-url', this.state.redirectURL)
   }
 
   renderEditorClass () {
@@ -263,21 +276,23 @@ class ThesisEditor extends React.Component {
     if (this.state.trayType == 'page-settings') {
       return <SettingsTray
         hasErrors={false}
-        newPage={false}
-        page={this.state.page}
+        new={false}
+        path={this.state.path}
+        title={this.state.title}
+        description={this.state.description}
+        template={this.state.template}
+        redirectURL={this.state.redirectURL}
         onCancel={this.trayCanceled}
         onSubmit={this.settingsTraySubmitted} />
     } else if (this.state.trayType == 'add-page') {
       return <SettingsTray
         hasErrors={false}
-        newPage={true}
-        page={{
-          path: `${this.pathname().replace(/\/+$/, "")}/newpage`,
-          title: "",
-          description: "",
-          template: "",
-          redirectURL: ""
-        }}
+        new={true}
+        path={`${this.pathname().replace(/\/+$/, "")}/newpage`}
+        title={""}
+        description={""}
+        template={""}
+        redirectURL={""}
         onCancel={this.trayCanceled}
         onSubmit={this.settingsTraySubmitted} />
     } else if (this.state.trayType == "image-url") {
@@ -291,11 +306,11 @@ class ThesisEditor extends React.Component {
     return (
       <div id="thesis">
         <div id='thesis-editor' className={this.renderEditorClass()}>
+          <AddButton onPress={this.addPagePressed} />
+          {this.state.template ? <DeleteButton /> : null}
           <SaveButton onPress={this.savePressed} />
           <SettingsButton onPress={this.pageSettingsPressed} />
           <CancelButton onPress={this.cancelPressed} />
-          <AddButton onPress={this.addPagePressed} />
-          {this.state.page.template ? <DeleteButton /> : null}
           <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
         </div>
         <div id='thesis-fader' className={this.renderFaderClass()}></div>

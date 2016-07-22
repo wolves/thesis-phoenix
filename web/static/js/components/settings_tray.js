@@ -9,11 +9,12 @@ class SettingsTray extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      path: this.props.page.path,
-      title: this.props.page.title,
-      description: this.props.page.description,
-      redirectURL: this.props.page.redirectURL,
-      template: this.props.page.template,
+      title: this.props.title,
+      description: this.props.description,
+      redirectURL: this.props.redirectURL,
+      path: this.props.path,
+      template: this.props.template,
+      new: this.props.new,
       isValid: true
     }
 
@@ -25,8 +26,20 @@ class SettingsTray extends React.Component {
     this.onSave = this.onSave.bind(this)
   }
 
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+      title:        this.props.title,
+      description:  this.props.description,
+      redirectURL:  this.props.redirectURL,
+      path:         this.props.path,
+      template:     this.props.template,
+      new:          this.props.new,
+      isValid: true
+    })
+  }
+
   trayTitle () {
-    (this.props.newPage) ? "Add Page" : "Page Settings"
+    return (this.state.new) ? "Add Page" : "Page Settings"
   }
 
   titleChange (event) {
@@ -74,16 +87,9 @@ class SettingsTray extends React.Component {
           <div className="thesis-field-row">
             <label>
               <span>Page Path</span>
-              <input type="text" value={this.state.path} disabled={!this.props.newPage} onChange={this.pathChange} />
+              <input type="text" value={this.state.path} disabled={!this.state.new} onChange={this.pathChange} />
             </label>
           </div>
-          <div className="thesis-field-row">
-            <label>
-              <span>Redirect URL (leave blank for none)</span>
-              <input type="text" value={this.state.redirectURL} onChange={this.redirectURLChange} />
-            </label>
-          </div>
-          {this.props.newPage ? this.renderTemplates() : null}
           <div className="thesis-field-row">
             <label>
               <span>Page Title</span>
@@ -96,6 +102,13 @@ class SettingsTray extends React.Component {
               <textarea placeholder="Example page description." value={this.state.description} onChange={this.descriptionChange}></textarea>
             </label>
           </div>
+          <div className="thesis-field-row">
+            <label>
+              <span>Redirect URL (leave blank for none)</span>
+              <input type="text" value={this.state.redirectURL} onChange={this.redirectURLChange} />
+            </label>
+          </div>
+          {this.state.new ? this.renderTemplates() : null}
           <div className="thesis-field-row errors" hidden={this.state.isValid}>
             {/* Errors go here. Toggle the hidden property depending on error count. */}
           </div>
