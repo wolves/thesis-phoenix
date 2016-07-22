@@ -32,6 +32,8 @@ class ThesisEditor extends React.Component {
     this.imageEditor = new ImageEditor(this, {ospryPublicKey: this.ospryPublicKey()})
     this.textEditor = new TextEditor(this)
 
+    this.warnURLRedirect(this.redirectURL())
+
     // Rebind context
     this.trayCanceled = this.trayCanceled.bind(this)
     this.settingsTraySubmitted = this.settingsTraySubmitted.bind(this)
@@ -40,6 +42,13 @@ class ThesisEditor extends React.Component {
     this.editPressed = this.editPressed.bind(this)
     // this.addPagePressed = this.addPagePressed.bind(this)
     this.pageSettingsPressed = this.pageSettingsPressed.bind(this)
+  }
+
+  warnURLRedirect (url) {
+    if (!url) return
+    if (confirm(`This page is set to redirect to ${url}. Follow redirect?`)) {
+      window.location = url
+    }
   }
 
   ospryPublicKey () {
@@ -60,6 +69,11 @@ class ThesisEditor extends React.Component {
     return desc ? desc.content : null
   }
 
+  redirectURL () {
+    return document.querySelector('#thesis-container')
+                   .getAttribute('data-redirect-url')
+  }
+
   descriptionMetaTag () {
     return document.querySelectorAll('meta[name=description]')[0]
   }
@@ -69,10 +83,14 @@ class ThesisEditor extends React.Component {
   }
 
   settingsTraySubmitted (page) {
+    console.log(page)
     document.title = page.title
 
     const desc = this.descriptionMetaTag()
     if (desc) { desc.content = page.description }
+
+    const container = document.querySelector('#thesis-container')
+    container.setAttribute('data-redirect-url', page.redirectURL)
 
     this.setState({trayOpen: false, pageModified: true})
   }
@@ -91,7 +109,7 @@ class ThesisEditor extends React.Component {
   }
 
   savePressed () {
-    const page = {slug: this.pathname(), title: this.pageTitle(), description: this.pageDescription()}
+    const page = {slug: this.pathname(), title: this.pageTitle(), description: this.pageDescription(), redirect_url: this.redirectURL()}
     const contents = this.contentEditorContents()
     this.postToServer(page, contents)
     this.setState({editing: false, pageModified: false, trayOpen: false})
@@ -231,6 +249,7 @@ class ThesisEditor extends React.Component {
         hasErrors={false}
         pageTitle={this.pageTitle()}
         pageDescription={this.pageDescription()}
+        redirectURL={this.redirectURL()}
         onCancel={this.trayCanceled}
         onSubmit={this.settingsTraySubmitted} />
     } else if (this.state.trayType == "image-url") {

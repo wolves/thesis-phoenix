@@ -43,10 +43,11 @@ defmodule Thesis.Controller do
       end
 
       defp do_render_dynamic(conn, page, opts) do
-        if page.redirect_url && !conn.assigns[:thesis_editable] do
+        if Thesis.Page.redirected?(page) && !conn.assigns[:thesis_editable] do
+          IO.inspect page
           conn
           |> put_status(301)
-          |> redirect(to: page.redirect_url) |> halt()
+          |> redirect(to: page.redirect_url)
         else
           conn
           |> put_status(200)

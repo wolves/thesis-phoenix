@@ -22,4 +22,20 @@ defmodule Thesis.Page do
     timestamps
   end
 
+  @doc """
+  Returns whether the page redirects to another page.
+
+  Examples:
+
+      iex> Thesis.Page.redirected?(%Thesis.Page{slug: "", redirect_url: nil})
+      false
+      iex> Thesis.Page.redirected?(%Thesis.Page{slug: "", redirect_url: ""})
+      false
+      iex> Thesis.Page.redirected?(%Thesis.Page{slug: "", redirect_url: "/asdf"})
+      true
+  """
+  def redirected?(nil), do: false
+  def redirected?(%Thesis.Page{redirect_url: url}) when url in [nil, ""], do: false
+  def redirected?(_), do: true
+
 end

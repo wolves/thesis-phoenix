@@ -33,7 +33,8 @@ defmodule Thesis.EctoStore do
 
   def update(%{"slug" => slug} = page_params, contents_params) do
     page = page(slug) || %Page{slug: slug}
-    page_changeset = Ecto.Changeset.cast(page, page_params, [], ~w(title description) )
+    IO.inspect(page_params)
+    page_changeset = Ecto.Changeset.cast(page, page_params, [], ~w(title description redirect_url) )
 
     repo.insert_or_update!(page_changeset)
 

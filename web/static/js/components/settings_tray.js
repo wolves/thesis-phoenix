@@ -11,11 +11,13 @@ class SettingsTray extends React.Component {
     this.state = {
       title: this.props.pageTitle,
       description: this.props.pageDescription,
+      redirectURL: this.props.redirectURL,
       isValid: true
     }
 
     this.titleChange = this.titleChange.bind(this)
     this.descriptionChange = this.descriptionChange.bind(this)
+    this.redirectURLChange = this.redirectURLChange.bind(this)
     this.onSave = this.onSave.bind(this)
   }
 
@@ -25,6 +27,10 @@ class SettingsTray extends React.Component {
 
   descriptionChange (event) {
     this.setState({description: event.target.value})
+  }
+
+  redirectURLChange (event) {
+    this.setState({redirectURL: event.target.value})
   }
 
   onSave () {
@@ -42,6 +48,12 @@ class SettingsTray extends React.Component {
             <label>
               <span>Page Path</span>
               <input type="text" value={this.props.path} disabled />
+            </label>
+          </div>
+          <div className="thesis-field-row">
+            <label>
+              <span>Redirect URL (leave blank for none)</span>
+              <input type="text" value={this.state.redirectURL} onChange={this.redirectURLChange} />
             </label>
           </div>
           <div className="thesis-field-row">
