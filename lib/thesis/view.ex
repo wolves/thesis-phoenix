@@ -109,9 +109,11 @@ defmodule Thesis.View do
     if editable?(conn) do
       page = conn.assigns[:thesis_page]
       redirect_url = page && page.redirect_url
+      template = page && page.template
       editor = content_tag(:div, "", id: "thesis-container",
         data_ospry_public_key: ospry_public_key,
-        data_redirect_url: redirect_url)
+        data_redirect_url: redirect_url,
+        data_template: template)
       safe_concat([thesis_style, editor, thesis_js])
     else
       raw ""

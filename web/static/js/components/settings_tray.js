@@ -9,16 +9,24 @@ class SettingsTray extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      title: this.props.pageTitle,
-      description: this.props.pageDescription,
-      redirectURL: this.props.redirectURL,
+      path: this.props.page.path,
+      title: this.props.page.title,
+      description: this.props.page.description,
+      redirectURL: this.props.page.redirectURL,
+      template: this.props.page.template,
       isValid: true
     }
 
     this.titleChange = this.titleChange.bind(this)
     this.descriptionChange = this.descriptionChange.bind(this)
     this.redirectURLChange = this.redirectURLChange.bind(this)
+    this.pathChange = this.pathChange.bind(this)
+    this.templateChange = this.templateChange.bind(this)
     this.onSave = this.onSave.bind(this)
+  }
+
+  trayTitle () {
+    (this.props.newPage) ? "Add Page" : "Page Settings"
   }
 
   titleChange (event) {
@@ -33,8 +41,27 @@ class SettingsTray extends React.Component {
     this.setState({redirectURL: event.target.value})
   }
 
+  pathChange (event) {
+    this.setState({path: event.target.value})
+  }
+
+  templateChange (event) {
+    this.setState({template: event.target.value})
+  }
+
   onSave () {
     this.props.onSubmit(this.state)
+  }
+
+  renderTemplates () {
+    return (
+      <div className="thesis-field-row">
+        <label>
+          <span>Template</span>
+          <input type="text" value={this.state.template} onChange={this.templateChange} />
+        </label>
+      </div>
+    )
   }
 
   render () {
@@ -42,12 +69,12 @@ class SettingsTray extends React.Component {
       <div className="tray-container">
         <div className="tray-wrap">
           <div className="tray-title">
-            Page Settings
+            {this.trayTitle()}
           </div>
           <div className="thesis-field-row">
             <label>
               <span>Page Path</span>
-              <input type="text" value={this.props.path} disabled />
+              <input type="text" value={this.state.path} disabled={!this.props.newPage} onChange={this.pathChange} />
             </label>
           </div>
           <div className="thesis-field-row">
@@ -56,6 +83,7 @@ class SettingsTray extends React.Component {
               <input type="text" value={this.state.redirectURL} onChange={this.redirectURLChange} />
             </label>
           </div>
+          {this.props.newPage ? this.renderTemplates() : null}
           <div className="thesis-field-row">
             <label>
               <span>Page Title</span>
