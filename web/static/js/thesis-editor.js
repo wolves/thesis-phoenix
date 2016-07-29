@@ -28,6 +28,7 @@ class ThesisEditor extends React.Component {
       title:            this.pageTitle(),
       description:      this.pageDescription(),
       template:         this.pageTemplate(),
+      templates:        this.pageTemplates(),
       redirectURL:      this.pageRedirectURL(),
       pageModified:     false,
       pageToolsHidden:  true,
@@ -81,6 +82,10 @@ class ThesisEditor extends React.Component {
 
   pageTemplate () {
     return thesisContainer.getAttribute('data-template')
+  }
+
+  pageTemplates () {
+    return thesisContainer.getAttribute('data-templates').split(",")
   }
 
   pageDescriptionMetaTag () {
@@ -281,6 +286,7 @@ class ThesisEditor extends React.Component {
         title={this.state.title}
         description={this.state.description}
         template={this.state.template}
+        templates={this.state.templates}
         redirectURL={this.state.redirectURL}
         onCancel={this.trayCanceled}
         onSubmit={this.settingsTraySubmitted} />
@@ -292,6 +298,7 @@ class ThesisEditor extends React.Component {
         title={""}
         description={""}
         template={""}
+        templates={this.state.templates}
         redirectURL={""}
         onCancel={this.trayCanceled}
         onSubmit={this.settingsTraySubmitted} />

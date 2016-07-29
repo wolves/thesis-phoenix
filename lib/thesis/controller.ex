@@ -38,32 +38,38 @@ defmodule Thesis.Controller do
         if page && page.id do
           do_render_dynamic(conn, page, opts)
         else
-          render_404(conn)
+          render_not_found(conn, opts)
         end
       end
 
       defp do_render_dynamic(conn, page, opts) do
         if Thesis.Page.redirected?(page) && !conn.assigns[:thesis_editable] do
-          IO.inspect page
           conn
           |> put_status(301)
           |> redirect(to: page.redirect_url)
         else
           conn
           |> put_status(200)
-          |> render(page_template(page, view_module(conn), opts))
+          |> render(page_template(page, opts))
         end
       end
 
-      defp page_template(page, view, opts) do
-        if page.template in elem(view.__templates__, 2) do
+      defp page_template(page, opts) do
+        if page.template in Thesis.Config.dynamic_templates do
           page.template
         else
-          opts[:default]
+          opts[:template]
         end
       end
 
-      def render_404(nil), do: nil
+      defp render_not_found(conn, opts) do
+        if (!opts[:not_found]), do: IO.warn("Set a `not_found` view to show your 404 page.")
+        conn
+        |> put_status(:not_found)
+        |> put_view(opts[:not_found])
+        |> render(opts[:not_found_template] || "404.html")
+      end
+
     end
   end
 

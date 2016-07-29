@@ -9,6 +9,10 @@ defmodule Thesis.Config do
     Application.get_env(:thesis, :store)
   end
 
+  def dynamic_templates do
+    Application.get_env(:thesis, :dynamic_templates) || []
+  end
+
   def repo do
     Application.get_env(:thesis, Thesis.EctoStore)[:repo]
   end

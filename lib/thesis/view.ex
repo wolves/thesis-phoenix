@@ -110,10 +110,12 @@ defmodule Thesis.View do
       page = conn.assigns[:thesis_page]
       redirect_url = page && page.redirect_url
       template = page && page.template
+      templates = Enum.join(dynamic_templates, ",")
       editor = content_tag(:div, "", id: "thesis-container",
         data_ospry_public_key: ospry_public_key,
         data_redirect_url: redirect_url,
-        data_template: template)
+        data_template: template,
+        data_templates: templates)
       safe_concat([thesis_style, editor, thesis_js])
     else
       raw ""

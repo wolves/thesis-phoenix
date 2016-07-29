@@ -38,7 +38,6 @@ defmodule Mix.Tasks.Thesis.Install do
 
   @doc false
   def thesis_templates do
-    migrations = ["create_thesis_tables", "add_meta_to_thesis_page_contents"]
     migration_files = @migrations
                       |> Enum.filter(&migration_missing?/1)
                       |> Enum.with_index
@@ -97,7 +96,8 @@ defmodule Mix.Tasks.Thesis.Install do
       # Configure thesis content editor
       config :thesis,
         store: Thesis.EctoStore,
-        authorization: #{Mix.Phoenix.base}.ThesisAuth
+        authorization: #{Mix.Phoenix.base}.ThesisAuth,
+        dynamic_templates: ["index.html"]
       config :thesis, Thesis.EctoStore, repo: #{Mix.Phoenix.base}.Repo
       # If you want to use Ospry.io file uploads:
       # config :thesis, Thesis.OspryUploader,

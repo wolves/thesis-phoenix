@@ -9,13 +9,13 @@ class SettingsTray extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      title: this.props.title,
-      description: this.props.description,
-      redirectURL: this.props.redirectURL,
-      path: this.props.path,
-      template: this.props.template,
-      new: this.props.new,
-      isValid: true
+      title:        this.props.title,
+      description:  this.props.description,
+      redirectURL:  this.props.redirectURL,
+      path:         this.props.path,
+      template:     this.props.template,
+      new:          this.props.new,
+      isValid:      true
     }
 
     this.titleChange = this.titleChange.bind(this)
@@ -34,7 +34,7 @@ class SettingsTray extends React.Component {
       path:         this.props.path,
       template:     this.props.template,
       new:          this.props.new,
-      isValid: true
+      isValid:      true
     })
   }
 
@@ -66,12 +66,35 @@ class SettingsTray extends React.Component {
     this.props.onSubmit(this.state)
   }
 
+  dynamicPage () {
+    return (this.state.new || this.state.template)
+  }
+
+  prettyTemplateName (name) {
+    return (name.charAt(0).toUpperCase() + name.slice(1)).replace(".html", "")
+  }
+
   renderTemplates () {
     return (
       <div className="thesis-field-row">
         <label>
           <span>Template</span>
-          <input type="text" value={this.state.template} onChange={this.templateChange} />
+          <select value={this.state.template} onChange={this.templateChange}>
+            {this.props.templates.map((template) => {
+              return <li value={template}>{this.prettyTemplateName(template)}</li>
+            })}
+          </select>
+        </label>
+      </div>
+    )
+  }
+
+  renderRedirectURL () {
+    return (
+      <div className="thesis-field-row">
+        <label>
+          <span>Redirect URL (leave blank for none)</span>
+          <input type="text" value={this.state.redirectURL} onChange={this.redirectURLChange} />
         </label>
       </div>
     )
@@ -87,7 +110,7 @@ class SettingsTray extends React.Component {
           <div className="thesis-field-row">
             <label>
               <span>Page Path</span>
-              <input type="text" value={this.state.path} disabled={!this.state.new} onChange={this.pathChange} />
+              <input type="text" value={this.state.path} disabled={!this.dynamicPage()} onChange={this.pathChange} />
             </label>
           </div>
           <div className="thesis-field-row">
@@ -102,13 +125,8 @@ class SettingsTray extends React.Component {
               <textarea placeholder="Example page description." value={this.state.description} onChange={this.descriptionChange}></textarea>
             </label>
           </div>
-          <div className="thesis-field-row">
-            <label>
-              <span>Redirect URL (leave blank for none)</span>
-              <input type="text" value={this.state.redirectURL} onChange={this.redirectURLChange} />
-            </label>
-          </div>
-          {this.state.new ? this.renderTemplates() : null}
+          {this.dynamicPage() ? this.renderRedirectURL() : null}
+          {this.dynamicPage() ? this.renderTemplates() : null}
           <div className="thesis-field-row errors" hidden={this.state.isValid}>
             {/* Errors go here. Toggle the hidden property depending on error count. */}
           </div>
