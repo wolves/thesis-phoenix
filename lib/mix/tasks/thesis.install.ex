@@ -96,9 +96,14 @@ defmodule Mix.Tasks.Thesis.Install do
       # Configure thesis content editor
       config :thesis,
         store: Thesis.EctoStore,
-        authorization: #{Mix.Phoenix.base}.ThesisAuth,
-        dynamic_templates: ["index.html"]
+        authorization: #{Mix.Phoenix.base}.ThesisAuth
       config :thesis, Thesis.EctoStore, repo: #{Mix.Phoenix.base}.Repo
+      # If you want to allow creating dynamic pages:
+      # config :thesis, :dynamic_pages,
+      #   view: #{Mix.Phoenix.base}.DynamicView,
+      #   templates: ["index.html", "otherview.html"],
+      #   not_found_view: #{Mix.Phoenix.base}.ErrorView,
+      #   not_found_template: "404.html"
       # If you want to use Ospry.io file uploads:
       # config :thesis, Thesis.OspryUploader,
       #  ospry_public_key: "pk-prod-asdfasdfasdfasdfasdf"

@@ -38,7 +38,7 @@ defmodule Thesis.Controller do
         if page && page.id do
           do_render_dynamic(conn, page, opts)
         else
-          render_not_found(conn, opts)
+          render_not_found(conn)
         end
       end
 
@@ -62,12 +62,11 @@ defmodule Thesis.Controller do
         end
       end
 
-      defp render_not_found(conn, opts) do
-        if (!opts[:not_found]), do: IO.warn("Set a `not_found` view to show your 404 page.")
+      defp render_not_found(conn) do
         conn
         |> put_status(:not_found)
-        |> put_view(opts[:not_found])
-        |> render(opts[:not_found_template] || "404.html")
+        |> put_view(Thesis.Config.dynamic_not_found_view)
+        |> render(Thesis.Config.dynamic_not_found_template)
       end
 
     end

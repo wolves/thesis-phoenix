@@ -9,8 +9,24 @@ defmodule Thesis.Config do
     Application.get_env(:thesis, :store)
   end
 
+  def dynamic_pages do
+    Application.get_env(:thesis, :dynamic_pages)
+  end
+
+  def dynamic_view do
+    dynamic_pages[:view]
+  end
+
   def dynamic_templates do
-    Application.get_env(:thesis, :dynamic_templates) || []
+    dynamic_pages[:templates] || []
+  end
+
+  def dynamic_not_found_view do
+    dynamic_pages[:not_found_view]
+  end
+
+  def dynamic_not_found_template do
+    dynamic_pages[:not_found_template] || "404.html"
   end
 
   def repo do

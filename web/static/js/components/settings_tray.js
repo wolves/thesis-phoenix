@@ -8,13 +8,15 @@ import React from 'react'
 class SettingsTray extends React.Component {
   constructor (props) {
     super(props)
+
     this.state = {
-      title:        this.props.title,
-      description:  this.props.description,
-      redirectURL:  this.props.redirectURL,
-      path:         this.props.path,
-      template:     this.props.template,
-      new:          this.props.new,
+      title:        props.title,
+      description:  props.description,
+      redirectURL:  props.redirectURL,
+      path:         props.path,
+      template:     props.template,
+      templates:    props.templates,
+      new:          props.new,
       isValid:      true
     }
 
@@ -28,12 +30,13 @@ class SettingsTray extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     this.setState({
-      title:        this.props.title,
-      description:  this.props.description,
-      redirectURL:  this.props.redirectURL,
-      path:         this.props.path,
-      template:     this.props.template,
-      new:          this.props.new,
+      title:        nextProps.title,
+      description:  nextProps.description,
+      redirectURL:  nextProps.redirectURL,
+      path:         nextProps.path,
+      template:     nextProps.template,
+      templates:    nextProps.templates,
+      new:          nextProps.new,
       isValid:      true
     })
   }
@@ -78,10 +81,10 @@ class SettingsTray extends React.Component {
     return (
       <div className="thesis-field-row">
         <label>
-          <span>Template</span>
+          <span>Page Template</span>
           <select value={this.state.template} onChange={this.templateChange}>
-            {this.props.templates.map((template) => {
-              return <li value={template}>{this.prettyTemplateName(template)}</li>
+            {this.state.templates.map((template) => {
+              return <option value={template}>{this.prettyTemplateName(template)}</option>
             })}
           </select>
         </label>

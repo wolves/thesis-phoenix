@@ -258,6 +258,10 @@ class ThesisEditor extends React.Component {
     thesisContainer.setAttribute('data-redirect-url', this.state.redirectURL)
   }
 
+  dynamicEnabled () {
+    return this.state.templates.length > 0
+  }
+
   renderEditorClass () {
     let classes = ''
     classes += (this.state.editing) ? ' active ' : ''
@@ -313,7 +317,7 @@ class ThesisEditor extends React.Component {
     return (
       <div id="thesis">
         <div id='thesis-editor' className={this.renderEditorClass()}>
-          <AddButton onPress={this.addPagePressed} />
+          {this.dynamicEnabled() ? <AddButton onPress={this.addPagePressed} /> : null}
           {this.state.template ? <DeleteButton /> : null}
           <SaveButton onPress={this.savePressed} />
           <SettingsButton onPress={this.pageSettingsPressed} />
