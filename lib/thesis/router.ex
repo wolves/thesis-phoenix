@@ -24,8 +24,6 @@ defmodule Thesis.Router do
 
   defmacro __using__(_env) do
     quote do
-      # use Thesis.Plug
-
       pipeline :thesis_pipeline do
         plug Plug.Static, at: "/thesis", from: :thesis, gzip: true,
           cache_control_for_etags: "public, max-age=86400",
