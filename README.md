@@ -1,13 +1,13 @@
-# Thesis Content Editing System
+# Thesis
 
 [![Build Status](https://semaphoreci.com/api/v1/projects/0540dbb0-887a-45dd-9190-baa19b2ca9fb/816876/badge.svg)](https://semaphoreci.com/ir/thesis-phoenix)
 
-Thesis is a lightweight and flexible Elixir/Phoenix hex package for quickly and easily
-adding content editing to any page on a Phoenix website.
+Thesis is a lightweight and flexible Elixir/Phoenix CMS for quickly and easily
+adding content editing to any page on a Phoenix website, as well as creating new
+dynamically routed pages. It's ideal for either adding limited editing support to
+existing Phoenix websites or building dynamic websites.
 
-It's not quite a Phoenix CMS, so we call it a Phoenix CES -- content editing system.
-
-See also the Thesis [Rails gem](https://github.com/infinitered/thesis-rails).
+_See also the Thesis [Rails gem](https://github.com/infinitered/thesis-rails)._
 
 ![screen capture on 2016-04-20 at 15-11-10 copy](https://cloud.githubusercontent.com/assets/1775841/14692261/d4734d3a-070a-11e6-866b-eebbc40e6157.gif)
 
@@ -21,6 +21,7 @@ See also the Thesis [Rails gem](https://github.com/infinitered/thesis-rails).
 * Image URL editing, both `img` tag and `div` with background image
 * Page meta title and description editing
 * Easily bring your own authentication system in one tiny function
+* Create new dynamic pages, delete dynamic pages
 
 ## Installation and Configuration
 
@@ -213,6 +214,56 @@ def about(conn, params) do
   @title = Thesis.View.page_title(conn, "About My Company")
   @description = Thesis.View.page_description(conn, "A relevant description here.")
 end
+```
+
+## Dynamic Pages
+
+Thesis supports users creating and deleting dynamically routed pages. These
+differ from static pages in that they are routed by Thesis rather than Phoenix,
+and live only in your database. They can be rendered with different templates.
+
+![add new page screenshot](https://cloud.githubusercontent.com/assets/1479215/17272456/9ac06bb4-564b-11e6-8990-c7964f5ebd63.png)
+
+To enable dynamic pages, add (or uncomment) this in your `config/config.exs` file:
+
+```elixir
+config :thesis, :dynamic_pages,
+  view: <MyApp>.DynamicView,
+  templates: ["index.html", "otherview.html"],
+  not_found_view: <MyApp>.ErrorView,
+  not_found_template: "404.html"
+```
+
+Replace `<MyApp>` with your app name. Use any view you want, and put any templates
+contained in that view that you want to make available in the `templates` list.
+These will be displayed as a drop-down to the user when they are creating the new
+dynamic page.
+
+You'll also need to make one change to your router.ex and a controller of your
+choice.
+
+```elixir
+# web/router.ex
+
+  get "/*path", <MyApp>.PageController, :dynamic
+
+# web/controllers/page_controller.ex (or similar)
+
+  def dynamic(conn, _params) do
+    render_dynamic(conn)
+  end
+```
+
+You can pass in a default template (otherwise, it'll use the first template
+option in your config) with `render_dynamic(conn, template: "index.html")`.
+
+You can choose to make only a portion of your website support static pages by
+routing more specifically. For example, if you want a blog section:
+
+```elixir
+# web/router.ex
+
+  get "/blog/*path", <MyApp>.BlogController, :dynamic
 ```
 
 ## Authorization

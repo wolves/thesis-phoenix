@@ -33,7 +33,8 @@ class ThesisEditor extends React.Component {
       pageModified:     false,
       pageToolsHidden:  true,
       trayOpen:         false,
-      trayType:         null
+      trayType:         null,
+      deleted:          false
     }
     this.htmlEditor = new HtmlEditor(this)
     this.rawHtmlEditor = new RawHtmlEditor(this)
@@ -49,6 +50,7 @@ class ThesisEditor extends React.Component {
     this.savePressed = this.savePressed.bind(this)
     this.editPressed = this.editPressed.bind(this)
     this.addPagePressed = this.addPagePressed.bind(this)
+    this.deletePagePressed = this.deletePagePressed.bind(this)
     this.pageSettingsPressed = this.pageSettingsPressed.bind(this)
   }
 
@@ -123,6 +125,12 @@ class ThesisEditor extends React.Component {
     this.setState({trayOpen: true, trayType: 'add-page'})
   }
 
+  deletePagePressed () {
+    if (window.confirm("Are you sure you want to delete this page? There is no undo.")) {
+      this.deletePage(this.state.path)
+    }
+  }
+
   editPressed () {
     if (this.state.editing) {
       if (this.state.pageModified) {
@@ -171,6 +179,15 @@ class ThesisEditor extends React.Component {
         this.setState({editing: false, pageModified: false, trayOpen: false})
         this.setState({pageToolsHidden: true})
       }
+    }).catch((err) => {
+      alert(err)
+    })
+  }
+
+  deletePage (path) {
+    Net.delete('/thesis/delete', {path}).then((resp) => {
+      alert("Page has been deleted.")
+      this.setState({deleted: true, editing: false})
     }).catch((err) => {
       alert(err)
     })
@@ -314,11 +331,13 @@ class ThesisEditor extends React.Component {
   }
 
   render () {
+    if (this.state.deleted) { return <div id="thesis"></div> }
+
     return (
       <div id="thesis">
         <div id='thesis-editor' className={this.renderEditorClass()}>
           {this.dynamicEnabled() ? <AddButton onPress={this.addPagePressed} /> : null}
-          {this.state.template ? <DeleteButton /> : null}
+          {this.state.template ? <DeleteButton onPress={this.deletePagePressed} /> : null}
           <SaveButton onPress={this.savePressed} />
           <SettingsButton onPress={this.pageSettingsPressed} />
           <CancelButton onPress={this.cancelPressed} />

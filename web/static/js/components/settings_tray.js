@@ -14,7 +14,7 @@ class SettingsTray extends React.Component {
       description:  props.description,
       redirectURL:  props.redirectURL,
       path:         props.path,
-      template:     props.template,
+      template:     (props.template || props.templates[0]),
       templates:    props.templates,
       new:          props.new,
       isValid:      true

@@ -43,6 +43,7 @@ defmodule Thesis.Router do
         get "/thesis.css", ApiController, :assets
 
         put "/update", ApiController, :update
+        delete "/delete", ApiController, :delete
       end
     end
   end

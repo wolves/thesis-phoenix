@@ -3,7 +3,7 @@ defmodule Thesis.Store do
   Thesis.Store is an Elixir "behaviour" that defines the public function
   interface necessary for Thesis to use a particular store module.
 
-  There are currently three required functions, as described below.
+  There are currently four required functions, as described below.
   """
 
   @doc """
@@ -25,4 +25,11 @@ defmodule Thesis.Store do
       update(%{"slug" => "/"}, %{"Heading" => "My Heading Content"})
   """
   @callback update(%{String.t => String.t}, map) :: atom
+
+  @doc """
+  Deletes the given page (identified by its slug). Returns `:ok`.
+
+      delete(%{"slug" => "/asdf"})
+  """
+  @callback delete(%{String.t => String.t}) :: atom
 end

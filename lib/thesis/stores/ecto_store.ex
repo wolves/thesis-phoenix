@@ -44,6 +44,12 @@ defmodule Thesis.EctoStore do
     :ok
   end
 
+  def delete(%{"slug" => slug}) do
+    page = page(slug)
+    repo.delete!(page)
+    :ok
+  end
+
   defp content_changeset(new_contents, page, preloaded_contents) do
     %{ "name" => name, "content" => content, "content_type" => content_type } = new_contents
 

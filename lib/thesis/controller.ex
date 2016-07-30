@@ -50,6 +50,7 @@ defmodule Thesis.Controller do
         else
           conn
           |> put_status(200)
+          |> put_view(Thesis.Config.dynamic_view || conn.private.phoenix_view)
           |> render(page_template(page, opts))
         end
       end
@@ -58,7 +59,7 @@ defmodule Thesis.Controller do
         if page.template in Thesis.Config.dynamic_templates do
           page.template
         else
-          opts[:template]
+          opts[:template] || Enum.at(Thesis.Config.dynamic_templates, 0)
         end
       end
 
