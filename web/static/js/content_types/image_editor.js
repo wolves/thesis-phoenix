@@ -2,9 +2,9 @@ import React from 'react'
 import ImageTray from './image_tray'
 
 class ImageEditor {
-  constructor (thesis, opts) {
-    this.thesis = thesis
-    this.editors = document.querySelectorAll('.thesis-content-image, .thesis-content-background_image')
+  constructor (editors, opts, callback) {
+    this.callback = callback
+    this.editors = editors
     this.enabled = false
     this.ospryPublicKey = opts.ospryPublicKey
     this.clicked = this.clicked.bind(this)
@@ -39,20 +39,14 @@ class ImageEditor {
       url = this.getUrlFromStyle(e.currentTarget.style.backgroundImage)
     }
 
-    // TODO: Find a better way
-    this.thesis.setState({
-      pageModified: true,
-      trayOpen: true,
-      trayType: 'image-url',
-      trayData: { contentId: id, url: url, alt: meta.alt }
-    })
+    this.callback({contentId: id, url: url, alt: meta.alt})
   }
 
   tray (trayData) {
     return <ImageTray
       data={trayData}
       ospryPublicKey={this.ospryPublicKey}
-      onCancel={this.thesis.trayCanceled}
+      onCancel={this.trayCanceled}
       onSubmit={this.onSubmit} />
   }
 

@@ -2,9 +2,9 @@ import React from 'react'
 import RawHtmlTray from './raw_html_tray'
 
 class RawHtmlEditor {
-  constructor (thesis) {
-    this.thesis = thesis
-    this.editors = document.querySelectorAll('.thesis-content-raw_html')
+  constructor (editors, callback) {
+    this.callback = callback
+    this.editors = editors
     this.clicked = this.clicked.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.enabled = false
@@ -34,14 +34,7 @@ class RawHtmlEditor {
     const id = e.currentTarget.getAttribute('data-thesis-content-id')
     const content = e.currentTarget.innerHTML.trim()
 
-    // TODO: Not very happy about how this reaches back into the Thesis editor
-    // to set its state. Refactor in the future.
-    this.thesis.setState({
-      pageModified: true,
-      trayOpen: true,
-      trayType: 'raw-html',
-      trayData: { contentId: id, content: content }
-    })
+    this.callback({contentId: id, content: content})
   }
 
   onSubmit (data) {
@@ -49,9 +42,7 @@ class RawHtmlEditor {
     editor.classList.add('modified')
     editor.innerHTML = data.content
 
-    // TODO: Not very happy about how this reaches back into the Thesis editor
-    // to set its state. Refactor in the future.
-    this.thesis.setState({trayOpen: false, pageModified: true})
+    this.callback(false)
   }
 
   tray (data) {

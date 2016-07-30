@@ -37,7 +37,7 @@ class ThesisEditor extends React.Component {
       deleted:          false
     }
     this.htmlEditor = new HtmlEditor(this)
-    this.rawHtmlEditor = new RawHtmlEditor(this)
+    this.rawHtmlEditor = props.rawHtmlEditor
     this.imageEditor = new ImageEditor(this, {ospryPublicKey: this.ospryPublicKey()})
     this.textEditor = new TextEditor(this)
 
@@ -353,5 +353,3 @@ class ThesisEditor extends React.Component {
   }
 
 }
-
-ReactDOM.render(<ThesisEditor />, document.querySelector('#thesis-container'))

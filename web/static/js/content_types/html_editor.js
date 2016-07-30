@@ -1,10 +1,10 @@
 import MediumEditor from 'medium-editor'
 
 class HtmlEditor {
-  constructor (thesis) {
-    this.thesis = thesis
+  constructor (editors, callback) {
+    this.callback = callback
     this.editor = null
-    this.editors = document.querySelectorAll('.thesis-content-html')
+    this.editors = editors
     this.enabled = false
 
     this.changedHtmlEditor = this.changedHtmlEditor.bind(this)
@@ -33,8 +33,7 @@ class HtmlEditor {
   changedHtmlEditor (event, editable) {
     editable.classList.add('modified')
 
-    // TODO: Find a better way to represent that this has been modified
-    this.thesis.setState({pageModified: true})
+    this.callback(true)
   }
 
   mediumEditorOptions () {
