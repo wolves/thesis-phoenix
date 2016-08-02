@@ -93,7 +93,7 @@ defmodule Thesis.View do
 
   Doctests:
 
-      iex> {:safe, editor} = Thesis.View.thesis_editor(%Plug.Conn{assigns: %{editable: true}})
+      iex> {:safe, editor} = Thesis.View.thesis_editor(%Plug.Conn{assigns: %{thesis_editable: true}})
       iex> String.contains?(editor, "/thesis/thesis.css")
       true
       iex> String.contains?(editor, "thesis-container")
@@ -101,13 +101,21 @@ defmodule Thesis.View do
       iex> String.contains?(editor, "<script>")
       true
 
-      iex> Thesis.View.thesis_editor(%Plug.Conn{assigns: %{editable: false}})
+      iex> Thesis.View.thesis_editor(%Plug.Conn{assigns: %{thesis_editable: false}})
       {:safe, ""}
   """
   @spec thesis_editor(Plug.Conn.t) :: {:safe, String.t}
   def thesis_editor(conn) do
     if editable?(conn) do
-      editor = content_tag(:div, "", id: "thesis-container", data_ospry_public_key: ospry_public_key)
+      page = conn.assigns[:thesis_page]
+      redirect_url = page && page.redirect_url
+      template = page && page.template
+      templates = Enum.join(dynamic_templates, ",")
+      editor = content_tag(:div, "", id: "thesis-container",
+        data_ospry_public_key: ospry_public_key,
+        data_redirect_url: redirect_url,
+        data_template: template,
+        data_templates: templates)
       safe_concat([thesis_style, editor, thesis_js])
     else
       raw ""
@@ -200,7 +208,7 @@ defmodule Thesis.View do
   end
 
   defp editable?(conn) do
-    Application.get_env(:thesis, :authorization).page_is_editable?(conn)
+    !!conn.assigns[:thesis_editable]
   end
 
   defp safe_concat(list) do
@@ -214,7 +222,6 @@ defmodule Thesis.View do
   defp stringify(str), do: safe_to_string(str)
 
   defmacro __using__(_) do
-    # Reserved for future use
     quote do
       import unquote(__MODULE__)
     end

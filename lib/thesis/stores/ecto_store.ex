@@ -29,16 +29,20 @@ defmodule Thesis.EctoStore do
 
   def update(%{"slug" => slug} = page_params, contents_params) do
     page = page(slug) || %Page{slug: slug}
-    page_changeset = Ecto.Changeset.cast(page, page_params, [], ~w(title description) )
+    page_changeset = Ecto.Changeset.cast(page, page_params, [], ~w(slug title description redirect_url template) )
 
     repo.insert_or_update!(page_changeset)
 
-    preloaded_contents = page_contents(page)
-
     contents_params
-    |> Enum.map(fn(x) -> content_changeset(x, page, preloaded_contents) end)
+    |> Enum.map(fn(x) -> content_changeset(x, page, page_contents(page)) end)
     |> Enum.map(fn(x) -> repo.insert_or_update!(x) end)
 
+    :ok
+  end
+
+  def delete(%{"slug" => slug}) do
+    page = page(slug)
+    repo.delete!(page)
     :ok
   end
 

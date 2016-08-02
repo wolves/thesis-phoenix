@@ -23,6 +23,12 @@ config :thesis,
   store: Thesis.EctoStore,
   authorization: <MyApp>.ThesisAuth
 config :thesis, Thesis.EctoStore, repo: <MyApp>.Repo
+# If you want to allow creating dynamic pages:
+# config :thesis, :dynamic_pages,
+#   view: <MyApp>.DynamicView,
+#   templates: ["index.html", "otherview.html"],
+#   not_found_view: <MyApp>.ErrorView,
+#   not_found_template: "404.html"
 # If you want to use Ospry.io file uploads:
 # config :thesis, Thesis.OspryUploader,
 #  ospry_public_key: "pk-prod-asdfasdfasdfasdfasdf"

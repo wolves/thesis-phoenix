@@ -16,21 +16,32 @@ import RawHtmlEditor from './content_types/raw_html_editor'
 import ImageEditor from './content_types/image_editor'
 import TextEditor from './content_types/text_editor'
 
+const thesisContainer = document.querySelector('#thesis-container')
+
 class ThesisEditor extends React.Component {
 
   constructor (props) {
     super(props)
     this.state = {
-      editing: false,
-      pageModified: false,
-      pageToolsHidden: true,
-      trayOpen: false,
-      trayType: null
+      editing:          false,
+      path:             this.pathname(),
+      title:            this.pageTitle(),
+      description:      this.pageDescription(),
+      template:         this.pageTemplate(),
+      templates:        this.pageTemplates(),
+      redirectURL:      this.pageRedirectURL(),
+      pageModified:     false,
+      pageToolsHidden:  true,
+      trayOpen:         false,
+      trayType:         null,
+      deleted:          false
     }
     this.htmlEditor = new HtmlEditor(this)
     this.rawHtmlEditor = new RawHtmlEditor(this)
     this.imageEditor = new ImageEditor(this, {ospryPublicKey: this.ospryPublicKey()})
     this.textEditor = new TextEditor(this)
+
+    this.warnURLRedirect(this.state.redirectURL)
 
     // Rebind context
     this.trayCanceled = this.trayCanceled.bind(this)
@@ -38,13 +49,20 @@ class ThesisEditor extends React.Component {
     this.cancelPressed = this.cancelPressed.bind(this)
     this.savePressed = this.savePressed.bind(this)
     this.editPressed = this.editPressed.bind(this)
-    // this.addPagePressed = this.addPagePressed.bind(this)
+    this.addPagePressed = this.addPagePressed.bind(this)
+    this.deletePagePressed = this.deletePagePressed.bind(this)
     this.pageSettingsPressed = this.pageSettingsPressed.bind(this)
   }
 
+  warnURLRedirect (url) {
+    if (!url) return
+    if (confirm(`This page is set to redirect to ${url}. Follow redirect?`)) {
+      window.location = url
+    }
+  }
+
   ospryPublicKey () {
-    return document.querySelector('#thesis-container')
-                   .getAttribute('data-ospry-public-key')
+    return thesisContainer.getAttribute('data-ospry-public-key')
   }
 
   pathname () {
@@ -56,11 +74,23 @@ class ThesisEditor extends React.Component {
   }
 
   pageDescription () {
-    const desc = this.descriptionMetaTag()
+    const desc = this.pageDescriptionMetaTag()
     return desc ? desc.content : null
   }
 
-  descriptionMetaTag () {
+  pageRedirectURL () {
+    return thesisContainer.getAttribute('data-redirect-url')
+  }
+
+  pageTemplate () {
+    return thesisContainer.getAttribute('data-template')
+  }
+
+  pageTemplates () {
+    return thesisContainer.getAttribute('data-templates').split(",")
+  }
+
+  pageDescriptionMetaTag () {
     return document.querySelectorAll('meta[name=description]')[0]
   }
 
@@ -68,13 +98,37 @@ class ThesisEditor extends React.Component {
     this.setState({trayOpen: false, trayData: null})
   }
 
-  settingsTraySubmitted (page) {
-    document.title = page.title
+  settingsTraySubmitted (data) {
+    if (data.new) {
+      const page = {
+        slug:           data.path,
+        title:          data.title,
+        description:    data.description,
+        redirect_url:   data.redirectURL,
+        template:       data.template
+      }
+      this.postToServer(page, [])
+    } else {
+      this.setState({
+        trayOpen: false,
+        pageModified: true,
+        path:         data.path,
+        title:        data.title,
+        description:  data.description,
+        template:     data.template,
+        redirectURL:  data.redirectURL
+      })
+    }
+  }
 
-    const desc = this.descriptionMetaTag()
-    if (desc) { desc.content = page.description }
+  addPagePressed () {
+    this.setState({trayOpen: true, trayType: 'add-page'})
+  }
 
-    this.setState({trayOpen: false, pageModified: true})
+  deletePagePressed () {
+    if (window.confirm("Are you sure you want to delete this page? There is no undo.")) {
+      this.deletePage(this.state.path)
+    }
   }
 
   editPressed () {
@@ -91,11 +145,15 @@ class ThesisEditor extends React.Component {
   }
 
   savePressed () {
-    const page = {slug: this.pathname(), title: this.pageTitle(), description: this.pageDescription()}
+    const page = {
+      slug:           this.state.path,
+      title:          this.state.title,
+      description:    this.state.description,
+      redirect_url:   this.state.redirectURL,
+      template:       this.state.template
+    }
     const contents = this.contentEditorContents()
     this.postToServer(page, contents)
-    this.setState({editing: false, pageModified: false, trayOpen: false})
-    setTimeout(() => this.setState({pageToolsHidden: true}), 800)
   }
 
   cancelPressed () {
@@ -104,10 +162,6 @@ class ThesisEditor extends React.Component {
       window.location.reload()
     }
   }
-
-  // addPagePressed () {
-  //   this.setState({trayOpen: !this.state.trayOpen, trayType: 'add-page'})
-  // }
 
   pageSettingsPressed () {
     if (this.state.trayOpen && this.state.trayType !== 'page-settings') {
@@ -119,11 +173,23 @@ class ThesisEditor extends React.Component {
 
   postToServer (page, contents) {
     Net.put('/thesis/update', {page, contents}).then((resp) => {
-      console.log('SUCCESS')
-      console.log(resp)
+      if (page.slug != window.location.pathname) {
+        window.location = page.slug
+      } else {
+        this.setState({editing: false, pageModified: false, trayOpen: false})
+        this.setState({pageToolsHidden: true})
+      }
     }).catch((err) => {
-      console.log('ERROR')
-      console.log(err)
+      alert(err)
+    })
+  }
+
+  deletePage (path) {
+    Net.delete('/thesis/delete', {path}).then((resp) => {
+      alert("Page has been deleted.")
+      this.setState({deleted: true, editing: false})
+    }).catch((err) => {
+      alert(err)
     })
   }
 
@@ -203,6 +269,14 @@ class ThesisEditor extends React.Component {
     } else {
       el.classList.remove('thesis-tray-open')
     }
+
+    document.title = this.state.title
+    this.pageDescriptionMetaTag().content = this.state.description
+    thesisContainer.setAttribute('data-redirect-url', this.state.redirectURL)
+  }
+
+  dynamicEnabled () {
+    return this.state.templates.length > 0
   }
 
   renderEditorClass () {
@@ -227,10 +301,26 @@ class ThesisEditor extends React.Component {
   renderTray () {
     if (this.state.trayType == 'page-settings') {
       return <SettingsTray
-        path={this.pathname()}
         hasErrors={false}
-        pageTitle={this.pageTitle()}
-        pageDescription={this.pageDescription()}
+        new={false}
+        path={this.state.path}
+        title={this.state.title}
+        description={this.state.description}
+        template={this.state.template}
+        templates={this.state.templates}
+        redirectURL={this.state.redirectURL}
+        onCancel={this.trayCanceled}
+        onSubmit={this.settingsTraySubmitted} />
+    } else if (this.state.trayType == 'add-page') {
+      return <SettingsTray
+        hasErrors={false}
+        new={true}
+        path={`${this.pathname().replace(/\/+$/, "")}/newpage`}
+        title={""}
+        description={""}
+        template={""}
+        templates={this.state.templates}
+        redirectURL={""}
         onCancel={this.trayCanceled}
         onSubmit={this.settingsTraySubmitted} />
     } else if (this.state.trayType == "image-url") {
@@ -241,14 +331,16 @@ class ThesisEditor extends React.Component {
   }
 
   render () {
+    if (this.state.deleted) { return <div id="thesis"></div> }
+
     return (
       <div id="thesis">
         <div id='thesis-editor' className={this.renderEditorClass()}>
+          {this.dynamicEnabled() ? <AddButton onPress={this.addPagePressed} /> : null}
+          {this.state.template ? <DeleteButton onPress={this.deletePagePressed} /> : null}
           <SaveButton onPress={this.savePressed} />
           <SettingsButton onPress={this.pageSettingsPressed} />
           <CancelButton onPress={this.cancelPressed} />
-          {/*this.state.pageToolsHidden ? <AddButton onPress={this.addPagePressed} /> : null*/}
-          {/*this.state.pageToolsHidden ? <DeleteButton /> : null*/}
           <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
         </div>
         <div id='thesis-fader' className={this.renderFaderClass()}></div>

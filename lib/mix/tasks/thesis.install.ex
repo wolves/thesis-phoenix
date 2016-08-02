@@ -5,7 +5,8 @@ defmodule Mix.Tasks.Thesis.Install do
   @migrations [
     "create_thesis_tables",
     "add_meta_to_thesis_page_contents",
-    "add_indexes_to_tables"
+    "add_indexes_to_tables",
+    "add_template_and_redirect_url_to_thesis_pages"
   ]
   @template_files [
     {"priv/templates/thesis.install/thesis_auth.exs", "lib/thesis_auth.ex" }
@@ -37,7 +38,6 @@ defmodule Mix.Tasks.Thesis.Install do
 
   @doc false
   def thesis_templates do
-    migrations = ["create_thesis_tables", "add_meta_to_thesis_page_contents"]
     migration_files = @migrations
                       |> Enum.filter(&migration_missing?/1)
                       |> Enum.with_index
@@ -98,6 +98,12 @@ defmodule Mix.Tasks.Thesis.Install do
         store: Thesis.EctoStore,
         authorization: #{Mix.Phoenix.base}.ThesisAuth
       config :thesis, Thesis.EctoStore, repo: #{Mix.Phoenix.base}.Repo
+      # If you want to allow creating dynamic pages:
+      # config :thesis, :dynamic_pages,
+      #   view: #{Mix.Phoenix.base}.DynamicView,
+      #   templates: ["index.html", "otherview.html"],
+      #   not_found_view: #{Mix.Phoenix.base}.ErrorView,
+      #   not_found_template: "404.html"
       # If you want to use Ospry.io file uploads:
       # config :thesis, Thesis.OspryUploader,
       #  ospry_public_key: "pk-prod-asdfasdfasdfasdfasdf"

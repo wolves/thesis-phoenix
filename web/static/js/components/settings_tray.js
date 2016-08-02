@@ -8,15 +8,41 @@ import React from 'react'
 class SettingsTray extends React.Component {
   constructor (props) {
     super(props)
+
     this.state = {
-      title: this.props.pageTitle,
-      description: this.props.pageDescription,
-      isValid: true
+      title:        props.title,
+      description:  props.description,
+      redirectURL:  props.redirectURL,
+      path:         props.path,
+      template:     (props.template || props.templates[0]),
+      templates:    props.templates,
+      new:          props.new,
+      isValid:      true
     }
 
     this.titleChange = this.titleChange.bind(this)
     this.descriptionChange = this.descriptionChange.bind(this)
+    this.redirectURLChange = this.redirectURLChange.bind(this)
+    this.pathChange = this.pathChange.bind(this)
+    this.templateChange = this.templateChange.bind(this)
     this.onSave = this.onSave.bind(this)
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+      title:        nextProps.title,
+      description:  nextProps.description,
+      redirectURL:  nextProps.redirectURL,
+      path:         nextProps.path,
+      template:     nextProps.template,
+      templates:    nextProps.templates,
+      new:          nextProps.new,
+      isValid:      true
+    })
+  }
+
+  trayTitle () {
+    return (this.state.new) ? "Add Page" : "Page Settings"
   }
 
   titleChange (event) {
@@ -27,8 +53,54 @@ class SettingsTray extends React.Component {
     this.setState({description: event.target.value})
   }
 
+  redirectURLChange (event) {
+    this.setState({redirectURL: event.target.value})
+  }
+
+  pathChange (event) {
+    this.setState({path: event.target.value})
+  }
+
+  templateChange (event) {
+    this.setState({template: event.target.value})
+  }
+
   onSave () {
     this.props.onSubmit(this.state)
+  }
+
+  dynamicPage () {
+    return (this.state.new || this.state.template)
+  }
+
+  prettyTemplateName (name) {
+    return (name.charAt(0).toUpperCase() + name.slice(1)).replace(".html", "")
+  }
+
+  renderTemplates () {
+    return (
+      <div className="thesis-field-row">
+        <label>
+          <span>Page Template</span>
+          <select value={this.state.template} onChange={this.templateChange}>
+            {this.state.templates.map((template) => {
+              return <option value={template}>{this.prettyTemplateName(template)}</option>
+            })}
+          </select>
+        </label>
+      </div>
+    )
+  }
+
+  renderRedirectURL () {
+    return (
+      <div className="thesis-field-row">
+        <label>
+          <span>Redirect URL (leave blank for none)</span>
+          <input type="text" value={this.state.redirectURL} onChange={this.redirectURLChange} />
+        </label>
+      </div>
+    )
   }
 
   render () {
@@ -36,12 +108,12 @@ class SettingsTray extends React.Component {
       <div className="tray-container">
         <div className="tray-wrap">
           <div className="tray-title">
-            Page Settings
+            {this.trayTitle()}
           </div>
           <div className="thesis-field-row">
             <label>
               <span>Page Path</span>
-              <input type="text" value={this.props.path} disabled />
+              <input type="text" value={this.state.path} disabled={!this.dynamicPage()} onChange={this.pathChange} />
             </label>
           </div>
           <div className="thesis-field-row">
@@ -56,6 +128,8 @@ class SettingsTray extends React.Component {
               <textarea placeholder="Example page description." value={this.state.description} onChange={this.descriptionChange}></textarea>
             </label>
           </div>
+          {this.dynamicPage() ? this.renderRedirectURL() : null}
+          {this.dynamicPage() ? this.renderTemplates() : null}
           <div className="thesis-field-row errors" hidden={this.state.isValid}>
             {/* Errors go here. Toggle the hidden property depending on error count. */}
           </div>

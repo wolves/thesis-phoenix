@@ -22,8 +22,7 @@ defmodule Thesis.Router do
         # ...
   """
 
-  defmacro __using__(_) do
-    # Reserved for future use
+  defmacro __using__(_env) do
     quote do
       pipeline :thesis_pipeline do
         plug Plug.Static, at: "/thesis", from: :thesis, gzip: true,
@@ -42,6 +41,7 @@ defmodule Thesis.Router do
         get "/thesis.css", ApiController, :assets
 
         put "/update", ApiController, :update
+        delete "/delete", ApiController, :delete
       end
     end
   end
