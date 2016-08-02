@@ -6,7 +6,7 @@ For automatic setup, see `README.md`.
 
 ```elixir
 def deps do
-  [{:thesis, "~> 0.0.20"}]
+  [{:thesis, "~> 0.0.21"}]
 end
 
 def application do

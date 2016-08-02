@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.13.0">
-    <title>Thesis.Store – thesis v0.0.20</title>
+    <title>Thesis.Store – thesis v0.0.21</title>
     <link rel="stylesheet" href="dist/app-9c1e3d5aa2.css" />
     
       <link rel="canonical" href="https://hexdocs.pm/thesis/Thesis.Store.html" />
@@ -28,7 +28,7 @@
         thesis
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.0.20
+        v0.0.21
       </h2>
     </div>
     
@@ -61,7 +61,7 @@
 
 
       <h1>
-        <small class="visible-xs">thesis v0.0.20</small>
+        <small class="visible-xs">thesis v0.0.21</small>
         Thesis.Store
         
           <small>behaviour</small>
@@ -73,7 +73,7 @@
         <section id="moduledoc" class="docstring">
           <p>Thesis.Store is an Elixir “behaviour” that defines the public function
 interface necessary for Thesis to use a particular store module.</p>
-<p>There are currently three required functions, as described below.</p>
+<p>There are currently four required functions, as described below.</p>
 
         </section>
       
@@ -98,6 +98,15 @@ interface necessary for Thesis to use a particular store module.</p>
       <a href="#callbacks">Callbacks</a>
     </h2>
     <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#c:delete/1">delete(%{})</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Deletes the given page (identified by its slug). Returns <code class="inline">:ok</code></p>
+</div>
+  
+</div>
+<div class="summary-row">
   <div class="summary-signature">
     <a href="#c:page/1">page(arg0)</a>
   </div>
@@ -148,7 +157,32 @@ string keys and Thesis.PageContent structs. Returns <code class="inline">:ok</co
             </a>
             Callbacks
           </h1>
-          <div class="detail" id="c:page/1">
+          <div class="detail" id="c:delete/1">
+  <div class="detail-header">
+    <a href="#c:delete/1" class="detail-link" title="Link to this callback">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">delete(%{})</span>
+    
+    
+  </div>
+  
+    <div class="specs">
+      <h4 class="specs-title">Specs</h4>
+      <div class="specs-list">
+        
+          <pre><code class="elixir">delete(%{optional(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>) => <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>}) :: atom</code></pre>
+        
+      </div>
+    </div>
+  
+  <section class="docstring">
+    <p>Deletes the given page (identified by its slug). Returns <code class="inline">:ok</code>.</p>
+<pre><code class="elixir">delete(%{&quot;slug&quot; =&gt; &quot;/asdf&quot;})</code></pre>
+
+  </section>
+</div>
+<div class="detail" id="c:page/1">
   <div class="detail-header">
     <a href="#c:page/1" class="detail-link" title="Link to this callback">
       <i class="icon-link"></i>

@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.13.0">
-    <title>Thesis.View – thesis v0.0.20</title>
+    <title>Thesis.View – thesis v0.0.21</title>
     <link rel="stylesheet" href="dist/app-9c1e3d5aa2.css" />
     
       <link rel="canonical" href="https://hexdocs.pm/thesis/Thesis.View.html" />
@@ -28,7 +28,7 @@
         thesis
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.0.20
+        v0.0.21
       </h2>
     </div>
     
@@ -61,7 +61,7 @@
 
 
       <h1>
-        <small class="visible-xs">thesis v0.0.20</small>
+        <small class="visible-xs">thesis v0.0.21</small>
         Thesis.View
         
         
@@ -345,7 +345,7 @@ iex&gt; Thesis.View.page_title(conn, &quot;Default Title&quot;)
 current user, and then renders the editor, style tag, and bootstrap js.</p>
 <p>If not editable, simply returns an empty string.</p>
 <p>Doctests:</p>
-<pre><code class="iex elixir">iex&gt; {:safe, editor} = Thesis.View.thesis_editor(%Plug.Conn{assigns: %{editable: true}})
+<pre><code class="iex elixir">iex&gt; {:safe, editor} = Thesis.View.thesis_editor(%Plug.Conn{assigns: %{thesis_editable: true}})
 iex&gt; String.contains?(editor, &quot;/thesis/thesis.css&quot;)
 true
 iex&gt; String.contains?(editor, &quot;thesis-container&quot;)
@@ -353,7 +353,7 @@ true
 iex&gt; String.contains?(editor, &quot;&lt;script&gt;&quot;)
 true
 
-iex&gt; Thesis.View.thesis_editor(%Plug.Conn{assigns: %{editable: false}})
+iex&gt; Thesis.View.thesis_editor(%Plug.Conn{assigns: %{thesis_editable: false}})
 {:safe, &quot;&quot;}</code></pre>
 
   </section>
