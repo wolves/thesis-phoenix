@@ -283,6 +283,8 @@ class ThesisEditor extends React.Component {
     let classes = ''
     classes += (this.state.editing) ? ' active ' : ''
     classes += (this.state.pageToolsHidden) ? ' thesis-page-tools-hidden ' : ''
+    classes += (this.dynamicEnabled()) ? ' thesis-add-page-tool-present ': ''
+    classes += (this.state.template) ? ' thesis-delete-page-tool-present ': ''
     return classes
   }
 
@@ -336,11 +338,11 @@ class ThesisEditor extends React.Component {
     return (
       <div id="thesis">
         <div id='thesis-editor' className={this.renderEditorClass()}>
-          {this.dynamicEnabled() ? <AddButton onPress={this.addPagePressed} /> : null}
-          {this.state.template ? <DeleteButton onPress={this.deletePagePressed} /> : null}
           <SaveButton onPress={this.savePressed} />
           <SettingsButton onPress={this.pageSettingsPressed} />
           <CancelButton onPress={this.cancelPressed} />
+          {this.dynamicEnabled() ? <AddButton onPress={this.addPagePressed} /> : null}
+          {this.state.template ? <DeleteButton onPress={this.deletePagePressed} /> : null}
           <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
         </div>
         <div id='thesis-fader' className={this.renderFaderClass()}></div>
