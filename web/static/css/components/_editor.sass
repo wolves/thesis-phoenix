@@ -27,23 +27,41 @@ body.thesis-tray-open
       &.edit i
         +barber_pole(darken($gray, 8%), rgba(white, .25))
 
-  // ENABLE when add/delete buttons are addded
-  // &.thesis-page-tools-hidden
-  //   height: 300px
+    &.thesis-add-page-tool-present
+      .thesis-button
+        +curve_buttons(5)
 
-  //   &:hover
-  //     .thesis-button
-  //       &.add, &.delete
-  //         +curve_buttons(6)
-  //         +transition-duration(.3s)
-  //         +keyframes (animateOpacity)
-  //           from
-  //             opacity: 0
-  //           to
-  //             opacity: 1
-  //         +animation( animateOpacity .75s ease-in-out )
-  //         opacity        : 1
-  //         pointer-events : auto
+    &.thesis-add-page-tool-present.thesis-delete-page-tool-present
+      .thesis-button
+        +curve_buttons(6)
+
+  &.thesis-page-tools-hidden
+    height: 300px
+
+    &:hover
+      .thesis-button
+        &.add, &.delete
+          +transition-duration(.3s)
+          +keyframes (animateOpacity)
+            from
+              opacity: 0
+            to
+              opacity: 1
+          +animation( animateOpacity .75s ease-in-out )
+          opacity        : 1
+          pointer-events : auto
+
+    &.thesis-add-page-tool-present
+      &:hover
+        .thesis-button
+          &.add, &.delete
+            +curve_buttons(5)
+
+    &.thesis-add-page-tool-present.thesis-delete-page-tool-present
+      &:hover
+        .thesis-button
+          &.add, &.delete
+            +curve_buttons(6)
 
   .thesis-button
     +editor_icons(("cancel": $orange, "delete": $pink, "add": $blue, "save": $green, "settings": $yellow ))
