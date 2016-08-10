@@ -66,7 +66,7 @@ defmodule Thesis.Render do
     data_content_type = "data-thesis-content-type=\"#{content_type}\""
     data_content_id = "data-thesis-content-id=\"#{escape_entities(page_content.name)}\""
     data_content_meta = "data-thesis-content-meta=\"#{escape_entities(page_content.meta)}\""
-    data_global = (page_content.page_id == nil) && "data-thesis-content-global=\"true\"" || ""
+    data_global = (opts[:global]) && "data-thesis-content-global=\"true\"" || ""
     styles = "style=\"#{opts[:styles]}\"" # add the following when required: box-shadow: none; outline: none;
     [ id, classes, data_content_type, data_content_id, data_global, data_content_meta, styles ]
     |> Enum.reject(fn s -> String.strip(s) == "" end)
