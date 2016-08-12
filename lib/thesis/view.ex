@@ -60,6 +60,7 @@ defmodule Thesis.View do
   """
   @spec global_content(Plug.Conn.t, String.t, String.t, list) :: String.t | {:safe, String.t}
   def global_content(conn, name, type, opts \\ []) do
+    opts = Keyword.put(opts, :global, true)
     render_content(conn, nil, name, type, opts)
   end
 
