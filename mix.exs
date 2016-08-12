@@ -1,6 +1,6 @@
 defmodule Thesis.Mixfile do
   use Mix.Project
-  @version "0.0.21" # REMEMBER TO UPDATE package.json and both READMEs!
+  @version "0.0.22" # REMEMBER TO UPDATE package.json and both READMEs!
 
   def project do
     [
@@ -44,9 +44,9 @@ defmodule Thesis.Mixfile do
     [
       files: ["lib", "priv", "web", "mix.exs", "README*", "LICENSE*", "package.json"],
       licenses: ["MIT"],
-      maintainers: ["Jamon Holmgren", "Ken Miller", "Daniel Berkompas"],
+      maintainers: ["Jamon Holmgren", "Ken Miller", "Daniel Berkompas", "Yulian Glukhenko"],
       links: %{
-        "GitHub" => "https://github.com/infinite_red/thesis",
+        "GitHub" => "https://github.com/infinitered/thesis",
         "Docs" => "https://hexdocs.pm/thesis/#{@version}/api-reference.html",
         # "Tutorials" => "https://infinite.red/thesis/" # TODO
       }
