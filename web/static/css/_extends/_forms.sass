@@ -42,7 +42,7 @@
     line-height   : 55px
     padding       : 0px 10px
 
-    @include placeholder
+    +placeholder
       text-transform : none
       font-weight    : 400
       color          : darken($gray, 20%)
@@ -53,6 +53,26 @@
     &.invalid
       background  : rgba($ir-red, .10)
 
+  .select
+    background : rgba($gray, .15)
+    position   : relative
+    width      : 100%
+    height     : 55px
+    overflow   : hidden
+
+    select
+      background  : transparent
+      border      : none
+      font-size   : 15px
+      font-weight : 400
+      height      : 55px
+      width       : calc(100% + 28px)
+      max-width   : none
+
+      &:focus
+        outline    : none
+        box-shadow : none
+
   textarea
     resize      : vertical
     height      : 40px
@@ -61,7 +81,7 @@
 
   button.thesis-tray-cancel,
   button.thesis-tray-save
-    @include transition(background .2s ease-in-out)
+    +transition(background .2s ease-in-out)
     background     : $pink
     display        : block
     color          : white

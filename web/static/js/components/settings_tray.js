@@ -82,11 +82,13 @@ class SettingsTray extends React.Component {
       <div className="thesis-field-row">
         <label>
           <span>Page Template</span>
-          <select value={this.state.template} onChange={this.templateChange}>
-            {this.state.templates.map((template) => {
-              return <option value={template}>{this.prettyTemplateName(template)}</option>
-            })}
-          </select>
+          <div className="select">
+            <select value={this.state.template} onChange={this.templateChange}>
+              {this.state.templates.map((template) => {
+                return <option value={template}>{this.prettyTemplateName(template)}</option>
+              })}
+            </select>
+          </div>
         </label>
       </div>
     )
