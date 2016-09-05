@@ -336,6 +336,26 @@ not likely to be in the future.
 * Not an authentication or permission system
 * Not supported outside of a Phoenix app
 
+## Common Issues
+
+#### Thesis's menu/editor/tray is borked
+
+This is pretty common. While we try to be good citizens by properly namespacing
+all Thesis elements, we embed Thesis code into your existing web page, and so
+we're at the mercy of your application's existing CSS.
+
+Inspect the element(s) that are screwed up and see if any of your styles are
+conflicting. For example, here's a screenshot of an issue:
+
+[borked Thesis editor](https://cloud.githubusercontent.com/assets/1479215/18256127/223706ca-7366-11e6-971e-018ef8e656cb.png)
+
+Note that there is a `.tooltip` CSS rule originating in a different CSS file
+that is affecting our editor.
+
+In future releases, we will namespace all Thesis classes and IDs. But if your
+application is overriding whole elements (like `div` or `img`), it's up to you
+to fix the issue in your own CSS.
+
 ## Contributing
 
 We're committed to making Thesis the go-to content editing system for Phoenix
