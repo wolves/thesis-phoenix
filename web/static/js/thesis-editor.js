@@ -230,16 +230,12 @@ class ThesisEditor extends React.Component {
   }
 
   getContent (t, ed) {
-    if (t === 'image' || t === 'background_image') {
-      return this.imageEditor.getContent(ed)
-    } else if (t === 'text') {
-      return this.textEditor.content(ed)
-    } else if (t === 'html') {
-      return this.htmlEditor.content(ed)
-    } else if (t === 'raw_html') {
-      return this.rawHtmlEditor.content(ed)
-    } else {
-      return ed.innerHTML
+    switch (t) {
+      case 'image', 'background_image': return this.imageEditor.getContent(ed)
+      case 'text':      return this.textEditor.content(ed)
+      case 'html':      return this.htmlEditor.content(ed)
+      case 'raw_html':  return this.rawHtmlEditor.content(ed)
+      default:          return ed.innerHTML
     }
   }
 
