@@ -87,7 +87,7 @@ class ThesisEditor extends React.Component {
   }
 
   pageTemplates () {
-    return thesisContainer.getAttribute('data-templates').split(",")
+    return thesisContainer.getAttribute('data-templates').split(",").filter((s) => s !== "")
   }
 
   pageDescriptionMetaTag () {
