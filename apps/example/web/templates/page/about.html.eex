@@ -1,0 +1,38 @@
+<div class="row marketing">
+  <div class="col-lg-6">
+    <%= content(@conn, "Resources", :html) do %>
+      <h4>About Thesis</h4>
+      <p>
+        I created
+        <a href="https://github.com/infinitered/thesis-rails">the original Thesis</a>
+        (a Rails engine) in 2013. At the time (and now), the state of Rails CMS's
+        was pretty barebones. There were a few options like Locomotive, Refinery,
+        and Comfortable Mexican Sofa (weird name). But they all required fairly
+        significant changes to my development workflow that I wasn't willing to
+        do.
+      </p>
+      <p>
+        I thought I could do better. So I created Thesis, and we used it on internal
+        projects. Then in 2015 we moved from Ruby on Rails to Elixir/Phoenix due
+        to its fantastic concurrency story, stability, and performance. Porting
+        Thesis was a natural move. With
+        <a href="https://github.com/kemiller">Ken Miller</a> and
+        <a href="https://github.com/yulianglukhenko">Yulian Glukhenko</a> helping,
+        we ported Thesis to Phoenix and extended it beyond the original vision.
+      </p>
+      <p>
+        That leads us to where we are today. If you're looking at this page, that
+        means you can edit it. Try clicking the edit icon on the bottom right of
+        your browser, and edit this paragraph to rewrite history. :) Or click the
+        blue + icon to create a new dynamic page. And I hope that you will eventually
+        <a href="https://github.com/infinitered/thesis-phoenix/graphs/contributors">
+          join our growing list of contributors!
+        </a>
+      </p>
+      <p>
+        <a href="https://github.com/jamonholmgren">Jamon Holmgren</a><br>
+        <em>September 5, 2016</em>
+      </p>
+    <% end %>
+  </div>
+</div>

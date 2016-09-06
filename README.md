@@ -1,6 +1,13 @@
 # Thesis
 
-[![Build Status](https://semaphoreci.com/api/v1/projects/0540dbb0-887a-45dd-9190-baa19b2ca9fb/816876/badge.svg)](https://semaphoreci.com/ir/thesis-phoenix)
+<p align="center">
+  A CMS for Elixir/Phoenix that doesn't hijack your development workflow.
+  <br/>
+
+  <a href="https://gitter.im/infinitered/thesis-phoenix?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img src="https://badges.gitter.im/infinitered/thesis-phoenix.svg" alt="Join the chat at https://gitter.im/infinitered/thesis-phoenix"></a>
+  <img src=https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat alt='js-standard-style'/>
+  <a href="https://semaphoreci.com/ir/thesis-phoenix"><img alt="Build Status" src="https://semaphoreci.com/api/v1/projects/0540dbb0-887a-45dd-9190-baa19b2ca9fb/816876/badge.svg"></a>
+</p>
 
 Thesis is a lightweight and flexible Elixir/Phoenix CMS for quickly and easily
 adding content editing to any page on a Phoenix website, as well as creating new
@@ -56,6 +63,11 @@ as generate migrations and an authorization module in your `lib/thesis_auth.ex`.
 ```
 $ mix ecto.migrate
 ```
+
+## Demo App
+
+Check out the example app in `apps/example` to see how Thesis can be implemented.
+We'll keep this up to date with examples of the latest features as we develop Thesis.
 
 ## Making Pages Editable
 
@@ -228,7 +240,7 @@ To enable dynamic pages, add (or uncomment) this in your `config/config.exs` fil
 
 ```elixir
 config :thesis, :dynamic_pages,
-  view: <MyApp>.DynamicView,
+  view: <MyApp>.PageView,
   templates: ["index.html", "otherview.html"],
   not_found_view: <MyApp>.ErrorView,
   not_found_template: "404.html"
@@ -365,17 +377,18 @@ websites. Please help us improve!
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Run `brunch watch -p` during development
-5. Write tests for your new feature
-6. Run `mix test` in the root directory to ensure that all tests pass.
-7. Push to the branch (`git push origin my-new-feature`)
-8. Create new Pull Request
+5. Use the `apps/example` Phoenix app to manually test your feature
+6. Write tests for your new feature
+7. Run `mix test` in the root directory to ensure that all tests pass.
+8. Push to the branch (`git push origin my-new-feature`)
+9. Create new Pull Request
 
 ### Key Contributors
 
 * Jamon Holmgren [@jamonholmgren](https://twitter.com/jamonholmgren)
+* Yulian Glukhenko [@yulianglukhenko](https://github.com/yulianglukhenko)
 * Ken Miller [@seriousken](https://github.com/kemiller)
 * Daniel Berkompas [@dberkom](https://twitter.com/dberkom)
-* Yulian Glukhenko [@yulianglukhenko](https://github.com/yulianglukhenko)
 
 Also supported by others on the [Infinite Red](https://infinite.red) team.
 

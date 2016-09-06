@@ -18,6 +18,7 @@ class SettingsTray extends React.Component {
       path: props.path,
       template: template,
       templates: props.templates,
+      dynamicPage: props.dynamicPage,
       new: props.new,
       isValid: true
     }
@@ -72,7 +73,7 @@ class SettingsTray extends React.Component {
   }
 
   dynamicPage () {
-    return (this.state.new || this.state.template)
+    return (this.state.new || this.state.dynamicPage)
   }
 
   prettyTemplateName (name) {

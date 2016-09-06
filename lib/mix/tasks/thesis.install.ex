@@ -100,7 +100,7 @@ defmodule Mix.Tasks.Thesis.Install do
       config :thesis, Thesis.EctoStore, repo: #{Mix.Phoenix.base}.Repo
       # If you want to allow creating dynamic pages:
       # config :thesis, :dynamic_pages,
-      #   view: #{Mix.Phoenix.base}.DynamicView,
+      #   view: #{Mix.Phoenix.base}.PageView,
       #   templates: ["index.html", "otherview.html"],
       #   not_found_view: #{Mix.Phoenix.base}.ErrorView,
       #   not_found_template: "404.html"
