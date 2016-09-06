@@ -23,18 +23,18 @@ class ThesisEditor extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      editing:          false,
-      path:             this.pathname(),
-      title:            this.pageTitle(),
-      description:      this.pageDescription(),
-      template:         this.pageTemplate(),
-      templates:        this.pageTemplates(),
-      redirectURL:      this.pageRedirectURL(),
-      pageModified:     false,
-      pageToolsHidden:  true,
-      trayOpen:         false,
-      trayType:         null,
-      deleted:          false
+      editing: false,
+      path: this.pathname(),
+      title: this.pageTitle(),
+      description: this.pageDescription(),
+      template: this.pageTemplate(),
+      templates: this.pageTemplates(),
+      redirectURL: this.pageRedirectURL(),
+      pageModified: false,
+      pageToolsHidden: true,
+      trayOpen: false,
+      trayType: null,
+      deleted: false
     }
     this.htmlEditor = new HtmlEditor(this)
     this.rawHtmlEditor = new RawHtmlEditor(this)
@@ -87,7 +87,7 @@ class ThesisEditor extends React.Component {
   }
 
   pageTemplates () {
-    return thesisContainer.getAttribute('data-templates').split(",")
+    return thesisContainer.getAttribute('data-templates').split(',').filter((s) => s !== '')
   }
 
   pageDescriptionMetaTag () {
@@ -101,22 +101,22 @@ class ThesisEditor extends React.Component {
   settingsTraySubmitted (data) {
     if (data.new) {
       const page = {
-        slug:           data.path,
-        title:          data.title,
-        description:    data.description,
-        redirect_url:   data.redirectURL,
-        template:       data.template
+        slug: data.path,
+        title: data.title,
+        description: data.description,
+        redirect_url: data.redirectURL,
+        template: data.template
       }
       this.postToServer(page, [])
     } else {
       this.setState({
         trayOpen: false,
         pageModified: true,
-        path:         data.path,
-        title:        data.title,
-        description:  data.description,
-        template:     data.template,
-        redirectURL:  data.redirectURL
+        path: data.path,
+        title: data.title,
+        description: data.description,
+        template: data.template,
+        redirectURL: data.redirectURL
       })
     }
   }
@@ -126,7 +126,7 @@ class ThesisEditor extends React.Component {
   }
 
   deletePagePressed () {
-    if (window.confirm("Are you sure you want to delete this page? There is no undo.")) {
+    if (window.confirm('Are you sure you want to delete this page? There is no undo.')) {
       this.deletePage(this.state.path)
     }
   }
@@ -146,11 +146,11 @@ class ThesisEditor extends React.Component {
 
   savePressed () {
     const page = {
-      slug:           this.state.path,
-      title:          this.state.title,
-      description:    this.state.description,
-      redirect_url:   this.state.redirectURL,
-      template:       this.state.template
+      slug: this.state.path,
+      title: this.state.title,
+      description: this.state.description,
+      redirect_url: this.state.redirectURL,
+      template: this.state.template
     }
     const contents = this.contentEditorContents()
     this.postToServer(page, contents)
@@ -186,7 +186,7 @@ class ThesisEditor extends React.Component {
 
   deletePage (path) {
     Net.delete('/thesis/delete', {path}).then((resp) => {
-      alert("Page has been deleted.")
+      alert('Page has been deleted.')
       this.setState({deleted: true, editing: false})
     }).catch((err) => {
       alert(err)
@@ -231,11 +231,16 @@ class ThesisEditor extends React.Component {
 
   getContent (t, ed) {
     switch (t) {
-      case 'image', 'background_image': return this.imageEditor.getContent(ed)
-      case 'text':      return this.textEditor.content(ed)
-      case 'html':      return this.htmlEditor.content(ed)
-      case 'raw_html':  return this.rawHtmlEditor.content(ed)
-      default:          return ed.innerHTML
+      case 'image', 'background_image':
+        return this.imageEditor.getContent(ed)
+      case 'text':
+        return this.textEditor.content(ed)
+      case 'html':
+        return this.htmlEditor.content(ed)
+      case 'raw_html':
+        return this.rawHtmlEditor.content(ed)
+      default:
+        return ed.innerHTML
     }
   }
 
@@ -279,8 +284,8 @@ class ThesisEditor extends React.Component {
     let classes = ''
     classes += (this.state.editing) ? ' active ' : ''
     classes += (this.state.pageToolsHidden) ? ' thesis-page-tools-hidden ' : ''
-    classes += (this.dynamicEnabled()) ? ' thesis-add-page-tool-present ': ''
-    classes += (this.state.template) ? ' thesis-delete-page-tool-present ': ''
+    classes += (this.dynamicEnabled()) ? ' thesis-add-page-tool-present ' : ''
+    classes += (this.state.template) ? ' thesis-delete-page-tool-present ' : ''
     return classes
   }
 
@@ -313,17 +318,17 @@ class ThesisEditor extends React.Component {
       return <SettingsTray
         hasErrors={false}
         new={true}
-        path={`${this.pathname().replace(/\/+$/, "")}/newpage`}
-        title={""}
-        description={""}
-        template={""}
+        path={`${this.pathname().replace(/\/+$/, '')}/newpage`}
+        title={''}
+        description={''}
+        template={''}
         templates={this.state.templates}
-        redirectURL={""}
+        redirectURL={''}
         onCancel={this.trayCanceled}
         onSubmit={this.settingsTraySubmitted} />
-    } else if (this.state.trayType == "image-url") {
+    } else if (this.state.trayType == 'image-url') {
       return this.imageEditor.tray(this.state.trayData)
-    } else if (this.state.trayType == "raw-html") {
+    } else if (this.state.trayType == 'raw-html') {
       return this.rawHtmlEditor.tray(this.state.trayData)
     }
   }
