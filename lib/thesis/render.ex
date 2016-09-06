@@ -13,6 +13,7 @@ defmodule Thesis.Render do
 
   import HtmlSanitizeEx, only: [basic_html: 1]
   import Phoenix.HTML, only: [raw: 1, html_escape: 1, safe_to_string: 1]
+  alias Thesis.{PageContent}
 
   @doc false
   def render_editable(%{content_type: "html"} = page_content, opts) do
@@ -68,14 +69,14 @@ defmodule Thesis.Render do
     data_content_meta = "data-thesis-content-meta=\"#{escape_entities(page_content.meta)}\""
     data_global = (opts[:global]) && "data-thesis-content-global=\"true\"" || ""
     styles = "style=\"#{opts[:styles]}\"" # add the following when required: box-shadow: none; outline: none;
-    [ id, classes, data_content_type, data_content_id, data_global, data_content_meta, styles ]
+    [id, classes, data_content_type, data_content_id, data_global, data_content_meta, styles]
     |> Enum.reject(fn s -> String.strip(s) == "" end)
     |> Enum.join(" ")
   end
 
   defp image_attributes(page_content) do
     page_content
-    |> Thesis.PageContent.meta_attributes
+    |> PageContent.meta_attributes
     |> Enum.map(fn ({k, v}) -> "#{k}=\"#{escape_entities(v)}\"" end)
     |> Enum.join(" ")
   end

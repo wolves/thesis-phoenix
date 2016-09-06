@@ -10,6 +10,10 @@ defmodule Thesis.DummyStore do
     %Thesis.Page{slug: slug}
   end
 
+  def delete(_slug) do
+    :ok
+  end
+
   def page_contents(%Thesis.Page{} = _page) do
     []
   end

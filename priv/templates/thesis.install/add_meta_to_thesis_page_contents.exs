@@ -1,4 +1,5 @@
 defmodule <%= base %>.Repo.Migrations.AddMetaToThesisPageContents do
+  @moduledoc false
   use Ecto.Migration
 
   def change do

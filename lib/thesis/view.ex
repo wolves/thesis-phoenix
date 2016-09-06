@@ -24,6 +24,7 @@ defmodule Thesis.View do
   import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
   import Phoenix.HTML.Tag
   import Thesis.Config
+  alias Thesis.{Page, PageContent, Render}
 
   # @styles File.read!(Path.join(__DIR__, "../../priv/static/thesis.css"))
   # @external_resource Path.join(__DIR__, "../../priv/static/thesis.css")
@@ -67,9 +68,9 @@ defmodule Thesis.View do
   defp render_content(conn, page_id, name, type, opts) do
     all_content = conn.assigns[:thesis_content]
     if all_content do
-      content = Thesis.PageContent.find(all_content, page_id, name) ||
+      content = PageContent.find(all_content, page_id, name) ||
         make_content(page_id, name, type, stringify(opts[:do]), Keyword.delete(opts, :do))
-      Thesis.Render.render_editable(content, opts)
+      Render.render_editable(content, opts)
     else
       raise controller_missing_text
     end
@@ -161,24 +162,24 @@ defmodule Thesis.View do
   end
 
   defp make_page(request_path) do
-    %Thesis.Page{slug: request_path}
+    %Page{slug: request_path}
   end
 
   defp make_content(:global, name, type, content, meta) do
     make_content(nil, name, type, content, meta)
   end
 
-  defp make_content(%Thesis.Page{id: page_id}, name, type, content, meta) do
+  defp make_content(%Page{id: page_id}, name, type, content, meta) do
     make_content(page_id, name, type, content, meta)
   end
 
   defp make_content(page_id, name, type, content, meta) do
-    %Thesis.PageContent{
+    %PageContent{
       page_id: page_id,
       name: name,
       content_type: Atom.to_string(type),
       content: content,
-      meta: Thesis.PageContent.meta_serialize(meta)
+      meta: PageContent.meta_serialize(meta)
     }
   end
 

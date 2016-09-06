@@ -9,7 +9,7 @@ defmodule Mix.Tasks.Thesis.Install do
     "add_template_and_redirect_url_to_thesis_pages"
   ]
   @template_files [
-    {"priv/templates/thesis.install/thesis_auth.exs", "lib/thesis_auth.ex" }
+    {"priv/templates/thesis.install/thesis_auth.exs", "lib/thesis_auth.ex"}
   ]
 
   @shortdoc "Generates Thesis code in your Phoenix app"
@@ -43,7 +43,7 @@ defmodule Mix.Tasks.Thesis.Install do
                       |> Enum.with_index
                       |> Enum.map(&migration_tuple/1)
 
-    @template_files ++ migration_files
+    (@template_files ++ migration_files)
     |> Stream.map(&render_eex/1)
     |> Stream.map(&copy_to_target/1)
     |> Stream.run
@@ -53,7 +53,8 @@ defmodule Mix.Tasks.Thesis.Install do
   def thesis_config do
     status_msg("updating", "config/config.exs")
     dest_file_path = Path.join [File.cwd! | ~w(config config.exs)]
-    File.read!(dest_file_path)
+    dest_file_path
+    |> File.read!()
     |> insert_thesis
     |> overwrite_file(dest_file_path)
   end
@@ -62,7 +63,8 @@ defmodule Mix.Tasks.Thesis.Install do
   def thesis_web do
     status_msg("updating", "web/web.exs")
     dest_file_path = Path.join [File.cwd! | ~w(web web.ex)]
-    File.read!(dest_file_path)
+    dest_file_path
+    |> File.read!()
     |> insert_controller
     |> insert_view
     |> insert_router
@@ -82,15 +84,18 @@ defmodule Mix.Tasks.Thesis.Install do
   end
 
   defp insert_at(source, pattern, inserted) do
-    unless String.contains?(source, inserted) do
-      String.replace(source, pattern, pattern <> inserted)
-    else
+    if String.contains?(source, inserted) do
       source
+    else
+      String.replace(source, pattern, pattern <> inserted)
     end
   end
 
   defp insert_thesis(source) do
-    unless String.contains? source, "config :thesis" do
+    if String.contains? source, "config :thesis" do
+      status_msg("skipping", "thesis config. It already exists.")
+      :skip
+    else
       source <> """
 
       # Configure thesis content editor
@@ -108,9 +113,6 @@ defmodule Mix.Tasks.Thesis.Install do
       # config :thesis, Thesis.OspryUploader,
       #  ospry_public_key: "pk-prod-asdfasdfasdfasdfasdf"
       """
-    else
-      status_msg("skipping", "thesis config. It already exists.")
-      :skip
     end
   end
 

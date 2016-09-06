@@ -1,4 +1,5 @@
 defmodule <%= base %>.Repo.Migrations.AddIndexToTables do
+  @moduledoc false
   use Ecto.Migration
 
   def up do

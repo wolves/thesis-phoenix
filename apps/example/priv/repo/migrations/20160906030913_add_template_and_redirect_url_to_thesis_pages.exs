@@ -1,4 +1,5 @@
 defmodule Example.Repo.Migrations.AddTemplateAndRedirectUrlToThesisPages do
+  @moduledoc false
   use Ecto.Migration
 
   def change do

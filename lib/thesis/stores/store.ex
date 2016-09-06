@@ -16,7 +16,7 @@ defmodule Thesis.Store do
   Thesis.Page struct and global content areas. This is generally used to
   populate the page content using the Thesis.View.content/4 function.
   """
-  @callback page_contents(Thesis.Page.t) :: [ Thesis.PageContent.t ]
+  @callback page_contents(Thesis.Page.t) :: [Thesis.PageContent.t]
 
   @doc """
   Updates the given page (identified by its slug) with the given map of
