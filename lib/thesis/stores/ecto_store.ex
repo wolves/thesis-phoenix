@@ -12,7 +12,7 @@ defmodule Thesis.EctoStore do
   @behaviour Thesis.Store
 
   import Thesis.Config
-  alias Thesis.{ Page, PageContent }
+  alias Thesis.{Page, PageContent}
 
   def page(slug) when is_binary(slug) do
     repo.get_by(Page, slug: slug)
@@ -29,13 +29,13 @@ defmodule Thesis.EctoStore do
 
   def update(%{"slug" => slug} = page_params, contents_params) do
     page = page(slug) || %Page{slug: slug}
-    page_changeset = Ecto.Changeset.cast(page, page_params, [], ~w(slug title description redirect_url template) )
+    page_changeset = Ecto.Changeset.cast(page, page_params, [], ~w(slug title description redirect_url template))
 
     repo.insert_or_update!(page_changeset)
 
     contents_params
     |> Enum.map(fn(x) -> content_changeset(x, page, page_contents(page)) end)
-    |> Enum.map(fn(x) -> repo.insert_or_update!(x) end)
+    |> Enum.each(fn(x) -> repo.insert_or_update!(x) end)
 
     :ok
   end
@@ -47,7 +47,7 @@ defmodule Thesis.EctoStore do
   end
 
   defp content_changeset(new_contents, page, preloaded_contents) do
-    %{ "name" => name, "content" => content, "content_type" => content_type } = new_contents
+    %{"name" => name, "content" => content, "content_type" => content_type} = new_contents
 
     page_id = page_id_or_global(new_contents, page)
 
@@ -60,5 +60,5 @@ defmodule Thesis.EctoStore do
   end
 
   defp page_id_or_global(%{"global" => "true"}, _page), do: nil
-  defp page_id_or_global(_content, %Thesis.Page{id: id}), do: id
+  defp page_id_or_global(_content, %Page{id: id}), do: id
 end

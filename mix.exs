@@ -29,7 +29,8 @@ defmodule Thesis.Mixfile do
       {:html_sanitize_ex, ">= 1.0.1"},
       {:ex_doc, ">= 0.12.0", only: [:dev]},
       {:earmark, ">= 0.2.0", only: [:dev]},
-      {:dialyze, ">= 0.2.0", only: [:test, :dev]}
+      {:dialyze, ">= 0.2.0", only: [:test, :dev]},
+      {:credo, ">= 0.4.6", only: [:dev]}
     ]
   end
 

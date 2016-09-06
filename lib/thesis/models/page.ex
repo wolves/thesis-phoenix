@@ -1,4 +1,8 @@
 defmodule Thesis.Page do
+  @moduledoc """
+  Represents a page (dynamic or static), and also contains meta data like
+  title, description, and redirect if necessary.
+  """
   use Ecto.Schema
 
   @type t :: %Thesis.Page{

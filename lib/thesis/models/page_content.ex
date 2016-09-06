@@ -1,4 +1,9 @@
 defmodule Thesis.PageContent do
+  @moduledoc """
+  Content areas for a specific page. Includes meta information about the type
+  of content as well as other info for specific content blocks.
+  """
+
   use Ecto.Schema
 
   @type t :: %Thesis.PageContent{
