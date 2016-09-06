@@ -29,6 +29,7 @@ class ThesisEditor extends React.Component {
       description: this.pageDescription(),
       template: this.pageTemplate(),
       templates: this.pageTemplates(),
+      dynamicPage: this.dynamicPage(),
       redirectURL: this.pageRedirectURL(),
       pageModified: false,
       pageToolsHidden: true,
@@ -88,6 +89,11 @@ class ThesisEditor extends React.Component {
 
   pageTemplates () {
     return thesisContainer.getAttribute('data-templates').split(',').filter((s) => s !== '')
+  }
+
+  dynamicPage () {
+    console.debug(thesisContainer.getAttribute('data-dynamic-page'))
+    return thesisContainer.getAttribute('data-dynamic-page')
   }
 
   pageDescriptionMetaTag () {
@@ -312,6 +318,7 @@ class ThesisEditor extends React.Component {
         description={this.state.description}
         template={this.state.template}
         templates={this.state.templates}
+        dynamicPage={this.state.dynamicPage}
         redirectURL={this.state.redirectURL}
         onCancel={this.trayCanceled}
         onSubmit={this.settingsTraySubmitted} />
@@ -324,6 +331,7 @@ class ThesisEditor extends React.Component {
         description={''}
         template={''}
         templates={this.state.templates}
+        dynamicPage={this.state.dynamicPage}
         redirectURL={''}
         onCancel={this.trayCanceled}
         onSubmit={this.settingsTraySubmitted} />
@@ -344,7 +352,7 @@ class ThesisEditor extends React.Component {
           <SettingsButton onPress={this.pageSettingsPressed} />
           <CancelButton onPress={this.cancelPressed} />
           {this.dynamicEnabled() ? <AddButton onPress={this.addPagePressed} /> : null}
-          {this.state.template ? <DeleteButton onPress={this.deletePagePressed} /> : null}
+          {this.state.dynamicPage ? <DeleteButton onPress={this.deletePagePressed} /> : null}
           <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
         </div>
         <div id='thesis-fader' className={this.renderFaderClass()} />

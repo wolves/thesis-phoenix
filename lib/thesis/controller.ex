@@ -36,7 +36,9 @@ defmodule Thesis.Controller do
       def render_dynamic(conn, opts \\ []) do
         page = conn.assigns[:thesis_page]
         if page && page.id do
-          do_render_dynamic(conn, page, opts)
+          conn
+          |> assign(:thesis_dynamic_page, true)
+          |> do_render_dynamic(page, opts)
         else
           render_not_found(conn)
         end
@@ -88,6 +90,7 @@ defmodule Thesis.Controller.Plug do
     page_contents = store.page_contents(current_page)
 
     conn
+    |> assign(:thesis_dynamic_page, false) # Overridden in render_dynamic/2
     |> assign(:thesis_page, current_page)
     |> assign(:thesis_content, page_contents)
     |> assign(:thesis_editable, auth.page_is_editable?(conn))

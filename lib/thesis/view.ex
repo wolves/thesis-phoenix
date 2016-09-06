@@ -116,7 +116,8 @@ defmodule Thesis.View do
         data_ospry_public_key: ospry_public_key,
         data_redirect_url: redirect_url,
         data_template: template,
-        data_templates: templates)
+        data_templates: templates,
+        data_dynamic_page: conn.assigns[:thesis_dynamic_page])
       safe_concat([thesis_style, editor, thesis_js])
     else
       raw ""

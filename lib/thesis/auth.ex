@@ -4,7 +4,7 @@ defmodule Thesis.Auth do
   interface necessary for Thesis to determine whether the current session
   has the authority to edit.
 
-  There is only one required functions, as described below.
+  There is only one required function, as described below.
 
   Ensure that your app specifies the proper module in your configuration options.
   For example, in `config/config.ex`:
