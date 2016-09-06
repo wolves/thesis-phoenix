@@ -50,6 +50,7 @@ end
 
 ```elixir
 defmodule <MyApp>.Repo.Migrations.CreateThesisTables do
+  @moduledoc false
   use Ecto.Migration
 
   def change do

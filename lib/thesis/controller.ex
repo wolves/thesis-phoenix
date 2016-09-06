@@ -78,6 +78,10 @@ defmodule Thesis.Controller do
 end
 
 defmodule Thesis.Controller.Plug do
+  @moduledoc """
+  Pre-populates the conn with a Thesis page (if it exists) and its contents.
+  Also checks with the host app if the current page is editable.
+  """
 
   import Plug.Conn, only: [assign: 3]
   import Thesis.Config

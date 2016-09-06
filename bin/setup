@@ -1,4 +1,17 @@
-echo 'Do not use this yet...WIP'
-error
-npm install
-npm install -g brunch
+#!/usr/bin/env bash
+
+npm install;
+mix local.hex --force;
+mix local.rebar --force;
+mix deps.get;
+mix compile;
+
+cd apps/example && {
+  mix deps.get;
+  npm install;
+  MIX_ENV=test mix ecto.create;
+  cd -;
+}
+
+mix test
+mix credo --strict
