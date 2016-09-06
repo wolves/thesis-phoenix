@@ -64,6 +64,11 @@ as generate migrations and an authorization module in your `lib/thesis_auth.ex`.
 $ mix ecto.migrate
 ```
 
+## Demo App
+
+Check out the example app in `apps/example` to see how Thesis can be implemented.
+We'll keep this up to date with examples of the latest features as we develop Thesis.
+
 ## Making Pages Editable
 
 Use the `Thesis.View.content/4` view helper function to make a content area
@@ -372,17 +377,18 @@ websites. Please help us improve!
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Run `brunch watch -p` during development
-5. Write tests for your new feature
-6. Run `mix test` in the root directory to ensure that all tests pass.
-7. Push to the branch (`git push origin my-new-feature`)
-8. Create new Pull Request
+5. Use the `apps/example` Phoenix app to manually test your feature
+6. Write tests for your new feature
+7. Run `mix test` in the root directory to ensure that all tests pass.
+8. Push to the branch (`git push origin my-new-feature`)
+9. Create new Pull Request
 
 ### Key Contributors
 
 * Jamon Holmgren [@jamonholmgren](https://twitter.com/jamonholmgren)
+* Yulian Glukhenko [@yulianglukhenko](https://github.com/yulianglukhenko)
 * Ken Miller [@seriousken](https://github.com/kemiller)
 * Daniel Berkompas [@dberkom](https://twitter.com/dberkom)
-* Yulian Glukhenko [@yulianglukhenko](https://github.com/yulianglukhenko)
 
 Also supported by others on the [Infinite Red](https://infinite.red) team.
 
