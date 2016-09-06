@@ -1,0 +1,16 @@
+<div class="row marketing">
+  <div class="col-lg-6">
+    <%= content(@conn, "HTML Area", :html) do %>
+      <h4>Rich Text HTML</h4>
+      <p>
+        Add your HTML here.
+      </p>
+    <% end %>
+    <%= content(@conn, "Raw HTML Area", :raw_html) do %>
+      <h4>Raw HTML</h4>
+      <iframe width="660" height="315" src="https://www.youtube.com/embed/YLO7tCdBVrA" frameborder="0" allowfullscreen></iframe>
+    <% end %>
+    <pre><%= content(@conn, "Plain Text Area", :text, do: "This is pre-formatted text.\nIt looks amazing.") %></pre>
+    <%= content(@conn, "Image Area", :image, alt: "My alt tag", do: "http://placekitten.com/660/340") %>
+  </div>
+</div>

@@ -42,4 +42,18 @@
       </ul>
     <% end %>
   </div>
+
+  <div class="col-lg-6">
+    <%= content(@conn, "Help", :html) do %>
+      <h4>Created Dynamic Pages</h4>
+      <p>Any dynamic pages you create will be listed here.</p>
+      <ul>
+        <%= for page <- @pages do %>
+          <li>
+            <a href="<%= page.slug %>"><%= page.title || "Untitled" %></a>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  </div>
 </div>

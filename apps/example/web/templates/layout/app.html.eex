@@ -35,6 +35,7 @@
         <%= global_content(@conn, "Copyright info", :html) do %>
           <p>
             Copyright &copy; 2016 <a href="https://infinite.red">Infinite Red, Inc.</a>
+            This is a global content area, which means it'll change on all pages if you edit it.
           </p>
         <% end %>
       </footer>

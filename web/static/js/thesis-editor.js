@@ -92,7 +92,6 @@ class ThesisEditor extends React.Component {
   }
 
   dynamicPage () {
-    console.debug(thesisContainer.getAttribute('data-dynamic-page'))
     return thesisContainer.getAttribute('data-dynamic-page')
   }
 
