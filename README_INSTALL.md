@@ -25,7 +25,7 @@ config :thesis,
 config :thesis, Thesis.EctoStore, repo: <MyApp>.Repo
 # If you want to allow creating dynamic pages:
 # config :thesis, :dynamic_pages,
-#   view: <MyApp>.DynamicView,
+#   view: <MyApp>.PageView,
 #   templates: ["index.html", "otherview.html"],
 #   not_found_view: <MyApp>.ErrorView,
 #   not_found_template: "404.html"

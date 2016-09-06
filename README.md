@@ -240,7 +240,7 @@ To enable dynamic pages, add (or uncomment) this in your `config/config.exs` fil
 
 ```elixir
 config :thesis, :dynamic_pages,
-  view: <MyApp>.DynamicView,
+  view: <MyApp>.PageView,
   templates: ["index.html", "otherview.html"],
   not_found_view: <MyApp>.ErrorView,
   not_found_template: "404.html"
