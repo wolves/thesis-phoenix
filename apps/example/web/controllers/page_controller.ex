@@ -10,6 +10,6 @@ defmodule Example.PageController do
   end
 
   def dynamic(conn, _params) do
-    render conn, "dynamic.html"
+    render_dynamic conn
   end
 end

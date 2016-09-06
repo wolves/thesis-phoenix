@@ -37,7 +37,7 @@ defmodule Thesis.Controller do
         page = conn.assigns[:thesis_page]
         if page && page.id do
           conn
-          |> assign(:thesis_dynamic_page, true)
+          |> assign(:thesis_dynamic_page, "true")
           |> do_render_dynamic(page, opts)
         else
           render_not_found(conn)
