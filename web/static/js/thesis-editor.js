@@ -56,7 +56,7 @@ class ThesisEditor extends React.Component {
 
   warnURLRedirect (url) {
     if (!url) return
-    if (confirm(`This page is set to redirect to ${url}. Follow redirect?`)) {
+    if (window.confirm(`This page is set to redirect to ${url}. Follow redirect?`)) {
       window.location = url
     }
   }
@@ -173,23 +173,23 @@ class ThesisEditor extends React.Component {
 
   postToServer (page, contents) {
     Net.put('/thesis/update', {page, contents}).then((resp) => {
-      if (page.slug != window.location.pathname) {
+      if (page.slug !== window.location.pathname) {
         window.location = page.slug
       } else {
         this.setState({editing: false, pageModified: false, trayOpen: false})
         this.setState({pageToolsHidden: true})
       }
     }).catch((err) => {
-      alert(err)
+      window.alert(err)
     })
   }
 
   deletePage (path) {
     Net.delete('/thesis/delete', {path}).then((resp) => {
-      alert('Page has been deleted.')
+      window.alert('Page has been deleted.')
       this.setState({deleted: true, editing: false})
     }).catch((err) => {
-      alert(err)
+      window.alert(err)
     })
   }
 
@@ -231,7 +231,8 @@ class ThesisEditor extends React.Component {
 
   getContent (t, ed) {
     switch (t) {
-      case 'image', 'background_image':
+      case 'image':
+      case 'background_image':
         return this.imageEditor.getContent(ed)
       case 'text':
         return this.textEditor.content(ed)
@@ -302,7 +303,7 @@ class ThesisEditor extends React.Component {
   }
 
   renderTray () {
-    if (this.state.trayType == 'page-settings') {
+    if (this.state.trayType === 'page-settings') {
       return <SettingsTray
         hasErrors={false}
         new={false}
@@ -314,10 +315,10 @@ class ThesisEditor extends React.Component {
         redirectURL={this.state.redirectURL}
         onCancel={this.trayCanceled}
         onSubmit={this.settingsTraySubmitted} />
-    } else if (this.state.trayType == 'add-page') {
+    } else if (this.state.trayType === 'add-page') {
       return <SettingsTray
         hasErrors={false}
-        new={true}
+        new
         path={`${this.pathname().replace(/\/+$/, '')}/newpage`}
         title={''}
         description={''}
@@ -326,18 +327,18 @@ class ThesisEditor extends React.Component {
         redirectURL={''}
         onCancel={this.trayCanceled}
         onSubmit={this.settingsTraySubmitted} />
-    } else if (this.state.trayType == 'image-url') {
+    } else if (this.state.trayType === 'image-url') {
       return this.imageEditor.tray(this.state.trayData)
-    } else if (this.state.trayType == 'raw-html') {
+    } else if (this.state.trayType === 'raw-html') {
       return this.rawHtmlEditor.tray(this.state.trayData)
     }
   }
 
   render () {
-    if (this.state.deleted) { return <div id="thesis"></div> }
+    if (this.state.deleted) { return <div id='thesis' /> }
 
     return (
-      <div id="thesis">
+      <div id='thesis'>
         <div id='thesis-editor' className={this.renderEditorClass()}>
           <SaveButton onPress={this.savePressed} />
           <SettingsButton onPress={this.pageSettingsPressed} />
@@ -346,7 +347,7 @@ class ThesisEditor extends React.Component {
           {this.state.template ? <DeleteButton onPress={this.deletePagePressed} /> : null}
           <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
         </div>
-        <div id='thesis-fader' className={this.renderFaderClass()}></div>
+        <div id='thesis-fader' className={this.renderFaderClass()} />
         <div id='thesis-tray' className={this.renderTrayClass()}>
           {this.renderTray()}
           <AttributionText />

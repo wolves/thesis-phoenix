@@ -38,25 +38,25 @@ class RawHtmlTray extends React.Component {
 
   render () {
     return (
-      <div className="tray-container">
-        <div className="tray-wrap">
-          <div className="tray-title">
+      <div className='tray-container'>
+        <div className='tray-wrap'>
+          <div className='tray-title'>
             Raw HTML
           </div>
-          <div className="thesis-field-row">
+          <div className='thesis-field-row'>
             <label>
               <span>HTML code</span>
-              <textarea placeholder="<h1>Any HTML you like</h1>" value={this.state.content} onChange={this.contentChange}></textarea>
+              <textarea placeholder='<h1>Any HTML you like</h1>' value={this.state.content} onChange={this.contentChange} />
             </label>
           </div>
-          <div className="thesis-field-row errors" hidden={this.state.isValid}>
+          <div className='thesis-field-row errors' hidden={this.state.isValid}>
             {/* Errors go here. Toggle the hidden property depending on error count. */}
           </div>
-          <div className="thesis-field-row cta">
-            <button className="thesis-tray-cancel" onClick={this.props.onCancel}>
+          <div className='thesis-field-row cta'>
+            <button className='thesis-tray-cancel' onClick={this.props.onCancel}>
               Cancel
             </button>
-            <button className="thesis-tray-save" onClick={this.onSave}>
+            <button className='thesis-tray-save' onClick={this.onSave}>
               Apply
             </button>
           </div>

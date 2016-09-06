@@ -16,7 +16,7 @@ class ImageTray extends React.Component {
       url: this.props.data.url,
       alt: this.props.data.alt,
       isValid: true,
-      fileName: ""
+      fileName: ''
     }
 
     this.urlChange = this.urlChange.bind(this)
@@ -33,17 +33,17 @@ class ImageTray extends React.Component {
         url: nextProps.data.url,
         alt: nextProps.data.alt,
         isValid: true,
-        fileName: ""
+        fileName: ''
       })
     }
   }
 
   urlChange (event) {
-    this.setState({url: event.target.value})
+    this.setState({ url: event.target.value })
   }
 
   altChange (event) {
-    this.setState({alt: event.target.value})
+    this.setState({ alt: event.target.value })
   }
 
   onSave () {
@@ -51,11 +51,12 @@ class ImageTray extends React.Component {
   }
 
   onUpload (err, metadata) {
-    this.setState({url: metadata.url })
+    if (err) return window.alert(err)
+    this.setState({ url: metadata.url })
   }
 
   uploadFile (e) {
-    this.setState({fileName: e.target.files[0].name})
+    this.setState({ fileName: e.target.files[0].name })
 
     const ospry = new Ospry(this.props.ospryPublicKey)
 
@@ -78,12 +79,12 @@ class ImageTray extends React.Component {
   renderOspryForm () {
     if (this.props.ospryPublicKey) {
       return (
-        <div className="thesis-field-row">
+        <div className='thesis-field-row'>
           <label>
             <span>Upload Image</span>
-            <form onChange={this.uploadFile} className="tray-file-upload">
+            <form onChange={this.uploadFile} className='tray-file-upload'>
               <span>{this.renderInputFileName()}</span>
-              <input type="file" accept=".jpg,.jpeg,.png,.gif,image/png,image/gif,image/jpeg,image/jpg"/>
+              <input type='file' accept='.jpg,.jpeg,.png,.gif,image/png,image/gif,image/jpeg,image/jpg' />
             </form>
           </label>
         </div>
@@ -93,35 +94,35 @@ class ImageTray extends React.Component {
 
   render () {
     return (
-      <div className="tray-container">
-        <div className="tray-wrap">
-          <div className="tray-title">
+      <div className='tray-container'>
+        <div className='tray-wrap'>
+          <div className='tray-title'>
             Image URL
           </div>
-          <div className="thesis-field-row">
-            <div className="tray-image-preview" style={this.previewImageStyle()}></div>
+          <div className='thesis-field-row'>
+            <div className='tray-image-preview' style={this.previewImageStyle()} />
           </div>
-          <div className="thesis-field-row">
+          <div className='thesis-field-row'>
             <label>
               <span>Image URL</span>
-              <input type="text" placeholder="http://placekitten.com/200/300" value={this.state.url} onChange={this.urlChange} />
+              <input type='text' placeholder='http://placekitten.com/200/300' value={this.state.url} onChange={this.urlChange} />
             </label>
           </div>
           {this.renderOspryForm()}
-          <div className="thesis-field-row">
+          <div className='thesis-field-row'>
             <label>
               <span>Alt Text</span>
-              <input type="text" placeholder="Describe the image" value={this.state.alt} onChange={this.altChange} />
+              <input type='text' placeholder='Describe the image' value={this.state.alt} onChange={this.altChange} />
             </label>
           </div>
-          <div className="thesis-field-row errors" hidden={this.state.isValid}>
+          <div className='thesis-field-row errors' hidden={this.state.isValid}>
             {/* Errors go here. Toggle the hidden property depending on error count. */}
           </div>
-          <div className="thesis-field-row cta">
-            <button className="thesis-tray-cancel" onClick={this.props.onCancel}>
+          <div className='thesis-field-row cta'>
+            <button className='thesis-tray-cancel' onClick={this.props.onCancel}>
               Cancel
             </button>
-            <button className="thesis-tray-save" onClick={this.onSave}>
+            <button className='thesis-tray-save' onClick={this.onSave}>
               Apply
             </button>
           </div>
