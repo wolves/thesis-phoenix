@@ -22,5 +22,12 @@
     "package.json",
     "priv/static/thesis.js"
   ],
+  "standard": {
+    "ignore": [
+      "web/static/js/utilities/ospry.js",
+      "priv/static/thesis-editor.js",
+      "doc/*"
+    ]
+  },
   "scripts": {}
 }
