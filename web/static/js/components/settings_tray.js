@@ -9,12 +9,14 @@ class SettingsTray extends React.Component {
   constructor (props) {
     super(props)
 
+    const template = props.template || (props.new && props.templates[0] || null)
+
     this.state = {
       title:        props.title,
       description:  props.description,
       redirectURL:  props.redirectURL,
       path:         props.path,
-      template:     (props.template || props.templates[0]),
+      template:     template,
       templates:    props.templates,
       new:          props.new,
       isValid:      true
