@@ -1,8 +1,8 @@
 {
     "version": "0.0.21",
-    "summary": "Thesis CMS - ",
-    "repository": "https://github.com/user/project.git",
-    "license": "BSD3",
+    "summary": "Thesis CMS - Content Management for Phoenix websites",
+    "repository": "https://github.com/infinitered/thesis-phoenix.git",
+    "license": "MIT",
     "source-directories": [
         "./web/elm"
     ],

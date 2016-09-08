@@ -6,9 +6,9 @@ exports.config = {
   },
 
   files: {
-    javascripts: {
-      joinTo: 'thesis-editor.js'
-    },
+    // javascripts: {
+    //   joinTo: 'thesis-editor.js'
+    // },
     stylesheets: {
       joinTo: 'thesis.css'
     }
@@ -17,10 +17,10 @@ exports.config = {
   // Phoenix paths configuration
   paths: {
     // Which directories to watch
-    watched: ['web/static'],
+    watched: ['web/elm'],
 
     // Where to compile files to
-    public: 'priv/static'
+    // public: 'priv/static'
   },
 
   modules: {
@@ -31,10 +31,15 @@ exports.config = {
 
   // Configure your plugins
   plugins: {
-    babel: {
-      // Do not use ES6 compiler in vendor code
-      ignore: [/^(web\/static\/vendor)/],
-      presets: ['es2015', 'react']
+    // babel: {
+    //   // Do not use ES6 compiler in vendor code
+    //   ignore: [/^(web\/static\/vendor)/],
+    //   presets: ['es2015', 'react']
+    // },
+    elmBrunch: {
+      mainModules: ['web/elm/Main.elm'],
+      outputFolder: 'priv/js/',
+      outputFile: 'thesis-editor.js'
     }
   }
 }

@@ -194,15 +194,21 @@ defmodule Thesis.View do
     <script>
       ;(function () {
         var loadThesis = function () {
-          var script = document.createElement('script')
-          script.src = '/thesis/thesis-editor.js'
+          console.log("Loading thesis-editor.js...");
+          var script = document.createElement('script');
+          script.src = '/thesis/thesis-editor.js';
 
-          document.head.appendChild(script)
+          document.head.appendChild(script);
+          console.log("done.");
         }
 
         document.addEventListener('DOMContentLoaded', function (event) {
-          if (document.querySelector('#thesis-container')) {
-            loadThesis()
+          var container = document.querySelector('#thesis-container');
+          if (container) {
+            loadThesis();
+            console.log("Starting Elm...");
+            // Elm.embed(Elm.Main, container);
+            console.log("done.");
           }
         })
       })()
