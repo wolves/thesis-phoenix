@@ -5,7 +5,7 @@ defmodule Example.ThesisAuth do
 
   @behaviour Thesis.Auth
 
-  def page_is_editable?(conn) do
+  def page_is_editable?(_conn) do
     # Editable by the world
     true
 
