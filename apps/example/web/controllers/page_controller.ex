@@ -5,7 +5,7 @@ defmodule Example.PageController do
   def index(conn, _params) do
     conn
     |> assign(:pages, dynamic_pages)
-    |> render "index.html"
+    |> render("index.html")
   end
 
   def about(conn, _params) do
