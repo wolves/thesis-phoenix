@@ -46,7 +46,7 @@ class RawHtmlTray extends React.Component {
           <div className='thesis-field-row'>
             <label>
               <span>HTML code</span>
-              <textarea placeholder='<h1>Any HTML you like</h1>' value={this.state.content} onChange={this.contentChange} />
+              <textarea placeholder='<h1>Any HTML you like</h1>' value={this.state.content} onChange={this.contentChange}></textarea>
             </label>
           </div>
           <div className='thesis-field-row errors' hidden={this.state.isValid}>
