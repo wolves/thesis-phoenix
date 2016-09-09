@@ -193,22 +193,20 @@ defmodule Thesis.View do
     raw """
     <script>
       ;(function () {
-        var loadThesis = function () {
-          console.log("Loading thesis-editor.js...");
+        var loadThesis = function (callback) {
           var script = document.createElement('script');
+          script.onload = callback
           script.src = '/thesis/thesis-editor.js';
 
           document.head.appendChild(script);
-          console.log("done.");
         }
 
         document.addEventListener('DOMContentLoaded', function (event) {
           var container = document.querySelector('#thesis-container');
           if (container) {
-            loadThesis();
-            console.log("Starting Elm...");
-            // Elm.embed(Elm.Main, container);
-            console.log("done.");
+            loadThesis(function () {
+              Elm.Main.embed(container);
+            });
           }
         })
       })()
