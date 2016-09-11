@@ -130,7 +130,7 @@ class SettingsTray extends React.Component {
           <div className='thesis-field-row'>
             <label>
               <span>Page Description</span>
-              <textarea placeholder='Example page description.' value={this.state.description} onChange={this.descriptionChange} />
+              <textarea placeholder='Example page description.' value={this.state.description} onChange={this.descriptionChange}></textarea>
             </label>
           </div>
           {this.dynamicPage() ? this.renderRedirectURL() : null}
