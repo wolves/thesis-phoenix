@@ -5,6 +5,7 @@ defmodule Thesis.PageContent do
   """
 
   use Ecto.Schema
+  import Ecto.Changeset
 
   @type t :: %Thesis.PageContent{
     id: any,
@@ -27,6 +28,9 @@ defmodule Thesis.PageContent do
 
     timestamps
   end
+
+  @valid_attributes [:page_id, :name, :content, :content_type, :meta]
+  @required_attributes [:name, :content_type]
 
   @doc """
   Selects the right page content from a list.
@@ -85,4 +89,12 @@ defmodule Thesis.PageContent do
     |> Poison.encode!
   end
 
+  @doc """
+  Changeset for PageContent structs.
+  """
+  def changeset(page_content, params \\ %{}) do
+    page_content
+    |> cast(params, @valid_attributes)
+    |> validate_required(@required_attributes)
+  end
 end

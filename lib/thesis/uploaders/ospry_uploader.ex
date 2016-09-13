@@ -4,4 +4,7 @@ defmodule Thesis.OspryUploader do
   """
 
   @behaviour Thesis.Uploader
+
+  def upload(_file), do: :ok
+
 end

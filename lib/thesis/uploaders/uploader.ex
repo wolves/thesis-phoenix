@@ -7,4 +7,6 @@ defmodule Thesis.Uploader do
 
   There are currently no required functions. Reserved for future use.
   """
+
+  @callback upload(File.t) :: atom
 end

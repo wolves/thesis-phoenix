@@ -16,6 +16,11 @@ body.thesis-editing .thesis-content
   box-shadow : none
   outline    : none
 
+  &.thesis-content-empty
+    min-height        : 50px
+    min-width         : 50px
+    background-color  : darken($gray, 30%)
+
   &.thesis-content-raw_html
     > *
       pointer-events: none

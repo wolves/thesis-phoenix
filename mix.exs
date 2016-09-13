@@ -11,7 +11,8 @@ defmodule Thesis.Mixfile do
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
       deps: deps,
-      package: package
+      package: package,
+      dialyzer: [plt_add_deps: :transitive]
     ]
   end
 
@@ -29,7 +30,7 @@ defmodule Thesis.Mixfile do
       {:html_sanitize_ex, ">= 1.0.1"},
       {:ex_doc, ">= 0.12.0", only: [:dev]},
       {:earmark, ">= 0.2.0", only: [:dev]},
-      {:dialyze, ">= 0.2.0", only: [:test, :dev]},
+      {:dialyxir, ">= 0.3.5", only: [:dev]},
       {:credo, ">= 0.4.6", only: [:dev]}
     ]
   end

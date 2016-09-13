@@ -6,7 +6,8 @@ defmodule Mix.Tasks.Thesis.Install do
     "create_thesis_tables",
     "add_meta_to_thesis_page_contents",
     "add_indexes_to_tables",
-    "add_template_and_redirect_url_to_thesis_pages"
+    "add_template_and_redirect_url_to_thesis_pages",
+    "change_content_default_for_page_content",
   ]
   @template_files [
     {"priv/templates/thesis.install/thesis_auth.exs", "lib/thesis_auth.ex"}
@@ -42,8 +43,9 @@ defmodule Mix.Tasks.Thesis.Install do
                       |> Enum.filter(&migration_missing?/1)
                       |> Enum.with_index
                       |> Enum.map(&migration_tuple/1)
-
-    (@template_files ++ migration_files)
+    all_templates = @template_files ++ migration_files
+    
+    all_templates
     |> Stream.map(&render_eex/1)
     |> Stream.map(&copy_to_target/1)
     |> Stream.run
