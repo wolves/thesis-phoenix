@@ -44,16 +44,17 @@
   </div>
 
   <div class="col-lg-6">
-    <%= content(@conn, "Help", :html) do %>
+    <%= content(@conn, "Dynamic Pages", :raw_html) do %>
       <h4>Created Dynamic Pages</h4>
-      <p>Any dynamic pages you create will be listed here.</p>
-      <ul>
-        <%= for page <- @pages do %>
-          <li>
-            <a href="<%= page.slug %>"><%= page.title || "Untitled" %></a>
-          </li>
-        <% end %>
-      </ul>
+      <p>This is an example of a raw HTML block.</p>
+      <p>Any dynamic pages you create will be listed below.</p>
     <% end %>
+    <ul>
+      <%= for page <- @pages do %>
+        <li>
+          <a href="<%= page.slug %>"><%= page.title || "Untitled" %></a>
+        </li>
+      <% end %>
+    </ul>
   </div>
 </div>
