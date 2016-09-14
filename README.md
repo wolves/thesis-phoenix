@@ -256,6 +256,7 @@ choice.
 
 ```elixir
 # web/router.ex
+# should be added as the last route
 
   get "/*path", <MyApp>.PageController, :dynamic
 
