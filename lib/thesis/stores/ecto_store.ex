@@ -12,7 +12,6 @@ defmodule Thesis.EctoStore do
   @behaviour Thesis.Store
 
   import Thesis.Config
-  import Ecto.Query, only: [from: 2]
   alias Thesis.{Page, PageContent}
 
   def page(slug) when is_binary(slug) do
