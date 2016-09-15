@@ -1,6 +1,7 @@
+import React from 'react'
 import ReactDOM from 'react-dom'
 import ThesisEditor from './components/thesis-editor'
-import Net from './utilities/net'
+import external from './external'
 
 const thesis = (container) => {
   // Check for a redirect URL and display an alert if so, allowing
@@ -11,44 +12,13 @@ const thesis = (container) => {
     window.location = url
   }
 
-  // All the "unholy" external access routes through this object.
-  // (Well, *almost* all...)
-  const descriptionMetaTag = document.querySelectorAll('meta[name=description]')[0]
-  const external = {
-    ospryPublicKey: container.getAttribute('data-ospry-public-key'),
-    pageRedirectURL: container.getAttribute('data-redirect-url'),
-    template: container.getAttribute('data-template'),
-    templates: container.getAttribute('data-templates').split(',').filter((s) => s !== ''),
-    dynamicPage: container.getAttribute('data-dynamic-page'),
-    path: window.location.pathname,
-    getTitle: () => document.title,
-    setTitle: (t) => document.title = t,
-    getDescription: () => descriptionMetaTag && descriptionMetaTag.content,
-    setDescription: (desc) => descriptionMetaTag && (descriptionMetaTag.content = desc),
-    getRedirectURL: () => container.getAttribute('data-redirect-url'),
-    setRedirectURL: (url) => container.setAttribute('data-redirect-url', url),
-    save: (callback) => {
-      Net.put('/thesis/update', {page, contents}).then((resp) => {
-        if (page.slug !== window.location.pathname) {
-          window.location = page.slug
-        } else {
-          callback()
-        }
-      }).catch((err) => {
-        window.alert(err)
-      })
-    },
-    delete: (page, callback) => {
-      Net.delete('/thesis/delete', {path}).then((resp) => {
-        window.alert('Page has been deleted.')
-        callback()
-      }).catch((err) => {
-        window.alert(err)
-      })
-    }
-  }
+  const ext = external(container)
 
-  return ReactDOM.render(<ThesisEditor external={external}>, container)
+  return ReactDOM.render(<ThesisEditor external={ext} />, container)
 }
 
+console.log("Attaching thesis to windows")
+
 window.thesis = thesis
+
+export default thesis

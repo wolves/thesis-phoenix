@@ -202,10 +202,11 @@ defmodule Thesis.View do
         }
 
         document.addEventListener('DOMContentLoaded', function (event) {
-          var body = document.querySelector('#thesis-container')
-          if (body) {
+          var container = document.querySelector('#thesis-container')
+          if (container) {
             loadThesis(function () {
-              console.log(window)
+              // Init Thesis
+              console.log(window.thesis(container))
             })
           }
         })

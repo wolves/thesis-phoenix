@@ -1,36 +1,36 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import AddButton from './components/add_button'
-import DeleteButton from './components/delete_button'
-import SettingsButton from './components/settings_button'
-import CancelButton from './components/cancel_button'
-import SaveButton from './components/save_button'
-import EditButton from './components/edit_button'
-import SettingsTray from './components/settings_tray'
-import AttributionText from './components/attribution_text'
-import Net from './utilities/net'
+import AddButton from './add_button'
+import DeleteButton from './delete_button'
+import SettingsButton from './settings_button'
+import CancelButton from './cancel_button'
+import SaveButton from './save_button'
+import EditButton from './edit_button'
+import SettingsTray from './settings_tray'
+import AttributionText from './attribution_text'
+// import Net from './utilities/net'
 
 // // Content types
-import HtmlEditor from './content_types/html_editor'
-import RawHtmlEditor from './content_types/raw_html_editor'
-import ImageEditor from './content_types/image_editor'
-import TextEditor from './content_types/text_editor'
-//
-const thesisContainer = document.querySelector('#thesis-container')
+import HtmlEditor from '../content_types/html_editor'
+import RawHtmlEditor from '../content_types/raw_html_editor'
+import ImageEditor from '../content_types/image_editor'
+import TextEditor from '../content_types/text_editor'
 
 class ThesisEditor extends React.Component {
 
   constructor (props) {
     super(props)
+    this.external = props.external
+
     this.state = {
       editing: false,
-      path: this.external.pathname,
+      path: this.external.path,
       title: this.external.getTitle(),
       description: this.external.getDescription(),
       template: this.external.pageTemplate,
       templates: this.external.pageTemplates,
       dynamicPage: this.external.dynamicPage,
-      redirectURL: this.pageRedirectURL(),
+      redirectURL: this.external.pageRedirectURL,
       pageModified: false,
       pageToolsHidden: true,
       trayOpen: false,
@@ -38,12 +38,10 @@ class ThesisEditor extends React.Component {
       deleted: false
     }
 
-    this.external = props.external
-
     // TODO: Refactor these -- it's a false extraction
     this.htmlEditor = new HtmlEditor(this)
     this.rawHtmlEditor = new RawHtmlEditor(this)
-    this.imageEditor = new ImageEditor(this, {ospryPublicKey: this.external.ospryPublicKey()})
+    this.imageEditor = new ImageEditor(this, {ospryPublicKey: this.external.ospryPublicKey})
     this.textEditor = new TextEditor(this)
 
     // this.warnURLRedirect(this.state.redirectURL)
@@ -59,50 +57,6 @@ class ThesisEditor extends React.Component {
     this.pageSettingsPressed = this.pageSettingsPressed.bind(this)
   }
 
-  // warnURLRedirect (url) {
-  //   if (!url) return
-  //   if (window.confirm(`This page is set to redirect to ${url}. Follow redirect?`)) {
-  //     window.location = url
-  //   }
-  // }
-
-  // pathname () {
-  //   return window.location.pathname
-  // }
-
-  // pageTitle () {
-  //   return document.title
-  // }
-
-  // pageDescription () {
-  //   const desc = this.pageDescriptionMetaTag()
-  //   return desc ? desc.content : null
-  // }
-
-  pageRedirectURL () {
-    // return thesisContainer.getAttribute('data-redirect-url')
-    return this.external.pageRedirectURL
-  }
-
-  pageTemplate () {
-    // return thesisContainer.getAttribute('data-template')
-    return this.external.template
-  }
-
-  pageTemplates () {
-    // return thesisContainer.getAttribute('data-templates').split(',').filter((s) => s !== '')
-    return this.external.templates
-  }
-
-  dynamicPage () {
-    // return thesisContainer.getAttribute('data-dynamic-page')
-    return this.external.dynamicPage
-  }
-
-  // pageDescriptionMetaTag () {
-  //   return document.querySelectorAll('meta[name=description]')[0]
-  // }
-
   trayCanceled () {
     this.setState({trayOpen: false, trayData: null})
   }
@@ -116,7 +70,7 @@ class ThesisEditor extends React.Component {
         redirect_url: data.redirectURL,
         template: data.template
       }
-      this.postToServer(page, [])
+      this.save(page, [])
     } else {
       this.setState({
         trayOpen: false,
@@ -162,7 +116,7 @@ class ThesisEditor extends React.Component {
       template: this.state.template
     }
     const contents = this.contentEditorContents()
-    this.postToServer(page, contents)
+    this.save(page, contents)
   }
 
   cancelPressed () {
@@ -180,7 +134,7 @@ class ThesisEditor extends React.Component {
     }
   }
 
-  postToServer (page, contents) {
+  save (page, contents) {
     this.external.save(page, contents, () => {
       this.setState({editing: false, pageModified: false, trayOpen: false})
       this.setState({pageToolsHidden: true})
@@ -211,6 +165,7 @@ class ThesisEditor extends React.Component {
     this.textEditor.disable()
   }
 
+  // TODO: This should be in `external`
   contentEditorContents () {
     let contents = []
 
@@ -274,15 +229,13 @@ class ThesisEditor extends React.Component {
       el.classList.remove('thesis-tray-open')
     }
 
-    document.title = this.state.title
-    // this.pageDescriptionMetaTag().content = this.state.description
+    this.external.setTitle(this.state.title)
     this.external.setDescription(this.state.description)
-    // thesisContainer.setAttribute('data-redirect-url', this.state.redirectURL)
     this.external.setRedirectURL(this.state.redirectURL)
   }
 
   dynamicEnabled () {
-    return this.state.templates.length > 0
+    return this.state.templates && this.state.templates.length > 0
   }
 
   renderEditorClass () {
@@ -324,7 +277,7 @@ class ThesisEditor extends React.Component {
       return <SettingsTray
         hasErrors={false}
         new
-        path={`${this.pathname().replace(/\/+$/, '')}/newpage`}
+        path={`${this.external.path.replace(/\/+$/, '')}/newpage`}
         title={''}
         description={''}
         template={''}
