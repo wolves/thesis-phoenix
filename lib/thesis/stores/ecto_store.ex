@@ -19,25 +19,34 @@ defmodule Thesis.EctoStore do
     repo.get_by(Page, slug: slug)
   end
 
-  def page_contents(nil), do: []
+  # disabled for now
+  # def page_contents(nil), do: []
 
+  # calls function with either the page struct or nil
   def page_contents(slug) when is_binary(slug) do
     page_contents(page(slug))
   end
 
-  def page_contents(%Page{id: nil}) do
-    repo.all(from p in PageContent, where: is_nil(p.page_id))
+  # if nil, means page was not edited yet. we only care about retrieving global areas at this point
+  def page_contents(nil) do
+    repo.all(from pc in PageContent, where: is_nil(pc.page_id))
   end
 
+  # we actually don't need this anymore since we are returning actual table data on line 49 to be used on 52;
+  # but, we could return all entries if you want to be safe
+  # def page_contents(%Page{id: nil}), do: repo.all(PageContent)
+
+  # if struct, we retrieve page specific data and all global areas
   def page_contents(%Page{id: page_id}) do
-    repo.all(from p in PageContent, where: (p.page_id == ^page_id) or is_nil(p.page_id))
+    repo.all(from pc in PageContent, where: pc.page_id == ^page_id or is_nil(pc.page_id))
   end
 
   def update(%{"slug" => slug} = page_params, contents_params) do
     page = page(slug) || %Page{slug: slug}
     page_changeset = Ecto.Changeset.cast(page, page_params, [], ~w(slug title description redirect_url template))
 
-    repo.insert_or_update!(page_changeset)
+    # need to return the inserted struct because if it's a new page, the id is nil
+    page = repo.insert_or_update!(page_changeset)
 
     contents_params
     |> Enum.map(fn(x) -> content_changeset(x, page, page_contents(page)) end)
