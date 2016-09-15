@@ -12,22 +12,25 @@ defmodule Thesis.EctoStore do
   @behaviour Thesis.Store
 
   import Thesis.Config
+  import Ecto.Query, only: [from: 2]
   alias Thesis.{Page, PageContent}
 
   def page(slug) when is_binary(slug) do
     repo.get_by(Page, slug: slug)
   end
 
+  def page_contents(nil), do: []
+
   def page_contents(slug) when is_binary(slug) do
     page_contents(page(slug))
   end
 
-  def page_contents(nil) do
-    repo.all(PageContent, page_id: nil)
+  def page_contents(%Page{id: nil}) do
+    repo.all(from p in PageContent, where: is_nil(p.page_id))
   end
 
   def page_contents(%Page{id: page_id}) do
-    repo.all(PageContent, page_id: page_id)
+    repo.all(from p in PageContent, where: (p.page_id == ^page_id) or is_nil(p.page_id))
   end
 
   def update(%{"slug" => slug} = page_params, contents_params) do
