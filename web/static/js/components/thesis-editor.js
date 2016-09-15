@@ -10,12 +10,12 @@ import SettingsTray from './components/settings_tray'
 import AttributionText from './components/attribution_text'
 import Net from './utilities/net'
 
-// Content types
+// // Content types
 import HtmlEditor from './content_types/html_editor'
 import RawHtmlEditor from './content_types/raw_html_editor'
 import ImageEditor from './content_types/image_editor'
 import TextEditor from './content_types/text_editor'
-
+//
 const thesisContainer = document.querySelector('#thesis-container')
 
 class ThesisEditor extends React.Component {
@@ -24,12 +24,12 @@ class ThesisEditor extends React.Component {
     super(props)
     this.state = {
       editing: false,
-      path: this.pathname(),
-      title: this.pageTitle(),
-      description: this.pageDescription(),
-      template: this.pageTemplate(),
-      templates: this.pageTemplates(),
-      dynamicPage: this.dynamicPage(),
+      path: this.external.pathname,
+      title: this.external.getTitle(),
+      description: this.external.getDescription(),
+      template: this.external.pageTemplate,
+      templates: this.external.pageTemplates,
+      dynamicPage: this.external.dynamicPage,
       redirectURL: this.pageRedirectURL(),
       pageModified: false,
       pageToolsHidden: true,
@@ -37,12 +37,16 @@ class ThesisEditor extends React.Component {
       trayType: null,
       deleted: false
     }
+
+    this.external = props.external
+
+    // TODO: Refactor these -- it's a false extraction
     this.htmlEditor = new HtmlEditor(this)
     this.rawHtmlEditor = new RawHtmlEditor(this)
-    this.imageEditor = new ImageEditor(this, {ospryPublicKey: this.ospryPublicKey()})
+    this.imageEditor = new ImageEditor(this, {ospryPublicKey: this.external.ospryPublicKey()})
     this.textEditor = new TextEditor(this)
 
-    this.warnURLRedirect(this.state.redirectURL)
+    // this.warnURLRedirect(this.state.redirectURL)
 
     // Rebind context
     this.trayCanceled = this.trayCanceled.bind(this)
@@ -55,49 +59,49 @@ class ThesisEditor extends React.Component {
     this.pageSettingsPressed = this.pageSettingsPressed.bind(this)
   }
 
-  warnURLRedirect (url) {
-    if (!url) return
-    if (window.confirm(`This page is set to redirect to ${url}. Follow redirect?`)) {
-      window.location = url
-    }
-  }
+  // warnURLRedirect (url) {
+  //   if (!url) return
+  //   if (window.confirm(`This page is set to redirect to ${url}. Follow redirect?`)) {
+  //     window.location = url
+  //   }
+  // }
 
-  ospryPublicKey () {
-    return thesisContainer.getAttribute('data-ospry-public-key')
-  }
+  // pathname () {
+  //   return window.location.pathname
+  // }
 
-  pathname () {
-    return window.location.pathname
-  }
+  // pageTitle () {
+  //   return document.title
+  // }
 
-  pageTitle () {
-    return document.title
-  }
-
-  pageDescription () {
-    const desc = this.pageDescriptionMetaTag()
-    return desc ? desc.content : null
-  }
+  // pageDescription () {
+  //   const desc = this.pageDescriptionMetaTag()
+  //   return desc ? desc.content : null
+  // }
 
   pageRedirectURL () {
-    return thesisContainer.getAttribute('data-redirect-url')
+    // return thesisContainer.getAttribute('data-redirect-url')
+    return this.external.pageRedirectURL
   }
 
   pageTemplate () {
-    return thesisContainer.getAttribute('data-template')
+    // return thesisContainer.getAttribute('data-template')
+    return this.external.template
   }
 
   pageTemplates () {
-    return thesisContainer.getAttribute('data-templates').split(',').filter((s) => s !== '')
+    // return thesisContainer.getAttribute('data-templates').split(',').filter((s) => s !== '')
+    return this.external.templates
   }
 
   dynamicPage () {
-    return thesisContainer.getAttribute('data-dynamic-page')
+    // return thesisContainer.getAttribute('data-dynamic-page')
+    return this.external.dynamicPage
   }
 
-  pageDescriptionMetaTag () {
-    return document.querySelectorAll('meta[name=description]')[0]
-  }
+  // pageDescriptionMetaTag () {
+  //   return document.querySelectorAll('meta[name=description]')[0]
+  // }
 
   trayCanceled () {
     this.setState({trayOpen: false, trayData: null})
@@ -177,24 +181,15 @@ class ThesisEditor extends React.Component {
   }
 
   postToServer (page, contents) {
-    Net.put('/thesis/update', {page, contents}).then((resp) => {
-      if (page.slug !== window.location.pathname) {
-        window.location = page.slug
-      } else {
-        this.setState({editing: false, pageModified: false, trayOpen: false})
-        this.setState({pageToolsHidden: true})
-      }
-    }).catch((err) => {
-      window.alert(err)
+    this.external.save(page, contents, () => {
+      this.setState({editing: false, pageModified: false, trayOpen: false})
+      this.setState({pageToolsHidden: true})
     })
   }
 
   deletePage (path) {
-    Net.delete('/thesis/delete', {path}).then((resp) => {
-      window.alert('Page has been deleted.')
+    this.external.delete(path, () => {
       this.setState({deleted: true, editing: false})
-    }).catch((err) => {
-      window.alert(err)
     })
   }
 
@@ -280,8 +275,10 @@ class ThesisEditor extends React.Component {
     }
 
     document.title = this.state.title
-    this.pageDescriptionMetaTag().content = this.state.description
-    thesisContainer.setAttribute('data-redirect-url', this.state.redirectURL)
+    // this.pageDescriptionMetaTag().content = this.state.description
+    this.external.setDescription(this.state.description)
+    // thesisContainer.setAttribute('data-redirect-url', this.state.redirectURL)
+    this.external.setRedirectURL(this.state.redirectURL)
   }
 
   dynamicEnabled () {
@@ -364,7 +361,6 @@ class ThesisEditor extends React.Component {
       </div>
     )
   }
-
 }
 
-ReactDOM.render(<ThesisEditor />, document.querySelector('#thesis-container'))
+export default ThesisEditor

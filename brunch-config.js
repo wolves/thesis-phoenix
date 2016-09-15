@@ -25,7 +25,7 @@ exports.config = {
 
   modules: {
     autoRequire: {
-      'thesis-editor.js': ['web/static/js/thesis-editor']
+      'thesis.js': ['web/static/js/thesis']
     }
   },
 

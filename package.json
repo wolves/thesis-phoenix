@@ -6,14 +6,17 @@
   "license": "MIT",
   "devDependencies": {
     "babel-brunch": "~6.0.0",
-    "babel-preset-react": "^6.5.0",
+    "babel-jest": "^15.0.0",
+    "babel-polyfill": "^6.13.0",
     "brunch": "^2.8.2",
     "clean-css-brunch": "^2.0",
     "css-brunch": "^2.6",
+    "jest": "^15.1.1",
     "medium-editor": "^5.14.4",
-    "node-sass": "^3.4.1",
-    "react": "15.2.1",
-    "react-dom": "15.2.1",
+    "node-sass": "^3.10.0",
+    "react": "15.3.1",
+    "react-dom": "15.3.1",
+    "react-test-renderer": "^15.3.1",
     "sass-brunch": "^2.6.3",
     "uglify-js-brunch": "^2.0.1",
     "whatwg-fetch": "^1.0.0"
@@ -29,5 +32,7 @@
       "doc/*"
     ]
   },
-  "scripts": {}
+  "scripts": {
+    "test": "jest"
+  }
 }
