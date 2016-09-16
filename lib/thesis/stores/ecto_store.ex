@@ -19,24 +19,21 @@ defmodule Thesis.EctoStore do
     repo.get_by(Page, slug: slug)
   end
 
-  # disabled for now
-  # def page_contents(nil), do: []
-
-  # calls function with either the page struct or nil
+  # calls page_contents/1 passing in either:
+  # - `nil`, if the Page could not be found (usually means page has not been edited)
+  # - `%Page{...}` struct, if the Page has already been edited and saved
   def page_contents(slug) when is_binary(slug) do
     page_contents(page(slug))
   end
 
-  # if nil, means page was not edited yet. we only care about retrieving global areas at this point
+  # handles `nil` - means page has not been edited yet
+  # at this point we only care about retrieving global content
   def page_contents(nil) do
-    repo.all(from pc in PageContent, where: is_nil(pc.page_id))
+    repo.all(from pc in PageContent, where: pc.page_id == 0)
   end
 
-  # we actually don't need this anymore since we are returning actual table data on line 49 to be used on 52;
-  # but, we could return all entries if you want to be safe
-  # def page_contents(%Page{id: nil}), do: repo.all(PageContent)
-
-  # if struct, we retrieve page specific data and all global areas
+  # handles `%Page{...} struct - means page has been edited and saved
+  # retrieves page content and global content
   def page_contents(%Page{id: page_id}) do
     repo.all(from pc in PageContent, where: pc.page_id == ^page_id or is_nil(pc.page_id))
   end
@@ -45,7 +42,6 @@ defmodule Thesis.EctoStore do
     page = page(slug) || %Page{slug: slug}
     page_changeset = Ecto.Changeset.cast(page, page_params, [], ~w(slug title description redirect_url template))
 
-    # need to return the inserted struct because if it's a new page, the id is nil
     page = repo.insert_or_update!(page_changeset)
 
     contents_params
@@ -76,6 +72,6 @@ defmodule Thesis.EctoStore do
     })
   end
 
-  defp page_id_or_global(%{"global" => "true"}, _page), do: nil
+  defp page_id_or_global(%{"global" => "true"}, _page), do: 0
   defp page_id_or_global(_content, %Page{id: id}), do: id
 end
