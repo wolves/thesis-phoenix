@@ -22,7 +22,9 @@
             <li><a href="https://github.com/infinitered/ignite">Get Started</a></li>
           </ul>
         </nav>
-        <span class="logo"></span>
+        <span class="logo">
+          <%= global_content(@conn, "Header Logo", :image, do: "https://infinite.red/images/ir-logo.svg") %>
+        </span>
       </header>
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>

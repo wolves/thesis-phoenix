@@ -27,14 +27,23 @@ form.link, form.button {
   border-bottom: 1px solid #e5e5e5;
 }
 .logo {
-  width: 519px;
+  width: 100%;
   height: 71px;
   display: inline-block;
   margin-bottom: 1em;
-  background-image: url("/images/phoenix.png");
-  background-size: 519px 71px;
+  margin-top: 12px;
 }
 
+.logo #thesis-content-header-logo {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.logo #thesis-content-header-logo img {
+  height: 100%;
+  display: inline-block;
+}
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing {
@@ -56,6 +65,28 @@ form.link, form.button {
 .jumbotron {
   text-align: center;
   border-bottom: 1px solid #e5e5e5;
+  position: relative;
+  background: transparent;
+}
+
+.jumbotron * {
+  color: white;
+}
+
+body.thesis-editing .thesis-content.jumbotron-bg {
+  position: absolute;
+  z-index: 1039;
+}
+
+.jumbotron-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  z-index: -1;
 }
 
 /* Supporting marketing content */
