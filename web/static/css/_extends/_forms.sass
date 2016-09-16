@@ -29,6 +29,7 @@
   input,
   button,
   select[multiple=multiple]
+    +transition(box-shadow .2s ease-in-out)
     background  : rgba($gray, .15)
     display       : block
     border        : none
@@ -48,7 +49,8 @@
       color          : darken($gray, 20%)
 
     &:disabled
-      color : darken($gray, 20%)
+      color  : darken($gray, 20%)
+      cursor : no-drop
 
     &.invalid
       background  : rgba($ir-red, .10)
@@ -79,6 +81,11 @@
     line-height : 1.6
     padding     : 10px
 
+  textarea, input[type='text']
+    &:focus
+      outline    : none
+      box-shadow : 0 8px 6px -6px darken($gray, 20%)
+
   button.thesis-tray-cancel,
   button.thesis-tray-save
     +transition(background .2s ease-in-out)
@@ -97,6 +104,10 @@
 
     &:hover
       background: darken($pink, 8%)
+
+    &:focus
+      outline    : none
+      box-shadow : none
 
   button.thesis-tray-save
     float          : right

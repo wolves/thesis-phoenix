@@ -46,7 +46,7 @@ defmodule Thesis.Mixfile do
     [
       files: ["lib", "priv", "web", "mix.exs", "README*", "LICENSE*", "package.json"],
       licenses: ["MIT"],
-      maintainers: ["Jamon Holmgren", "Ken Miller", "Daniel Berkompas", "Yulian Glukhenko"],
+      maintainers: ["Jamon Holmgren", "Yulian Glukhenko", "Ken Miller", "Daniel Berkompas"],
       links: %{
         "GitHub" => "https://github.com/infinitered/thesis",
         "Docs" => "https://hexdocs.pm/thesis/#{@version}/api-reference.html",
