@@ -27,7 +27,7 @@
   "standard": {
     "ignore": [
       "web/static/js/utilities/ospry.js",
-      "priv/static/thesis-editor.js",
+      "priv/static/thesis.js",
       "doc/*"
     ]
   },
