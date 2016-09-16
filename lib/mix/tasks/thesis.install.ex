@@ -7,8 +7,7 @@ defmodule Mix.Tasks.Thesis.Install do
     "add_meta_to_thesis_page_contents",
     "add_indexes_to_tables",
     "add_template_and_redirect_url_to_thesis_pages",
-    "change_content_default_for_page_content",
-    "change_global_area_ids_from_nil_to_zero"
+    "change_content_default_for_page_content"
   ]
   @template_files [
     {"priv/templates/thesis.install/thesis_auth.exs", "lib/thesis_auth.ex"}
