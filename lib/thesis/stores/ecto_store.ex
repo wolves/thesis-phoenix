@@ -29,7 +29,7 @@ defmodule Thesis.EctoStore do
   # handles `nil` - means page has not been edited yet
   # at this point we only care about retrieving global content
   def page_contents(nil) do
-    repo.all(from pc in PageContent, where: pc.page_id == 0)
+    repo.all(from pc in PageContent, where: is_nil(pc.page_id))
   end
 
   # handles `%Page{...} struct - means page has been edited and saved
@@ -72,6 +72,6 @@ defmodule Thesis.EctoStore do
     })
   end
 
-  defp page_id_or_global(%{"global" => "true"}, _page), do: 0
+  defp page_id_or_global(%{"global" => "true"}, _page), do: nil
   defp page_id_or_global(_content, %Page{id: id}), do: id
 end
