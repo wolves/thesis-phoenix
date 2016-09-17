@@ -4,7 +4,8 @@ import renderer from 'react-test-renderer'
 
 import ThesisEditor from '../web/static/js/components/thesis-editor.js'
 
-jest.mock('react/lib/ReactDefaultInjection')
+// jest.mock('react/lib/ReactDefaultInjection')
+jest.mock('react-dom')
 
 const mockExternal = () => {
   let title = "Doc title"
