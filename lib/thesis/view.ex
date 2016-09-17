@@ -195,7 +195,7 @@ defmodule Thesis.View do
       ;(function () {
         var loadThesis = function (callback) {
           var script = document.createElement('script')
-          script.src = '/thesis/thesis-editor.js'
+          script.src = '/thesis/thesis.js'
           script.onload = callback
 
           document.head.appendChild(script)

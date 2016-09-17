@@ -17,8 +17,6 @@ const thesis = (container) => {
   return ReactDOM.render(<ThesisEditor external={ext} />, container)
 }
 
-console.log("Attaching thesis to windows")
-
 window.thesis = thesis
 
 export default thesis

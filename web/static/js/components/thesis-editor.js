@@ -8,9 +8,8 @@ import SaveButton from './save_button'
 import EditButton from './edit_button'
 import SettingsTray from './settings_tray'
 import AttributionText from './attribution_text'
-// import Net from './utilities/net'
 
-// // Content types
+// Content types
 import HtmlEditor from '../content_types/html_editor'
 import RawHtmlEditor from '../content_types/raw_html_editor'
 import ImageEditor from '../content_types/image_editor'
@@ -27,9 +26,9 @@ class ThesisEditor extends React.Component {
       path: this.external.path,
       title: this.external.getTitle(),
       description: this.external.getDescription(),
-      template: this.external.pageTemplate,
-      templates: this.external.pageTemplates,
-      dynamicPage: this.external.dynamicPage,
+      template: this.external.template,
+      templates: this.external.templates,
+      isDynamicPage: this.external.isDynamicPage,
       redirectURL: this.external.pageRedirectURL,
       pageModified: false,
       pageToolsHidden: true,
@@ -234,7 +233,7 @@ class ThesisEditor extends React.Component {
     this.external.setRedirectURL(this.state.redirectURL)
   }
 
-  dynamicEnabled () {
+  canCreatePages () {
     return this.state.templates && this.state.templates.length > 0
   }
 
@@ -242,7 +241,7 @@ class ThesisEditor extends React.Component {
     let classes = ''
     classes += (this.state.editing) ? ' active ' : ''
     classes += (this.state.pageToolsHidden) ? ' thesis-page-tools-hidden ' : ''
-    classes += (this.dynamicEnabled()) ? ' thesis-add-page-tool-present ' : ''
+    classes += (this.canCreatePages()) ? ' thesis-add-page-tool-present ' : ''
     classes += (this.state.template) ? ' thesis-delete-page-tool-present ' : ''
     return classes
   }
@@ -269,7 +268,7 @@ class ThesisEditor extends React.Component {
         description={this.state.description}
         template={this.state.template}
         templates={this.state.templates}
-        dynamicPage={this.state.dynamicPage}
+        isDynamicPage={this.state.isDynamicPage}
         redirectURL={this.state.redirectURL}
         onCancel={this.trayCanceled}
         onSubmit={this.settingsTraySubmitted} />
@@ -282,7 +281,7 @@ class ThesisEditor extends React.Component {
         description={''}
         template={''}
         templates={this.state.templates}
-        dynamicPage={this.state.dynamicPage}
+        isDynamicPage={this.state.isDynamicPage}
         redirectURL={''}
         onCancel={this.trayCanceled}
         onSubmit={this.settingsTraySubmitted} />
@@ -302,8 +301,8 @@ class ThesisEditor extends React.Component {
           <SaveButton onPress={this.savePressed} />
           <SettingsButton onPress={this.pageSettingsPressed} />
           <CancelButton onPress={this.cancelPressed} />
-          {this.dynamicEnabled() ? <AddButton onPress={this.addPagePressed} /> : null}
-          {this.state.dynamicPage ? <DeleteButton onPress={this.deletePagePressed} /> : null}
+          {this.canCreatePages() ? <AddButton onPress={this.addPagePressed} /> : null}
+          {this.state.isDynamicPage ? <DeleteButton onPress={this.deletePagePressed} /> : null}
           <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
         </div>
         <div id='thesis-fader' className={this.renderFaderClass()} />

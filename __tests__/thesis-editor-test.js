@@ -4,19 +4,18 @@ import renderer from 'react-test-renderer'
 
 import ThesisEditor from '../web/static/js/components/thesis-editor.js'
 
-// jest.mock('react/lib/ReactDefaultInjection')
 jest.mock('react-dom')
 
-const mockExternal = () => {
+const mockExternal = (overrides={}) => {
   let title = "Doc title"
   let description = "Description"
   let redirectURL = null
-  return {
+  return Object.assign({
     ospryPublicKey: null,
     pageRedirectURL: null,
     template: null,
     templates: [],
-    dynamicPage: false,
+    isDynamicPage: false,
     path: "/test",
     getTitle: () => title,
     setTitle: (t) => title = t,
@@ -26,12 +25,18 @@ const mockExternal = () => {
     setRedirectURL: (url) => redirectURL = url,
     save: (page, contents, callback) => callback(),
     delete: (path, callback) => callback()
-  }
+  }, overrides)
 }
 
-it('renders correctly', () => {
-  const tree = renderer.create(
-    <ThesisEditor external={mockExternal()} />
-  ).toJSON()
+it('renders ThesisEditor', () => {
+  const tree = renderer.create(<ThesisEditor external={mockExternal({})} />).toJSON()
+  expect(tree).toMatchSnapshot()
+})
+
+it('renders ThesisEditor with an add button', () => {
+  const external = mockExternal({
+    templates: ['dynamic', 'other']
+  })
+  const tree = renderer.create(<ThesisEditor external={external} />).toJSON()
   expect(tree).toMatchSnapshot()
 })

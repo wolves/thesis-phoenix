@@ -9,7 +9,7 @@ const external = (container) => {
     pageRedirectURL: container.getAttribute('data-redirect-url'),
     template: container.getAttribute('data-template'),
     templates: container.getAttribute('data-templates').split(',').filter((s) => s !== ''),
-    dynamicPage: container.getAttribute('data-dynamic-page'),
+    isDynamicPage: container.getAttribute('data-dynamic-page'),
     path: window.location.pathname,
     getTitle: () => document.title,
     setTitle: (t) => document.title = t,
