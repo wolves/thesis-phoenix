@@ -37,14 +37,6 @@ class ThesisEditor extends React.Component {
       deleted: false
     }
 
-    // TODO: Refactor these -- it's a false extraction
-    this.htmlEditor = new HtmlEditor(this)
-    this.rawHtmlEditor = new RawHtmlEditor(this)
-    this.imageEditor = new ImageEditor(this, {ospryPublicKey: this.external.ospryPublicKey})
-    this.textEditor = new TextEditor(this)
-
-    // this.warnURLRedirect(this.state.redirectURL)
-
     // Rebind context
     this.trayCanceled = this.trayCanceled.bind(this)
     this.settingsTraySubmitted = this.settingsTraySubmitted.bind(this)
@@ -54,6 +46,39 @@ class ThesisEditor extends React.Component {
     this.addPagePressed = this.addPagePressed.bind(this)
     this.deletePagePressed = this.deletePagePressed.bind(this)
     this.pageSettingsPressed = this.pageSettingsPressed.bind(this)
+
+    // External editors
+    
+    this.htmlEditor = new HtmlEditor({
+      onChange: () => this.setState({pageModified: true})
+    })
+
+    this.rawHtmlEditor = new RawHtmlEditor({
+      openTray: this.openTray('raw-html'),
+      closeTray: this.trayCanceled
+    })
+
+    this.imageEditor = new ImageEditor({
+      ospryPublicKey: this.external.ospryPublicKey,
+      openTray: this.openTray('image-url'),
+      closeTray: this.trayCanceled
+    })
+
+    this.textEditor = new TextEditor({
+      onChange: () => this.setState({pageModified: true})
+    })
+
+  }
+
+  openTray (trayType) {
+    return (trayData) => {
+      this.setState({
+        pageModified: true,
+        trayOpen: true,
+        trayType: trayType,
+        trayData: trayData
+      })
+    }
   }
 
   trayCanceled () {

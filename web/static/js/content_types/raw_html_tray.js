@@ -16,6 +16,7 @@ class RawHtmlTray extends React.Component {
 
     this.contentChange = this.contentChange.bind(this)
     this.onSave = this.onSave.bind(this)
+    this.onCancel = this.onCancel
   }
 
   componentWillReceiveProps (nextProps) {
