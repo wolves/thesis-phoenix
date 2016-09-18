@@ -25,7 +25,7 @@ const external = (container) => {
           callback()
         }
       }).catch((err) => {
-        window.alert(err)
+        window.alert(`Something went wrong! Details: ${err}`)
       })
     },
     delete: (path, callback) => {
@@ -33,7 +33,7 @@ const external = (container) => {
         window.alert('Page has been deleted.')
         callback()
       }).catch((err) => {
-        window.alert(err)
+        window.alert(`Something went wrong! Details: ${err}`)
       })
     }
   }
