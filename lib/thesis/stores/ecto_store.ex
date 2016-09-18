@@ -19,25 +19,34 @@ defmodule Thesis.EctoStore do
     repo.get_by(Page, slug: slug)
   end
 
-  # calls page_contents/1 passing in either:
-  # - `nil`, if the Page could not be found (usually means page has not been edited)
-  # - `%Page{...}` struct, if the Page has already been edited and saved
+  @doc """
+  Calls page_contents/1 passing through either:
+  - `nil`, if the Page could not be found (usually means page has not been edited)
+  - `%Page{...}` struct, if the Page has already been edited and saved
+  """
   def page_contents(slug) when is_binary(slug) do
     page_contents(page(slug))
   end
 
-  # handles `nil` - means page has not been edited yet
-  # at this point we only care about retrieving global content
+  @doc """
+  Handles `nil` - means page has not been edited yet.
+  At this point we only care about retrieving global content.
+  """
   def page_contents(nil) do
     repo.all(from pc in PageContent, where: is_nil(pc.page_id))
   end
 
-  # handles `%Page{...} struct - means page has been edited and saved
-  # retrieves page content and global content
+  @doc """
+  Handles `%Page{...} struct - means page has been edited and saved.
+  Retrieves page content and global content.
+  """
   def page_contents(%Page{id: page_id}) do
     repo.all(from pc in PageContent, where: pc.page_id == ^page_id or is_nil(pc.page_id))
   end
 
+  @doc """
+  Updates a page and its page_contents and global content areas.
+  """
   def update(%{"slug" => slug} = page_params, contents_params) do
     page = page(slug) || %Page{slug: slug}
     page_changeset = Ecto.Changeset.cast(page, page_params, [], ~w(slug title description redirect_url template))
@@ -51,6 +60,9 @@ defmodule Thesis.EctoStore do
     :ok
   end
 
+  @doc """
+  Deletes a given page by slug.
+  """
   def delete(%{"slug" => slug}) do
     page = page(slug)
     repo.delete!(page)
