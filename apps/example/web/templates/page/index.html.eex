@@ -1,4 +1,5 @@
 <div class="jumbotron">
+  <%= content(@conn, "Hero", :background_image, do: "https://infinite.red/images/capabilities-hero.jpg", classes: "jumbotron-bg") %>
   <h2><%= content(@conn, "Welcome Message", :text, do: "Welcome to Thesis!") %></h2>
   <p class="lead">
     <%= content(@conn, "Subtitle", :text) do %>
