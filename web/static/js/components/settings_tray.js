@@ -18,7 +18,7 @@ class SettingsTray extends React.Component {
       path: props.path,
       template: template,
       templates: props.templates,
-      dynamicPage: props.dynamicPage,
+      isDynamicPage: props.isDynamicPage,
       new: props.new,
       isValid: true
     }
@@ -72,8 +72,8 @@ class SettingsTray extends React.Component {
     this.props.onSubmit(this.state)
   }
 
-  dynamicPage () {
-    return (this.state.new || this.state.dynamicPage)
+  isDynamicPage () {
+    return (this.state.new || this.state.isDynamicPage)
   }
 
   prettyTemplateName (name) {
@@ -118,7 +118,7 @@ class SettingsTray extends React.Component {
           <div className='thesis-field-row'>
             <label>
               <span>Page Path</span>
-              <input type='text' value={this.state.path} disabled={!this.dynamicPage()} onChange={this.pathChange} />
+              <input type='text' value={this.state.path} disabled={!this.isDynamicPage()} onChange={this.pathChange} />
             </label>
           </div>
           <div className='thesis-field-row'>
@@ -133,8 +133,8 @@ class SettingsTray extends React.Component {
               <textarea placeholder='Example page description.' value={this.state.description} onChange={this.descriptionChange}></textarea>
             </label>
           </div>
-          {this.dynamicPage() ? this.renderRedirectURL() : null}
-          {this.dynamicPage() ? this.renderTemplates() : null}
+          {this.isDynamicPage() ? this.renderRedirectURL() : null}
+          {this.isDynamicPage() ? this.renderTemplates() : null}
           <div className='thesis-field-row errors' hidden={this.state.isValid}>
             {/* Errors go here. Toggle the hidden property depending on error count. */}
           </div>

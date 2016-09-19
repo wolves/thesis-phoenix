@@ -38,7 +38,7 @@ defmodule Thesis.Config do
   end
 
   def thesis_js_source_path do
-    Path.join(Application.app_dir(:thesis), "priv/static/thesis-editor.js")
+    Path.join(Application.app_dir(:thesis), "priv/static/thesis.js")
   end
 
   def controller_missing_text do
