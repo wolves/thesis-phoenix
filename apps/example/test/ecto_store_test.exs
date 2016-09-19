@@ -88,10 +88,12 @@ defmodule EctoStoreTest do
 
     page1 = store.page("/test")
     assert is_integer(page1.id)
+    assert page1.id > 0
     assert page1.slug == "/test"
 
     page2 = store.page("/asdf")
     assert is_integer(page2.id)
+    assert page2.id > 0
     assert page2.slug == "/asdf"
 
     contents = store.page_contents("/test")
