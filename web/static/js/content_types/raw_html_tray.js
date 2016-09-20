@@ -9,14 +9,14 @@ class RawHtmlTray extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      contentId: this.props.data.contentId,
-      content: this.props.data.content,
+      contentId: props.data.contentId,
+      content: props.data.content,
       isValid: true
     }
 
     this.contentChange = this.contentChange.bind(this)
     this.onSave = this.onSave.bind(this)
-    this.onCancel = this.onCancel
+    this.onCancel = props.onCancel
   }
 
   componentWillReceiveProps (nextProps) {
