@@ -19,17 +19,16 @@ class ThesisEditor extends React.Component {
 
   constructor (props) {
     super(props)
-    this.external = props.external
 
     this.state = {
       editing: false,
-      path: this.external.path,
-      title: this.external.getTitle(),
-      description: this.external.getDescription(),
-      template: this.external.template,
-      templates: this.external.templates,
-      isDynamicPage: this.external.isDynamicPage,
-      redirectURL: this.external.pageRedirectURL,
+      path: this.props.external.path,
+      title: this.props.external.getTitle(),
+      description: this.props.external.getDescription(),
+      template: this.props.external.template,
+      templates: this.props.external.templates,
+      isDynamicPage: this.props.external.isDynamicPage,
+      redirectURL: this.props.external.pageRedirectURL,
       pageModified: false,
       pageToolsHidden: true,
       trayOpen: false,
@@ -48,7 +47,7 @@ class ThesisEditor extends React.Component {
     this.pageSettingsPressed = this.pageSettingsPressed.bind(this)
 
     // External editors
-    
+
     this.htmlEditor = new HtmlEditor({
       onChange: () => this.setState({pageModified: true})
     })
@@ -59,7 +58,7 @@ class ThesisEditor extends React.Component {
     })
 
     this.imageEditor = new ImageEditor({
-      ospryPublicKey: this.external.ospryPublicKey,
+      ospryPublicKey: this.props.external.ospryPublicKey,
       openTray: this.openTray('image-url'),
       closeTray: this.trayCanceled
     })
@@ -159,14 +158,14 @@ class ThesisEditor extends React.Component {
   }
 
   save (page, contents) {
-    this.external.save(page, contents, () => {
+    this.props.external.save(page, contents, () => {
       this.setState({editing: false, pageModified: false, trayOpen: false})
       this.setState({pageToolsHidden: true})
     })
   }
 
   deletePage (path) {
-    this.external.delete(path, () => {
+    this.props.external.delete(path, () => {
       this.setState({deleted: true, editing: false})
     })
   }
@@ -253,9 +252,9 @@ class ThesisEditor extends React.Component {
       el.classList.remove('thesis-tray-open')
     }
 
-    this.external.setTitle(this.state.title)
-    this.external.setDescription(this.state.description)
-    this.external.setRedirectURL(this.state.redirectURL)
+    this.props.external.setTitle(this.state.title)
+    this.props.external.setDescription(this.state.description)
+    this.props.external.setRedirectURL(this.state.redirectURL)
   }
 
   canCreatePages () {
@@ -301,7 +300,7 @@ class ThesisEditor extends React.Component {
       return <SettingsTray
         hasErrors={false}
         new
-        path={`${this.external.path.replace(/\/+$/, '')}/newpage`}
+        path={`${this.state.path.replace(/\/+$/, '')}/newpage`}
         title={''}
         description={''}
         template={''}

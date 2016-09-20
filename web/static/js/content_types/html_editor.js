@@ -6,8 +6,9 @@ class HtmlEditor {
     this.editors = document.querySelectorAll('.thesis-content-html')
     this.enabled = false
 
-    this.changedHtmlEditor = this.changedHtmlEditor.bind(this)
     this.onChange = opts.onChange
+
+    this.changedHtmlEditor = this.changedHtmlEditor.bind(this)
   }
 
   enable () {

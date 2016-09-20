@@ -5,11 +5,13 @@ class ImageEditor {
   constructor (opts) {
     this.editors = document.querySelectorAll('.thesis-content-image, .thesis-content-background_image')
     this.enabled = false
+
     this.ospryPublicKey = opts.ospryPublicKey
-    this.clicked = this.clicked.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
     this.openTray = opts.openTray
     this.closeTray = opts.closeTray
+
+    this.clicked = this.clicked.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   enable () {

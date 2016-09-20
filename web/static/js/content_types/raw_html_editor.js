@@ -4,11 +4,13 @@ import RawHtmlTray from './raw_html_tray'
 class RawHtmlEditor {
   constructor (opts) {
     this.editors = document.querySelectorAll('.thesis-content-raw_html')
-    this.clicked = this.clicked.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
+    this.enabled = false
+
     this.openTray = opts.openTray
     this.closeTray = opts.closeTray
-    this.enabled = false
+
+    this.clicked = this.clicked.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   enable () {

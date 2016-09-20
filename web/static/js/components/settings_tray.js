@@ -19,7 +19,6 @@ class SettingsTray extends React.Component {
       template: template,
       templates: props.templates,
       isDynamicPage: props.isDynamicPage,
-      new: props.new,
       isValid: true
     }
 
@@ -39,13 +38,12 @@ class SettingsTray extends React.Component {
       path: nextProps.path,
       template: nextProps.template,
       templates: nextProps.templates,
-      new: nextProps.new,
       isValid: true
     })
   }
 
   trayTitle () {
-    return (this.state.new) ? 'Add Page' : 'Page Settings'
+    return (this.props.new) ? 'Add Page' : 'Page Settings'
   }
 
   titleChange (event) {
@@ -69,11 +67,20 @@ class SettingsTray extends React.Component {
   }
 
   onSave () {
-    this.props.onSubmit(this.state)
+    this.props.onSubmit({
+      new: this.props.new,
+      title: this.state.title,
+      description: this.state.description,
+      redirectURL: this.state.redirectURL,
+      path: this.state.path,
+      template: this.state.template,
+      templates: this.state.templates,
+      isDynamicPage: this.state.isDynamicPage
+    })
   }
 
   isDynamicPage () {
-    return (this.state.new || this.state.isDynamicPage)
+    return (this.props.new || this.state.isDynamicPage)
   }
 
   prettyTemplateName (name) {
