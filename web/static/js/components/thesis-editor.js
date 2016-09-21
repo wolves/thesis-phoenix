@@ -122,8 +122,7 @@ class ThesisEditor extends React.Component {
       if (this.state.pageModified) {
         this.cancelPressed()
       } else {
-        this.setState({editing: false, pageModified: false, trayOpen: false})
-        setTimeout(() => this.setState({pageToolsHidden: true}), 800)
+        this.setState({editing: false, pageModified: false, trayOpen: false, pageToolsHidden: true})
       }
     } else {
       this.setState({editing: true, pageToolsHidden: false, trayOpen: false})
@@ -265,9 +264,15 @@ class ThesisEditor extends React.Component {
     let classes = ''
     classes += (this.state.editing) ? ' active ' : ''
     classes += (this.state.pageToolsHidden) ? ' thesis-page-tools-hidden ' : ''
-    classes += (this.canCreatePages()) ? ' thesis-add-page-tool-present ' : ''
-    classes += (this.state.template) ? ' thesis-delete-page-tool-present ' : ''
+    classes += `thesis-page-tools-count-${this.editorClassButtonCount()}`
     return classes
+  }
+
+  editorClassButtonCount () {
+    let count = 4
+    if (this.canCreatePages()) count++
+    if (this.state.template) count++
+    return count
   }
 
   renderEditButtonText () {
@@ -322,8 +327,8 @@ class ThesisEditor extends React.Component {
     return (
       <div id='thesis'>
         <div id='thesis-editor' className={this.renderEditorClass()}>
-          <SaveButton onPress={this.savePressed} />
           <SettingsButton onPress={this.pageSettingsPressed} />
+          <SaveButton onPress={this.savePressed} />
           <CancelButton onPress={this.cancelPressed} />
           {this.canCreatePages() ? <AddButton onPress={this.addPagePressed} /> : null}
           {this.state.isDynamicPage ? <DeleteButton onPress={this.deletePagePressed} /> : null}

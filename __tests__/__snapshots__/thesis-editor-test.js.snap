@@ -2,18 +2,8 @@ exports[`test renders ThesisEditor 1`] = `
 <div
   id="thesis">
   <div
-    className=" thesis-page-tools-hidden "
+    className=" thesis-page-tools-hidden thesis-page-tools-count-4"
     id="thesis-editor">
-    <div
-      className="thesis-button save"
-      onClick={[Function bound savePressed]}>
-      <div
-        className="tooltip">
-        Save Changes
-      </div>
-      <i
-        className="fa fa-save fa-2x" />
-    </div>
     <div
       className="thesis-button settings"
       onClick={[Function bound pageSettingsPressed]}>
@@ -23,6 +13,16 @@ exports[`test renders ThesisEditor 1`] = `
       </div>
       <i
         className="fa fa-wrench fa-2x" />
+    </div>
+    <div
+      className="thesis-button save"
+      onClick={[Function bound savePressed]}>
+      <div
+        className="tooltip">
+        Publish Changes
+      </div>
+      <i
+        className="fa fa-save fa-2x" />
     </div>
     <div
       className="thesis-button cancel"
@@ -46,7 +46,7 @@ exports[`test renders ThesisEditor 1`] = `
     </div>
   </div>
   <div
-    className=" thesis-page-tools-hidden "
+    className=" thesis-page-tools-hidden thesis-page-tools-count-4"
     id="thesis-fader" />
   <div
     className={null}
@@ -73,18 +73,8 @@ exports[`test renders ThesisEditor with an add button 1`] = `
 <div
   id="thesis">
   <div
-    className=" thesis-page-tools-hidden  thesis-add-page-tool-present "
+    className=" thesis-page-tools-hidden thesis-page-tools-count-5"
     id="thesis-editor">
-    <div
-      className="thesis-button save"
-      onClick={[Function bound savePressed]}>
-      <div
-        className="tooltip">
-        Save Changes
-      </div>
-      <i
-        className="fa fa-save fa-2x" />
-    </div>
     <div
       className="thesis-button settings"
       onClick={[Function bound pageSettingsPressed]}>
@@ -94,6 +84,16 @@ exports[`test renders ThesisEditor with an add button 1`] = `
       </div>
       <i
         className="fa fa-wrench fa-2x" />
+    </div>
+    <div
+      className="thesis-button save"
+      onClick={[Function bound savePressed]}>
+      <div
+        className="tooltip">
+        Publish Changes
+      </div>
+      <i
+        className="fa fa-save fa-2x" />
     </div>
     <div
       className="thesis-button cancel"
@@ -127,7 +127,7 @@ exports[`test renders ThesisEditor with an add button 1`] = `
     </div>
   </div>
   <div
-    className=" thesis-page-tools-hidden  thesis-add-page-tool-present "
+    className=" thesis-page-tools-hidden thesis-page-tools-count-5"
     id="thesis-fader" />
   <div
     className={null}
