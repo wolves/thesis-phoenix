@@ -23,12 +23,17 @@ body.thesis-tray-open
       opacity        : 1
       pointer-events : auto
 
+      // - vertically positions 'add' and 'delete' buttons on hover
+      @for $i from 2 to 4
+        &:nth-last-child(#{$i})
+          $modifier: $i - 1
+          bottom: $modifier * 80 - 5 + px
+
   //
   // in edit mode
   // --------------------------------------------------------------------------
   &.active
     .thesis-button
-      +curve_buttons(4)
       opacity        : 1
       pointer-events : auto
 
@@ -40,37 +45,59 @@ body.thesis-tray-open
       +barber_pole(darken($gray, 8%), rgba(white, .25))
 
   //
-  // with 'add' button - bottom positioning depending on button count
+  // with 'add' button - bottom positioning and curve depending on button count
   // --------------------------------------------------------------------------
-  &.active.thesis-page-tools-count-5 .thesis-button
+  // - curves page tool buttons on active
+  &.active.thesis-page-tools-count-5 .thesis-button, &.active.thesis-page-tools-count-5:hover .thesis-button
     +curve_buttons(6, 2)
 
-  &.thesis-page-tools-count-5 .thesis-button
+  // - curves 'add' button on hover
+  &.thesis-page-tools-count-5:hover .thesis-button
     +curve_buttons(5, 0, true)
 
+  // - vertically positions page tool buttons
+  &.thesis-page-tools-count-5 .thesis-button
     @for $i from 2 to 5
       &:nth-last-child(#{$i + 1})
         $modifier: $i - 1
         bottom: $modifier * 80 - 5 + px
 
   //
-  // with 'add' and 'delete' button - bottom positioning depending on button count
+  // with 'add' and 'delete' buttons - bottom positioning and curve depending on button count
   // --------------------------------------------------------------------------
-  &.active.thesis-page-tools-count-6 .thesis-button
+  // - curves page tool buttons on active
+  &.active.thesis-page-tools-count-6 .thesis-button, &.active.thesis-page-tools-count-6:hover .thesis-button
     +curve_buttons(6, 2)
 
-  &.thesis-page-tools-count-6 .thesis-button
+  // - curves 'add' and 'delete' buttons on hover
+  &.thesis-page-tools-count-6:hover .thesis-button
     +curve_buttons(6, 0, true)
 
+  // - vertically positions page tool buttons
+  &.thesis-page-tools-count-6 .thesis-button
     @for $i from 2 to 5
       &:nth-last-child(#{$i + 2})
         $modifier: $i - 1
         bottom: $modifier * 80 - 5 + px
 
+  //
+  // default bottom positioning based on 4 buttons
+  // --------------------------------------------------------------------------
+  // - curves page tool buttons on active
+  &.active.thesis-page-tools-count-4 .thesis-button, &.active.thesis-page-tools-count-4:hover .thesis-button
+    +curve_buttons(4)
+
+  // - vertically positions page tool buttons
+  &.thesis-page-tools-count-4 .thesis-button
+    @for $i from 2 to 5
+      &:nth-last-child(#{$i})
+        $modifier: $i - 1
+        bottom: $modifier * 80 - 5 + px
+
   .thesis-button
-    +editor_icons(("cancel": $orange, "delete": $pink, "add": $blue, "save": $green, "settings": $yellow ))
+    +editor_icons(("cancel": $ir_red, "delete": $pink, "add": $blue, "save": $green, "settings": $yellow ))
     +transform-origin(0% 100%)
-    +transition(opacity .4s ease-in-out, right .75s ease-in-out, transform .75s ease-in-out)
+    +transition(opacity .3s ease-in-out, right .4s ease-in-out, transform .4s ease-in-out, bottom .4s ease-in-out)
     right          : 15px
     opacity        : 0
     display        : block
@@ -85,11 +112,7 @@ body.thesis-tray-open
     padding-bottom : 20px
     pointer-events : none
     position       : absolute
-
-    @for $i from 2 to 10
-      &:nth-last-child(#{$i})
-        $modifier: $i - 1
-        bottom: $modifier * 80 - 5 + px
+    bottom         : 0
 
     &:hover
       .tooltip
@@ -106,7 +129,6 @@ body.thesis-tray-open
 
     &.add, &.delete
       right: 15px
-
 
     i
       position         : relative

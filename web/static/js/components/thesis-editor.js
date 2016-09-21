@@ -265,8 +265,6 @@ class ThesisEditor extends React.Component {
     classes += (this.state.editing) ? ' active ' : ''
     classes += (this.state.pageToolsHidden) ? ' thesis-page-tools-hidden ' : ''
     classes += `thesis-page-tools-count-${this.editorClassButtonCount()}`
-    // classes += (this.canCreatePages()) ? ' thesis-add-page-tool-present ' : ''
-    // classes += (this.state.template) ? ' thesis-delete-page-tool-present ' : ''
     return classes
   }
 
