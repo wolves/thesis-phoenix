@@ -7,6 +7,7 @@
     "babel-brunch": "~6.0.0",
     "babel-jest": "^15.0.0",
     "babel-polyfill": "^6.13.0",
+    "babel-preset-react": "^6.11.1",
     "brunch": "^2.8.2",
     "clean-css-brunch": "^2.0",
     "css-brunch": "^2.6",
