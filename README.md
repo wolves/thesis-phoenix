@@ -42,7 +42,7 @@ _If you are having problems, view `README_INSTALL.md` for manual instructions._
 
 ```elixir
 def deps do
-  [{:thesis, "~> 0.0.23"}]
+  [{:thesis, "~> 0.0.24"}]
 end
 
 def application do

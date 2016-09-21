@@ -5,10 +5,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.13.1">
-    <title>Thesis.Controller – thesis v0.0.24</title>
+    <title>Thesis.S3Uploader – thesis v0.0.24</title>
     <link rel="stylesheet" href="dist/app-7e84850c37.css" />
     
-      <link rel="canonical" href="https://hexdocs.pm/thesis/Thesis.Controller.html" />
+      <link rel="canonical" href="https://hexdocs.pm/thesis/Thesis.S3Uploader.html" />
     
     <script src="dist/sidebar_items.js"></script>
   </head>
@@ -62,28 +62,49 @@
 
       <h1>
         <small class="visible-xs">thesis v0.0.24</small>
-        Thesis.Controller
+        Thesis.S3Uploader
         
         
       </h1>
 
       
         <section id="moduledoc">
-          <p>Provides a plug that preloads any Thesis content for a page.
-Typically, you’ll add this to your <code class="inline">web/web.ex</code> file, under the <code class="inline">controller</code>
-function:</p>
-<pre><code class="elixir">def controller do
-  quote do
-    use Phoenix.Controller
-    use Thesis.Controller
-    # ...
-  end
-end</code></pre>
-<p>If you’d prefer to only use Thesis in certain controllers, remove it from
-<code class="inline">web/web.ex</code> and add it to the specific controllers by doing this:</p>
-<pre><code class="elixir">defmodule MyApp.MyController do
-  use Thesis.Controller
-  # ...</code></pre>
+          <p>This is a placeholder for potential future Amazon S3 integration.</p>
+
+        </section>
+      
+
+      
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <i class="icon-link"></i>
+            </a>
+            Summary
+          </h1>
+          
+
+          
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+    <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#upload/1">upload(file)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Callback implementation for <a href="Thesis.Uploader.html#c:upload/1"><code class="inline">Thesis.Uploader.upload/1</code></a></p>
+</div>
+  
+</div>
+
+  </div>
+
+
+          
+
+          
 
         </section>
       
@@ -91,7 +112,30 @@ end</code></pre>
       
 
       
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <i class="icon-link"></i>
+            </a>
+            Functions
+          </h1>
+          <div class="detail" id="upload/1">
+  <div class="detail-header">
+    <a href="#upload/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">upload(file)</span>
+    
+    
+  </div>
+  
+  <section class="docstring">
+    <p>Callback implementation for <a href="Thesis.Uploader.html#c:upload/1"><code class="inline">Thesis.Uploader.upload/1</code></a>.</p>
 
+  </section>
+</div>
+
+        </section>
       
 
       
