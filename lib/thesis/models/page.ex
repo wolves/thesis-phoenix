@@ -4,6 +4,7 @@ defmodule Thesis.Page do
   title, description, and redirect if necessary.
   """
   use Ecto.Schema
+  import Ecto.Changeset, only: [cast: 3, validate_required: 2]
 
   @type t :: %Thesis.Page{
     id: any,
@@ -26,6 +27,9 @@ defmodule Thesis.Page do
     timestamps
   end
 
+  @valid_attributes [:slug, :title, :description, :redirect_url, :template]
+  @required_attributes [:slug]
+
   @doc """
   Returns whether the page redirects to another page.
 
@@ -41,5 +45,14 @@ defmodule Thesis.Page do
   def redirected?(nil), do: false
   def redirected?(%Thesis.Page{redirect_url: url}) when url in [nil, ""], do: false
   def redirected?(_), do: true
+
+  @doc """
+  Changeset for PageContent structs.
+  """
+  def changeset(page, params \\ %{}) do
+    page
+    |> cast(params, @valid_attributes)
+    |> validate_required(@required_attributes)
+  end
 
 end

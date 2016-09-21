@@ -1,0 +1,151 @@
+exports[`test renders ThesisEditor 1`] = `
+<div
+  id="thesis">
+  <div
+    className=" thesis-page-tools-hidden thesis-page-tools-count-4"
+    id="thesis-editor">
+    <div
+      className="thesis-button settings"
+      onClick={[Function bound pageSettingsPressed]}>
+      <div
+        className="tooltip">
+        Page Settings
+      </div>
+      <i
+        className="fa fa-wrench fa-2x" />
+    </div>
+    <div
+      className="thesis-button save"
+      onClick={[Function bound savePressed]}>
+      <div
+        className="tooltip">
+        Publish Changes
+      </div>
+      <i
+        className="fa fa-save fa-2x" />
+    </div>
+    <div
+      className="thesis-button cancel"
+      onClick={[Function bound cancelPressed]}>
+      <div
+        className="tooltip">
+        Discard Changes
+      </div>
+      <i
+        className="fa fa-remove fa-2x" />
+    </div>
+    <div
+      className="thesis-button edit"
+      onClick={[Function bound editPressed]}>
+      <div
+        className="tooltip">
+        Edit Page
+      </div>
+      <i
+        className="fa fa-edit fa-2x" />
+    </div>
+  </div>
+  <div
+    className=" thesis-page-tools-hidden thesis-page-tools-count-4"
+    id="thesis-fader" />
+  <div
+    className={null}
+    id="thesis-tray">
+    <div
+      className="attribution">
+      <a
+        href="//github.com/infinitered/thesis-phoenix"
+        target="_blank">
+        Thesis
+      </a>
+       is maintained by 
+      <a
+        href="//infinite.red"
+        target="_blank">
+        Infinite Red
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test renders ThesisEditor with an add button 1`] = `
+<div
+  id="thesis">
+  <div
+    className=" thesis-page-tools-hidden thesis-page-tools-count-5"
+    id="thesis-editor">
+    <div
+      className="thesis-button settings"
+      onClick={[Function bound pageSettingsPressed]}>
+      <div
+        className="tooltip">
+        Page Settings
+      </div>
+      <i
+        className="fa fa-wrench fa-2x" />
+    </div>
+    <div
+      className="thesis-button save"
+      onClick={[Function bound savePressed]}>
+      <div
+        className="tooltip">
+        Publish Changes
+      </div>
+      <i
+        className="fa fa-save fa-2x" />
+    </div>
+    <div
+      className="thesis-button cancel"
+      onClick={[Function bound cancelPressed]}>
+      <div
+        className="tooltip">
+        Discard Changes
+      </div>
+      <i
+        className="fa fa-remove fa-2x" />
+    </div>
+    <div
+      className="thesis-button add"
+      onClick={[Function bound addPagePressed]}>
+      <div
+        className="tooltip">
+        Add New Page
+      </div>
+      <i
+        className="fa fa-plus fa-2x" />
+    </div>
+    <div
+      className="thesis-button edit"
+      onClick={[Function bound editPressed]}>
+      <div
+        className="tooltip">
+        Edit Page
+      </div>
+      <i
+        className="fa fa-edit fa-2x" />
+    </div>
+  </div>
+  <div
+    className=" thesis-page-tools-hidden thesis-page-tools-count-5"
+    id="thesis-fader" />
+  <div
+    className={null}
+    id="thesis-tray">
+    <div
+      className="attribution">
+      <a
+        href="//github.com/infinitered/thesis-phoenix"
+        target="_blank">
+        Thesis
+      </a>
+       is maintained by 
+      <a
+        href="//infinite.red"
+        target="_blank">
+        Infinite Red
+      </a>
+    </div>
+  </div>
+</div>
+`;

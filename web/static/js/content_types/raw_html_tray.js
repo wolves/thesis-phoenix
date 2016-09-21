@@ -9,8 +9,8 @@ class RawHtmlTray extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      contentId: this.props.data.contentId,
-      content: this.props.data.content,
+      contentId: props.data.contentId,
+      content: props.data.content,
       isValid: true
     }
 

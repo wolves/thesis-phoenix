@@ -1,10 +1,10 @@
 class TextEditor {
-  constructor (thesis) {
-    this.thesis = thesis
+  constructor (opts) {
     this.editors = document.querySelectorAll('.thesis-content-text')
     this.enabled = false
 
     this.changed = this.changed.bind(this)
+    this.onChange = opts.onChange
   }
 
   enable () {
@@ -37,8 +37,7 @@ class TextEditor {
     e.currentTarget.classList.add('modified')
     if (e.keyCode === 13) e.preventDefault()
 
-    // TODO: Change this
-    this.thesis.setState({pageModified: true})
+    this.onChange()
   }
 }
 

@@ -24,6 +24,7 @@ class ImageTray extends React.Component {
     this.onSave = this.onSave.bind(this)
     this.onUpload = this.onUpload.bind(this)
     this.uploadFile = this.uploadFile.bind(this)
+    this.onCancel = props.onCancel
   }
 
   componentWillReceiveProps (nextProps) {
@@ -47,7 +48,12 @@ class ImageTray extends React.Component {
   }
 
   onSave () {
-    this.props.onSubmit(this.state)
+    this.props.onSubmit({
+      contentId: this.state.contentId,
+      url: this.state.url,
+      alt: this.state.alt,
+      fileName: this.state.fileName
+    })
   }
 
   onUpload (err, metadata) {
@@ -68,10 +74,6 @@ class ImageTray extends React.Component {
     })
   }
 
-  renderInputFileName () {
-    return this.state.fileName
-  }
-
   previewImageStyle () {
     return {backgroundImage: `url(${this.state.url})`}
   }
@@ -83,7 +85,7 @@ class ImageTray extends React.Component {
           <label>
             <span>Upload Image</span>
             <form onChange={this.uploadFile} className='tray-file-upload'>
-              <span>{this.renderInputFileName()}</span>
+              <span>{this.state.fileName}</span>
               <input type='file' accept='.jpg,.jpeg,.png,.gif,image/png,image/gif,image/jpeg,image/jpg' />
             </form>
           </label>
@@ -119,7 +121,7 @@ class ImageTray extends React.Component {
             {/* Errors go here. Toggle the hidden property depending on error count. */}
           </div>
           <div className='thesis-field-row cta'>
-            <button className='thesis-tray-cancel' onClick={this.props.onCancel}>
+            <button className='thesis-tray-cancel' onClick={this.onCancel}>
               Cancel
             </button>
             <button className='thesis-tray-save' onClick={this.onSave}>
@@ -130,7 +132,6 @@ class ImageTray extends React.Component {
       </div>
     )
   }
-
 }
 
 export default ImageTray

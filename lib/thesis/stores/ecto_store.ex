@@ -47,16 +47,9 @@ defmodule Thesis.EctoStore do
   @doc """
   Updates a page and its page_contents and global content areas.
   """
-  def update(%{"slug" => slug} = page_params, contents_params) do
-    page = page(slug) || %Page{slug: slug}
-    page_changeset = Ecto.Changeset.cast(page, page_params, [], ~w(slug title description redirect_url template))
-
-    page = repo.insert_or_update!(page_changeset)
-
-    contents_params
-    |> Enum.map(fn(x) -> content_changeset(x, page, page_contents(page)) end)
-    |> Enum.each(fn(x) -> repo.insert_or_update!(x) end)
-
+  def update(page_params, contents_params) do
+    page = save_page(page_params)
+    save_page_contents(page, contents_params)
     :ok
   end
 
@@ -69,11 +62,27 @@ defmodule Thesis.EctoStore do
     :ok
   end
 
+  defp save_page(%{"slug" => slug} = page_params) do
+    page = page(slug) || %Page{slug: slug}
+    page_changeset = Page.changeset(page, page_params)
+    repo.insert_or_update!(page_changeset)
+  end
+
+  defp save_page_contents(nil, _), do: :error
+  defp save_page_contents(page, contents_params) do
+    preloaded_contents = page_contents(page)
+
+    contents_params
+    |> Enum.map(fn(x) -> content_changeset(x, page, preloaded_contents) end)
+    |> Enum.each(fn(x) -> repo.insert_or_update!(x) end)
+
+    :ok
+  end
+
   defp content_changeset(new_contents, page, preloaded_contents) do
     %{"name" => name, "content" => content, "content_type" => content_type} = new_contents
 
     page_id = page_id_or_global(new_contents, page)
-
     page_content = PageContent.find(preloaded_contents, page_id, name) ||
       %PageContent{page_id: page_id, name: name}
 

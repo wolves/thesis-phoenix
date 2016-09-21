@@ -14,6 +14,10 @@ adding content editing to any page on a Phoenix website, as well as creating new
 dynamically routed pages. It's ideal for either adding limited editing support to
 existing Phoenix websites or building dynamic websites.
 
+_Thesis is currently considered *Alpha-quality*, but is in production on several
+websites, including [Infinite Red](https://infinite.red). The API is unstable and
+changing but we are committed to providing a clear upgrade path and documentation._
+
 _See also the Thesis [Rails gem](https://github.com/infinitered/thesis-rails)._
 
 ![screen capture on 2016-04-20 at 15-11-10 copy](https://cloud.githubusercontent.com/assets/1775841/14692261/d4734d3a-070a-11e6-866b-eebbc40e6157.gif)
@@ -380,9 +384,10 @@ websites. Please help us improve!
 4. Run `brunch watch -p` during development
 5. Use the `apps/example` Phoenix app to manually test your feature
 6. Write tests for your new feature
-7. Run `mix test` in the root directory to ensure that all tests pass.
-8. Push to the branch (`git push origin my-new-feature`)
-9. Create new Pull Request
+7. Run `mix test && npm test` in the root directory to ensure that Thesis tests pass.
+8. Run `mix test` in the `apps/example` directory to ensure the example app passes
+9. Push to the branch (`git push origin my-new-feature`)
+10. Create new Pull Request
 
 ### Key Contributors
 

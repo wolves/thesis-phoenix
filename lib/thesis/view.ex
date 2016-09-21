@@ -193,16 +193,21 @@ defmodule Thesis.View do
     raw """
     <script>
       ;(function () {
-        var loadThesis = function () {
+        var loadThesis = function (callback) {
           var script = document.createElement('script')
-          script.src = '/thesis/thesis-editor.js'
+          script.src = '/thesis/thesis.js'
+          script.onload = callback
 
           document.head.appendChild(script)
         }
 
         document.addEventListener('DOMContentLoaded', function (event) {
-          if (document.querySelector('#thesis-container')) {
-            loadThesis()
+          var container = document.querySelector('#thesis-container')
+          if (container) {
+            loadThesis(function () {
+              // Init Thesis
+              console.log(window.thesis(container))
+            })
           }
         })
       })()

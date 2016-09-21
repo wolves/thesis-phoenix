@@ -18,8 +18,7 @@ class SettingsTray extends React.Component {
       path: props.path,
       template: template,
       templates: props.templates,
-      dynamicPage: props.dynamicPage,
-      new: props.new,
+      isDynamicPage: props.isDynamicPage,
       isValid: true
     }
 
@@ -39,13 +38,12 @@ class SettingsTray extends React.Component {
       path: nextProps.path,
       template: nextProps.template,
       templates: nextProps.templates,
-      new: nextProps.new,
       isValid: true
     })
   }
 
   trayTitle () {
-    return (this.state.new) ? 'Add Page' : 'Page Settings'
+    return (this.props.new) ? 'Add Page' : 'Page Settings'
   }
 
   titleChange (event) {
@@ -69,11 +67,20 @@ class SettingsTray extends React.Component {
   }
 
   onSave () {
-    this.props.onSubmit(this.state)
+    this.props.onSubmit({
+      new: this.props.new,
+      title: this.state.title,
+      description: this.state.description,
+      redirectURL: this.state.redirectURL,
+      path: this.state.path,
+      template: this.state.template,
+      templates: this.state.templates,
+      isDynamicPage: this.state.isDynamicPage
+    })
   }
 
-  dynamicPage () {
-    return (this.state.new || this.state.dynamicPage)
+  isDynamicPage () {
+    return (this.props.new || this.state.isDynamicPage)
   }
 
   prettyTemplateName (name) {
@@ -118,7 +125,7 @@ class SettingsTray extends React.Component {
           <div className='thesis-field-row'>
             <label>
               <span>Page Path</span>
-              <input type='text' value={this.state.path} disabled={!this.dynamicPage()} onChange={this.pathChange} />
+              <input type='text' value={this.state.path} disabled={!this.isDynamicPage()} onChange={this.pathChange} />
             </label>
           </div>
           <div className='thesis-field-row'>
@@ -133,8 +140,8 @@ class SettingsTray extends React.Component {
               <textarea placeholder='Example page description.' value={this.state.description} onChange={this.descriptionChange}></textarea>
             </label>
           </div>
-          {this.dynamicPage() ? this.renderRedirectURL() : null}
-          {this.dynamicPage() ? this.renderTemplates() : null}
+          {this.isDynamicPage() ? this.renderRedirectURL() : null}
+          {this.isDynamicPage() ? this.renderTemplates() : null}
           <div className='thesis-field-row errors' hidden={this.state.isValid}>
             {/* Errors go here. Toggle the hidden property depending on error count. */}
           </div>
