@@ -27,13 +27,19 @@ body.thesis-tray-open
       &.edit i
         +barber_pole(darken($gray, 8%), rgba(white, .25))
 
-    &.thesis-add-page-tool-present
-      .thesis-button
-        +curve_buttons(5)
+      &.add, &.delete
+        display: none
 
-    &.thesis-add-page-tool-present.thesis-delete-page-tool-present
-      .thesis-button
-        +curve_buttons(6)
+    &.thesis-add-page-tool-present .thesis-button
+      +curve_buttons(5)
+
+      @for $i from 2 to 10
+        &:nth-last-child(#{$i + 1})
+          $modifier: $i - 1
+          bottom: $modifier * 80 - 5 + px
+
+    &.thesis-add-page-tool-present.thesis-delete-page-tool-present .thesis-button
+      +curve_buttons(6)
 
   &.thesis-page-tools-hidden
     height: 300px

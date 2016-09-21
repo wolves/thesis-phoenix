@@ -11,7 +11,7 @@
     "clean-css-brunch": "^2.0",
     "css-brunch": "^2.6",
     "jest": "^15.1.1",
-    "medium-editor": "^5.14.4",
+    "medium-editor": "^5.22.0",
     "node-sass": "^3.10.0",
     "react": "15.3.1",
     "react-dom": "15.3.1",
