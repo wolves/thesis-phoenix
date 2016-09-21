@@ -15,64 +15,62 @@ body.thesis-tray-open
   line-height     : 0
   font-size       : 0
   text-decoration : none
-  height          : 85px
+  height          : 315px
   width           : 85px
 
+  &:hover
+    .thesis-button.add, .thesis-button.delete
+      opacity        : 1
+      pointer-events : auto
+
+  //
+  // in edit mode
+  // --------------------------------------------------------------------------
   &.active
     .thesis-button
       +curve_buttons(4)
       opacity        : 1
       pointer-events : auto
 
-      &.edit i
-        +barber_pole(darken($gray, 8%), rgba(white, .25))
+    .thesis-button.add, .thesis-button.delete
+      opacity        : 0
+      pointer-events : none
 
-      &.add, &.delete
-        display: none
+    .thesis-button.edit i
+      +barber_pole(darken($gray, 8%), rgba(white, .25))
 
-    &.thesis-add-page-tool-present .thesis-button
-      +curve_buttons(5)
+  //
+  // with 'add' button - bottom positioning depending on button count
+  // --------------------------------------------------------------------------
+  &.active.thesis-page-tools-count-5 .thesis-button
+    +curve_buttons(6, 2)
 
-      @for $i from 2 to 10
-        &:nth-last-child(#{$i + 1})
-          $modifier: $i - 1
-          bottom: $modifier * 80 - 5 + px
+  &.thesis-page-tools-count-5 .thesis-button
+    +curve_buttons(5, 0, true)
 
-    &.thesis-add-page-tool-present.thesis-delete-page-tool-present .thesis-button
-      +curve_buttons(6)
+    @for $i from 2 to 5
+      &:nth-last-child(#{$i + 1})
+        $modifier: $i - 1
+        bottom: $modifier * 80 - 5 + px
 
-  &.thesis-page-tools-hidden
-    height: 300px
+  //
+  // with 'add' and 'delete' button - bottom positioning depending on button count
+  // --------------------------------------------------------------------------
+  &.active.thesis-page-tools-count-6 .thesis-button
+    +curve_buttons(6, 2)
 
-    &:hover
-      .thesis-button
-        &.add, &.delete
-          +transition-duration(.3s)
-          +keyframes (animateOpacity)
-            from
-              opacity: 0
-            to
-              opacity: 1
-          +animation( animateOpacity .75s ease-in-out )
-          opacity        : 1
-          pointer-events : auto
+  &.thesis-page-tools-count-6 .thesis-button
+    +curve_buttons(6, 0, true)
 
-    &.thesis-add-page-tool-present
-      &:hover
-        .thesis-button
-          &.add, &.delete
-            +curve_buttons(5)
-
-    &.thesis-add-page-tool-present.thesis-delete-page-tool-present
-      &:hover
-        .thesis-button
-          &.add, &.delete
-            +curve_buttons(6)
+    @for $i from 2 to 5
+      &:nth-last-child(#{$i + 2})
+        $modifier: $i - 1
+        bottom: $modifier * 80 - 5 + px
 
   .thesis-button
     +editor_icons(("cancel": $orange, "delete": $pink, "add": $blue, "save": $green, "settings": $yellow ))
-    +transition(opacity .75s ease-in-out, right .75s ease-in-out, transform .75s ease-in-out)
     +transform-origin(0% 100%)
+    +transition(opacity .4s ease-in-out, right .75s ease-in-out, transform .75s ease-in-out)
     right          : 15px
     opacity        : 0
     display        : block
@@ -105,6 +103,10 @@ body.thesis-tray-open
       pointer-events : auto !important
       bottom         : 15px
       right          : 15px
+
+    &.add, &.delete
+      right: 15px
+
 
     i
       position         : relative
