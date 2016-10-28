@@ -6,3 +6,4 @@ erl_crash.dump
 node_modules
 ./*.tar
 npm-debug.log
+.DS_Store
