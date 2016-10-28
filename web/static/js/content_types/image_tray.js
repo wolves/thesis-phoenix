@@ -58,7 +58,7 @@ class ImageTray extends React.Component {
 
   onUpload (err, metadata) {
     if (err) return window.alert(err)
-    this.setState({ url: metadata.url })
+    this.setState({ url: metadata.httpsURL })
   }
 
   uploadFile (e) {
