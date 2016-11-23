@@ -159,12 +159,42 @@ content type.
 becomes...
 
 ```eex
-<%= content(@conn, "Image identifier", :background_image, do: "http://placekitten.com/200/300")
-%>
+<%= content(@conn, "Image identifier", :background_image, do: "http://placekitten.com/200/300") %>
 ```
 
 ### Image Uploads
 
+Thesis offers support for a few different ways to handle image uploads: store files in the database,
+point to an uploader/adapter inside your custom app, or use one of the prebuilt adapters.
+
+##### Store Files in Database
+For smaller websites and/or website that are hosted on the cloud, thesis offers a no-setup-required image uploader.
+Files are stored in a separate table and contain all of the needed metadata (name, file type, and blobs themselves).
+Keep in mind as you upload more and more files, your database will grow quickly. Don't use this for high-traffic,
+content-heavy web applications. Smaller personal websites are probably fine.
+
+To enable, add this in your config/config.exs file:
+
+```elixir
+config :thesis,
+  uploader: Thesis.RepoUploader
+```
+
+##### Use Your Own Uploader Module
+
+If you already set up file uploads in your custom app, point thesis to a module that can handle a `%Plug.Upload{}`
+struct.
+
+```elixir
+config :thesis,
+  uploader: <MyApp>.<CustomUploaderModule>
+```
+
+The module should have an `upload/1` function that accepts a `%Plug.Upload{}` struct. This function should return either `{:ok, "path/to/file.jpg"}` tuple with an image url or path, or {:error, _}. You can view
+[/lib/thesis/uploaders/repo_uploader.ex](https://github.com/infinitered/thesis-phoenix/blob/master/lib/thesis/uploaders/repo_uploader.ex)
+for an example.
+
+##### Use a Prebuilt Adapter
 Included in Thesis is an adapter for Ospry.io, which is a service that
 offers the first 1,000 images and 1 GB of monthly download bandwidth
 for free.
@@ -172,16 +202,19 @@ for free.
 1. Sign up at [https://ospry.io/sign-up](https://ospry.io/sign-up)
 2. Verify your email
 3. Create a production subdomain (assets.example.com)
-3. Copy your production public key to the Thesis config:
+4. Add a valid credit card if you anticipate exceeding Ospry.io limits.
+5. Copy your production public key to the Thesis config:
 
 ```elixir
+config :thesis,
+  uploader: Thesis.OspryUploader
+
 config :thesis, Thesis.OspryUploader,
   ospry_public_key: "pk-prod-abcdefghijklmnopqrstuvwxyz0123456789"
 ```
 
 That's it! Restart your server and image content areas will now contain a
-file upload field. _Note: You'll need to add a valid credit card if you
-anticipate exceeding Ospry.io limits._
+file upload field.
 
 ### Global Content Areas
 

@@ -13,7 +13,7 @@ defmodule Thesis.EctoStore do
 
   import Thesis.Config
   import Ecto.Query, only: [from: 2]
-  alias Thesis.{Page, PageContent}
+  alias Thesis.{Page, PageContent, File}
 
   def page(slug) when is_binary(slug) do
     repo.get_by(Page, slug: slug)
@@ -42,6 +42,15 @@ defmodule Thesis.EctoStore do
   """
   def page_contents(%Page{id: page_id}) do
     repo.all(from pc in PageContent, where: pc.page_id == ^page_id or is_nil(pc.page_id))
+  end
+
+  @doc """
+  Retrieves a file by slug.
+  """
+  def file(nil), do: nil
+  def file(""), do: nil
+  def file(slug) do
+    repo.get_by(File, slug: slug)
   end
 
   @doc """

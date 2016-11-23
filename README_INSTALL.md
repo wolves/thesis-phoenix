@@ -21,17 +21,19 @@ Run `mix deps.get`.
 ```elixir
 config :thesis,
   store: Thesis.EctoStore,
-  authorization: <MyApp>.ThesisAuth
+  authorization: <MyApp>.ThesisAuth,
+  uploader: Thesis.RepoUploader
+  #  uploader: <MyApp>.<CustomUploaderModule>
+  #  uploader: Thesis.OspryUploader
 config :thesis, Thesis.EctoStore, repo: <MyApp>.Repo
+# config :thesis, Thesis.OspryUploader,
+#   ospry_public_key: "pk-prod-asdfasdfasdfasdf"
 # If you want to allow creating dynamic pages:
 # config :thesis, :dynamic_pages,
 #   view: <MyApp>.PageView,
 #   templates: ["index.html", "otherview.html"],
 #   not_found_view: <MyApp>.ErrorView,
 #   not_found_template: "404.html"
-# If you want to use Ospry.io file uploads:
-# config :thesis, Thesis.OspryUploader,
-#  ospry_public_key: "pk-prod-asdfasdfasdfasdfasdf"
 ```
 
 #### 3. Create `lib/thesis_auth.ex`

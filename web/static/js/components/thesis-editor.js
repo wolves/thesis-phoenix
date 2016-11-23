@@ -59,6 +59,7 @@ class ThesisEditor extends React.Component {
 
     this.imageEditor = new ImageEditor({
       ospryPublicKey: this.props.external.ospryPublicKey,
+      fileUploader: this.props.external.fileUploader,
       openTray: this.openTray('image-url'),
       closeTray: this.trayCanceled
     })

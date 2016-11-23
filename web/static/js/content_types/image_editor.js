@@ -7,6 +7,7 @@ class ImageEditor {
     this.enabled = false
 
     this.ospryPublicKey = opts.ospryPublicKey
+    this.fileUploader = opts.fileUploader
     this.openTray = opts.openTray
     this.closeTray = opts.closeTray
 
@@ -49,6 +50,7 @@ class ImageEditor {
     return <ImageTray
       data={trayData}
       ospryPublicKey={this.ospryPublicKey}
+      fileUploader={this.fileUploader}
       onCancel={this.closeTray}
       onSubmit={this.onSubmit} />
   }

@@ -5,6 +5,7 @@ import Net from './utilities/net'
 const external = (container) => {
   const descriptionMetaTag = document.querySelectorAll('meta[name=description]')[0]
   return {
+    fileUploader: container.getAttribute('data-file-uploader'),
     ospryPublicKey: container.getAttribute('data-ospry-public-key'),
     pageRedirectURL: container.getAttribute('data-redirect-url'),
     template: container.getAttribute('data-template'),

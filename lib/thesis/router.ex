@@ -42,6 +42,9 @@ defmodule Thesis.Router do
 
         put "/update", ApiController, :update
         delete "/delete", ApiController, :delete
+
+        post "/files/upload", ApiController, :upload_file
+        get "/files/:slug", ApiController, :show_file
       end
     end
   end

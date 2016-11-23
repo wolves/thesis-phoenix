@@ -1,5 +1,6 @@
 import React from 'react'
 import ospryBuilder from '../utilities/ospry'
+import Net from '../utilities/net'
 
 const Ospry = ospryBuilder(window)
 
@@ -22,8 +23,16 @@ class ImageTray extends React.Component {
     this.urlChange = this.urlChange.bind(this)
     this.altChange = this.altChange.bind(this)
     this.onSave = this.onSave.bind(this)
-    this.onUpload = this.onUpload.bind(this)
+
+    this.onOspryUpload = this.onOspryUpload.bind(this)
+
     this.uploadFile = this.uploadFile.bind(this)
+    this.uploadFileToOspry = this.uploadFileToOspry.bind(this)
+
+    this.renderForm = this.renderForm.bind(this)
+    this.renderOspryForm = this.renderOspryForm.bind(this)
+    this.renderUploaderForm = this.renderUploaderForm.bind(this)
+
     this.onCancel = props.onCancel
   }
 
@@ -56,12 +65,23 @@ class ImageTray extends React.Component {
     })
   }
 
-  onUpload (err, metadata) {
+  onOspryUpload (err, metadata) {
     if (err) return window.alert(err)
     this.setState({ url: metadata.httpsURL })
   }
 
   uploadFile (e) {
+    this.setState({ fileName: e.target.files[0].name })
+
+    e.preventDefault()
+    Net.post('/thesis/files/upload', e.target.form, 'form')
+    .then((response) => {
+      if (response.path.length > 0) this.setState({ url: response.path })
+    })
+    .catch((error) => { window.alert(error) })
+  }
+
+  uploadFileToOspry (e) {
     this.setState({ fileName: e.target.files[0].name })
 
     const ospry = new Ospry(this.props.ospryPublicKey)
@@ -70,12 +90,34 @@ class ImageTray extends React.Component {
     const form = e.target
     ospry.up({
       form: form,
-      imageReady: this.onUpload
+      imageReady: this.onOspryUpload
     })
   }
 
   previewImageStyle () {
     return {backgroundImage: `url(${this.state.url})`}
+  }
+
+  renderForm () {
+    if (this.props.ospryPublicKey) {
+      return this.renderOspryForm()
+    } else if (this.props.fileUploader) {
+      return this.renderUploaderForm()
+    }
+  }
+
+  renderUploaderForm () {
+    return (
+      <div className='thesis-field-row'>
+        <label>
+          <span>Upload Image</span>
+          <form onChange={this.uploadFile} className='tray-file-upload'>
+            <span>{this.state.fileName}</span>
+            <input type='file' accept='.jpg,.jpeg,.png,.gif,image/png,image/gif,image/jpeg,image/jpg' name='file' />
+          </form>
+        </label>
+      </div>
+    )
   }
 
   renderOspryForm () {
@@ -84,7 +126,7 @@ class ImageTray extends React.Component {
         <div className='thesis-field-row'>
           <label>
             <span>Upload Image</span>
-            <form onChange={this.uploadFile} className='tray-file-upload'>
+            <form onChange={this.uploadFileToOspry} className='tray-file-upload'>
               <span>{this.state.fileName}</span>
               <input type='file' accept='.jpg,.jpeg,.png,.gif,image/png,image/gif,image/jpeg,image/jpg' />
             </form>
@@ -110,7 +152,7 @@ class ImageTray extends React.Component {
               <input type='text' placeholder='http://placekitten.com/200/300' value={this.state.url} onChange={this.urlChange} />
             </label>
           </div>
-          {this.renderOspryForm()}
+          {this.renderForm()}
           <div className='thesis-field-row'>
             <label>
               <span>Alt Text</span>
