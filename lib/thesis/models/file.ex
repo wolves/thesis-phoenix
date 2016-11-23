@@ -5,7 +5,6 @@ defmodule Thesis.File do
   use Ecto.Schema
   import Ecto.Changeset, only: [cast: 3, validate_required: 2]
   import Thesis.Utilities
-  import Thesis.Utilities
 
   @type t :: %Thesis.File{
     id: any,
