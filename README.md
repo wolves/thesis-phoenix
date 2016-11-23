@@ -145,8 +145,7 @@ You can have the user specify an image URL and display the image with the `image
 becomes...
 
 ```eex
-<%= content(@conn, "Image identifier", :image, alt: "My alt tag", do: "http://placekitten.com/200/300")
-%>
+<%= content(@conn, "Image identifier", :image, alt: "My alt tag", do: "http://placekitten.com/200/300") %>
 ```
 
 If you prefer to use a `div` with a background image, you can use the `background_image`
@@ -190,7 +189,7 @@ config :thesis,
   uploader: <MyApp>.<CustomUploaderModule>
 ```
 
-The module should have an `upload/1` function that accepts a `%Plug.Upload{}` struct. This function should return either `{:ok, "path/to/file.jpg"}` tuple with an image url or path, or {:error, _}. You can view
+The module should have an `upload/1` function that accepts a `%Plug.Upload{}` struct. This function should return either `{:ok, "path/to/file.jpg"}` tuple with an image url or path, or `{:error, _}`. You can view
 [/lib/thesis/uploaders/repo_uploader.ex](https://github.com/infinitered/thesis-phoenix/blob/master/lib/thesis/uploaders/repo_uploader.ex)
 for an example.
 
