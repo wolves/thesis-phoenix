@@ -14,12 +14,14 @@ Thesis.Auth.html
 Thesis.Controller.html
 Thesis.Controller.Plug.html
 Thesis.EctoStore.html
-Thesis.OspryUploader.html
+Thesis.File.html
 Thesis.Page.html
 Thesis.PageContent.html
 Thesis.Render.html
+Thesis.RepoUploader.html
 Thesis.Router.html
 Thesis.S3Uploader.html
 Thesis.Store.html
 Thesis.Uploader.html
+Thesis.Utilities.html
 Thesis.View.html

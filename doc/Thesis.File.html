@@ -5,10 +5,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.14.3">
-    <title>Thesis.OspryUploader – thesis v0.0.25</title>
+    <title>Thesis.File – thesis v0.0.26</title>
     <link rel="stylesheet" href="dist/app-091c05798a.css" />
     
-      <link rel="canonical" href="https://hexdocs.pm/thesis/Thesis.OspryUploader.html" />
+      <link rel="canonical" href="https://hexdocs.pm/thesis/Thesis.File.html" />
     
     <script src="dist/sidebar_items.js"></script>
   </head>
@@ -28,7 +28,7 @@
         thesis
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.0.25
+        v0.0.26
       </h2>
     </div>
     
@@ -60,15 +60,15 @@
 
 
       <h1>
-        <small class="visible-xs">thesis v0.0.25</small>
-        Thesis.OspryUploader
+        <small class="visible-xs">thesis v0.0.26</small>
+        Thesis.File
         
         
       </h1>
 
       
         <section id="moduledoc">
-          <p>This is a placeholder for potential future server-side Ospry integration.</p>
+          <p>Represents a file.</p>
 
         </section>
       
@@ -82,6 +82,19 @@
             Summary
           </h1>
           
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+    <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:t/0">t()</a>
+  </div>
+  
+</div>
+
+  </div>
+
 
           
   <div class="summary-functions summary">
@@ -90,10 +103,10 @@
     </h2>
     <div class="summary-row">
   <div class="summary-signature">
-    <a href="#upload/1">upload(file)</a>
+    <a href="#changeset/2">changeset(file, f)</a>
   </div>
   
-    <div class="summary-synopsis"><p>Callback implementation for <a href="Thesis.Uploader.html#c:upload/1"><code class="inline">Thesis.Uploader.upload/1</code></a></p>
+    <div class="summary-synopsis"><p>Changeset for File structs</p>
 </div>
   
 </div>
@@ -109,6 +122,39 @@
       
 
       
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <i class="icon-link"></i>
+            </a>
+            Types
+          </h1>
+          <div class="types-list">
+            <div class="detail" id="t:t/0">
+  
+  <div class="detail-header">
+    <a href="#t:t/0" class="detail-link" title="Link to this type">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">t()</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre><a href="#t:t/0">t</a> :: %Thesis.File{__meta__: term, content_type: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, data: any, filename: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, id: any, inserted_at: any, slug: <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>, updated_at: any}</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
+
+          </div>
+        </section>
+      
 
       
         <section id="functions" class="details-list">
@@ -118,19 +164,19 @@
             </a>
             Functions
           </h1>
-          <div class="detail" id="upload/1">
+          <div class="detail" id="changeset/2">
   
   <div class="detail-header">
-    <a href="#upload/1" class="detail-link" title="Link to this function">
+    <a href="#changeset/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">upload(file)</span>
+    <span class="signature">changeset(file, f)</span>
     
     
     
   </div>
   <section class="docstring">
-    <p>Callback implementation for <a href="Thesis.Uploader.html#c:upload/1"><code class="inline">Thesis.Uploader.upload/1</code></a>.</p>
+    <p>Changeset for File structs.</p>
 
   </section>
 </div>
