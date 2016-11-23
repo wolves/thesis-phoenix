@@ -25,8 +25,9 @@ config :thesis,
   uploader: Thesis.RepoUploader
   #  uploader: <MyApp>.<CustomUploaderModule>
   #  uploader: Thesis.OspryUploader
-  #  ospry_public_key: "pk-prod-asdfasdfasdfasdfasdf"
 config :thesis, Thesis.EctoStore, repo: <MyApp>.Repo
+# config :thesis, Thesis.OspryUploader,
+#   ospry_public_key: "pk-prod-asdfasdfasdfasdf"
 # If you want to allow creating dynamic pages:
 # config :thesis, :dynamic_pages,
 #   view: <MyApp>.PageView,

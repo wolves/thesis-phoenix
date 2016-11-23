@@ -7,7 +7,7 @@ defmodule <%= base %>.Repo.Migrations.CreateThesisFilesTable do
       add :slug, :string
       add :content_type, :string
       add :filename, :string
-      add :binary, :binary
+      add :data, :binary
 
       timestamps
     end

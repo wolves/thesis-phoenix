@@ -26,8 +26,10 @@ config :logger, :console,
 config :thesis,
   store: Thesis.EctoStore,
   authorization: Example.ThesisAuth,
-  uploader: Thesis.RepoUploader,
-  ospry_public_key: System.get_env("OSPRY_PUBLIC_KEY")
+  uploader: Thesis.RepoUploader
+
+# config :thesis, Thesis.OspryUploader,
+#   ospry_public_key: System.get_env("OSPRY_PUBLIC_KEY")
 
 config :thesis, Thesis.EctoStore, repo: Example.Repo
 

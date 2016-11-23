@@ -4,15 +4,15 @@ defmodule Thesis.File do
   """
   use Ecto.Schema
   import Ecto.Changeset, only: [cast: 3, validate_required: 2]
-  import Thesis.Utilities.Parameterize
-  import Thesis.Utilities.RandomString
+  import Thesis.Utilities
+  import Thesis.Utilities
 
   @type t :: %Thesis.File{
     id: any,
     slug: String.t,
     content_type: String.t,
     filename: String.t,
-    binary: any,
+    data: any,
     inserted_at: any,
     updated_at: any
   }
@@ -21,13 +21,13 @@ defmodule Thesis.File do
     field :slug, :string
     field :content_type, :string
     field :filename, :string
-    field :binary, :binary
+    field :data, :binary
 
     timestamps
   end
 
-  @valid_attributes [:slug, :content_type, :filename, :binary]
-  @required_attributes [:slug, :content_type, :filename, :binary]
+  @valid_attributes [:slug, :content_type, :filename, :data]
+  @required_attributes [:slug, :content_type, :filename, :data]
 
   @doc """
   Changeset for File structs.
@@ -36,7 +36,7 @@ defmodule Thesis.File do
     file
     |> cast(%{content_type: f.content_type}, [:content_type])
     |> cast(%{filename: f.filename}, [:filename])
-    |> cast(%{binary: File.read!(f.path)}, [:binary])
+    |> cast(%{data: File.read!(f.path)}, [:data])
     |> cast(%{slug: generate_slug(f.filename)}, [:slug])
     |> validate_required(@required_attributes)
   end

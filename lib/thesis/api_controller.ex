@@ -20,8 +20,10 @@ defmodule Thesis.ApiController do
 
   def upload_file(conn, %{"file" => ""}), do: json conn, %{path: ""}
   def upload_file(conn, %{"file" => file}) do
-    path = uploader.upload(file)
-    json conn, %{path: path}
+    case uploader.upload(file) do
+      {:ok, path} -> json conn, %{path: path}
+      {:error, _} -> json conn, %{path: ""}
+    end
   end
   def upload_file(conn, _), do: json conn, %{path: ""}
 
@@ -39,7 +41,7 @@ defmodule Thesis.ApiController do
   defp do_show_file(conn, file) do
     conn
     |> put_resp_content_type(file.content_type)
-    |> send_resp(200, file.binary)
+    |> send_resp(200, file.data)
   end
 
   defp ensure_authorized!(conn, _params) do

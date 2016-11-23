@@ -13,7 +13,7 @@ defmodule Thesis.Render do
 
   import HtmlSanitizeEx, only: [basic_html: 1]
   import Phoenix.HTML, only: [raw: 1, html_escape: 1, safe_to_string: 1]
-  import Thesis.Utilities.Parameterize
+  import Thesis.Utilities
   alias Thesis.{PageContent}
 
   @doc false

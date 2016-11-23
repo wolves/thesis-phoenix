@@ -170,6 +170,8 @@ point to an uploader/adapter inside your custom app, or use one of the prebuilt 
 ##### Store Files in Database
 For smaller websites and/or website that are hosted on the cloud, thesis offers a no-setup-required image uploader.
 Files are stored in a separate table and contain all of the needed metadata (name, file type, and blobs themselves).
+Keep in mind as you upload more and more files, your database will grow quickly. Don't use this for high-traffic,
+content-heavy web applications. Smaller personal websites are probably fine.
 
 To enable, add this in your config/config.exs file:
 
@@ -178,7 +180,7 @@ config :thesis,
   uploader: Thesis.RepoUploader
 ```
 
-##### User Your Own Uploader Module
+##### Use Your Own Uploader Module
 
 If you already set up file uploads in your custom app, point thesis to a module that can handle a `%Plug.Upload{}`
 struct.
@@ -188,10 +190,9 @@ config :thesis,
   uploader: <MyApp>.<CustomUploaderModule>
 ```
 
-The module should have an `upload/1` function that accepts a `%Plug.Upload{}` struct. This function should return
-an image url string, image path string, or a blank string. You can view
+The module should have an `upload/1` function that accepts a `%Plug.Upload{}` struct. This function should return either `{:ok, "path/to/file.jpg"}` tuple with an image url or path, or {:error, _}. You can view
 [/lib/thesis/uploaders/repo_uploader.ex](https://github.com/infinitered/thesis-phoenix/blob/master/lib/thesis/uploaders/repo_uploader.ex)
-as an example.
+for an example.
 
 ##### Use a Prebuilt Adapter
 Included in Thesis is an adapter for Ospry.io, which is a service that
@@ -206,7 +207,9 @@ for free.
 
 ```elixir
 config :thesis,
-  uploader: Thesis.OspryUploader,
+  uploader: Thesis.OspryUploader
+
+config :thesis, Thesis.OspryUploader,
   ospry_public_key: "pk-prod-abcdefghijklmnopqrstuvwxyz0123456789"
 ```
 
