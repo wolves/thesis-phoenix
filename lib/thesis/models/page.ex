@@ -47,7 +47,7 @@ defmodule Thesis.Page do
   def redirected?(_), do: true
 
   @doc """
-  Changeset for PageContent structs.
+  Changeset for Page structs.
   """
   def changeset(page, params \\ %{}) do
     page

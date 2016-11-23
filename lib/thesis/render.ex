@@ -13,6 +13,7 @@ defmodule Thesis.Render do
 
   import HtmlSanitizeEx, only: [basic_html: 1]
   import Phoenix.HTML, only: [raw: 1, html_escape: 1, safe_to_string: 1]
+  import Thesis.Utilities.Parameterize
   alias Thesis.{PageContent}
 
   @doc false
@@ -89,13 +90,6 @@ defmodule Thesis.Render do
     unsafe
     |> html_escape
     |> safe_to_string
-  end
-
-  defp parameterize(str) do
-    str = Regex.replace(~r/[^a-z0-9\-\s]/i, str, "")
-    Regex.split(~r/\%20|\s/, str)
-    |> Enum.join("-")
-    |> String.downcase
   end
 
 end

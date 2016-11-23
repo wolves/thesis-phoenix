@@ -7,7 +7,8 @@ defmodule Mix.Tasks.Thesis.Install do
     "add_meta_to_thesis_page_contents",
     "add_indexes_to_tables",
     "add_template_and_redirect_url_to_thesis_pages",
-    "change_content_default_for_page_content"
+    "change_content_default_for_page_content",
+    "create_thesis_files_table"
   ]
   @template_files [
     {"priv/templates/thesis.install/thesis_auth.exs", "lib/thesis_auth.ex"}
@@ -103,7 +104,11 @@ defmodule Mix.Tasks.Thesis.Install do
       # Configure thesis content editor
       config :thesis,
         store: Thesis.EctoStore,
-        authorization: #{Mix.Phoenix.base}.ThesisAuth
+        authorization: #{Mix.Phoenix.base}.ThesisAuth,
+        uploader: Thesis.RepoUploader
+        #  uploader: <MyApp>.<CustomUploaderModule>
+        #  uploader: Thesis.OspryUploader
+        #  ospry_public_key: "pk-prod-asdfasdfasdfasdfasdf"
       config :thesis, Thesis.EctoStore, repo: #{Mix.Phoenix.base}.Repo
       # If you want to allow creating dynamic pages:
       # config :thesis, :dynamic_pages,
@@ -111,9 +116,6 @@ defmodule Mix.Tasks.Thesis.Install do
       #   templates: ["index.html", "otherview.html"],
       #   not_found_view: #{Mix.Phoenix.base}.ErrorView,
       #   not_found_template: "404.html"
-      # If you want to use Ospry.io file uploads:
-      # config :thesis, Thesis.OspryUploader,
-      #  ospry_public_key: "pk-prod-asdfasdfasdfasdfasdf"
       """
     end
   end

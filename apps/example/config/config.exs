@@ -25,17 +25,18 @@ config :logger, :console,
 # Configure thesis content editor
 config :thesis,
   store: Thesis.EctoStore,
-  authorization: Example.ThesisAuth
+  authorization: Example.ThesisAuth,
+  uploader: Thesis.RepoUploader,
+  ospry_public_key: System.get_env("OSPRY_PUBLIC_KEY")
+
 config :thesis, Thesis.EctoStore, repo: Example.Repo
+
 # If you want to allow creating dynamic pages:
 config :thesis, :dynamic_pages,
   view: Example.PageView,
   templates: ["dynamic.html"],
   not_found_view: Example.ErrorView,
   not_found_template: "404.html"
-# If you want to use Ospry.io file uploads:
-config :thesis, Thesis.OspryUploader,
- ospry_public_key: System.get_env("OSPRY_PUBLIC_KEY")
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

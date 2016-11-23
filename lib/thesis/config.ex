@@ -33,8 +33,12 @@ defmodule Thesis.Config do
     Application.get_env(:thesis, Thesis.EctoStore)[:repo]
   end
 
+  def uploader do
+    Application.get_env(:thesis, :uploader)
+  end
+
   def ospry_public_key do
-    Application.get_env(:thesis, Thesis.OspryUploader)[:ospry_public_key]
+    Application.get_env(:thesis, :ospry_public_key)
   end
 
   def thesis_js_source_path do

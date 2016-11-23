@@ -115,6 +115,7 @@ defmodule Thesis.View do
       templates = Enum.join(dynamic_templates, ",")
       editor = content_tag(:div, "", id: "thesis-container",
         data_ospry_public_key: ospry_public_key,
+        data_file_uploader: uploader,
         data_redirect_url: redirect_url,
         data_template: template,
         data_templates: templates,
