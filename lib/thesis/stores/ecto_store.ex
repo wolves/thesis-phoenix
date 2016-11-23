@@ -45,7 +45,7 @@ defmodule Thesis.EctoStore do
   end
 
   @doc """
-  Retrives a file by slug.
+  Retrieves a file by slug.
   """
   def file(nil), do: nil
   def file(""), do: nil
