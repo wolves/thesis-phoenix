@@ -4,7 +4,7 @@ defmodule Thesis.ApiController do
   use Phoenix.Controller
   import Thesis.Config
 
-  plug :ensure_authorized!
+  plug :ensure_authorized! when not action in [:show_file]
 
   def assets(conn, _params), do: conn
 
