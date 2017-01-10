@@ -42,7 +42,7 @@ defmodule Thesis.View do
       <% end %>
   """
   @spec content(Plug.Conn.t, String.t, String.t, list) :: String.t | {:safe, String.t}
-  def content(conn, name, type, opts \\ []) do
+  def content(conn, name, type, opts \\ [do: ""]) do
     page = current_page(conn)
     render_content(conn, page.id, name, type, opts)
   end
@@ -60,7 +60,7 @@ defmodule Thesis.View do
       <% end %>
   """
   @spec global_content(Plug.Conn.t, String.t, String.t, list) :: String.t | {:safe, String.t}
-  def global_content(conn, name, type, opts \\ []) do
+  def global_content(conn, name, type, opts \\ [do: ""]) do
     opts = Keyword.put(opts, :global, true)
     render_content(conn, nil, name, type, opts)
   end
