@@ -306,7 +306,7 @@ choice.
 You can pass in a default template (otherwise, it'll use the first template
 option in your config) with `render_dynamic(conn, template: "index.html")`.
 
-You can choose to make only a portion of your website support static pages by
+You can choose to make only a portion of your website support dynamic pages by
 routing more specifically. For example, if you want a blog section:
 
 ```elixir
