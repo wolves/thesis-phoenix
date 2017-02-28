@@ -44,6 +44,32 @@ defmodule Thesis.EctoStore do
     repo.all(from pc in PageContent, where: pc.page_id == ^page_id or is_nil(pc.page_id))
   end
 
+  # TODO: Issue #83 - intermittent issue with duplicate content rows
+  # We're using `page_content/2` here to be more vigorous about checking for
+  # duplicates, but realize that it's an N+1 on save.
+  @doc """
+  Returns an existing %PageContent{} record or a newly created one with the
+  provided page_id and name set.
+  """
+  def page_content_or_new(page_id, name, _preloaded_contents) do
+    # Original (more efficient but buggy code):
+    #   page_content = PageContent.find(preloaded_contents, page_id, name) ||
+    #     %PageContent{page_id: page_id, name: name}
+
+    page_content(page_id, name) || %PageContent{page_id: page_id, name: name}
+  end
+
+  @doc """
+  Retrieves a single %PageContent{} (or nil, if it doesn't exist) based on page_id
+  and name.
+  """
+  def page_content(nil, name) do
+    repo.one(from pc in PageContent, where: is_nil(pc.page_id) and pc.name == ^name)
+  end
+  def page_content(page_id, name) do
+    repo.get_by(PageContent, page_id: page_id, name: name)
+  end
+
   @doc """
   Retrieves a file by slug.
   """
@@ -92,10 +118,10 @@ defmodule Thesis.EctoStore do
     %{"name" => name, "content" => content, "content_type" => content_type} = new_contents
 
     page_id = page_id_or_global(new_contents, page)
-    page_content = PageContent.find(preloaded_contents, page_id, name) ||
-      %PageContent{page_id: page_id, name: name}
 
-    PageContent.changeset(page_content, %{
+    existing_page_content = page_content_or_new(page_id, name, preloaded_contents)
+
+    PageContent.changeset(existing_page_content, %{
       content: content,
       content_type: content_type,
       meta: new_contents["meta"]
