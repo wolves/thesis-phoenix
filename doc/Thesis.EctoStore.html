@@ -5,10 +5,8 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.14.3">
-    <title>Thesis.EctoStore – thesis v0.0.26</title>
+    <title>Thesis.EctoStore – thesis v0.0.27</title>
     <link rel="stylesheet" href="dist/app-091c05798a.css" />
-    
-      <link rel="canonical" href="https://hexdocs.pm/thesis/Thesis.EctoStore.html" />
     
     <script src="dist/sidebar_items.js"></script>
   </head>
@@ -28,7 +26,7 @@
         thesis
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.0.26
+        v0.0.27
       </h2>
     </div>
     
@@ -60,7 +58,7 @@
 
 
       <h1>
-        <small class="visible-xs">thesis v0.0.26</small>
+        <small class="visible-xs">thesis v0.0.27</small>
         Thesis.EctoStore
         
         
@@ -122,10 +120,30 @@ its data.</p>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
+    <a href="#page_content/2">page_content(page_id, name)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Retrieves a single %PageContent{} (or nil, if it doesn’t exist) based on page_id
+and name</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#page_content_or_new/3">page_content_or_new(page_id, name, preloaded_contents)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Returns an existing %PageContent{} record or a newly created one with the
+provided page_id and name set</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="#page_contents/1">page_contents(slug)</a>
   </div>
   
-    <div class="summary-synopsis"><p>Handles `%Page{…} struct - means page has been edited and saved.
+    <div class="summary-synopsis"><p>Handles `%Page{…}`` struct - means page has been edited and saved.
 Retrieves page content and global content</p>
 </div>
   
@@ -208,6 +226,40 @@ Retrieves page content and global content</p>
 
   </section>
 </div>
+<div class="detail" id="page_content/2">
+  
+  <div class="detail-header">
+    <a href="#page_content/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">page_content(page_id, name)</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    <p>Retrieves a single %PageContent{} (or nil, if it doesn’t exist) based on page_id
+and name.</p>
+
+  </section>
+</div>
+<div class="detail" id="page_content_or_new/3">
+  
+  <div class="detail-header">
+    <a href="#page_content_or_new/3" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">page_content_or_new(page_id, name, preloaded_contents)</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    <p>Returns an existing %PageContent{} record or a newly created one with the
+provided page_id and name set.</p>
+
+  </section>
+</div>
 <div class="detail" id="page_contents/1">
   
   <div class="detail-header">
@@ -220,7 +272,7 @@ Retrieves page content and global content</p>
     
   </div>
   <section class="docstring">
-    <p>Handles `%Page{…} struct - means page has been edited and saved.
+    <p>Handles `%Page{…}`` struct - means page has been edited and saved.
 Retrieves page content and global content.</p>
 
   </section>

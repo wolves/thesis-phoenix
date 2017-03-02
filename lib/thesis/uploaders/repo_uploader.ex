@@ -6,7 +6,6 @@ defmodule Thesis.RepoUploader do
   @behaviour Thesis.Uploader
 
   import Thesis.Config
-  import Ecto.Query, only: [from: 2]
   alias Thesis.File
 
   def upload(file) do
