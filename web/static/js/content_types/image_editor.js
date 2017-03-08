@@ -84,7 +84,7 @@ class ImageEditor {
   }
 
   getUrlFromStyle (style) {
-    return style.replace('url("', '').replace('")', '')
+    return style.replace(/\'/g, '').replace(/"/g, '').replace('url(', '').replace(')', '')
   }
 
 }
