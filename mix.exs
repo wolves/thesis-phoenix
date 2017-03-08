@@ -48,7 +48,7 @@ defmodule Thesis.Mixfile do
       licenses: ["MIT"],
       maintainers: ["Jamon Holmgren", "Yulian Glukhenko", "Ken Miller", "Daniel Berkompas"],
       links: %{
-        "GitHub" => "https://github.com/infinitered/thesis",
+        "GitHub" => "https://github.com/infinitered/thesis-phoenix",
         "Docs" => "https://hexdocs.pm/thesis/#{@version}/api-reference.html",
         # "Tutorials" => "https://infinite.red/thesis/" # TODO
       }
