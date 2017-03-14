@@ -90,7 +90,10 @@ defmodule Thesis.Controller.Plug do
   end
 
   def call(conn, _opts) do
-    current_page = store.page(conn.request_path)
+    url = conn.request_path
+          |> String.replace(~r/(?<=[^:])(\/\/)/, conn.request_path, "/") # Strip double slashes
+          |> String.replace(~r/\/$/, "") # Strip trailing slash
+    current_page = store.page(url)
     page_contents = store.page_contents(current_page)
 
     conn
