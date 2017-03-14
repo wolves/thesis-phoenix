@@ -5,8 +5,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.14.3">
-    <title>Thesis.Utilities – thesis v0.0.27</title>
+    <title>Thesis.Utilities – thesis v0.0.28</title>
     <link rel="stylesheet" href="dist/app-091c05798a.css" />
+    
+      <link rel="canonical" href="https://hexdocs.pm/thesis/Thesis.Utilities.html" />
     
     <script src="dist/sidebar_items.js"></script>
   </head>
@@ -26,7 +28,7 @@
         thesis
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.0.27
+        v0.0.28
       </h2>
     </div>
     
@@ -58,7 +60,7 @@
 
 
       <h1>
-        <small class="visible-xs">thesis v0.0.27</small>
+        <small class="visible-xs">thesis v0.0.28</small>
         Thesis.Utilities
         
         
@@ -87,6 +89,15 @@
       <a href="#functions">Functions</a>
     </h2>
     <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#normalize_url/1">normalize_url(url)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Takes a URL and strips unnecessary characters</p>
+</div>
+  
+</div>
+<div class="summary-row">
   <div class="summary-signature">
     <a href="#parameterize/1">parameterize(str)</a>
   </div>
@@ -119,7 +130,27 @@
             </a>
             Functions
           </h1>
-          <div class="detail" id="parameterize/1">
+          <div class="detail" id="normalize_url/1">
+  
+  <div class="detail-header">
+    <a href="#normalize_url/1" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">normalize_url(url)</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    <p>Takes a URL and strips unnecessary characters.</p>
+<pre><code class="iex elixir">iex&gt; Thesis.Utilities.normalize_url(&quot;http://infinite.red//ignite//foo&quot;)
+&quot;http://infinite.red/ignite/foo&quot;
+iex&gt; Thesis.Utilities.normalize_url(&quot;https://infinite.red/ignite/foo/&quot;)
+&quot;https://infinite.red/ignite/foo&quot;</code></pre>
+
+  </section>
+</div>
+<div class="detail" id="parameterize/1">
   
   <div class="detail-header">
     <a href="#parameterize/1" class="detail-link" title="Link to this function">
