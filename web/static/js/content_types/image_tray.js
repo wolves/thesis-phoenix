@@ -113,7 +113,7 @@ class ImageTray extends React.Component {
           <span>Upload Image</span>
           <form onChange={this.uploadFile} className='tray-file-upload'>
             <span>{this.state.fileName}</span>
-            <input type='file' accept='.jpg,.jpeg,.png,.gif,image/png,image/gif,image/jpeg,image/jpg' name='file' />
+            <input type='file' accept='.svg,image/*' name='file' />
           </form>
         </label>
       </div>
