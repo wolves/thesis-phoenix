@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import AddButton from './add_button'
 import DeleteButton from './delete_button'
 import SettingsButton from './settings_button'
+import ImportExportButton from './import_export_button'
 import CancelButton from './cancel_button'
 import SaveButton from './save_button'
 import EditButton from './edit_button'
@@ -45,6 +46,7 @@ class ThesisEditor extends React.Component {
     this.addPagePressed = this.addPagePressed.bind(this)
     this.deletePagePressed = this.deletePagePressed.bind(this)
     this.pageSettingsPressed = this.pageSettingsPressed.bind(this)
+    this.importExportPressed = this.importExportPressed.bind(this)
 
     // External editors
 
@@ -154,6 +156,14 @@ class ThesisEditor extends React.Component {
       this.setState({trayType: 'page-settings'})
     } else {
       this.setState({trayOpen: !this.state.trayOpen, trayType: 'page-settings'})
+    }
+  }
+
+  importExportPressed () {
+    if (this.state.trayOpen && this.state.trayType !== 'import-export') {
+      this.setState({trayType: 'import-export'})
+    } else {
+      this.setState({trayOpen: !this.state.trayOpen, trayType: 'import-export'})
     }
   }
 
@@ -270,7 +280,7 @@ class ThesisEditor extends React.Component {
   }
 
   editorClassButtonCount () {
-    let count = 4
+    let count = 5
     if (this.canCreatePages()) count++
     if (this.state.template) count++
     return count
@@ -329,10 +339,11 @@ class ThesisEditor extends React.Component {
       <div id='thesis'>
         <div id='thesis-editor' className={this.renderEditorClass()}>
           <SettingsButton onPress={this.pageSettingsPressed} />
+          <ImportExportButton onPress={this.importExportPressed} />
           <SaveButton onPress={this.savePressed} />
           <CancelButton onPress={this.cancelPressed} />
-          {this.canCreatePages() ? <AddButton onPress={this.addPagePressed} /> : null}
           {this.state.isDynamicPage ? <DeleteButton onPress={this.deletePagePressed} /> : null}
+          {this.canCreatePages() ? <AddButton onPress={this.addPagePressed} /> : null}
           <EditButton onPress={this.editPressed} text={this.renderEditButtonText()} />
         </div>
         <div id='thesis-fader' className={this.renderFaderClass()} />
