@@ -8,6 +8,7 @@ import CancelButton from './cancel_button'
 import SaveButton from './save_button'
 import EditButton from './edit_button'
 import SettingsTray from './settings_tray'
+import ImportExportTray from './import_export_tray'
 import AttributionText from './attribution_text'
 
 // Content types
@@ -34,7 +35,10 @@ class ThesisEditor extends React.Component {
       pageToolsHidden: true,
       trayOpen: false,
       trayType: null,
-      deleted: false
+      deleted: false,
+      importProgress: null,
+      importContentQueueCount: 0,
+      importContentCompletedCount: 0
     }
 
     // Rebind context
@@ -47,9 +51,10 @@ class ThesisEditor extends React.Component {
     this.deletePagePressed = this.deletePagePressed.bind(this)
     this.pageSettingsPressed = this.pageSettingsPressed.bind(this)
     this.importExportPressed = this.importExportPressed.bind(this)
+    this.importData = this.importData.bind(this)
+    this.updateImportProgress = this.updateImportProgress.bind(this)
 
     // External editors
-
     this.htmlEditor = new HtmlEditor({
       onChange: () => this.setState({pageModified: true})
     })
@@ -69,7 +74,6 @@ class ThesisEditor extends React.Component {
     this.textEditor = new TextEditor({
       onChange: () => this.setState({pageModified: true})
     })
-
   }
 
   openTray (trayType) {
@@ -133,13 +137,7 @@ class ThesisEditor extends React.Component {
   }
 
   savePressed () {
-    const page = {
-      slug: this.state.path,
-      title: this.state.title,
-      description: this.state.description,
-      redirect_url: this.state.redirectURL,
-      template: this.state.template
-    }
+    const page = this.pageSettings()
     const contents = this.contentEditorContents()
     this.save(page, contents)
   }
@@ -180,6 +178,29 @@ class ThesisEditor extends React.Component {
     })
   }
 
+  importData (page, contents) {
+    // apply page settigns
+    this.setState({
+      importContentQueueCount: contents.length,
+      importContentCompletedCount: 0,
+      title: page.title,
+      description: page.description,
+      pageModified: true
+    })
+
+    // apply page contents
+    for (let i = 0; i < contents.length; i++) {
+      const content = contents[i]
+      this.importContent(content.content_type, content, page)
+    }
+
+    window.importContentCounterTimeout = setTimeout(() => {
+      this.setState({
+        importProgress: {type: 'error', 'text': 'Something went wrong! Please refresh and try again.'}
+      })
+    }, 20000)
+  }
+
   allContentEditors () {
     return document.querySelectorAll('.thesis-content')
   }
@@ -196,6 +217,16 @@ class ThesisEditor extends React.Component {
     this.rawHtmlEditor.disable()
     this.imageEditor.disable()
     this.textEditor.disable()
+  }
+
+  pageSettings () {
+    return {
+      slug: this.state.path,
+      title: this.state.title,
+      description: this.state.description,
+      redirect_url: this.state.redirectURL,
+      template: this.state.template
+    }
   }
 
   // TODO: This should be in `external`
@@ -231,6 +262,44 @@ class ThesisEditor extends React.Component {
       default:
         return ed.innerHTML
     }
+  }
+
+  importContent (t, d, page) {
+    switch (t) {
+      case 'image':
+      case 'background_image':
+        return this.imageEditor.uploadAndSet(d, page, () => { this.updateImportedContentCompletedCount() })
+      case 'text':
+        this.updateImportedContentCompletedCount()
+        return this.textEditor.set(d.name, d)
+      case 'html':
+        this.updateImportedContentCompletedCount()
+        return this.htmlEditor.set(d.name, d)
+      case 'raw_html':
+        this.updateImportedContentCompletedCount()
+        return this.rawHtmlEditor.set(d.name, d)
+      default:
+        return true
+    }
+  }
+
+  updateImportedContentCompletedCount () {
+    this.setState({importContentCompletedCount: ++this.state.importContentCompletedCount}, () => {
+      if (this.state.importContentCompletedCount === this.state.importContentQueueCount) {
+        clearTimeout(window.importContentCounterTimeout)
+
+        this.setState({
+          importContentQueueCount: 0,
+          importContentCompletedCount: 0,
+          importProgress: null,
+          trayOpen: false
+        })
+      }
+    })
+  }
+
+  updateImportProgress (progress) {
+    this.setState({importProgress: progress})
   }
 
   componentDidUpdate () {
@@ -329,6 +398,14 @@ class ThesisEditor extends React.Component {
       return this.imageEditor.tray(this.state.trayData)
     } else if (this.state.trayType === 'raw-html') {
       return this.rawHtmlEditor.tray(this.state.trayData)
+    } else if (this.state.trayType === 'import-export') {
+      return <ImportExportTray
+        pageContents={this.contentEditorContents()}
+        pageSettings={this.pageSettings()}
+        onCancel={this.trayCanceled}
+        importProgress={this.state.importProgress}
+        updateImportProgress={this.updateImportProgress}
+        importData={this.importData} />
     }
   }
 

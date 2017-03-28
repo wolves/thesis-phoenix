@@ -33,6 +33,12 @@ class TextEditor {
     return ed.textContent
   }
 
+  set (name, data) {
+    const ed = document.querySelector(`[data-thesis-content-id='${name}']`)
+    ed.innerHTML = data.content
+    ed.classList.add('modified')
+  }
+
   changed (e) {
     e.currentTarget.classList.add('modified')
     if (e.keyCode === 13) e.preventDefault()

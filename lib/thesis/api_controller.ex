@@ -3,6 +3,7 @@ defmodule Thesis.ApiController do
 
   use Phoenix.Controller
   import Thesis.Config
+  alias Thesis.Utilities
 
   plug :ensure_authorized! when not action in [:show_file]
 
@@ -17,6 +18,19 @@ defmodule Thesis.ApiController do
     :ok = store.delete(%{"slug" => path})
     json conn, %{}
   end
+
+  def import_file(conn, %{"image_url" => ""}), do: json conn, %{path: ""}
+  def import_file(conn, %{"image_url" => image_url, "image_name" => image_name}) do
+    image = HTTPoison.get!(image_url)
+    file = %Plug.Upload{
+      path: %{data: image.body},
+      filename: "imported-" <> Utilities.parameterize(image_url),
+      content_type: (image.headers |> Enum.into(%{}) |> Map.new(fn {k, v} -> {String.downcase(k), v} end))["content-type"]
+    }
+
+    upload_file(conn, %{"file" => file})
+  end
+  def import_file(conn, _), do: json conn, %{path: ""}
 
   def upload_file(conn, %{"file" => ""}), do: json conn, %{path: ""}
   def upload_file(conn, %{"file" => file}) do

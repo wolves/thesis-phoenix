@@ -1,5 +1,6 @@
 import React from 'react'
 import ImageTray from './image_tray'
+import Net from '../utilities/net'
 
 class ImageEditor {
   constructor (opts) {
@@ -56,21 +57,7 @@ class ImageEditor {
   }
 
   onSubmit (data) {
-    const editor = document.querySelector(`[data-thesis-content-id="${data.contentId}"`)
-    editor.classList.add('modified')
-
-    const meta = JSON.stringify({alt: data.alt})
-    editor.setAttribute('data-thesis-content-meta', meta)
-
-    const type = editor.getAttribute('data-thesis-content-type')
-    if (type === 'image') {
-      const img = editor.querySelector('img')
-      img.src = data.url
-      img.alt = data.alt
-    } else if (type === 'background_image') {
-      editor.style.backgroundImage = `url("${data.url}")`
-    }
-
+    this.set(data.contentId, data)
     this.closeTray()
   }
 
@@ -83,10 +70,65 @@ class ImageEditor {
     }
   }
 
+  uploadAndSet (data, page, callback) {
+    const imageUrl = this.determineImageUrl(data.content, page.origin)
+    if (!imageUrl) { callback(); return }
+
+    Net.post('/thesis/files/import', {image_url: imageUrl, image_name: data.name})
+    .then((response) => {
+      callback()
+      if (response.path.length > 0) this.set(data.name, {url: response.path}, data.meta)
+    })
+    .catch((error) => { callback(); window.alert(error) })
+  }
+
+  set (name, data, meta = null) {
+    const editor = document.querySelector(`[data-thesis-content-id="${name}"`)
+    editor.classList.add('modified')
+
+    if (!meta) {
+      const prevMeta = JSON.parse(editor.getAttribute('data-thesis-content-meta'))
+      const newMeta = Object.assign({}, prevMeta, {alt: data.alt})
+      meta = JSON.stringify(newMeta)
+    }
+
+    editor.setAttribute('data-thesis-content-meta', meta)
+
+    const type = editor.getAttribute('data-thesis-content-type')
+    if (type === 'image') {
+      const img = editor.querySelector('img')
+      img.src = data.url
+      img.alt = JSON.parse(meta).alt
+    } else if (type === 'background_image') {
+      editor.style.backgroundImage = `url("${data.url}")`
+    }
+  }
+
+  determineImageUrl (image, origin) {
+    if (image.trim() === '') {
+      return null
+    } else if (this.isImageAbsoluteUrl(image)) {
+      return image.trim()
+    } else if (this.isImageUrlWithoutProtocol(image)) {
+      return 'http:' + image.trim()
+    } else {
+      return origin + image.trim()
+    }
+  }
+
+  isImageAbsoluteUrl (image) {
+    const index = image.trim().indexOf('//')
+    return (index > 4 && index < 7)
+  }
+
+  isImageUrlWithoutProtocol (image) {
+    const index = image.trim().indexOf('//')
+    return (index === 0)
+  }
+
   getUrlFromStyle (style) {
     return style.replace(/\'/g, '').replace(/"/g, '').replace('url(', '').replace(')', '')
   }
-
 }
 
 export default ImageEditor

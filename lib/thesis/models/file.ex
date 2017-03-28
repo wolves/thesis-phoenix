@@ -35,10 +35,13 @@ defmodule Thesis.File do
     file
     |> cast(%{content_type: f.content_type}, [:content_type])
     |> cast(%{filename: f.filename}, [:filename])
-    |> cast(%{data: File.read!(f.path)}, [:data])
+    |> cast(%{data: get_file_data(f.path)}, [:data])
     |> cast(%{slug: generate_slug(f.filename)}, [:slug])
     |> validate_required(@required_attributes)
   end
+
+  defp get_file_data(%{data: data}), do: data
+  defp get_file_data(path), do: File.read!(path)
 
   defp generate_slug(name) do
     random_string(10) <> "-" <> parameterize(name)

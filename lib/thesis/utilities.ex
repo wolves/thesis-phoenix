@@ -15,8 +15,16 @@ defmodule Thesis.Utilities do
     length
     |> :crypto.strong_rand_bytes
     |> Base.url_encode64
-    |> String.replace("_", "")
+    |> String.replace(~r/[^0-9a-zA-Z]+/, "")
     |> String.downcase
+    |> binary_part(0, length)
+  end
+
+  def random_string(length, :numeric) do
+    length
+    |> :crypto.strong_rand_bytes
+    |> :crypto.bytes_to_integer
+    |> Integer.to_string
     |> binary_part(0, length)
   end
 

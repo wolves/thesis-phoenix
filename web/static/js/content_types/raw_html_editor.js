@@ -33,6 +33,12 @@ class RawHtmlEditor {
     return ed.innerHTML
   }
 
+  set (name, data) {
+    const ed = document.querySelector(`[data-thesis-content-id='${name}']`)
+    ed.innerHTML = data.content
+    ed.classList.add('modified')
+  }
+
   clicked (e) {
     const id = e.currentTarget.getAttribute('data-thesis-content-id')
     const content = e.currentTarget.innerHTML.trim()
@@ -41,10 +47,7 @@ class RawHtmlEditor {
   }
 
   onSubmit (data) {
-    const editor = document.querySelector(`[data-thesis-content-id="${data.contentId}"`)
-    editor.classList.add('modified')
-    editor.innerHTML = data.content
-
+    this.set(data.contentId, data)
     this.closeTray()
   }
 
