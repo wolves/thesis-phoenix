@@ -94,8 +94,7 @@ class ImportExportTray extends React.Component {
     this.props.updateImportProgress(error)
 
     clearTimeout(window.importProgressErrorTimeout)
-    window.importProgressErrorTimeout = setT
-imeout(() => {
+    window.importProgressErrorTimeout = setTimeout(() => {
       this.props.updateImportProgress(null)
       this.setState({stringifiedImportData: ''})
     }, 3500)
