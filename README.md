@@ -421,6 +421,10 @@ websites. Please help us improve!
 9. Push to the branch (`git push origin my-new-feature`)
 10. Create new Pull Request
 
+## Premium Support
+
+Thesis Phoenix as an open source project is free to use and always will be. [Infinite Red](https://infinite.red/) offers premium Thesis Phoenix support and general mobile app design/development services. Email us at [hello@infinite.red](mailto:hello@infinite.red) to get in touch with us for more details.
+
 ### Key Contributors
 
 * Jamon Holmgren [@jamonholmgren](https://twitter.com/jamonholmgren)
