@@ -72,14 +72,18 @@ class ImageEditor {
 
   uploadAndSet (data, page, callback) {
     const imageUrl = this.determineImageUrl(data.content, page.origin)
-    if (!imageUrl) { callback(); return }
+    const editor = document.querySelector(`[data-thesis-content-id="${data.name}"`)
+
+    if (!imageUrl || !editor) {
+      callback(); return
+    }
 
     Net.post('/thesis/files/import', {image_url: imageUrl, image_name: data.name})
     .then((response) => {
       callback()
       if (response.path.length > 0) this.set(data.name, {url: response.path}, data.meta)
     })
-    .catch((error) => { callback(); window.alert(error) })
+    .catch((error) => { callback(); window.alert(`${data.name} could not be saved.`) })
   }
 
   set (name, data, meta = null) {

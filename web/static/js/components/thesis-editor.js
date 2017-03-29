@@ -402,9 +402,9 @@ class ThesisEditor extends React.Component {
       return <ImportExportTray
         pageContents={this.contentEditorContents()}
         pageSettings={this.pageSettings()}
-        onCancel={this.trayCanceled}
         importProgress={this.state.importProgress}
         updateImportProgress={this.updateImportProgress}
+        onCancel={this.trayCanceled}
         importData={this.importData} />
     }
   }

@@ -6,8 +6,6 @@ class ImportExportTray extends React.Component {
     super(props)
 
     this.state = {
-      pageContents: this.props.pageContents,
-      pageSettings: this.props.pageSettings,
       stringifiedExportData: '',
       stringifiedImportData: '',
       exportDataButtonText: 'Copy to Clipboard'
@@ -21,8 +19,6 @@ class ImportExportTray extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     this.setState({
-      pageContents: nextProps.pageContents,
-      pageSettings: nextProps.pageSettings,
       stringifiedExportData: '',
       stringifiedImportData: '',
       exportDataButtonText: 'Copy to Clipboard'
@@ -50,8 +46,8 @@ class ImportExportTray extends React.Component {
 
   stringifyExportData () {
     let exportData = {
-      pageSettings: Object.assign({}, this.state.pageSettings, {origin: window.location.origin}) ,
-      pageContents: this.state.pageContents
+      pageSettings: Object.assign({}, this.props.pageSettings, {origin: window.location.origin}),
+      pageContents: this.props.pageContents
     }
 
     const stringifiedExportData = JSON.stringify(exportData)
@@ -116,7 +112,7 @@ class ImportExportTray extends React.Component {
           <div className='thesis-field-row'>
             <label>
               <span>Export Page Content</span>
-              <textarea value={this.state.stringifiedExportData} className='thesis-tray-export-data-textarea' readOnly={true} />
+              <textarea value={this.state.stringifiedExportData} className='thesis-tray-export-data-textarea' readOnly />
               <CopyToClipboard text={this.state.stringifiedExportData} onCopy={this.onExportCopy}>
                 <button className='thesis-tray-export'>{this.state.exportDataButtonText}</button>
               </CopyToClipboard>

@@ -35,6 +35,7 @@ class TextEditor {
 
   set (name, data) {
     const ed = document.querySelector(`[data-thesis-content-id='${name}']`)
+    if (!ed) return
     ed.innerHTML = data.content
     ed.classList.add('modified')
   }
