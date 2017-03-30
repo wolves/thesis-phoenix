@@ -40,36 +40,34 @@ class ImportExportTray extends React.Component {
 
     clearTimeout(window.exportDataButtonTextTimeout)
     window.exportDataButtonTextTimeout = setTimeout(() => {
-      this.setState({exportDataButtonText: 'Copy to Clipboard'})
+      this.setState({ exportDataButtonText: 'Copy to Clipboard' })
     }, 2000)
   }
 
   stringifyExportData () {
     let exportData = {
-      pageSettings: Object.assign({}, this.props.pageSettings, {origin: window.location.origin}),
+      pageSettings: Object.assign({}, this.props.pageSettings, { origin: window.location.origin }),
       pageContents: this.props.pageContents
     }
 
     const stringifiedExportData = JSON.stringify(exportData)
 
-    this.setState({
-      stringifiedExportData: stringifiedExportData
-    })
+    this.setState({ stringifiedExportData: stringifiedExportData })
   }
 
   onImportDataPaste (e) {
-    this.setState({stringifiedImportData: e.target.value})
+    this.setState({ stringifiedImportData: e.target.value })
   }
 
   onImportApply () {
-    this.props.updateImportProgress({type: 'in-progress', text: 'Importing content. This may take some time.'})
+    this.props.updateImportProgress({ type: 'in-progress', text: 'Importing content. This may take some time.' })
 
     const data = this.getImportData()
 
     if (data) {
       this.props.importData(data.pageSettings, data.pageContents)
     } else {
-      this.setImportProgressError({type: 'error', text: 'The data entered is invalid.'})
+      this.setImportProgressError({ type: 'error', text: 'The data entered is invalid.' })
     }
   }
 
@@ -92,7 +90,7 @@ class ImportExportTray extends React.Component {
     clearTimeout(window.importProgressErrorTimeout)
     window.importProgressErrorTimeout = setTimeout(() => {
       this.props.updateImportProgress(null)
-      this.setState({stringifiedImportData: ''})
+      this.setState({ stringifiedImportData: '' })
     }, 3500)
   }
 

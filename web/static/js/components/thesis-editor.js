@@ -264,36 +264,39 @@ class ThesisEditor extends React.Component {
     }
   }
 
-  importContent (t, d, page) {
-    switch (t) {
+  importContent (content, page) {
+    switch (content.content_type) {
       case 'image':
       case 'background_image':
-        return this.imageEditor.uploadAndSet(d, page, () => { this.updateImportedContentCompletedCount() })
+        return this.imageEditor.uploadAndSet(content, page, () => { this.updateImportedContentCompletedCount() })
       case 'text':
         this.updateImportedContentCompletedCount()
-        return this.textEditor.set(d.name, d)
+        return this.textEditor.set(content.name, content)
       case 'html':
         this.updateImportedContentCompletedCount()
-        return this.htmlEditor.set(d.name, d)
+        return this.htmlEditor.set(content.name, content)
       case 'raw_html':
         this.updateImportedContentCompletedCount()
-        return this.rawHtmlEditor.set(d.name, d)
+        return this.rawHtmlEditor.set(content.name, content)
       default:
         return true
     }
   }
 
   updateImportedContentCompletedCount () {
-    this.setState({importContentCompletedCount: ++this.state.importContentCompletedCount}, () => {
-      if (this.state.importContentCompletedCount === this.state.importContentQueueCount) {
+    this.setState((prevState, props) => {
+      const newCompletedCount = prevState.importContentCompletedCount + 1
+      if (newCompletedCount >= this.state.importContentQueueCount) {
         clearTimeout(window.importContentCounterTimeout)
 
-        this.setState({
+        return {
           importContentQueueCount: 0,
           importContentCompletedCount: 0,
           importProgress: null,
           trayOpen: false
-        })
+        }
+      } else {
+        return { importContentCompletedCount: newCompletedCount }
       }
     })
   }
