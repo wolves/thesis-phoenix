@@ -5,7 +5,7 @@
   <br/>
 
   <a href="https://gitter.im/infinitered/thesis-phoenix?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img src="https://badges.gitter.im/infinitered/thesis-phoenix.svg" alt="Join the chat at https://gitter.im/infinitered/thesis-phoenix"></a>
-  <img src=https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat alt='js-standard-style'/>
+  <img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat" alt="js-standard-style"/>
   <a href="https://semaphoreci.com/ir/thesis-phoenix"><img alt="Build Status" src="https://semaphoreci.com/api/v1/projects/0540dbb0-887a-45dd-9190-baa19b2ca9fb/816876/badge.svg"></a>
 </p>
 
