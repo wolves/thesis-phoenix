@@ -186,19 +186,20 @@ class ThesisEditor extends React.Component {
       title: page.title,
       description: page.description,
       pageModified: true
+    }, () => {
+      // apply page contents
+      for (let i = 0; i < contents.length; i++) {
+        const content = contents[i]
+        this.importContent(content, page)
+      }
+
+      // set a import timeout
+      window.importContentCounterTimeout = setTimeout(() => {
+        this.setState({
+          importProgress: {type: 'error', 'text': 'Something went wrong! Please refresh and try again.'}
+        })
+      }, 20000)
     })
-
-    // apply page contents
-    for (let i = 0; i < contents.length; i++) {
-      const content = contents[i]
-      this.importContent(content.content_type, content, page)
-    }
-
-    window.importContentCounterTimeout = setTimeout(() => {
-      this.setState({
-        importProgress: {type: 'error', 'text': 'Something went wrong! Please refresh and try again.'}
-      })
-    }, 20000)
   }
 
   allContentEditors () {
