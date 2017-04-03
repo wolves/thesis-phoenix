@@ -1,0 +1,34 @@
+@mixin loader-balls($color)
+  text-align: center
+
+  &::before, &::after
+    content: ""
+
+  span, &::before, &::after
+    +animation(loader .9s infinite alternate)
+    display:           inline-block
+    vertical-align:    middle
+    width:             15px
+    height:            15px
+    margin:            50px 2px
+    background:        $color
+    border-radius:     50px
+
+  span
+    +animation-delay(.3s)
+
+  &::after
+    +animation-delay(.6s)
+
+  +keyframes(loader)
+    from
+      +transform(translateY(0))
+      width:   15px
+      height:  15px
+      opacity: 1
+
+    to
+      +transform(translateY(-28px))
+      width:   30px
+      height:  30px
+      opacity: 0.3

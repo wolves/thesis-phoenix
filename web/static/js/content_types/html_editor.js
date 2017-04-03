@@ -31,6 +31,13 @@ class HtmlEditor {
     return ed.innerHTML
   }
 
+  set (name, data) {
+    const ed = document.querySelector(`[data-thesis-content-id='${name}']`)
+    if (!ed) return
+    ed.innerHTML = data.content
+    ed.classList.add('modified')
+  }
+
   changedHtmlEditor (event, editable) {
     editable.classList.add('modified')
 

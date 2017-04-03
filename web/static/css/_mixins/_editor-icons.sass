@@ -1,0 +1,8 @@
+@mixin editor_icons($icons)
+  @each $class, $color in $icons
+    &.#{$class} > i
+      background-color: $color
+
+      &:hover
+        background-color: darken($color, 8%)
+        +transition(background-color .3s ease-in-out)

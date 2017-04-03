@@ -29,14 +29,28 @@ defmodule Thesis.File do
   @required_attributes [:slug, :content_type, :filename, :data]
 
   @doc """
-  Changeset for File structs.
+  Changeset for File structs, updated via a Plug Upload.
   """
-  def changeset(file, %Plug.Upload{} = f) do
+  def changeset(file, %Plug.Upload{} = upload) do
     file
-    |> cast(%{content_type: f.content_type}, [:content_type])
-    |> cast(%{filename: f.filename}, [:filename])
-    |> cast(%{data: File.read!(f.path)}, [:data])
-    |> cast(%{slug: generate_slug(f.filename)}, [:slug])
+    |> cast(%{data: File.read!(upload.path)}, [:data])
+    |> do_changeset(upload)
+  end
+
+  @doc """
+  Changeset for File structs, updated via a map.
+  """
+  def changeset(file, %{data: data} = upload) do
+    file
+    |> cast(%{data: data}, [:data])
+    |> do_changeset(upload)
+  end
+
+  defp do_changeset(file, changes) do
+    file
+    |> cast(%{content_type: changes.content_type}, [:content_type])
+    |> cast(%{filename: changes.filename}, [:filename])
+    |> cast(%{slug: generate_slug(changes.filename)}, [:slug])
     |> validate_required(@required_attributes)
   end
 

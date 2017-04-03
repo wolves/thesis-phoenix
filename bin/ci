@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+echo Running tests...
+
+mix deps.get && npm install && mix test && npm test && cd apps/example && mix deps.get && mix test && cd -

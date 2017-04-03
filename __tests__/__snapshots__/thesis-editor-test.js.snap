@@ -1,67 +1,101 @@
-exports[`test renders ThesisEditor 1`] = `
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders ThesisEditor 1`] = `
 <div
-  id="thesis">
+  id="thesis"
+>
   <div
-    className=" thesis-page-tools-hidden thesis-page-tools-count-4"
-    id="thesis-editor">
+    className=" thesis-page-tools-hidden thesis-page-tools-count-5"
+    id="thesis-editor"
+  >
     <div
       className="thesis-button settings"
-      onClick={[Function bound pageSettingsPressed]}>
+      onClick={[Function]}
+    >
       <div
-        className="tooltip">
+        className="tooltip"
+      >
         Page Settings
       </div>
       <i
-        className="fa fa-wrench fa-2x" />
+        className="fa fa-wrench fa-2x"
+      />
+    </div>
+    <div
+      className="thesis-button import-export"
+      onClick={[Function]}
+    >
+      <div
+        className="tooltip"
+      >
+        Import/Export Content
+      </div>
+      <i
+        className="fa fa-exchange fa-2x"
+      />
     </div>
     <div
       className="thesis-button save"
-      onClick={[Function bound savePressed]}>
+      onClick={[Function]}
+    >
       <div
-        className="tooltip">
+        className="tooltip"
+      >
         Publish Changes
       </div>
       <i
-        className="fa fa-save fa-2x" />
+        className="fa fa-save fa-2x"
+      />
     </div>
     <div
       className="thesis-button cancel"
-      onClick={[Function bound cancelPressed]}>
+      onClick={[Function]}
+    >
       <div
-        className="tooltip">
+        className="tooltip"
+      >
         Discard Changes
       </div>
       <i
-        className="fa fa-remove fa-2x" />
+        className="fa fa-remove fa-2x"
+      />
     </div>
     <div
       className="thesis-button edit"
-      onClick={[Function bound editPressed]}>
+      onClick={[Function]}
+    >
       <div
-        className="tooltip">
+        className="tooltip"
+      >
         Edit Page
       </div>
       <i
-        className="fa fa-edit fa-2x" />
+        className="fa fa-edit fa-2x"
+      />
     </div>
   </div>
   <div
-    className=" thesis-page-tools-hidden thesis-page-tools-count-4"
-    id="thesis-fader" />
+    className=" thesis-page-tools-hidden thesis-page-tools-count-5"
+    id="thesis-fader"
+  />
   <div
     className={null}
-    id="thesis-tray">
+    id="thesis-tray"
+  >
     <div
-      className="attribution">
+      className="attribution"
+    >
       <a
         href="//github.com/infinitered/thesis-phoenix"
-        target="_blank">
+        target="_blank"
+      >
         Thesis
       </a>
        is maintained by 
       <a
         href="//infinite.red"
-        target="_blank">
+        target="_blank"
+      >
         Infinite Red
       </a>
     </div>
@@ -69,80 +103,115 @@ exports[`test renders ThesisEditor 1`] = `
 </div>
 `;
 
-exports[`test renders ThesisEditor with an add button 1`] = `
+exports[`renders ThesisEditor with an add button 1`] = `
 <div
-  id="thesis">
+  id="thesis"
+>
   <div
-    className=" thesis-page-tools-hidden thesis-page-tools-count-5"
-    id="thesis-editor">
+    className=" thesis-page-tools-hidden thesis-page-tools-count-6"
+    id="thesis-editor"
+  >
     <div
       className="thesis-button settings"
-      onClick={[Function bound pageSettingsPressed]}>
+      onClick={[Function]}
+    >
       <div
-        className="tooltip">
+        className="tooltip"
+      >
         Page Settings
       </div>
       <i
-        className="fa fa-wrench fa-2x" />
+        className="fa fa-wrench fa-2x"
+      />
+    </div>
+    <div
+      className="thesis-button import-export"
+      onClick={[Function]}
+    >
+      <div
+        className="tooltip"
+      >
+        Import/Export Content
+      </div>
+      <i
+        className="fa fa-exchange fa-2x"
+      />
     </div>
     <div
       className="thesis-button save"
-      onClick={[Function bound savePressed]}>
+      onClick={[Function]}
+    >
       <div
-        className="tooltip">
+        className="tooltip"
+      >
         Publish Changes
       </div>
       <i
-        className="fa fa-save fa-2x" />
+        className="fa fa-save fa-2x"
+      />
     </div>
     <div
       className="thesis-button cancel"
-      onClick={[Function bound cancelPressed]}>
+      onClick={[Function]}
+    >
       <div
-        className="tooltip">
+        className="tooltip"
+      >
         Discard Changes
       </div>
       <i
-        className="fa fa-remove fa-2x" />
+        className="fa fa-remove fa-2x"
+      />
     </div>
     <div
       className="thesis-button add"
-      onClick={[Function bound addPagePressed]}>
+      onClick={[Function]}
+    >
       <div
-        className="tooltip">
+        className="tooltip"
+      >
         Add New Page
       </div>
       <i
-        className="fa fa-plus fa-2x" />
+        className="fa fa-plus fa-2x"
+      />
     </div>
     <div
       className="thesis-button edit"
-      onClick={[Function bound editPressed]}>
+      onClick={[Function]}
+    >
       <div
-        className="tooltip">
+        className="tooltip"
+      >
         Edit Page
       </div>
       <i
-        className="fa fa-edit fa-2x" />
+        className="fa fa-edit fa-2x"
+      />
     </div>
   </div>
   <div
-    className=" thesis-page-tools-hidden thesis-page-tools-count-5"
-    id="thesis-fader" />
+    className=" thesis-page-tools-hidden thesis-page-tools-count-6"
+    id="thesis-fader"
+  />
   <div
     className={null}
-    id="thesis-tray">
+    id="thesis-tray"
+  >
     <div
-      className="attribution">
+      className="attribution"
+    >
       <a
         href="//github.com/infinitered/thesis-phoenix"
-        target="_blank">
+        target="_blank"
+      >
         Thesis
       </a>
        is maintained by 
       <a
         href="//infinite.red"
-        target="_blank">
+        target="_blank"
+      >
         Infinite Red
       </a>
     </div>
