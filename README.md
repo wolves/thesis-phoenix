@@ -416,10 +416,9 @@ websites. Please help us improve!
 4. Run `brunch watch -p` during development
 5. Use the `apps/example` Phoenix app to manually test your feature
 6. Write tests for your new feature
-7. Run `mix test && npm test` in the root directory to ensure that Thesis tests pass.
-8. Run `mix test` in the `apps/example` directory to ensure the example app passes
-9. Push to the branch (`git push origin my-new-feature`)
-10. Create new Pull Request
+7. Run `./bin/ci` in the root directory to ensure that Thesis tests pass.
+8. Push to the branch (`git push origin my-new-feature`)
+9. Create new Pull Request
 
 ### Key Contributors
 

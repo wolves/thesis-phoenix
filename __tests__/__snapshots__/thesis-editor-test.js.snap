@@ -2,7 +2,7 @@ exports[`test renders ThesisEditor 1`] = `
 <div
   id="thesis">
   <div
-    className=" thesis-page-tools-hidden thesis-page-tools-count-4"
+    className=" thesis-page-tools-hidden thesis-page-tools-count-5"
     id="thesis-editor">
     <div
       className="thesis-button settings"
@@ -13,6 +13,16 @@ exports[`test renders ThesisEditor 1`] = `
       </div>
       <i
         className="fa fa-wrench fa-2x" />
+    </div>
+    <div
+      className="thesis-button import-export"
+      onClick={[Function bound importExportPressed]}>
+      <div
+        className="tooltip">
+        Import/Export Content
+      </div>
+      <i
+        className="fa fa-exchange fa-2x" />
     </div>
     <div
       className="thesis-button save"
@@ -46,7 +56,7 @@ exports[`test renders ThesisEditor 1`] = `
     </div>
   </div>
   <div
-    className=" thesis-page-tools-hidden thesis-page-tools-count-4"
+    className=" thesis-page-tools-hidden thesis-page-tools-count-5"
     id="thesis-fader" />
   <div
     className={null}
@@ -73,7 +83,7 @@ exports[`test renders ThesisEditor with an add button 1`] = `
 <div
   id="thesis">
   <div
-    className=" thesis-page-tools-hidden thesis-page-tools-count-5"
+    className=" thesis-page-tools-hidden thesis-page-tools-count-6"
     id="thesis-editor">
     <div
       className="thesis-button settings"
@@ -84,6 +94,16 @@ exports[`test renders ThesisEditor with an add button 1`] = `
       </div>
       <i
         className="fa fa-wrench fa-2x" />
+    </div>
+    <div
+      className="thesis-button import-export"
+      onClick={[Function bound importExportPressed]}>
+      <div
+        className="tooltip">
+        Import/Export Content
+      </div>
+      <i
+        className="fa fa-exchange fa-2x" />
     </div>
     <div
       className="thesis-button save"
@@ -127,7 +147,7 @@ exports[`test renders ThesisEditor with an add button 1`] = `
     </div>
   </div>
   <div
-    className=" thesis-page-tools-hidden thesis-page-tools-count-5"
+    className=" thesis-page-tools-hidden thesis-page-tools-count-6"
     id="thesis-fader" />
   <div
     className={null}
