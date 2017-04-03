@@ -21,7 +21,7 @@ defmodule Thesis.EctoStore do
 
   @doc """
   Calls page_contents/1 passing through either:
-  - ```nil`, if the Page could not be found (usually means page has not been edited)
+  - `nil`, if the Page could not be found (usually means page has not been edited)
   - `%Page{...}` struct, if the Page has already been edited and saved
   """
   def page_contents(slug) when is_binary(slug) do

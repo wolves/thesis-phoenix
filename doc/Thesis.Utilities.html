@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.14.3">
-    <title>Thesis.Utilities – thesis v0.0.28</title>
+    <title>Thesis.Utilities – thesis v0.0.29</title>
     <link rel="stylesheet" href="dist/app-091c05798a.css" />
     
       <link rel="canonical" href="https://hexdocs.pm/thesis/Thesis.Utilities.html" />
@@ -28,7 +28,7 @@
         thesis
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.0.28
+        v0.0.29
       </h2>
     </div>
     
@@ -60,7 +60,7 @@
 
 
       <h1>
-        <small class="visible-xs">thesis v0.0.28</small>
+        <small class="visible-xs">thesis v0.0.29</small>
         Thesis.Utilities
         
         
@@ -102,11 +102,27 @@
     <a href="#parameterize/1">parameterize(str)</a>
   </div>
   
+    <div class="summary-synopsis"><p>Removes special characters, keeps dashes and underscores, and replaces spaces
+with dashes. Also downcases the entire string</p>
+</div>
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="#random_string/1">random_string(length)</a>
   </div>
+  
+    <div class="summary-synopsis"><p>Generates a random string of letters of a given length</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#random_string/2">random_string(length, atom)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Generates a random string of digits of a given length</p>
+</div>
   
 </div>
 
@@ -143,9 +159,10 @@
   </div>
   <section class="docstring">
     <p>Takes a URL and strips unnecessary characters.</p>
-<pre><code class="iex elixir">iex&gt; Thesis.Utilities.normalize_url(&quot;http://infinite.red//ignite//foo&quot;)
+<pre><code class="iex elixir">iex&gt; import Thesis.Utilities
+iex&gt; normalize_url(&quot;http://infinite.red//ignite//foo&quot;)
 &quot;http://infinite.red/ignite/foo&quot;
-iex&gt; Thesis.Utilities.normalize_url(&quot;https://infinite.red/ignite/foo/&quot;)
+iex&gt; normalize_url(&quot;https://infinite.red/ignite/foo/&quot;)
 &quot;https://infinite.red/ignite/foo&quot;</code></pre>
 
   </section>
@@ -162,7 +179,14 @@ iex&gt; Thesis.Utilities.normalize_url(&quot;https://infinite.red/ignite/foo/&qu
     
   </div>
   <section class="docstring">
-    
+    <p>Removes special characters, keeps dashes and underscores, and replaces spaces
+with dashes. Also downcases the entire string.</p>
+<pre><code class="iex elixir">iex&gt; import Thesis.Utilities
+iex&gt; parameterize(&quot;Jamon is so cool!&quot;)
+&quot;jamon-is-so-cool&quot;
+iex&gt; parameterize(&quot;%#d50SDF dfsJ FDS  lkdsf f dfka   a&quot;)
+&quot;d50sdf-dfsj-fds--lkdsf-f-dfka---a&quot;</code></pre>
+
   </section>
 </div>
 <div class="detail" id="random_string/1">
@@ -177,7 +201,36 @@ iex&gt; Thesis.Utilities.normalize_url(&quot;https://infinite.red/ignite/foo/&qu
     
   </div>
   <section class="docstring">
+    <p>Generates a random string of letters of a given length.</p>
+<pre><code class="iex elixir">iex&gt; import Thesis.Utilities
+iex&gt; String.length(random_string(15))
+15
+iex&gt; random_string(15) != random_string(15)
+true</code></pre>
+
+  </section>
+</div>
+<div class="detail" id="random_string/2">
+  
+  <div class="detail-header">
+    <a href="#random_string/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">random_string(length, atom)</span>
     
+    
+    
+  </div>
+  <section class="docstring">
+    <p>Generates a random string of digits of a given length.</p>
+<pre><code class="iex elixir">iex&gt; import Thesis.Utilities
+iex&gt; String.length(random_string(15, :numeric))
+15
+iex&gt; random_string(15, :numeric) != random_string(15, :numeric)
+true
+iex&gt; String.to_integer(random_string(15, :numeric)) &gt; 0
+true</code></pre>
+
   </section>
 </div>
 
