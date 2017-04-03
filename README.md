@@ -423,7 +423,7 @@ websites. Please help us improve!
 ### Key Contributors
 
 * Jamon Holmgren [@jamonholmgren](https://twitter.com/jamonholmgren)
-* Yulian Glukhenko [@yulianglukhenko](https://github.com/yulianglukhenko)
+* Yulian Glukhenko [@yulolimum](https://github.com/yulolimum)
 * Ken Miller [@seriousken](https://github.com/kemiller)
 * Daniel Berkompas [@dberkom](https://twitter.com/dberkom)
 
