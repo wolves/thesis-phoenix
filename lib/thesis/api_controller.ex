@@ -22,28 +22,30 @@ defmodule Thesis.ApiController do
   def import_file(conn, %{"image_url" => ""}), do: json conn, %{path: ""}
   def import_file(conn, %{"image_url" => image_url}) do
     image = HTTPoison.get!(image_url)
-    file = %Plug.Upload{
-      path: %{data: image.body},
+    file = %{
+      data: image.body,
       filename: "imported-" <> Utilities.parameterize(image_url),
       content_type: (image.headers |> Enum.into(%{}) |> Map.new(fn {k, v} -> {String.downcase(k), v} end))["content-type"]
     }
 
-    upload_file(conn, %{"file" => file})
+    do_upload_file(conn, file)
   end
   def import_file(conn, _), do: json conn, %{path: ""}
 
   def upload_file(conn, %{"file" => ""}), do: json conn, %{path: ""}
-  def upload_file(conn, %{"file" => file}) do
-    case uploader.upload(file) do
-      {:ok, path} -> json conn, %{path: path}
-      {:error, _} -> json conn, %{path: ""}
-    end
-  end
+  def upload_file(conn, %{"file" => file}), do: do_upload_file(conn, file)
   def upload_file(conn, _), do: json conn, %{path: ""}
 
   def show_file(conn, %{"slug" => slug}) do
     file = store.file(slug)
     do_show_file(conn, file)
+  end
+
+  defp do_upload_file(conn, file) do
+    case uploader.upload(file) do
+      {:ok, path} -> json conn, %{path: path}
+      {:error, _} -> json conn, %{path: ""}
+    end
   end
 
   defp do_show_file(conn, nil) do
