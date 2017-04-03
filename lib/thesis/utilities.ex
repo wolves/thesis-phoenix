@@ -4,6 +4,16 @@ defmodule Thesis.Utilities do
   """
 
 
+  @doc """
+  Removes special characters, keeps dashes and underscores, and replaces spaces
+  with dashes. Also downcases the entire string.
+
+      iex> import Thesis.Utilities
+      iex> parameterize("Jamon is so cool!")
+      "jamon-is-cool"
+      iex> parameterize("%#d50SDF dfsJ FDS  lkdsf f dfka   a")
+      "this-will-fail"
+  """
   def parameterize(str) do
     str = Regex.replace(~r/[^a-z0-9\-\s\.]/i, str, "")
     Regex.split(~r/\%20|\s/, str)

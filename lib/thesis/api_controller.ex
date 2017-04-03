@@ -20,7 +20,7 @@ defmodule Thesis.ApiController do
   end
 
   def import_file(conn, %{"image_url" => ""}), do: json conn, %{path: ""}
-  def import_file(conn, %{"image_url" => image_url, "image_name" => image_name}) do
+  def import_file(conn, %{"image_url" => image_url}) do
     image = HTTPoison.get!(image_url)
     file = %Plug.Upload{
       path: %{data: image.body},
