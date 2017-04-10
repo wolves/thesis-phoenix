@@ -90,8 +90,8 @@ defmodule Thesis.Controller.Plug do
   end
 
   def call(conn, _opts) do
-    url = Thesis.Utilities.normalize_url(conn.request_path)
-    current_page = store.page(url)
+    path = Thesis.Utilities.normalize_path(conn.request_path)
+    current_page = store.page(path)
     page_contents = store.page_contents(current_page)
 
     conn

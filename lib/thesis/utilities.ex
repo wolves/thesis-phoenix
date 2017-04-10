@@ -62,14 +62,17 @@ defmodule Thesis.Utilities do
   Takes a URL and strips unnecessary characters.
 
       iex> import Thesis.Utilities
-      iex> normalize_url("http://infinite.red//ignite//foo")
-      "http://infinite.red/ignite/foo"
-      iex> normalize_url("https://infinite.red/ignite/foo/")
-      "https://infinite.red/ignite/foo"
+      iex> normalize_path("//ignite//foo")
+      "/ignite/foo"
+      iex> normalize_path("/ignite/foo/")
+      "/ignite/foo"
+      iex> normalize_path("/")
+      "/"
   """
-  def normalize_url(url) do
-    url
-    |> String.replace(~r/(?<=[^:])(\/\/)/, "/") # Strip double slashes
-    |> String.replace(~r/\/$/, "") # Strip trailing slash
+  def normalize_path("/"), do: "/"
+  def normalize_path(path) do
+    path
+    |> String.replace("//", "/")
+    |> String.replace_trailing("/", "")
   end
 end
