@@ -10,65 +10,63 @@
 </p>
 
 <table>
-  <tbody>
-    <tr><td><h4>What is Thesis?</h4></td></tr>
-    <tr>
-      <td>
-        A CMS for Elixir/Phoenix that doesn't hijack your development workflow.
-        <br/>
-        <br/>
-        Thesis is a lightweight and flexible Elixir/Phoenix CMS for quickly and easily
-        adding content editing to any page on a Phoenix website, as well as creating new
-        dynamically routed pages. It's ideal for either adding limited editing support to
-        existing Phoenix websites or building dynamic websites.
-        <br/>
-        <br/>
-      </td>
-    </tr>
+  <tr><td><h4>What is Thesis?</h4></td></tr>
+  <tr>
+    <td>
+      A CMS for Elixir/Phoenix that doesn't hijack your development workflow.
+      <br/>
+      <br/>
+      Thesis is a lightweight and flexible Elixir/Phoenix CMS for quickly and easily
+      adding content editing to any page on a Phoenix website, as well as creating new
+      dynamically routed pages. It's ideal for either adding limited editing support to
+      existing Phoenix websites or building dynamic websites.
+      <br/>
+      <br/>
+    </td>
+  </tr>
 
-    <tr><td><h4>Thesis Features</h4></td></tr>
-    <tr>
-      <td>
-        <ul>
-          <li>Elixir/Phoenix hex package, uses React.js for its user interface</li>
-          <li>Lightweight, bolt-on, doesn't hijack your development workflow</li>
-          <li>On-page rich text editing</li>
-          <li>On-page plain text editing</li>
-          <li>Raw HTML editing for Youtube embeds or other flexible uses</li>
-          <li>Image URL editing, both `img` tag and `div` with background image</li>
-          <li>Page meta title and description editing</li>
-          <li>Easily bring your own authentication system in one tiny function</li>
-          <li>Create new dynamic pages, delete dynamic pages</li>
-        </ul>
-      </td>
-    </tr>
+  <tr><td><h4>Thesis Features</h4></td></tr>
+  <tr>
+    <td>
+      <ul>
+        <li>Elixir/Phoenix hex package, uses React.js for its user interface</li>
+        <li>Lightweight, bolt-on, doesn't hijack your development workflow</li>
+        <li>On-page rich text editing</li>
+        <li>On-page plain text editing</li>
+        <li>Raw HTML editing for Youtube embeds or other flexible uses</li>
+        <li>Image URL editing, both `img` tag and `div` with background image</li>
+        <li>Page meta title and description editing</li>
+        <li>Easily bring your own authentication system in one tiny function</li>
+        <li>Create new dynamic pages, delete dynamic pages</li>
+      </ul>
+    </td>
+  </tr>
 
-    <tr><td><h4>What Thesis isn't</h4></td></tr>
-    <tr>
-      <td>
-        You can't have it all. Thesis isn't the same as other -bloated- full-function
-        content management systems out there. This is a list of what it's not now and
-        not likely to be in the future.
-        <br/><br/>
-        <ul>
-          <li>Not a complete WordPress Replacement</li>
-          <li>Not a full featured CMS</li>
-          <li>Not a full featured WYSIWYG editor</li>
-          <li>Not an authentication or permission system</li>
-          <li>Not supported outside of a Phoenix app</li>
-        </ul>
-      </td>
-    </tr>
+  <tr><td><h4>What Thesis isn't</h4></td></tr>
+  <tr>
+    <td>
+      You can't have it all. Thesis isn't the same as other -bloated- full-function
+      content management systems out there. This is a list of what it's not now and
+      not likely to be in the future.
+      <br/><br/>
+      <ul>
+        <li>Not a complete WordPress Replacement</li>
+        <li>Not a full featured CMS</li>
+        <li>Not a full featured WYSIWYG editor</li>
+        <li>Not an authentication or permission system</li>
+        <li>Not supported outside of a Phoenix app</li>
+      </ul>
+    </td>
+  </tr>
 
-    <tr><td><h4>Caveats</h4></td></tr>
-    <tr>
-      <td>
-        Thesis is currently considered *Alpha-quality*, but is in production on several
-        websites, including [Infinite Red](https://infinite.red). The API is unstable and
-        changing but we are committed to providing a clear upgrade path and documentation.
-      </td>
-    </tr>
-  </tbody>
+  <tr><td><h4>Caveats</h4></td></tr>
+  <tr>
+    <td>
+      Thesis is currently considered *Alpha-quality*, but is in production on several
+      websites, including [Infinite Red](https://infinite.red). The API is unstable and
+      changing but we are committed to providing a clear upgrade path and documentation.
+    </td>
+  </tr>
 </table>
 
 ![screen capture on 2016-04-20 at 15-11-10 copy](http://d.pr/i/Mkbq+)
