@@ -69,7 +69,7 @@
   </tr>
 </table>
 
-![screen capture on 2016-04-20 at 15-11-10 copy](http://d.pr/i/Mkbq+)
+![screen capture on 2016-04-20 at 15-11-10 copy](https://cloud.githubusercontent.com/assets/1775841/24872094/0118ef42-1dd1-11e7-975a-26de44c9d9dc.gif)
 
 ---
 
