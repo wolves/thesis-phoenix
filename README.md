@@ -1,44 +1,85 @@
 # Thesis
 
 <p align="center">
-  A CMS for Elixir/Phoenix that doesn't hijack your development workflow.
   <br/>
-
   <a href="https://gitter.im/infinitered/thesis-phoenix?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img src="https://badges.gitter.im/infinitered/thesis-phoenix.svg" alt="Join the chat at https://gitter.im/infinitered/thesis-phoenix"></a>
   <img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat" alt="js-standard-style"/>
   <a href="https://semaphoreci.com/ir/thesis-phoenix"><img alt="Build Status" src="https://semaphoreci.com/api/v1/projects/0540dbb0-887a-45dd-9190-baa19b2ca9fb/816876/badge.svg"></a>
+  <br/>
+  <br/>
 </p>
 
-Thesis is a lightweight and flexible Elixir/Phoenix CMS for quickly and easily
-adding content editing to any page on a Phoenix website, as well as creating new
-dynamically routed pages. It's ideal for either adding limited editing support to
-existing Phoenix websites or building dynamic websites.
+<table>
+  <tbody>
+    <tr><td><h4>What is Thesis?</h4></td></tr>
+    <tr>
+      <td>
+        A CMS for Elixir/Phoenix that doesn't hijack your development workflow.
+        <br/>
+        <br/>
+        Thesis is a lightweight and flexible Elixir/Phoenix CMS for quickly and easily
+        adding content editing to any page on a Phoenix website, as well as creating new
+        dynamically routed pages. It's ideal for either adding limited editing support to
+        existing Phoenix websites or building dynamic websites.
+        <br/>
+        <br/>
+      </td>
+    </tr>
 
-_Thesis is currently considered *Alpha-quality*, but is in production on several
-websites, including [Infinite Red](https://infinite.red). The API is unstable and
-changing but we are committed to providing a clear upgrade path and documentation._
+    <tr><td><h4>Thesis Features</h4></td></tr>
+    <tr>
+      <td>
+        <ul>
+          <li>Elixir/Phoenix hex package, uses React.js for its user interface</li>
+          <li>Lightweight, bolt-on, doesn't hijack your development workflow</li>
+          <li>On-page rich text editing</li>
+          <li>On-page plain text editing</li>
+          <li>Raw HTML editing for Youtube embeds or other flexible uses</li>
+          <li>Image URL editing, both `img` tag and `div` with background image</li>
+          <li>Page meta title and description editing</li>
+          <li>Easily bring your own authentication system in one tiny function</li>
+          <li>Create new dynamic pages, delete dynamic pages</li>
+        </ul>
+      </td>
+    </tr>
 
-_See also the Thesis [Rails gem](https://github.com/infinitered/thesis-rails)._
+    <tr><td><h4>What Thesis isn't</h4></td></tr>
+    <tr>
+      <td>
+        You can't have it all. Thesis isn't the same as other -bloated- full-function
+        content management systems out there. This is a list of what it's not now and
+        not likely to be in the future.
+        <br/><br/>
+        <ul>
+          <li>Not a complete WordPress Replacement</li>
+          <li>Not a full featured CMS</li>
+          <li>Not a full featured WYSIWYG editor</li>
+          <li>Not an authentication or permission system</li>
+          <li>Not supported outside of a Phoenix app</li>
+        </ul>
+      </td>
+    </tr>
 
-![screen capture on 2016-04-20 at 15-11-10 copy](https://cloud.githubusercontent.com/assets/1775841/14692261/d4734d3a-070a-11e6-866b-eebbc40e6157.gif)
+    <tr><td><h4>Caveats</h4></td></tr>
+    <tr>
+      <td>
+        Thesis is currently considered *Alpha-quality*, but is in production on several
+        websites, including [Infinite Red](https://infinite.red). The API is unstable and
+        changing but we are committed to providing a clear upgrade path and documentation.
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-## Thesis Features
+![screen capture on 2016-04-20 at 15-11-10 copy](http://d.pr/i/Mkbq+)
 
-* Elixir/Phoenix hex package, uses React.js for its user interface
-* Lightweight, bolt-on, doesn't hijack your development workflow
-* On-page rich text editing
-* On-page plain text editing
-* Raw HTML editing for Youtube embeds or other flexible uses
-* Image URL editing, both `img` tag and `div` with background image
-* Page meta title and description editing
-* Easily bring your own authentication system in one tiny function
-* Create new dynamic pages, delete dynamic pages
+---
 
-## Installation and Configuration
+# ![](http://placehold.it/890x200/2b1e34/ffffff?text=-%20Installation+%26+Configuration%20-)
 
-_If you are having problems, view `README_INSTALL.md` for manual instructions._
+*If you are having problems, view `README_INSTALL.md` for manual instructions.*
 
-#### 1. Add thesis to your `mix.exs`:
+##### 1. Add thesis to your `mix.exs`:
 
 ```elixir
 def deps do
@@ -50,30 +91,36 @@ def application do
 end
 ```
 
-#### 2. Run `mix thesis.install`
+##### 2. Run `mix thesis.install`
 
 This install script will add Thesis to your `config.exs` and `web.ex`, as well
 as generate migrations and an authorization module in your `lib/thesis_auth.ex`.
 
-#### 3. Add the Thesis editor to your layout
+##### 3. Add the Thesis editor to your layout
 
 ```eex
   <body>
     <%= thesis_editor(@conn) %>
 ```
 
-#### 4. Run `mix ecto.migrate`
+##### 4. Run `mix ecto.migrate`
 
 ```
 $ mix ecto.migrate
 ```
+<br/>
 
-## Demo App
+---
+
+# ![](http://placehold.it/890x200/2b1e34/ffffff?text=-%20%20%20%20%20%20%20%20%20%20Demo+App%20%20%20%20%20%20%20%20%20%20-)
 
 Check out the example app in `apps/example` to see how Thesis can be implemented.
 We'll keep this up to date with examples of the latest features as we develop Thesis.
+<br/>
 
-## Making Pages Editable
+---
+
+# ![](http://placehold.it/890x200/2b1e34/ffffff?text=-%20%20%20Making+Pages+Editable%20%20%20%20-)
 
 Use the `Thesis.View.content/4` view helper function to make a content area
 editable. If you have `use Thesis.View` in your `web.ex` file, this function
@@ -82,7 +129,7 @@ is already available on all of your views.
 Thesis will add a wrapper `<div>` around editable HTML and plain-text content
 areas, both in read mode and edit mode, so plan your CSS accordingly.
 
-### Rich Text Areas
+# Rich Text Areas
 
 Simply wrap your HTML in a `content` function call, specifying `html` as the content type.
 
@@ -103,8 +150,11 @@ becomes...
   </p>
 <% end %>
 ```
+<br/>
 
-### Plain Text Areas
+---
+
+# Plain Text Areas
 
 For plain-text, provide a `do:` option for default text.
 
@@ -117,8 +167,11 @@ becomes...
 ```eex
 <h1><%= content(@conn, "Title identifier", :text, do: "My Title") %></h1>
 ```
+<br/>
 
-### Custom HTML Areas
+---
+
+# Custom HTML Areas
 
 For video embeds, iframes, and any other custom HTML, use the `:raw_html` content type:
 
@@ -133,8 +186,11 @@ becomes...
   <iframe width="560" height="315" src="https://www.youtube.com/embed/5SVLs_NN_uY" frameborder="0" allowfullscreen></iframe>
 <% end %>
 ```
+<br/>
 
-### Images (by URL)
+---
+
+# Images
 
 You can have the user specify an image URL and display the image with the `image` content type.
 
@@ -164,7 +220,7 @@ becomes...
 ### Image Uploads
 
 Thesis offers support for a few different ways to handle image uploads: store files in the database,
-point to an uploader/adapter inside your custom app, or use one of the prebuilt adapters.
+point to an uploader/adapter inside your custom app, or use one of the prebuilt adapters (in progress).
 
 ##### Store Files in Database
 For smaller websites and/or website that are hosted on the cloud, thesis offers a no-setup-required image uploader.
@@ -193,29 +249,14 @@ The module should have an `upload/1` function that accepts a `%Plug.Upload{}` st
 [/lib/thesis/uploaders/repo_uploader.ex](https://github.com/infinitered/thesis-phoenix/blob/master/lib/thesis/uploaders/repo_uploader.ex)
 for an example.
 
-##### Use a Prebuilt Adapter
-Included in Thesis is an adapter for Ospry.io, which is a service that
-offers the first 1,000 images and 1 GB of monthly download bandwidth
-for free.
-
-1. Sign up at [https://ospry.io/sign-up](https://ospry.io/sign-up)
-2. Verify your email
-3. Create a production subdomain (assets.example.com)
-4. Add a valid credit card if you anticipate exceeding Ospry.io limits.
-5. Copy your production public key to the Thesis config:
-
-```elixir
-config :thesis,
-  uploader: Thesis.OspryUploader
-
-config :thesis, Thesis.OspryUploader,
-  ospry_public_key: "pk-prod-abcdefghijklmnopqrstuvwxyz0123456789"
-```
 
 That's it! Restart your server and image content areas will now contain a
 file upload field.
+<br/>
 
-### Global Content Areas
+---
+
+# Global Content Areas
 
 Content areas in Thesis are page-specific. However, if you want an editable
 area that can be displayed on multiple pages, use the
@@ -232,7 +273,7 @@ will display the edited content across the whole website.
 <% end %>
 ```
 
-### Customizing the Thesis markup
+# Custom Classes or ID
 
 Thesis adds an additional `<div>` around your editable content areas. We suggest that
 you not style these divs heavily, since Thesis uses them as editors and adds its own styles
@@ -244,8 +285,11 @@ You can provide an ID and additional classes by specifying `id` and `classes`, r
   <h1>Title</h1>
 <% end %>
 ```
+<br/>
 
-### Page Meta Title and Description
+---
+
+# Page Meta Title and Description
 
 Thesis provides a settings tray to edit each page's title and description. In your
 layout, you can output the current title and description like so:
@@ -263,14 +307,18 @@ def about(conn, params) do
   @description = Thesis.View.page_description(conn, "A relevant description here.")
 end
 ```
+<br/>
 
-## Dynamic Pages
+---
+
+# ![](http://placehold.it/890x200/2b1e34/ffffff?text=-%20%20%20%20%20%20%20Dynamic+Pages%20%20%20%20%20%20%20-)
+
 
 Thesis supports users creating and deleting dynamically routed pages. These
 differ from static pages in that they are routed by Thesis rather than Phoenix,
 and live only in your database. They can be rendered with different templates.
 
-![add new page screenshot](https://cloud.githubusercontent.com/assets/1479215/17272456/9ac06bb4-564b-11e6-8990-c7964f5ebd63.png)
+![add new page screenshot](http://d.pr/i/XLBq+)
 
 To enable dynamic pages, add (or uncomment) this in your `config/config.exs` file:
 
@@ -314,8 +362,11 @@ routing more specifically. For example, if you want a blog section:
 
   get "/blog/*path", <MyApp>.BlogController, :dynamic
 ```
+<br/>
 
-## Authorization
+---
+
+# ![](http://placehold.it/890x200/2b1e34/ffffff?text=-%20%20%20%20%20%20%20Authorization%20%20%20%20%20%20%20-)
 
 You probably don't want your website editable by the world. Thesis doesn't
 force you to use any particular authorization strategy.
@@ -372,20 +423,11 @@ defmodule MyApp.ThesisAuth do
   end
 end
 ```
+<br/>
 
-## What Thesis Isn't
+---
 
-You can't have it all. Thesis isn't the same as other -bloated- full-function
-content management systems out there. This is a list of what it's not now and
-not likely to be in the future.
-
-* Not a complete WordPress Replacement
-* Not a full featured CMS
-* Not a full featured WYSIWYG editor
-* Not an authentication or permission system
-* Not supported outside of a Phoenix app
-
-## Common Issues
+# ![](http://placehold.it/890x200/2b1e34/ffffff?text=-%20%20%20%20%20%20%20Common+Issues%20%20%20%20%20%20%20-)
 
 #### Thesis's menu/editor/tray is borked
 
@@ -404,8 +446,11 @@ that is affecting our editor.
 In future releases, we will namespace all Thesis classes and IDs. But if your
 application is overriding whole elements (like `div` or `img`), it's up to you
 to fix the issue in your own CSS.
+<br/>
 
-## Contributing
+---
+
+# ![](http://placehold.it/890x200/2b1e34/ffffff?text=-%20%20%20%20%20%20%20Contributing%20%20%20%20%20%20%20-)
 
 We're committed to making Thesis the go-to content editing system for Phoenix
 websites. Please help us improve!
@@ -419,21 +464,29 @@ websites. Please help us improve!
 7. Run `./bin/ci` in the root directory to ensure that Thesis tests pass.
 8. Push to the branch (`git push origin my-new-feature`)
 9. Create new Pull Request
+<br/>
 
-## Premium Support
+---
+
+# ![](http://placehold.it/890x200/2b1e34/ffffff?text=-%20%20%20%20%20%20Premium+Support%20%20%20%20%20%20-)
 
 [Thesis Phoenix](https://github.com/infinitered/thesis-phoenix), as an open source project, is free to use and always will be. [Infinite Red](https://infinite.red/) offers premium Thesis Phoenix support and general web app design/development services. Email us at [hello@infinite.red](mailto:hello@infinite.red) to get in touch with us for more details.
+<br/>
 
-### Key Contributors
+---
 
-* Jamon Holmgren [@jamonholmgren](https://twitter.com/jamonholmgren)
-* Yulian Glukhenko [@yulolimum](https://github.com/yulolimum)
-* Ken Miller [@seriousken](https://github.com/kemiller)
-* Daniel Berkompas [@dberkom](https://twitter.com/dberkom)
+# ![](http://placehold.it/890x200/2b1e34/ffffff?text=-%20%20%20%20%20%20Key+Contributors%20%20%20%20%20%20-)
+
+| [Jamon Holmgren](https://twitter.com/jamonholmgren)  | [Yulian Glukhenko](https://github.com/yulolimum) | [Ken Miller](https://github.com/kemiller) | [Daniel Berkompas](https://twitter.com/dberkom) |
+| ------------- | ------------- | ------------- | ------------- |
+| <img src="https://infinite.red/images/avatars/img-avatar-jamon@2x.jpg" width="165">  | <img src="https://infinite.red/images/avatars/img-avatar-yulian@2x.jpg" width="165">  | <img src="https://infinite.red/images/avatars/img-avatar-ken@2x.jpg" width="165"> | <img src="https://infinite.red/images/avatars/img-avatar-daniel@2x.jpg" width="165"> |
 
 Also supported by others on the [Infinite Red](https://infinite.red) team.
+<br/>
 
-### License: MIT
+---
+
+# ![](http://placehold.it/890x200/2b1e34/ffffff?text=-%20%20%20%20%20%20License:+MIT%20%20%20%20%20%20-)
 
 Copyright (c) 2016 Infinite Red, Inc.
 
