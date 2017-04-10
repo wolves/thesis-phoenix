@@ -2,7 +2,9 @@
 
 <p align="center">
   <br/>
-  <a href="https://gitter.im/infinitered/thesis-phoenix?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img src="https://badges.gitter.im/infinitered/thesis-phoenix.svg" alt="Join the chat at https://gitter.im/infinitered/thesis-phoenix"></a>
+  <a href="http://community.infinite.red/">
+    <img src="https://infiniteredcommunity.herokuapp.com/badge.svg">
+  </a>
   <img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat" alt="js-standard-style"/>
   <a href="https://semaphoreci.com/ir/thesis-phoenix"><img alt="Build Status" src="https://semaphoreci.com/api/v1/projects/0540dbb0-887a-45dd-9190-baa19b2ca9fb/816876/badge.svg"></a>
   <br/>
@@ -10,7 +12,7 @@
 </p>
 
 <table>
-  <tr><td><h4>What is Thesis?</h4></td></tr>
+  <tr><td><h4>What Is Thesis?</h4></td></tr>
   <tr>
     <td>
       A CMS for Elixir/Phoenix that doesn't hijack your development workflow.
@@ -42,7 +44,7 @@
     </td>
   </tr>
 
-  <tr><td><h4>What Thesis isn't</h4></td></tr>
+  <tr><td><h4>What Thesis Isn't</h4></td></tr>
   <tr>
     <td>
       You can't have it all. Thesis isn't the same as other -bloated- full-function
