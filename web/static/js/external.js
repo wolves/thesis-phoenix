@@ -18,8 +18,8 @@ const external = (container) => {
     setDescription: (desc) => descriptionMetaTag && (descriptionMetaTag.content = desc),
     getRedirectURL: () => container.getAttribute('data-redirect-url'),
     setRedirectURL: (url) => container.setAttribute('data-redirect-url', url),
-    save: (page, contents, callback) => {
-      Net.put('/thesis/update', {page, contents}).then((resp) => {
+    save: (page, contents, backup, callback) => {
+      Net.put('/thesis/update', {page, contents, backup}).then((resp) => {
         if (page.slug !== window.location.pathname) {
           window.location = page.slug
         } else {

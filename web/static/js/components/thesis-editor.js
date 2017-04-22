@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom'
 import AddButton from './add_button'
 import DeleteButton from './delete_button'
 import SettingsButton from './settings_button'
-import ImportExportButton from './import_export_button'
+import ImportExportRestoreButton from './import_export_restore_button'
 import CancelButton from './cancel_button'
 import SaveButton from './save_button'
 import EditButton from './edit_button'
 import SettingsTray from './settings_tray'
-import ImportExportTray from './import_export_tray'
+import ImportExportRestoreTray from './import_export_restore_tray'
 import AttributionText from './attribution_text'
 
 // Content types
@@ -50,7 +50,7 @@ class ThesisEditor extends React.Component {
     this.addPagePressed = this.addPagePressed.bind(this)
     this.deletePagePressed = this.deletePagePressed.bind(this)
     this.pageSettingsPressed = this.pageSettingsPressed.bind(this)
-    this.importExportPressed = this.importExportPressed.bind(this)
+    this.importExportRestorePressed = this.importExportRestorePressed.bind(this)
     this.importData = this.importData.bind(this)
     this.updateImportProgress = this.updateImportProgress.bind(this)
 
@@ -139,7 +139,8 @@ class ThesisEditor extends React.Component {
   savePressed () {
     const page = this.pageSettings()
     const contents = this.contentEditorContents()
-    this.save(page, contents)
+    const backup = this.pageBackup(page, contents)
+    this.save(page, contents, backup)
   }
 
   cancelPressed () {
@@ -157,16 +158,16 @@ class ThesisEditor extends React.Component {
     }
   }
 
-  importExportPressed () {
-    if (this.state.trayOpen && this.state.trayType !== 'import-export') {
-      this.setState({trayType: 'import-export'})
+  importExportRestorePressed () {
+    if (this.state.trayOpen && this.state.trayType !== 'import-export-restore') {
+      this.setState({trayType: 'import-export-restore'})
     } else {
-      this.setState({trayOpen: !this.state.trayOpen, trayType: 'import-export'})
+      this.setState({trayOpen: !this.state.trayOpen, trayType: 'import-export-restore'})
     }
   }
 
-  save (page, contents) {
-    this.props.external.save(page, contents, () => {
+  save (page, contents, backup) {
+    this.props.external.save(page, contents, backup, () => {
       this.setState({editing: false, pageModified: false, trayOpen: false})
       this.setState({pageToolsHidden: true})
     })
@@ -228,6 +229,15 @@ class ThesisEditor extends React.Component {
       redirect_url: this.state.redirectURL,
       template: this.state.template
     }
+  }
+
+  pageBackup (page, contents) {
+    const pageData = {
+      pageSettings: Object.assign({}, page, { origin: window.location.origin }),
+      pageContents: contents
+    }
+
+    return { page_data: JSON.stringify(pageData) }
   }
 
   // TODO: This should be in `external`
@@ -402,8 +412,8 @@ class ThesisEditor extends React.Component {
       return this.imageEditor.tray(this.state.trayData)
     } else if (this.state.trayType === 'raw-html') {
       return this.rawHtmlEditor.tray(this.state.trayData)
-    } else if (this.state.trayType === 'import-export') {
-      return <ImportExportTray
+    } else if (this.state.trayType === 'import-export-restore') {
+      return <ImportExportRestoreTray
         pageContents={this.contentEditorContents()}
         pageSettings={this.pageSettings()}
         importProgress={this.state.importProgress}
@@ -420,7 +430,7 @@ class ThesisEditor extends React.Component {
       <div id='thesis'>
         <div id='thesis-editor' className={this.renderEditorClass()}>
           <SettingsButton onPress={this.pageSettingsPressed} />
-          <ImportExportButton onPress={this.importExportPressed} />
+          <ImportExportRestoreButton onPress={this.importExportRestorePressed} />
           <SaveButton onPress={this.savePressed} />
           <CancelButton onPress={this.cancelPressed} />
           {this.state.isDynamicPage ? <DeleteButton onPress={this.deletePagePressed} /> : null}

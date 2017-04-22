@@ -1,7 +1,7 @@
 import React from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
 
-class ImportExportTray extends React.Component {
+class ImportExportRestoreTray extends React.Component {
   constructor (props) {
     super(props)
 
@@ -152,4 +152,4 @@ class ImportExportTray extends React.Component {
   }
 }
 
-export default ImportExportTray
+export default ImportExportRestoreTray

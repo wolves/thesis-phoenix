@@ -6,7 +6,7 @@ defmodule Example.Repo.Migrations.CreateThesisBackupsTable do
     create table(:thesis_backups) do
       add :page_id, references(:thesis_pages, on_delete: :delete_all)
       add :page_revision, :integer
-      add :page_data, :text
+      add :page_data, :binary
 
       timestamps
     end

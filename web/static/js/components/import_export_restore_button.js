@@ -1,6 +1,6 @@
 import React from 'react'
 
-class ImportExportButton extends React.Component {
+class ImportExportRestoreButton extends React.Component {
   render () {
     return (
       <div onClick={this.props.onPress} className='thesis-button import-export'>
@@ -12,4 +12,4 @@ class ImportExportButton extends React.Component {
   }
 }
 
-export default ImportExportButton
+export default ImportExportRestoreButton

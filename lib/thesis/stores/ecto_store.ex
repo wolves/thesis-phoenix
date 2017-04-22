@@ -13,10 +13,14 @@ defmodule Thesis.EctoStore do
 
   import Thesis.Config
   import Ecto.Query, only: [from: 2]
-  alias Thesis.{Page, PageContent, File}
+  alias Thesis.{Page, PageContent, File, Backup}
 
   def page(slug) when is_binary(slug) do
     repo.get_by(Page, slug: slug)
+  end
+
+  def backups(page_id) when is_integer(page_id) do
+    repo.all(from b in Backup, where: b.page_id == ^page_id, order_by: [asc: b.page_revision])
   end
 
   @doc """
@@ -82,9 +86,10 @@ defmodule Thesis.EctoStore do
   @doc """
   Updates a page and its page_contents and global content areas.
   """
-  def update(page_params, contents_params) do
+  def update(page_params, contents_params, backup_params) do
     page = save_page(page_params)
     save_page_contents(page, contents_params)
+    save_backup(page, backup_params)
     :ok
   end
 
@@ -114,6 +119,21 @@ defmodule Thesis.EctoStore do
     :ok
   end
 
+  defp save_backup(nil, _), do: :error
+  defp save_backup(page, %{"page_data" => page_data}) do
+    backups = backups(page.id)
+
+    backup_changeset = Backup.changeset(%Backup{}, %{
+      page_id: page.id,
+      page_revision: new_backup_page_revision(backups),
+      page_data: LZString.compress(page_data)
+    })
+
+    repo.insert_or_update!(backup_changeset)
+
+    :ok
+  end
+
   defp content_changeset(new_contents, page, preloaded_contents) do
     %{"name" => name, "content" => content, "content_type" => content_type} = new_contents
 
@@ -126,6 +146,13 @@ defmodule Thesis.EctoStore do
       content_type: content_type,
       meta: new_contents["meta"]
     })
+  end
+
+  defp new_backup_page_revision(nil), do: 1
+  defp new_backup_page_revision([]), do: 1
+  defp new_backup_page_revision(backups) do
+    last = List.last(backups)
+    last.page_revision + 1
   end
 
   defp page_id_or_global(%{"global" => "true"}, _page), do: nil

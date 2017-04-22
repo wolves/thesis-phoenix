@@ -30527,7 +30527,7 @@ exports.default = EditButton;
 
 });
 
-require.register("web/static/js/components/import_export_button.js", function(exports, require, module) {
+require.register("web/static/js/components/import_export_restore_button.js", function(exports, require, module) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30548,16 +30548,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var ImportExportButton = function (_React$Component) {
-  _inherits(ImportExportButton, _React$Component);
+var ImportExportRestoreButton = function (_React$Component) {
+  _inherits(ImportExportRestoreButton, _React$Component);
 
-  function ImportExportButton() {
-    _classCallCheck(this, ImportExportButton);
+  function ImportExportRestoreButton() {
+    _classCallCheck(this, ImportExportRestoreButton);
 
-    return _possibleConstructorReturn(this, (ImportExportButton.__proto__ || Object.getPrototypeOf(ImportExportButton)).apply(this, arguments));
+    return _possibleConstructorReturn(this, (ImportExportRestoreButton.__proto__ || Object.getPrototypeOf(ImportExportRestoreButton)).apply(this, arguments));
   }
 
-  _createClass(ImportExportButton, [{
+  _createClass(ImportExportRestoreButton, [{
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -30573,14 +30573,14 @@ var ImportExportButton = function (_React$Component) {
     }
   }]);
 
-  return ImportExportButton;
+  return ImportExportRestoreButton;
 }(_react2.default.Component);
 
-exports.default = ImportExportButton;
+exports.default = ImportExportRestoreButton;
 
 });
 
-require.register("web/static/js/components/import_export_tray.js", function(exports, require, module) {
+require.register("web/static/js/components/import_export_restore_tray.js", function(exports, require, module) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30605,13 +30605,13 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var ImportExportTray = function (_React$Component) {
-  _inherits(ImportExportTray, _React$Component);
+var ImportExportRestoreTray = function (_React$Component) {
+  _inherits(ImportExportRestoreTray, _React$Component);
 
-  function ImportExportTray(props) {
-    _classCallCheck(this, ImportExportTray);
+  function ImportExportRestoreTray(props) {
+    _classCallCheck(this, ImportExportRestoreTray);
 
-    var _this = _possibleConstructorReturn(this, (ImportExportTray.__proto__ || Object.getPrototypeOf(ImportExportTray)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (ImportExportRestoreTray.__proto__ || Object.getPrototypeOf(ImportExportRestoreTray)).call(this, props));
 
     _this.state = {
       stringifiedExportData: '',
@@ -30626,7 +30626,7 @@ var ImportExportTray = function (_React$Component) {
     return _this;
   }
 
-  _createClass(ImportExportTray, [{
+  _createClass(ImportExportRestoreTray, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       this.setState({
@@ -30829,10 +30829,10 @@ var ImportExportTray = function (_React$Component) {
     }
   }]);
 
-  return ImportExportTray;
+  return ImportExportRestoreTray;
 }(_react2.default.Component);
 
-exports.default = ImportExportTray;
+exports.default = ImportExportRestoreTray;
 
 });
 
@@ -31231,9 +31231,9 @@ var _settings_button = require('./settings_button');
 
 var _settings_button2 = _interopRequireDefault(_settings_button);
 
-var _import_export_button = require('./import_export_button');
+var _import_export_restore_button = require('./import_export_restore_button');
 
-var _import_export_button2 = _interopRequireDefault(_import_export_button);
+var _import_export_restore_button2 = _interopRequireDefault(_import_export_restore_button);
 
 var _cancel_button = require('./cancel_button');
 
@@ -31251,9 +31251,9 @@ var _settings_tray = require('./settings_tray');
 
 var _settings_tray2 = _interopRequireDefault(_settings_tray);
 
-var _import_export_tray = require('./import_export_tray');
+var _import_export_restore_tray = require('./import_export_restore_tray');
 
-var _import_export_tray2 = _interopRequireDefault(_import_export_tray);
+var _import_export_restore_tray2 = _interopRequireDefault(_import_export_restore_tray);
 
 var _attribution_text = require('./attribution_text');
 
@@ -31322,7 +31322,7 @@ var ThesisEditor = function (_React$Component) {
     _this.addPagePressed = _this.addPagePressed.bind(_this);
     _this.deletePagePressed = _this.deletePagePressed.bind(_this);
     _this.pageSettingsPressed = _this.pageSettingsPressed.bind(_this);
-    _this.importExportPressed = _this.importExportPressed.bind(_this);
+    _this.importExportRestorePressed = _this.importExportRestorePressed.bind(_this);
     _this.importData = _this.importData.bind(_this);
     _this.updateImportProgress = _this.updateImportProgress.bind(_this);
 
@@ -31426,7 +31426,8 @@ var ThesisEditor = function (_React$Component) {
     value: function savePressed() {
       var page = this.pageSettings();
       var contents = this.contentEditorContents();
-      this.save(page, contents);
+      var backup = this.pageBackup(page, contents);
+      this.save(page, contents, backup);
     }
   }, {
     key: 'cancelPressed',
@@ -31446,20 +31447,20 @@ var ThesisEditor = function (_React$Component) {
       }
     }
   }, {
-    key: 'importExportPressed',
-    value: function importExportPressed() {
-      if (this.state.trayOpen && this.state.trayType !== 'import-export') {
-        this.setState({ trayType: 'import-export' });
+    key: 'importExportRestorePressed',
+    value: function importExportRestorePressed() {
+      if (this.state.trayOpen && this.state.trayType !== 'import-export-restore') {
+        this.setState({ trayType: 'import-export-restore' });
       } else {
-        this.setState({ trayOpen: !this.state.trayOpen, trayType: 'import-export' });
+        this.setState({ trayOpen: !this.state.trayOpen, trayType: 'import-export-restore' });
       }
     }
   }, {
     key: 'save',
-    value: function save(page, contents) {
+    value: function save(page, contents, backup) {
       var _this3 = this;
 
-      this.props.external.save(page, contents, function () {
+      this.props.external.save(page, contents, backup, function () {
         _this3.setState({ editing: false, pageModified: false, trayOpen: false });
         _this3.setState({ pageToolsHidden: true });
       });
@@ -31531,6 +31532,16 @@ var ThesisEditor = function (_React$Component) {
         redirect_url: this.state.redirectURL,
         template: this.state.template
       };
+    }
+  }, {
+    key: 'pageBackup',
+    value: function pageBackup(page, contents) {
+      var pageData = {
+        pageSettings: Object.assign({}, page, { origin: window.location.origin }),
+        pageContents: contents
+      };
+
+      return { page_data: JSON.stringify(pageData) };
     }
 
     // TODO: This should be in `external`
@@ -31726,8 +31737,8 @@ var ThesisEditor = function (_React$Component) {
         return this.imageEditor.tray(this.state.trayData);
       } else if (this.state.trayType === 'raw-html') {
         return this.rawHtmlEditor.tray(this.state.trayData);
-      } else if (this.state.trayType === 'import-export') {
-        return _react2.default.createElement(_import_export_tray2.default, {
+      } else if (this.state.trayType === 'import-export-restore') {
+        return _react2.default.createElement(_import_export_restore_tray2.default, {
           pageContents: this.contentEditorContents(),
           pageSettings: this.pageSettings(),
           importProgress: this.state.importProgress,
@@ -31750,7 +31761,7 @@ var ThesisEditor = function (_React$Component) {
           'div',
           { id: 'thesis-editor', className: this.renderEditorClass() },
           _react2.default.createElement(_settings_button2.default, { onPress: this.pageSettingsPressed }),
-          _react2.default.createElement(_import_export_button2.default, { onPress: this.importExportPressed }),
+          _react2.default.createElement(_import_export_restore_button2.default, { onPress: this.importExportRestorePressed }),
           _react2.default.createElement(_save_button2.default, { onPress: this.savePressed }),
           _react2.default.createElement(_cancel_button2.default, { onPress: this.cancelPressed }),
           this.state.isDynamicPage ? _react2.default.createElement(_delete_button2.default, { onPress: this.deletePagePressed }) : null,
@@ -32677,8 +32688,8 @@ var external = function external(container) {
     setRedirectURL: function setRedirectURL(url) {
       return container.setAttribute('data-redirect-url', url);
     },
-    save: function save(page, contents, callback) {
-      _net2.default.put('/thesis/update', { page: page, contents: contents }).then(function (resp) {
+    save: function save(page, contents, backup, callback) {
+      _net2.default.put('/thesis/update', { page: page, contents: contents, backup: backup }).then(function (resp) {
         if (page.slug !== window.location.pathname) {
           window.location = page.slug;
         } else {

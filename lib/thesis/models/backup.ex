@@ -27,22 +27,12 @@ defmodule Thesis.Backup do
   @valid_attributes [:page_id, :page_revision, :page_data]
   @required_attributes [:page_id, :page_revision, :page_data]
 
+  @doc """
+  Changeset for Backup structs.
+  """
   def changeset(backup, params \\ %{}) do
-    IO.inspect backup
-    # file
-    # |> cast(%{data: File.read!(upload.path)}, [:data])
-    # |> do_changeset(upload)
+    backup
+    |> cast(params, @valid_attributes)
+    |> validate_required(@required_attributes)
   end
-  #
-  # defp do_changeset(file, changes) do
-  #   file
-  #   |> cast(%{content_type: changes.content_type}, [:content_type])
-  #   |> cast(%{filename: changes.filename}, [:filename])
-  #   |> cast(%{slug: generate_slug(changes.filename)}, [:slug])
-  #   |> validate_required(@required_attributes)
-  # end
-  #
-  # defp generate_slug(name) do
-  #   random_string(10) <> "-" <> parameterize(name)
-  # end
 end

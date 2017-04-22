@@ -9,8 +9,8 @@ defmodule Thesis.ApiController do
 
   def assets(conn, _params), do: conn
 
-  def update(conn, %{"contents" => contents, "page" => page}) do
-    :ok = store.update(page, contents)
+  def update(conn, %{"contents" => contents, "page" => page, "backup" => backup}) do
+    :ok = store.update(page, contents, backup)
     json conn, %{}
   end
 
