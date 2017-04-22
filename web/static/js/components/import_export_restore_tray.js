@@ -1,5 +1,6 @@
 import React from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
+import Net from '../utilities/net'
 
 class ImportExportRestoreTray extends React.Component {
   constructor (props) {
@@ -8,31 +9,36 @@ class ImportExportRestoreTray extends React.Component {
     this.state = {
       stringifiedExportData: '',
       stringifiedImportData: '',
-      exportDataButtonText: 'Copy to Clipboard'
+      exportDataButtonText: 'Copy to Clipboard',
+      revisions: []
     }
 
     this.onExportCopy = this.onExportCopy.bind(this)
     this.stringifyExportData = this.stringifyExportData.bind(this)
     this.onImportDataPaste = this.onImportDataPaste.bind(this)
     this.onImportApply = this.onImportApply.bind(this)
+    this.onRevisionSelect = this.onRevisionSelect.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
     this.setState({
       stringifiedExportData: '',
       stringifiedImportData: '',
-      exportDataButtonText: 'Copy to Clipboard'
+      exportDataButtonText: 'Copy to Clipboard',
+      revisions: []
     })
   }
 
   componentDidMount () {
     this.stringifyExportData()
+    this.getPageRevisions()
   }
 
   componentDidUpdate (prevProps, prevState) {
     if (this.state.stringifiedExportData !== '') return
 
     this.stringifyExportData()
+    this.getPageRevisions()
   }
 
   onExportCopy () {
@@ -76,6 +82,16 @@ class ImportExportRestoreTray extends React.Component {
     return (importData && importData.pageSettings && importData.pageContents) ? importData : null
   }
 
+  getPageRevisions () {
+    const pageSlug = this.props.pageSettings.slug
+
+    Net.get(`/thesis/backups?page_slug=${pageSlug}`, null, 'query')
+    .then((data) => {
+      this.setState({ revisions: data })
+    })
+    .catch((error) => { window.alert(error) })
+  }
+
   parseStringifiedImportData () {
     try {
       return JSON.parse(this.state.stringifiedImportData)
@@ -92,6 +108,18 @@ class ImportExportRestoreTray extends React.Component {
       this.props.updateImportProgress(null)
       this.setState({ stringifiedImportData: '' })
     }, 3500)
+  }
+
+  prettyRevisionName (rev) {
+    return `Rev ${rev.page_revision} made on ${rev.pretty_date}`
+  }
+
+  onRevisionSelect (e) {
+    Net.get(`/thesis/backups/${e.target.value}`, null, 'query')
+    .then((data) => {
+      this.setState({ stringifiedImportData: data.revision })
+    })
+    .catch((error) => { window.alert(error) })
   }
 
   render () {
@@ -122,6 +150,21 @@ class ImportExportRestoreTray extends React.Component {
             <label>
               <span>Import Page Content</span>
               <textarea placeholder='Paste the exported data here.' className='thesis-tray-import-data-textarea' onChange={this.onImportDataPaste} value={this.state.stringifiedImportData} />
+            </label>
+          </div>
+          <br />
+          <br />
+          <div className='thesis-field-row'>
+            <label>
+              <span>Page Revisions</span>
+              <div className='select'>
+                <select value='placeholder' onChange={this.onRevisionSelect}>
+                  <option value='placeholder' disabled>- Select Revision -</option>
+                  {this.state.revisions.map((revision) => {
+                    return <option key={revision.id} value={revision.id}>{this.prettyRevisionName(revision)}</option>
+                  })}
+                </select>
+              </div>
             </label>
           </div>
           <div className='thesis-field-row cta'>

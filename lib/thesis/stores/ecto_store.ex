@@ -13,14 +13,34 @@ defmodule Thesis.EctoStore do
 
   import Thesis.Config
   import Ecto.Query, only: [from: 2]
+  import Thesis.Utilities
   alias Thesis.{Page, PageContent, File, Backup}
 
   def page(slug) when is_binary(slug) do
     repo.get_by(Page, slug: slug)
   end
 
+  def backup(id) do
+    backup = repo.get(Backup, id)
+    Map.merge(backup, %{page_json: LZString.decompress(backup.page_data)})
+  end
+
+  def backups(page_slug) when is_binary(page_slug) do
+    page = page(page_slug)
+    backups(page.id)
+  end
+
   def backups(page_id) when is_integer(page_id) do
-    repo.all(from b in Backup, where: b.page_id == ^page_id, order_by: [asc: b.page_revision])
+    repo.all(
+      from b in Backup,
+      where: b.page_id == ^page_id,
+      order_by: [desc: b.page_revision],
+      select: %{
+        id: b.id,
+        page_revision: b.page_revision,
+        inserted_at: b.inserted_at
+      }
+    ) |> Enum.map(fn(b) -> add_pretty_backup_date(b) end)
   end
 
   @doc """
@@ -129,7 +149,7 @@ defmodule Thesis.EctoStore do
       page_data: LZString.compress(page_data)
     })
 
-    repo.insert_or_update!(backup_changeset)
+    repo.insert!(backup_changeset)
 
     :ok
   end
@@ -151,10 +171,20 @@ defmodule Thesis.EctoStore do
   defp new_backup_page_revision(nil), do: 1
   defp new_backup_page_revision([]), do: 1
   defp new_backup_page_revision(backups) do
-    last = List.last(backups)
+    last = List.first(backups)
     last.page_revision + 1
   end
 
   defp page_id_or_global(%{"global" => "true"}, _page), do: nil
   defp page_id_or_global(_content, %Page{id: id}), do: id
+
+  defp add_pretty_backup_date(backup) do
+    ecto_dt = backup.inserted_at
+    pretty_date = to_s(ecto_dt.month) <> "-" <>
+      to_s(ecto_dt.day) <> "-" <>
+      to_s(ecto_dt.year) <> " @ " <>
+      to_s(ecto_dt.hour) <> ":" <>
+      (ecto_dt.minute < 10 && "0" || "") <> to_s(ecto_dt.minute)
+    Map.merge(backup, %{pretty_date: pretty_date})
+  end
 end

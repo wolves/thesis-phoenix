@@ -75,4 +75,6 @@ defmodule Thesis.Utilities do
     |> String.replace("//", "/")
     |> String.replace_trailing("/", "")
   end
+
+  def to_s(arg), do: to_string(arg)
 end
