@@ -1,4 +1,3 @@
-
 defmodule Thesis.DummyStore do
   @behaviour Thesis.Store
 
@@ -18,7 +17,7 @@ defmodule Thesis.DummyStore do
     []
   end
 
-  def update(_page, _updated_contents) do
+  def update(_page, _updated_contents, _backup) do
     :ok
   end
 
