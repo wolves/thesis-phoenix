@@ -40,7 +40,7 @@ defmodule Thesis.EctoStore do
         page_revision: b.page_revision,
         inserted_at: b.inserted_at
       }
-    ) |> Enum.map(fn(b) -> add_pretty_backup_date(b) end)
+    ) |> Enum.map(fn(b) -> add_pretty_dt_to_backup(b) end)
   end
 
   @doc """
@@ -178,7 +178,7 @@ defmodule Thesis.EctoStore do
   defp page_id_or_global(%{"global" => "true"}, _page), do: nil
   defp page_id_or_global(_content, %Page{id: id}), do: id
 
-  defp add_pretty_backup_date(backup) do
+  defp add_pretty_dt_to_backup(backup) do
     ecto_dt = backup.inserted_at
     pretty_date = to_s(ecto_dt.month) <> "-" <>
       to_s(ecto_dt.day) <> "-" <>
