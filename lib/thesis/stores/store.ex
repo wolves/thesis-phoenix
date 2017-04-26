@@ -22,9 +22,9 @@ defmodule Thesis.Store do
   Updates the given page (identified by its slug) with the given map of
   string keys and Thesis.PageContent structs. Returns `:ok`.
 
-      update(%{"slug" => "/"}, %{"Heading" => "My Heading Content"}, %{"page_data" => "{}"})
+      update(%{"slug" => "/"}, %{"Heading" => "My Heading Content"})
   """
-  @callback update(%{String.t => String.t}, map, map) :: atom
+  @callback update(%{String.t => String.t}, map) :: atom
 
   @doc """
   Deletes the given page (identified by its slug). Returns `:ok`.

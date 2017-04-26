@@ -9,8 +9,8 @@ defmodule Thesis.ApiController do
 
   def assets(conn, _params), do: conn
 
-  def update(conn, %{"contents" => contents, "page" => page, "backup" => backup}) do
-    :ok = store.update(page, contents, backup)
+  def update(conn, %{"contents" => contents, "page" => page}) do
+    :ok = store.update(page, contents)
     json conn, %{}
   end
 
@@ -19,7 +19,7 @@ defmodule Thesis.ApiController do
     json conn, %{}
   end
 
-  def backups_by_page(conn, %{"page_slug" => page_slug}) do
+  def backups_for_page(conn, %{"page_slug" => page_slug}) do
     backups = store.backups(page_slug)
     json conn, backups
   end

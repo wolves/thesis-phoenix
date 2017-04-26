@@ -139,8 +139,7 @@ class ThesisEditor extends React.Component {
   savePressed () {
     const page = this.pageSettings()
     const contents = this.contentEditorContents()
-    const backup = this.pageBackup(page, contents)
-    this.save(page, contents, backup)
+    this.save(page, contents)
   }
 
   cancelPressed () {
@@ -166,8 +165,8 @@ class ThesisEditor extends React.Component {
     }
   }
 
-  save (page, contents, backup) {
-    this.props.external.save(page, contents, backup, () => {
+  save (page, contents) {
+    this.props.external.save(page, contents, () => {
       this.setState({editing: false, pageModified: false, trayOpen: false})
       this.setState({pageToolsHidden: true})
     })
@@ -229,15 +228,6 @@ class ThesisEditor extends React.Component {
       redirect_url: this.state.redirectURL,
       template: this.state.template
     }
-  }
-
-  pageBackup (page, contents) {
-    const pageData = {
-      pageSettings: Object.assign({}, page, { origin: window.location.origin }),
-      pageContents: contents
-    }
-
-    return { page_data: JSON.stringify(pageData) }
   }
 
   // TODO: This should be in `external`

@@ -106,10 +106,10 @@ defmodule Thesis.EctoStore do
   @doc """
   Updates a page and its page_contents and global content areas.
   """
-  def update(page_params, contents_params, backup_params) do
+  def update(page_params, contents_params) do
     page = save_page(page_params)
     save_page_contents(page, contents_params)
-    save_backup(page, backup_params)
+    backup_page(page, contents_params)
     :ok
   end
 
@@ -128,6 +128,12 @@ defmodule Thesis.EctoStore do
     repo.insert_or_update!(page_changeset)
   end
 
+  defp backup_page(page, page_contents) do
+    serialized_page_data = prepare_page_backup_data(page, page_contents)
+    save_backup(page.id, serialized_page_data)
+    :ok
+  end
+
   defp save_page_contents(nil, _), do: :error
   defp save_page_contents(page, contents_params) do
     preloaded_contents = page_contents(page)
@@ -140,16 +146,18 @@ defmodule Thesis.EctoStore do
   end
 
   defp save_backup(nil, _), do: :error
-  defp save_backup(page, %{"page_data" => page_data}) do
-    backups = backups(page.id)
+  defp save_backup(page_id, page_data) do
+    backups = backups(page_id)
 
     backup_changeset = Backup.changeset(%Backup{}, %{
-      page_id: page.id,
+      page_id: page_id,
       page_revision: new_backup_page_revision(backups),
-      page_data: LZString.compress(page_data)
+      page_data:  LZString.compress(page_data)
     })
 
     repo.insert!(backup_changeset)
+
+    backups = backups(page_id)
 
     :ok
   end
@@ -177,6 +185,13 @@ defmodule Thesis.EctoStore do
 
   defp page_id_or_global(%{"global" => "true"}, _page), do: nil
   defp page_id_or_global(_content, %Page{id: id}), do: id
+
+  defp prepare_page_backup_data(page, page_contents) do
+    %{
+      "pageSettings" => %{title: page.title, description: page.description},
+      "pageContents" => page_contents
+    } |> Poison.encode!
+  end
 
   defp add_pretty_dt_to_backup(backup) do
     ecto_dt = backup.inserted_at
