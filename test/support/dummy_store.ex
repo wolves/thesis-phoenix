@@ -17,7 +17,7 @@ defmodule Thesis.DummyStore do
     []
   end
 
-  def update(_page, _updated_contents, _backup) do
+  def update(_page, _updated_contents) do
     :ok
   end
 

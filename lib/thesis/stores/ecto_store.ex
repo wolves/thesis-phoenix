@@ -156,9 +156,6 @@ defmodule Thesis.EctoStore do
     })
 
     repo.insert!(backup_changeset)
-
-    backups = backups(page_id)
-
     :ok
   end
 
