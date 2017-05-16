@@ -7,11 +7,11 @@ defmodule Thesis.Mixfile do
       app: :thesis,
       version: @version,
       elixir: "~> 1.2",
-      description: description,
+      description: description(),
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
-      deps: deps,
-      package: package,
+      deps: deps(),
+      package: package(),
       dialyzer: [plt_add_deps: :transitive]
     ]
   end
