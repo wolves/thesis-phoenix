@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom'
 import ThesisEditor from './components/thesis-editor'
 import external from './external'
 
+// Import styles for webpack
+import '../css/thesis.sass'
+
 const thesis = (container) => {
   // Check for a redirect URL and display an alert if so, allowing
   // the user to follow the redirect or not. Note that this is only
