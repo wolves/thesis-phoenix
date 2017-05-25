@@ -150,6 +150,30 @@ becomes...
   </p>
 <% end %>
 ```
+
+### Custom HTML Editor
+Don't like the MediumEditor? Write your own custom editor implementing the common editor interface.
+
+```
+class MyCustomEditor {
+  constructor (opts) {
+    this.onChange = opts.onChange
+  }
+  enable () {}        // Setup Editor
+  disable () {}       // Teardown Editor
+  content (editor) {} // Return content
+  set (name, data) {} // Set content
+}
+```
+
+For more detail checkout [HtmlEditor](web/js/static/content_types/html_editor.js) or [this gist](https://gist.github.com/ryanlntn/ac346d361d9e10a8f1888bf59cea0e37) implementing a custom editor using [Trumbowyg](https://alex-d.github.io/Trumbowyg/).
+
+To enable, add this in your config/config.exs file:
+
+```elixir
+config :thesis,
+  html_editor: "MyCustomEditor"
+```
 <br/>
 
 ---
