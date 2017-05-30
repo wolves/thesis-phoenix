@@ -37,6 +37,10 @@ defmodule Thesis.Config do
     Application.get_env(:thesis, :uploader)
   end
 
+  def html_editor do
+    Application.get_env(:thesis, :html_editor)
+  end
+
   def ospry_public_key do
     Application.get_env(:thesis, Thesis.OspryUploader)[:ospry_public_key]
   end

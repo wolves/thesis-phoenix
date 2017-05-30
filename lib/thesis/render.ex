@@ -11,7 +11,7 @@ defmodule Thesis.Render do
   * background_image: Displays an image as a background image on a div, can edit the URL
   """
 
-  import HtmlSanitizeEx, only: [basic_html: 1]
+  import HtmlSanitizeEx, only: [html5: 1]
   import Phoenix.HTML, only: [raw: 1, html_escape: 1, safe_to_string: 1]
   import Thesis.Utilities
   alias Thesis.{PageContent}
@@ -20,7 +20,7 @@ defmodule Thesis.Render do
   def render_editable(%{content_type: "html"} = page_content, opts) do
     raw("""
       <div #{wrapper_attributes(page_content, opts)}>
-        #{basic_html(page_content.content)}
+        #{html5(page_content.content)}
       </div>
     """)
   end

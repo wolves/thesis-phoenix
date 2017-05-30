@@ -55,9 +55,15 @@ class ThesisEditor extends React.Component {
     this.updateImportProgress = this.updateImportProgress.bind(this)
 
     // External editors
-    this.htmlEditor = new HtmlEditor({
-      onChange: () => this.setState({pageModified: true})
-    })
+    if (this.props.external.customHTMLEditor) {
+      this.htmlEditor = new this.props.external.customHTMLEditor({
+        onChange: () => this.setState({pageModified: true})
+      })
+    } else {
+      this.htmlEditor = new HtmlEditor({
+        onChange: () => this.setState({pageModified: true})
+      })
+    }
 
     this.rawHtmlEditor = new RawHtmlEditor({
       openTray: this.openTray('raw-html'),
