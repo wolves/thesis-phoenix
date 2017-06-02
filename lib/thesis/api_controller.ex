@@ -19,6 +19,16 @@ defmodule Thesis.ApiController do
     json conn, %{}
   end
 
+  def backups_for_page(conn, %{"page_slug" => page_slug}) do
+    backups = store.backups(page_slug)
+    json conn, backups
+  end
+
+  def backup_by_id(conn, %{"backup_id" => backup_id}) do
+    backup = store.backup(backup_id)
+    json conn, %{revision: backup.page_json}
+  end
+
   def import_file(conn, %{"image_url" => ""}), do: json conn, %{path: ""}
   def import_file(conn, %{"image_url" => image_url}) do
     image = HTTPoison.get!(image_url)

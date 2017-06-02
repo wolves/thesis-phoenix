@@ -8,7 +8,8 @@ defmodule Mix.Tasks.Thesis.Install do
     "add_indexes_to_tables",
     "add_template_and_redirect_url_to_thesis_pages",
     "change_content_default_for_page_content",
-    "create_thesis_files_table"
+    "create_thesis_files_table",
+    "create_thesis_backups_table"
   ]
   @template_files [
     {"priv/templates/thesis.install/thesis_auth.exs", "lib/thesis_auth.ex"}

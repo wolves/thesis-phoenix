@@ -13,10 +13,34 @@ defmodule Thesis.EctoStore do
 
   import Thesis.Config
   import Ecto.Query, only: [from: 2]
-  alias Thesis.{Page, PageContent, File}
+  import Thesis.Utilities
+  alias Thesis.{Page, PageContent, File, Backup}
 
   def page(slug) when is_binary(slug) do
     repo.get_by(Page, slug: slug)
+  end
+
+  def backup(id) do
+    backup = repo.get(Backup, id)
+    Map.merge(backup, %{page_json: LZString.decompress(backup.page_data)})
+  end
+
+  def backups(page_slug) when is_binary(page_slug) do
+    page = page(page_slug)
+    backups(page.id)
+  end
+
+  def backups(page_id) when is_integer(page_id) do
+    repo.all(
+      from b in Backup,
+      where: b.page_id == ^page_id,
+      order_by: [desc: b.page_revision],
+      select: %{
+        id: b.id,
+        page_revision: b.page_revision,
+        inserted_at: b.inserted_at
+      }
+    ) |> Enum.map(fn(b) -> add_pretty_dt_to_backup(b) end)
   end
 
   @doc """
@@ -85,6 +109,7 @@ defmodule Thesis.EctoStore do
   def update(page_params, contents_params) do
     page = save_page(page_params)
     save_page_contents(page, contents_params)
+    backup_page(page, contents_params)
     :ok
   end
 
@@ -103,6 +128,12 @@ defmodule Thesis.EctoStore do
     repo.insert_or_update!(page_changeset)
   end
 
+  defp backup_page(page, page_contents) do
+    serialized_page_data = prepare_page_backup_data(page, page_contents)
+    save_backup(page.id, serialized_page_data)
+    :ok
+  end
+
   defp save_page_contents(nil, _), do: :error
   defp save_page_contents(page, contents_params) do
     preloaded_contents = page_contents(page)
@@ -111,6 +142,20 @@ defmodule Thesis.EctoStore do
     |> Enum.map(fn(x) -> content_changeset(x, page, preloaded_contents) end)
     |> Enum.each(fn(x) -> repo.insert_or_update!(x) end)
 
+    :ok
+  end
+
+  defp save_backup(nil, _), do: :error
+  defp save_backup(page_id, page_data) do
+    backups = backups(page_id)
+
+    backup_changeset = Backup.changeset(%Backup{}, %{
+      page_id: page_id,
+      page_revision: new_backup_page_revision(backups),
+      page_data:  LZString.compress(page_data)
+    })
+
+    repo.insert!(backup_changeset)
     :ok
   end
 
@@ -128,6 +173,30 @@ defmodule Thesis.EctoStore do
     })
   end
 
+  defp new_backup_page_revision(nil), do: 1
+  defp new_backup_page_revision([]), do: 1
+  defp new_backup_page_revision(backups) do
+    last = List.first(backups)
+    last.page_revision + 1
+  end
+
   defp page_id_or_global(%{"global" => "true"}, _page), do: nil
   defp page_id_or_global(_content, %Page{id: id}), do: id
+
+  defp prepare_page_backup_data(page, page_contents) do
+    %{
+      "pageSettings" => %{title: page.title, description: page.description},
+      "pageContents" => page_contents
+    } |> Poison.encode!
+  end
+
+  defp add_pretty_dt_to_backup(backup) do
+    ecto_dt = backup.inserted_at
+    pretty_date = to_s(ecto_dt.month) <> "-" <>
+      to_s(ecto_dt.day) <> "-" <>
+      to_s(ecto_dt.year) <> " @ " <>
+      to_s(ecto_dt.hour) <> ":" <>
+      (ecto_dt.minute < 10 && "0" || "") <> to_s(ecto_dt.minute)
+    Map.merge(backup, %{pretty_date: pretty_date})
+  end
 end

@@ -75,4 +75,15 @@ defmodule Thesis.Utilities do
     |> String.replace("//", "/")
     |> String.replace_trailing("/", "")
   end
+
+  @doc """
+  Shorthand `to_string`.
+
+      iex> import Thesis.Utilities
+      iex> to_s(000001)
+      "1"
+      iex> to_s(123)
+      "123"
+  """
+  def to_s(arg), do: to_string(arg)
 end
