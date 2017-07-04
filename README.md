@@ -166,7 +166,7 @@ class MyCustomEditor {
 }
 ```
 
-For more detail checkout [HtmlEditor](web/js/static/content_types/html_editor.js) or [this gist](https://gist.github.com/ryanlntn/ac346d361d9e10a8f1888bf59cea0e37) implementing a custom editor using [Trumbowyg](https://alex-d.github.io/Trumbowyg/).
+For more detail checkout [HtmlEditor](web/static/js/content_types/html_editor.js) or [this gist](https://gist.github.com/ryanlntn/ac346d361d9e10a8f1888bf59cea0e37) implementing a custom editor using [Trumbowyg](https://alex-d.github.io/Trumbowyg/).
 
 To enable, add this in your config/config.exs file:
 
