@@ -16,8 +16,7 @@ defmodule Thesis.ApiView do
   end
   def render("page.json", nil), do: %{}
 
-  def render("page_contents.json", page_contents)
-  when is_nil(page_contents), do: []
+  def render("page_contents.json", nil), do: []
   def render("page_contents.json", page_contents) when is_list(page_contents) do
     Enum.map(page_contents, fn(page_content) ->
       render("page_content.json", page_content)
