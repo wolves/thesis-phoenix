@@ -17,7 +17,8 @@ defmodule Thesis.Mixfile do
   end
 
   def application do
-    [applications: [:logger, :phoenix, :phoenix_html, :plug, :httpoison]]
+    [applications: [:logger, :phoenix, :phoenix_html, :plug,
+                    :httpoison, :html_sanitize_ex]]
   end
 
   defp deps do

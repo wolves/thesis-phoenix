@@ -5,22 +5,36 @@ defmodule Thesis.Utilities do
 
 
   @doc """
-  Removes special characters, keeps dashes and underscores, and replaces spaces
-  with dashes. Also downcases the entire string.
+  Slugifies the url and then removes slashes
 
       iex> import Thesis.Utilities
       iex> parameterize("Jamon is so cool!")
       "jamon-is-so-cool"
-      iex> parameterize("%#d50SDF dfsJ FDS  lkdsf f dfka   a")
+      iex> parameterize("%#d50SDF dfsJ FDS / lkdsf f dfka   a")
       "d50sdf-dfsj-fds--lkdsf-f-dfka---a"
   """
   def parameterize(str) do
-    str = Regex.replace(~r/[^a-z0-9\-\s\.]/i, str, "")
-    Regex.split(~r/\%20|\s/, str)
-    |> Enum.join("-")
+    str
+    |> slugify
+    |> String.replace(~r/\//i, "")
     |> String.downcase
   end
 
+  @doc """
+  Removes special characters, keeps dashes and underscores, and replaces spaces
+  with dashes.
+
+      iex> import Thesis.Utilities
+      iex> slugify("Jamon is so cool!")
+      "Jamon-is-so-cool"
+      iex> slugify("%#d50SDF dfsJ FDS/lkdsf f dfka   a")
+      "d50SDF-dfsJ-FDS/lkdsf-f-dfka---a"
+  """
+  def slugify(str) do
+    str = Regex.replace(~r/[^A-z0-9\-\s\.\/]/i, str, "")
+    Regex.split(~r/\%20|\s/, str)
+    |> Enum.join("-")
+  end
   @doc """
   Generates a random string of letters of a given length.
 

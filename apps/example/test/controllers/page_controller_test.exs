@@ -12,10 +12,23 @@ defmodule Example.PageControllerTest do
     assert html_response(conn, 200) =~ "<h4>Help</h4>"
 
     payload = %{
-      "page" => %{"slug" => "/", "title" => "", "description" => "","redirect_url" => nil,"template" => nil},
-      "contents" => [%{"name" => "Help","content_type" => "html","content" => "<p>Updated content area</p>", "meta" => "{\"global\":null,\"classes\":\"\"}","global" => nil}]
+      "page" => %{"slug" => "/", "title" => "", "description" => "",
+                  "redirect_url" => nil,"template" => nil},
+      "contents" => [%{"name" => "Help","content_type" => "html",
+                       "content" => "<p>Updated content area</p>",
+                      "meta" => "{\"global\":null,\"classes\":\"\"}",
+                      "global" => nil}]
     }
-    conn = put conn, "/thesis/update", payload
+    response = conn
+           |> put("/thesis/update", payload)
+           |> json_response(200)
+    assert response["id"] != nil
+    assert response["slug"] == "/"
+    assert response["title"] == nil
+    assert response["description"] == nil
+    assert response["template"] == nil
+    assert response["redirect_url"] == nil
+    assert response["page_contents"] == []
 
     conn = get conn, "/"
     refute html_response(conn, 200) =~ "<h4>Help</h4>"
@@ -29,10 +42,24 @@ defmodule Example.PageControllerTest do
 
     # Updated content
     payload = %{
-      "page" => %{"slug" => "/about", "title" => "", "description" => "","redirect_url" => nil,"template" => nil},
-      "contents" => [%{"name" => "Resources","content_type" => "html","content" => "<p>Updated content area</p>", "meta" => "{\"global\":null,\"classes\":\"\"}","global" => nil}]
+      "page" => %{"slug" => "/about", "title" => "", "description" => "",
+                  "redirect_url" => nil,"template" => nil},
+      "contents" => [%{"name" => "Resources","content_type" => "html",
+                       "content" => "<p>Updated content area</p>",
+                       "meta" => "{\"global\":null,\"classes\":\"\"}",
+                       "global" => nil}]
     }
-    conn = put conn, "/thesis/update", payload
+    response = conn
+           |> put("/thesis/update", payload)
+           |> json_response(200)
+    assert response["id"] != nil
+    assert response["slug"] == "/about"
+    assert response["title"] == nil
+    assert response["description"] == nil
+    assert response["template"] == nil
+    assert response["redirect_url"] == nil
+    assert response["page_contents"] == []
+
 
     # Verify content was updated and default is gone
     conn = get conn, "/about"

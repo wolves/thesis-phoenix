@@ -21,10 +21,10 @@ const external = (container) => {
     setRedirectURL: (url) => container.setAttribute('data-redirect-url', url),
     save: (page, contents, callback) => {
       Net.put('/thesis/update', {page, contents}).then((resp) => {
-        if (page.slug !== window.location.pathname) {
-          window.location = page.slug
+        if (resp.slug !== window.location.pathname) {
+          window.location = resp.slug
         } else {
-          callback()
+          callback(resp)
         }
       }).catch((err) => {
         window.alert(`Something went wrong! Details: ${err}`)
@@ -33,7 +33,7 @@ const external = (container) => {
     delete: (path, callback) => {
       Net.delete('/thesis/delete', {path}).then((resp) => {
         window.alert('Page has been deleted.')
-        callback()
+        callback(resp)
       }).catch((err) => {
         window.alert(`Something went wrong! Details: ${err}`)
       })

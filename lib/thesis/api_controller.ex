@@ -10,13 +10,17 @@ defmodule Thesis.ApiController do
   def assets(conn, _params), do: conn
 
   def update(conn, %{"contents" => contents, "page" => page}) do
-    :ok = store.update(page, contents)
-    json conn, %{}
+    {:ok, page} = store.update(page, contents)
+    conn
+    |> assign(:thesis_page, page)
+    |> render "page.json"
   end
 
   def delete(conn, %{"path" => path}) do
-    :ok = store.delete(%{"slug" => path})
-    json conn, %{}
+    {:ok, page} = store.delete(%{"slug" => path})
+    conn
+    |> assign(:thesis_page, page)
+    |> render "page.json"
   end
 
   def import_file(conn, %{"image_url" => ""}), do: json conn, %{path: ""}

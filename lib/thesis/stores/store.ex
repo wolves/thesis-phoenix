@@ -20,14 +20,14 @@ defmodule Thesis.Store do
 
   @doc """
   Updates the given page (identified by its slug) with the given map of
-  string keys and Thesis.PageContent structs. Returns `:ok`.
+  string keys and Thesis.PageContent structs. Returns tuple `{:ok, page}`.
 
       update(%{"slug" => "/"}, %{"Heading" => "My Heading Content"})
   """
-  @callback update(%{String.t => String.t}, map) :: atom
+  @callback update(%{String.t => String.t}, map) :: {atom, Thesis.Page.t}
 
   @doc """
-  Deletes the given page (identified by its slug). Returns `:ok`.
+  Deletes the given page (identified by its slug). Returns tuple `{:ok, page}`.
 
       delete(%{"slug" => "/asdf"})
   """

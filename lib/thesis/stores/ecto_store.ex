@@ -84,8 +84,11 @@ defmodule Thesis.EctoStore do
   """
   def update(page_params, contents_params) do
     page = save_page(page_params)
-    save_page_contents(page, contents_params)
-    :ok
+
+    case save_page_contents(page, contents_params) do
+      :ok -> {:ok, page}
+      :error -> {:error, page}
+    end
   end
 
   @doc """
@@ -94,7 +97,7 @@ defmodule Thesis.EctoStore do
   def delete(%{"slug" => slug}) do
     page = page(slug)
     repo.delete!(page)
-    :ok
+    {:ok, page}
   end
 
   defp save_page(%{"slug" => slug} = page_params) do
@@ -108,8 +111,8 @@ defmodule Thesis.EctoStore do
     preloaded_contents = page_contents(page)
 
     contents_params
-    |> Enum.map(fn(x) -> content_changeset(x, page, preloaded_contents) end)
-    |> Enum.each(fn(x) -> repo.insert_or_update!(x) end)
+    |> Enum.map(&(content_changeset(&1, page, preloaded_contents)))
+    |> Enum.each(&(repo.insert_or_update!(&1)))
 
     :ok
   end

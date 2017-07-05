@@ -4,7 +4,8 @@ defmodule Thesis.Page do
   title, description, and redirect if necessary.
   """
   use Ecto.Schema
-  import Ecto.Changeset, only: [cast: 3, validate_required: 2]
+  import Ecto.Changeset, only: [cast: 3, validate_required: 2, fetch_field: 2, put_change: 3, unique_constraint: 2]
+  import Thesis.Utilities, only: [slugify: 1]
 
   @type t :: %Thesis.Page{
     id: any,
@@ -52,7 +53,17 @@ defmodule Thesis.Page do
   def changeset(page, params \\ %{}) do
     page
     |> cast(params, @valid_attributes)
+    |> unique_constraint(:slug)
     |> validate_required(@required_attributes)
+    |> parameterize_slug
+  end
+
+  defp parameterize_slug(changeset) do
+     if {:data, slug} = fetch_field(changeset, :slug) do
+       put_change(changeset, :slug, slugify(slug))
+     else
+       changeset
+     end
   end
 
 end

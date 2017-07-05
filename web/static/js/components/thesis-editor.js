@@ -172,14 +172,14 @@ class ThesisEditor extends React.Component {
   }
 
   save (page, contents) {
-    this.props.external.save(page, contents, () => {
-      this.setState({editing: false, pageModified: false, trayOpen: false})
+    this.props.external.save(page, contents, (resp) => {
+      this.setState({editing: false, pageModified: false, path: resp.slug, trayOpen: false})
       this.setState({pageToolsHidden: true})
     })
   }
 
   deletePage (path) {
-    this.props.external.delete(path, () => {
+    this.props.external.delete(path, (resp) => {
       this.setState({deleted: true, editing: false})
     })
   }

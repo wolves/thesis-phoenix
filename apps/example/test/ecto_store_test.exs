@@ -16,25 +16,25 @@ defmodule EctoStoreTest do
     slug = random_slug
     last_pc_id = last_updated(PageContent) && last_updated(PageContent) || 0
 
-    :ok = @store.update(valid_static_page(slug), [valid_text_page_content])
+    {:ok, page} = @store.update(valid_static_page(slug), [valid_text_page_content])
 
-    assert last_updated(Page).slug == "/" <> slug
+    assert page.slug == "/" <> slug
     assert last_updated(PageContent).id > last_pc_id
   end
 
   test "Save global content to a page not edited before" do
     slug = random_slug
 
-    :ok = @store.update(valid_static_page(slug), [valid_global_content])
+    {:ok, page} = @store.update(valid_static_page(slug), [valid_global_content])
 
-    assert last_updated(Page).slug == "/" <> slug
+    assert page.slug == "/" <> slug
     assert last_updated(PageContent).page_id == nil
   end
 
   test "Save more than one areas at the same time" do
-    :ok = @store.update(valid_static_page, [valid_text_page_content, valid_html_page_content, valid_global_content])
+    {:ok, page} = @store.update(valid_static_page, [valid_text_page_content, valid_html_page_content, valid_global_content])
 
-    assert last_updated(Page).slug == valid_static_page["slug"]
+    assert page.slug == valid_static_page["slug"]
     last_3 = last_updated(PageContent, 3)
     assert Enum.at(last_3, 0).content_type == "text"
     assert Enum.at(last_3, 1).content_type == "html"
@@ -42,7 +42,7 @@ defmodule EctoStoreTest do
   end
 
   test "Save global area on one page; retrieve on a different page that's not yet in database" do
-    :ok = @store.update(valid_static_page, [valid_global_content])
+    {:ok, _page} = @store.update(valid_static_page, [valid_global_content])
 
     records = @store.page_contents("/" <> random_slug)
 
@@ -52,8 +52,8 @@ defmodule EctoStoreTest do
 
   test "Retrieves page content as well as well as global content saved on a different page" do
     slug = random_slug
-    :ok = @store.update(valid_static_page(random_slug), [valid_global_content])
-    :ok = @store.update(valid_static_page(slug), [valid_html_page_content])
+    {:ok, _page} = @store.update(valid_static_page(slug), [valid_global_content])
+    {:ok, _page} = @store.update(valid_static_page(slug), [valid_html_page_content])
 
     records = @store.page_contents("/" <> slug)
 
@@ -62,12 +62,11 @@ defmodule EctoStoreTest do
 
   test "First adds page, then deletes page found by slug" do
     slug = random_slug
-    :ok = @store.update(valid_static_page(slug), [valid_html_page_content])
+    {:ok, page} = @store.update(valid_static_page(slug), [valid_html_page_content])
 
-    assert @store.page("/" <> slug).slug == "/" <> slug
-    assert last_updated(Page).slug == "/" <> slug
+    assert page.slug == "/" <> slug
 
-    :ok = @store.delete(valid_static_page(slug))
+    {:ok, _} = @store.delete(valid_static_page(slug))
 
     refute @store.page("/" <> slug)
   end
@@ -79,19 +78,17 @@ defmodule EctoStoreTest do
     pc2 = %{"name" => "B", "content_type" => "text", "content" => "Yo"}
     pc3 = %{"name" => "C", "content_type" => "raw_html", "content" => "Wat", "global" => "true"}
 
-    :ok = store.update(%{"slug" => "/test"}, [pc1, pc2, pc3])
+    {:ok, page1} = store.update(%{"slug" => "/test"}, [pc1, pc2, pc3])
 
     pc4 = %{"name" => "D", "content_type" => "text", "content" => "Other page"}
     pc5 = %{"name" => "E", "content_type" => "html", "content" => "<p>Other global</p>", "global" => "true"}
 
-    :ok = store.update(%{"slug" => "/asdf"}, [pc4, pc5])
+    {:ok, page2} = store.update(%{"slug" => "/asdf"}, [pc4, pc5])
 
-    page1 = store.page("/test")
     assert is_integer(page1.id)
     assert page1.id > 0
     assert page1.slug == "/test"
 
-    page2 = store.page("/asdf")
     assert is_integer(page2.id)
     assert page2.id > 0
     assert page2.slug == "/asdf"
