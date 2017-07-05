@@ -36,6 +36,7 @@ class ThesisEditor extends React.Component {
       trayOpen: false,
       trayType: null,
       deleted: false,
+      errorAlertText: null,
       importProgress: null,
       importContentQueueCount: 0,
       importContentCompletedCount: 0
@@ -138,7 +139,11 @@ class ThesisEditor extends React.Component {
         this.setState({editing: false, pageModified: false, trayOpen: false, pageToolsHidden: true})
       }
     } else {
-      this.setState({editing: true, pageToolsHidden: false, trayOpen: false})
+      if (this.state.errorAlertText) {
+        window.alert(this.state.errorAlertText)
+      } else {
+        this.setState({ editing: true, pageToolsHidden: false, trayOpen: false })
+      }
     }
   }
 
@@ -310,6 +315,38 @@ class ThesisEditor extends React.Component {
 
   updateImportProgress (progress) {
     this.setState({importProgress: progress})
+  }
+
+  checkForDuplicateContentBlocks () {
+    const editors = this.allContentEditors()
+
+    const names = {}
+    for (let i = 0; i < editors.length; i++) {
+      const name = editors[i].dataset.thesisContentId
+      if (names[name]) {
+        names[name] += 1
+      } else {
+        names[name] = 1
+      }
+    }
+
+    const duplicateIndex = Object.values(names).findIndex((value) => {
+      return value > 1
+    })
+
+    if (duplicateIndex > 0) {
+      const key = Object.keys(names)[duplicateIndex]
+
+      this.setState({errorAlertText: `
+        Content block: '${key}' occurs on the page more than once.
+        This will cause issues and must be resolved. Check that each content
+        block in your template has a unique name.
+      `.replace(/^\s+|\s+$|\s+(?=\s)/g, '')})
+    }
+  }
+
+  componentDidMount () {
+    this.checkForDuplicateContentBlocks()
   }
 
   componentDidUpdate () {
