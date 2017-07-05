@@ -12,7 +12,8 @@ defmodule Example.PageControllerTest do
     assert html_response(conn, 200) =~ "<h4>Help</h4>"
 
     payload = %{
-      "page" => %{"slug" => "/", "title" => "", "description" => "",
+      "page" => %{"slug" => "/", "title" => "Home Page",
+                  "description" => "Home Page Description",
                   "redirect_url" => nil,"template" => nil},
       "contents" => [%{"name" => "Help","content_type" => "html",
                        "content" => "<p>Updated content area</p>",
@@ -24,8 +25,8 @@ defmodule Example.PageControllerTest do
            |> json_response(200)
     assert response["id"] != nil
     assert response["slug"] == "/"
-    assert response["title"] == nil
-    assert response["description"] == nil
+    assert response["title"] == "Home Page"
+    assert response["description"] == "Home Page Description"
     assert response["template"] == nil
     assert response["redirect_url"] == nil
     assert response["page_contents"] == []
@@ -42,7 +43,8 @@ defmodule Example.PageControllerTest do
 
     # Updated content
     payload = %{
-      "page" => %{"slug" => "/about", "title" => "", "description" => "",
+      "page" => %{"slug" => "/about", "title" => "About Page",
+                  "description" => "About Page Description",
                   "redirect_url" => nil,"template" => nil},
       "contents" => [%{"name" => "Resources","content_type" => "html",
                        "content" => "<p>Updated content area</p>",
@@ -54,8 +56,8 @@ defmodule Example.PageControllerTest do
            |> json_response(200)
     assert response["id"] != nil
     assert response["slug"] == "/about"
-    assert response["title"] == nil
-    assert response["description"] == nil
+    assert response["title"] == "About Page"
+    assert response["description"] == "About Page Description"
     assert response["template"] == nil
     assert response["redirect_url"] == nil
     assert response["page_contents"] == []

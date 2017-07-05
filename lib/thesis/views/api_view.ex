@@ -7,6 +7,7 @@ defmodule Thesis.ApiView do
       id: page.id,
       slug: page.slug,
       title: page.title,
+      description: page.description,
       redirect_url: page.redirect_url,
       page_contents: render("page_contents.json", assigns[:page_contents]),
       inserted_at: page.inserted_at,
@@ -19,8 +20,8 @@ defmodule Thesis.ApiView do
   when is_nil(page_contents), do: []
   def render("page_contents.json", page_contents) when is_list(page_contents) do
     Enum.map(page_contents, fn(page_content) ->
-        render("page_content.json", page_content)
-      end)
+      render("page_content.json", page_content)
+    end)
   end
 
   def render("page_content.json", page_content) do
