@@ -323,7 +323,7 @@ class ThesisEditor extends React.Component {
     const names = {}
     for (let i = 0; i < editors.length; i++) {
       const name = editors[i].dataset.thesisContentId
-      names[name] = names[name] ? ++names[name] : 1
+      names[name] = names[name] ? names[name] + 1 : 1
     }
 
     const duplicateIndex = Object.values(names).findIndex((value) => {
