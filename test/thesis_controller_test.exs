@@ -5,7 +5,7 @@ defmodule ThesisControllerTest do
   doctest Thesis.Controller
 
   setup do
-    {:ok, conn: build_conn}
+    {:ok, conn: build_conn()}
   end
 
   test "redirects when not in edit mode and redirect_url is set", %{conn: conn} do

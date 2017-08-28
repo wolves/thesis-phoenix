@@ -191,12 +191,10 @@ defmodule Thesis.EctoStore do
   end
 
   defp add_pretty_dt_to_backup(backup) do
-    ecto_dt = backup.inserted_at
-    pretty_date = to_s(ecto_dt.month) <> "-" <>
-      to_s(ecto_dt.day) <> "-" <>
-      to_s(ecto_dt.year) <> " @ " <>
-      to_s(ecto_dt.hour) <> ":" <>
-      (ecto_dt.minute < 10 && "0" || "") <> to_s(ecto_dt.minute)
+    {{year, month, day}, {hour, minute, _}} =
+      Ecto.DateTime.to_erl(backup.inserted_at)
+    pretty_date = "#{month}-#{day}-#{year} @ #{hour}:" <>
+      (minute < 10 && "0" || "") <> "#{minute}"
     Map.merge(backup, %{pretty_date: pretty_date})
   end
 end

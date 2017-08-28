@@ -22,7 +22,7 @@ defmodule Thesis.Mixfile do
 
   defp deps do
     [
-      {:phoenix, ">= 1.0.0"},
+      {:phoenix, ">= 1.2.0"},
       {:phoenix_html, ">= 2.0.0"},
       {:ecto, ">= 2.0.0"},
       {:plug, ">= 1.0.0"},
