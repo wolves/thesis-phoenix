@@ -35,4 +35,21 @@ defmodule Thesis.Backup do
     |> cast(params, @valid_attributes)
     |> validate_required(@required_attributes)
   end
+
+  @doc """
+  Formats a given Backup with a pretty_date field.
+
+  iex> backup = %Thesis.Backup{ inserted_at: Ecto.DateTime.cast!("2017-09-01T14:00:00Z") }
+  iex> b = Thesis.Backup.with_pretty_datetime(backup)
+  iex> b.pretty_date
+  "9-1-2017 @ 14:00"
+  """
+  def with_pretty_datetime(backup) do
+    {{year, month, day}, {hour, minute, _}} =
+      Ecto.DateTime.to_erl(backup.inserted_at)
+    pretty_date = "#{month}-#{day}-#{year} @ #{hour}:" <>
+      (minute < 10 && "0" || "") <> "#{minute}"
+    Map.merge(backup, %{pretty_date: pretty_date})
+  end
+
 end

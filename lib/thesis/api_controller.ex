@@ -3,7 +3,7 @@ defmodule Thesis.ApiController do
 
   use Phoenix.Controller
   import Thesis.Config
-  alias Thesis.Utilities
+  alias Thesis.{Utilities, Backup}
 
   plug :ensure_authorized! when not action in [:show_file]
 
@@ -20,12 +20,22 @@ defmodule Thesis.ApiController do
   end
 
   def backups_for_page(conn, %{"page_slug" => page_slug}) do
-    backups = store.backups(page_slug)
+    backups =
+      page_slug
+      |> store.backups()
+      |> Enum.map(&Backup.with_pretty_datetime/1)
+      |> Enum.map(fn b ->
+        %{
+          id: b.id,
+          page_revision: b.page_revision,
+          pretty_date: b.pretty_date
+        } end
+      )
     json conn, backups
   end
 
-  def backup_by_id(conn, %{"backup_id" => backup_id}) do
-    backup = store.backup(backup_id)
+  def restore(conn, %{"backup_id" => backup_id}) do
+    backup = store.restore(String.to_integer(backup_id))
     json conn, %{revision: backup.page_json}
   end
 
@@ -79,4 +89,6 @@ defmodule Thesis.ApiController do
     |> put_status(:unauthorized)
     |> halt
   end
+
+
 end

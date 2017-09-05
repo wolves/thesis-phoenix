@@ -20,7 +20,7 @@ defmodule Thesis.EctoStore do
     repo.get_by(Page, slug: slug)
   end
 
-  def backup(id) do
+  def restore(id) do
     backup = repo.get(Backup, id)
     Map.merge(backup, %{page_json: LZString.decompress(backup.page_data)})
   end
@@ -34,13 +34,8 @@ defmodule Thesis.EctoStore do
     repo.all(
       from b in Backup,
       where: b.page_id == ^page_id,
-      order_by: [desc: b.page_revision],
-      select: %{
-        id: b.id,
-        page_revision: b.page_revision,
-        inserted_at: b.inserted_at
-      }
-    ) |> Enum.map(fn(b) -> add_pretty_dt_to_backup(b) end)
+      order_by: [desc: b.page_revision]
+    )
   end
 
   @doc """
@@ -188,13 +183,5 @@ defmodule Thesis.EctoStore do
       "pageSettings" => %{title: page.title, description: page.description},
       "pageContents" => page_contents
     } |> Poison.encode!
-  end
-
-  defp add_pretty_dt_to_backup(backup) do
-    {{year, month, day}, {hour, minute, _}} =
-      Ecto.DateTime.to_erl(backup.inserted_at)
-    pretty_date = "#{month}-#{day}-#{year} @ #{hour}:" <>
-      (minute < 10 && "0" || "") <> "#{minute}"
-    Map.merge(backup, %{pretty_date: pretty_date})
   end
 end

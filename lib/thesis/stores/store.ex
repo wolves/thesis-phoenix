@@ -32,4 +32,19 @@ defmodule Thesis.Store do
       delete(%{"slug" => "/asdf"})
   """
   @callback delete(%{String.t => String.t}) :: atom
+
+  @doc """
+  Retrieves a given backup (identified by its id). Returns the backup.
+
+      restore(backup_id)
+  """
+  @callback restore(Integer.t) :: string
+
+
+  @doc """
+  Retrieves all backups for a given slug. Returns the backup.
+
+      backups(slug)
+  """
+  @callback backups(String.t) :: [Thesis.Backup.t]
 end
