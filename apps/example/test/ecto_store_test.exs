@@ -36,9 +36,9 @@ defmodule EctoStoreTest do
 
     assert last_updated(Page).slug == valid_static_page["slug"]
     last_3 = last_updated(PageContent, 3)
-    assert Enum.at(last_3, 0).content_type == "text"
+    assert Enum.at(last_3, 0).content_type == "raw_html"
     assert Enum.at(last_3, 1).content_type == "html"
-    assert Enum.at(last_3, 2).content_type == "raw_html"
+    assert Enum.at(last_3, 2).content_type == "text"
   end
 
   test "Save global area on one page; retrieve on a different page that's not yet in database" do
@@ -51,13 +51,15 @@ defmodule EctoStoreTest do
   end
 
   test "Retrieves page content as well as well as global content saved on a different page" do
-    slug = random_slug
-    :ok = @store.update(valid_static_page(random_slug), [valid_global_content])
+    slug = random_slug()
+    :ok = @store.update(valid_static_page(random_slug()), [valid_global_content])
     :ok = @store.update(valid_static_page(slug), [valid_html_page_content])
 
     records = @store.page_contents("/" <> slug)
 
-    assert records == last_updated(PageContent, 2)
+    Enum.each(last_updated(PageContent, 2), fn pc ->
+      assert Enum.member?(records, pc)
+    end)
   end
 
   test "First adds page, then deletes page found by slug" do

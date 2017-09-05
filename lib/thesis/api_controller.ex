@@ -28,6 +28,7 @@ defmodule Thesis.ApiController do
         %{
           id: b.id,
           page_revision: b.page_revision,
+          inserted_at: b.inserted_at,
           pretty_date: b.pretty_date
         } end
       )

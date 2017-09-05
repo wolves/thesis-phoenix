@@ -60,7 +60,7 @@ defmodule Thesis.EctoStore do
   Retrieves page content and global content.
   """
   def page_contents(%Page{id: page_id}) do
-    repo.all(from pc in PageContent, where: pc.page_id == ^page_id or is_nil(pc.page_id))
+    repo.all(from pc in PageContent, where: pc.page_id == ^page_id or is_nil(pc.page_id), order_by: [ asc: pc.id ])
   end
 
   # TODO: Issue #83 - intermittent issue with duplicate content rows

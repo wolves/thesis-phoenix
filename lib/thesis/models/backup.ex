@@ -46,7 +46,7 @@ defmodule Thesis.Backup do
   """
   def with_pretty_datetime(backup) do
     {{year, month, day}, {hour, minute, _}} =
-      Ecto.DateTime.to_erl(backup.inserted_at)
+      NaiveDateTime.to_erl(backup.inserted_at)
     pretty_date = "#{month}-#{day}-#{year} @ #{hour}:" <>
       (minute < 10 && "0" || "") <> "#{minute}"
     Map.merge(backup, %{pretty_date: pretty_date})
