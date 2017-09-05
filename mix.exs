@@ -6,7 +6,7 @@ defmodule Thesis.Mixfile do
     [
       app: :thesis,
       version: @version,
-      elixir: "~> 1.2",
+      elixir: ">= 1.4.0",
       description: description(),
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env == :prod,
