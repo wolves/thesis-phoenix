@@ -39,10 +39,10 @@ defmodule Thesis.Backup do
   @doc """
   Formats a given Backup with a pretty_date field.
 
-  iex> backup = %Thesis.Backup{ inserted_at: Ecto.DateTime.cast!("2017-09-01T14:00:00Z") }
+  iex> backup = %Thesis.Backup{ inserted_at: ~N[2017-09-05 22:39:53.732381] }
   iex> b = Thesis.Backup.with_pretty_datetime(backup)
   iex> b.pretty_date
-  "9-1-2017 @ 14:00"
+  "9-5-2017 @ 22:39"
   """
   def with_pretty_datetime(backup) do
     {{year, month, day}, {hour, minute, _}} =
