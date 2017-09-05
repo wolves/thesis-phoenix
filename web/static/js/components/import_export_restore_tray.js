@@ -85,7 +85,7 @@ class ImportExportRestoreTray extends React.Component {
   getPageRevisions () {
     const pageSlug = this.props.pageSettings.slug
 
-    Net.get(`/thesisws?page_slug=${pageSlug}`, null, 'query')
+    Net.get(`/thesis/backups?page_slug=${pageSlug}`, null, 'query')
     .then((data) => {
       this.setState({ revisions: data })
     })
