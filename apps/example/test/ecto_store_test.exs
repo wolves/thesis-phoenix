@@ -109,6 +109,23 @@ defmodule EctoStoreTest do
     assert Enum.at(contents, 3).page_id == nil
     assert Enum.at(contents, 3).content == "<p>Other global</p>"
     assert Enum.count(contents) == 4
+
+    # Test backups
+
+    backups = store.backups(page1.slug)
+    assert Enum.count(backups) == 1
+
+    backups = store.backups(page2.slug)
+    assert Enum.count(backups) == 1
+
+    :ok = store.update(%{"slug" => "/asdf"}, [pc4, pc5])
+
+    backups = store.backups(page2.slug)
+    assert Enum.count(backups) == 2
+
+    restored = store.restore(List.first(backups).id)
+
+    assert restored.page_revision == 2
   end
 
 end

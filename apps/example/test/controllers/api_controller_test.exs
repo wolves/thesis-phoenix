@@ -61,6 +61,4 @@ defmodule Example.ApiControllerTest do
     assert data["revision"] == "{\"pageSettings\":{\"slug\":\"/something\",\"title\":\"Welcome to Thesis!\",\"description\":\"This is a sample app for the Thesis CMS\",\"redirect_url\":null,\"template\":null,\"origin\":\"http://localhost:4000\"},\"pageContents\":[{\"name\":\"Header Logo\",\"content_type\":\"image\",\"content\":\"https://infinite.red/images/ir-logo.svg\",\"meta\":\"{\"global\":true}\",\"global\":\"true\"}]}\n"
   end
 
-
-
 end
