@@ -99,7 +99,7 @@ defmodule Mix.Tasks.Thesis.Install do
     insert_in(source, "router", "\n      use Thesis.Router\n")
   end
 
-  def insert_in(source, block, insertion) do
+  defp insert_in(source, block, insertion) do
     if String.contains?(source, insertion) do
       source
     else
