@@ -24,8 +24,8 @@
     "react-test-renderer": "^15.4.2",
     "sass-loader": "^6.0.5",
     "style-loader": "^0.18.1",
-    "webpack": "^2.6.0",
-    "whatwg-fetch": "^1.0.0"
+    "unfetch": "^3.0.0",
+    "webpack": "^2.6.0"
   },
   "files": [
     "package.json",
