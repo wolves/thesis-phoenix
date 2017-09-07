@@ -21,7 +21,7 @@ defmodule Thesis.Backup do
     field :page_revision, :integer
     field :page_data, :string
 
-    timestamps
+    timestamps()
   end
 
   @valid_attributes [:page_id, :page_revision, :page_data]

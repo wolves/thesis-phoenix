@@ -10,19 +10,19 @@ defmodule Thesis.ApiController do
   def assets(conn, _params), do: conn
 
   def update(conn, %{"contents" => contents, "page" => page}) do
-    {:ok, _page} = store.update(page, contents)
+    {:ok, _page} = store().update(page, contents)
     json conn, %{}
   end
 
   def delete(conn, %{"path" => path}) do
-    {:ok, _page} = store.delete(%{"slug" => path})
+    {:ok, _page} = store().delete(%{"slug" => path})
     json conn, %{}
   end
 
   def backups_for_page(conn, %{"page_slug" => page_slug}) do
     backups =
       page_slug
-      |> store.backups()
+      |> store().backups()
       |> Enum.map(&Backup.with_pretty_datetime/1)
       |> Enum.map(fn b ->
         %{
@@ -36,7 +36,7 @@ defmodule Thesis.ApiController do
   end
 
   def restore(conn, %{"backup_id" => backup_id}) do
-    backup = store.restore(String.to_integer(backup_id))
+    backup = store().restore(String.to_integer(backup_id))
     json conn, %{revision: backup.page_json}
   end
 
@@ -58,12 +58,12 @@ defmodule Thesis.ApiController do
   def upload_file(conn, _), do: json conn, %{path: ""}
 
   def show_file(conn, %{"slug" => slug}) do
-    file = store.file(slug)
+    file = store().file(slug)
     do_show_file(conn, file)
   end
 
   defp do_upload_file(conn, file) do
-    case uploader.upload(file) do
+    case uploader().upload(file) do
       {:ok, path} -> json conn, %{path: path}
       {:error, _} -> json conn, %{path: ""}
     end
@@ -82,7 +82,7 @@ defmodule Thesis.ApiController do
   end
 
   defp ensure_authorized!(conn, _params) do
-    if auth.page_is_editable?(conn), do: conn, else: put_unauthorized(conn)
+    if auth().page_is_editable?(conn), do: conn, else: put_unauthorized(conn)
   end
 
   defp put_unauthorized(conn) do

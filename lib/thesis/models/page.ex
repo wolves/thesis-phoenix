@@ -24,7 +24,7 @@ defmodule Thesis.Page do
     field :redirect_url, :string
     field :description, :string
 
-    timestamps
+    timestamps()
   end
 
   @valid_attributes [:slug, :title, :description, :redirect_url, :template]

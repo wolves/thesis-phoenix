@@ -31,9 +31,9 @@ defmodule Mix.Tasks.Thesis.Install do
 
   @doc false
   def run(_args) do
-    thesis_templates
-    thesis_config
-    thesis_web
+    thesis_templates()
+    thesis_config()
+    thesis_web()
 
     status_msg("done",
       "Now run #{IO.ANSI.blue}mix ecto.migrate#{IO.ANSI.reset} to ensure your database is up to date.")
@@ -59,7 +59,7 @@ defmodule Mix.Tasks.Thesis.Install do
     dest_file_path = Path.join [File.cwd! | ~w(config config.exs)]
     dest_file_path
     |> File.read!()
-    |> insert_thesis
+    |> insert_thesis()
     |> overwrite_file(dest_file_path)
   end
 
@@ -129,7 +129,7 @@ defmodule Mix.Tasks.Thesis.Install do
   end
 
   defp migration_tuple({filename, i}) do
-    ts = String.to_integer(timestamp) + i
+    ts = String.to_integer(timestamp()) + i
     {"priv/templates/thesis.install/#{filename}.exs", "priv/repo/migrations/#{ts}_#{filename}.exs"}
   end
 end
