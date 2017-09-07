@@ -64,9 +64,9 @@
   <tr><td><h4>Caveats</h4></td></tr>
   <tr>
     <td>
-      Thesis is currently considered <em>Alpha-quality</em>, but is in production on several
-      websites, including <a href="https://infinite.red">Infinite Red</a>. The API is unstable and
-      changing but we are committed to providing a clear upgrade path and documentation.
+      Thesis is currently considered <em>Beta-quality</em>, but is in production on several
+      websites, including <a href="https://infinite.red">Infinite Red</a>. The API is
+      largely stable and we are committed to providing a clear upgrade path and documentation.
     </td>
   </tr>
 </table>
@@ -83,7 +83,7 @@
 
 ```elixir
 def deps do
-  [{:thesis, "~> 0.0.30"}]
+  [{:thesis, "~> 0.1.0"}]
 end
 
 def application do
