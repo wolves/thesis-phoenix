@@ -26,7 +26,7 @@ defmodule Thesis.PageContent do
     field :content_type, :string
     field :meta, :string
 
-    timestamps
+    timestamps()
   end
 
   @valid_attributes [:page_id, :name, :content, :content_type, :meta]
