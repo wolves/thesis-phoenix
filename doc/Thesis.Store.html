@@ -1,23 +1,24 @@
     <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.14.3">
+    <meta name="generator" content="ExDoc v0.16.1">
     <title>Thesis.Store – thesis v0.1.0</title>
     <link rel="stylesheet" href="dist/app-091c05798a.css" />
     
       <link rel="canonical" href="https://hexdocs.pm/thesis/Thesis.Store.html" />
     
-    <script src="dist/sidebar_items.js"></script>
+    <script src="dist/sidebar_items-2b5ee3e478.js"></script>
   </head>
   <body data-type="modules">
-    <script>if(localStorage.getItem('night-mode')) document.body.className += ' night-mode';</script>
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
 
     <div class="main">
 <button class="sidebar-toggle">
-  <i class="icon-menu"></i>
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
 </button>
 <section class="sidebar">
 
@@ -35,8 +36,8 @@
   </a>
 
   <div class="sidebar-search">
-    <i class="icon-search"></i>
-    <input type="text" class="sidebar-searchInput" placeholder="search" autocomplete="off" />
+    <span class="icon-search" aria-hidden="true"></span>
+    <input type="text" class="sidebar-searchInput" placeholder="search" aria-label="Search" autocomplete="off" />
   </div>
 
   <ul class="sidebar-listNav">
@@ -48,6 +49,10 @@
 
     
 
+    
+
+    
+      <li><a id="tasks-list" href="#full-list">Mix Tasks</a></li>
     
   </ul>
   <div class="gradient"></div>
@@ -61,10 +66,7 @@
 
       <h1>
         <small class="visible-xs">thesis v0.1.0</small>
-        Thesis.Store
-        
-          <small>behaviour</small>
-        
+        Thesis.Store <small>behaviour</small>
         
       </h1>
 
@@ -81,12 +83,11 @@ interface necessary for Thesis to use a particular store module.</p>
         <section id="summary" class="details-list">
           <h1 class="section-heading">
             <a class="hover-link" href="#summary">
-              <i class="icon-link"></i>
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
             </a>
             Summary
           </h1>
-          
-
           
 
           
@@ -98,10 +99,20 @@ interface necessary for Thesis to use a particular store module.</p>
     </h2>
     <div class="summary-row">
   <div class="summary-signature">
+    <a href="#c:backups/1">backups(arg0)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Retrieves all backups for a given slug. Returns the backup</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="#c:delete/1">delete(%{})</a>
   </div>
   
-    <div class="summary-synopsis"><p>Deletes the given page (identified by its slug). Returns <code class="inline">:ok</code></p>
+    <div class="summary-synopsis"><p>Deletes the given page (identified by its slug).
+Returns <code class="inline">{:ok, page}</code> or <code class="inline">{:error, changeset}</code></p>
 </div>
   
 </div>
@@ -127,11 +138,21 @@ populate the page content using the Thesis.View.content/4 function</p>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
+    <a href="#c:restore/1">restore(arg0)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Retrieves a given backup (identified by its id). Returns the backup</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
     <a href="#c:update/2">update(%{}, map)</a>
   </div>
   
     <div class="summary-synopsis"><p>Updates the given page (identified by its slug) with the given map of
-string keys and Thesis.PageContent structs. Returns <code class="inline">:ok</code></p>
+string keys and Thesis.PageContent structs.
+Returns <code class="inline">{:ok, page}</code> or <code class="inline">{:error, changeset}</code></p>
 </div>
   
 </div>
@@ -147,20 +168,44 @@ string keys and Thesis.PageContent structs. Returns <code class="inline">:ok</co
       
 
       
-
-      
         <section id="callbacks" class="details-list">
           <h1 class="section-heading">
             <a class="hover-link" href="#callbacks">
-              <i class="icon-link"></i>
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
             </a>
             Callbacks
           </h1>
-          <div class="detail" id="c:delete/1">
+          <div class="detail" id="c:backups/1">
+  
+  <div class="detail-header">
+    <a href="#c:backups/1" class="detail-link" title="Link to this callback">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
+    </a>
+    <span class="signature">backups(arg0)</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>backups(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>) :: [<a href="Thesis.Backup.html#t:t/0">Thesis.Backup.t</a>]</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Retrieves all backups for a given slug. Returns the backup.</p>
+<pre><code class="elixir">backups(slug)</code></pre>
+
+  </section>
+</div>
+<div class="detail" id="c:delete/1">
   
   <div class="detail-header">
     <a href="#c:delete/1" class="detail-link" title="Link to this callback">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
     </a>
     <span class="signature">delete(%{})</span>
     
@@ -168,13 +213,14 @@ string keys and Thesis.PageContent structs. Returns <code class="inline">:ok</co
     
       <div class="specs">
         
-          <pre>delete(%{optional(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>) => <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>}) :: atom</pre>
+          <pre>delete(%{optional(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>) => <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>}) :: {atom, any}</pre>
         
       </div>
     
   </div>
   <section class="docstring">
-    <p>Deletes the given page (identified by its slug). Returns <code class="inline">:ok</code>.</p>
+    <p>Deletes the given page (identified by its slug).
+Returns <code class="inline">{:ok, page}</code> or <code class="inline">{:error, changeset}</code>.</p>
 <pre><code class="elixir">delete(%{&quot;slug&quot; =&gt; &quot;/asdf&quot;})</code></pre>
 
   </section>
@@ -183,7 +229,8 @@ string keys and Thesis.PageContent structs. Returns <code class="inline">:ok</co
   
   <div class="detail-header">
     <a href="#c:page/1" class="detail-link" title="Link to this callback">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
     </a>
     <span class="signature">page(arg0)</span>
     
@@ -191,7 +238,7 @@ string keys and Thesis.PageContent structs. Returns <code class="inline">:ok</co
     
       <div class="specs">
         
-          <pre>page(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>) :: <a href="Thesis.Page.html#t:t/0">Thesis.Page.t</a></pre>
+          <pre>page(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>) :: <a href="Thesis.Page.html#t:t/0">Thesis.Page.t</a></pre>
         
       </div>
     
@@ -205,7 +252,8 @@ string keys and Thesis.PageContent structs. Returns <code class="inline">:ok</co
   
   <div class="detail-header">
     <a href="#c:page_contents/1" class="detail-link" title="Link to this callback">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
     </a>
     <span class="signature">page_contents(arg0)</span>
     
@@ -225,11 +273,36 @@ populate the page content using the Thesis.View.content/4 function.</p>
 
   </section>
 </div>
+<div class="detail" id="c:restore/1">
+  
+  <div class="detail-header">
+    <a href="#c:restore/1" class="detail-link" title="Link to this callback">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
+    </a>
+    <span class="signature">restore(arg0)</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>restore(<a href="https://hexdocs.pm/elixir/Integer.html#t:t/0">Integer.t</a>) :: <a href="Thesis.Backup.html#t:t/0">Thesis.Backup.t</a></pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    <p>Retrieves a given backup (identified by its id). Returns the backup.</p>
+<pre><code class="elixir">restore(backup_id)</code></pre>
+
+  </section>
+</div>
 <div class="detail" id="c:update/2">
   
   <div class="detail-header">
     <a href="#c:update/2" class="detail-link" title="Link to this callback">
-      <i class="icon-link"></i>
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this callback</span>
     </a>
     <span class="signature">update(%{}, map)</span>
     
@@ -237,14 +310,15 @@ populate the page content using the Thesis.View.content/4 function.</p>
     
       <div class="specs">
         
-          <pre>update(%{optional(<a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>) => <a href="http://elixir-lang.org/docs/stable/elixir/String.html#t:t/0">String.t</a>}, map) :: atom</pre>
+          <pre>update(%{optional(<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>) => <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>}, map) :: {atom, any}</pre>
         
       </div>
     
   </div>
   <section class="docstring">
     <p>Updates the given page (identified by its slug) with the given map of
-string keys and Thesis.PageContent structs. Returns <code class="inline">:ok</code>.</p>
+string keys and Thesis.PageContent structs.
+Returns <code class="inline">{:ok, page}</code> or <code class="inline">{:error, changeset}</code>.</p>
 <pre><code class="elixir">update(%{&quot;slug&quot; =&gt; &quot;/&quot;}, %{&quot;Heading&quot; =&gt; &quot;My Heading Content&quot;})</code></pre>
 
   </section>
@@ -256,20 +330,20 @@ string keys and Thesis.PageContent structs. Returns <code class="inline">:ok</co
         <p>
           <span class="line">
             Built using
-            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.14.3),
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.16.1),
           </span>
           <span class="line">
             designed by
             <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
             </span>
         </p>
-        <button class="night-mode-toggle" />
+        <button class="night-mode-toggle"><span class="sr-only">Switch theme</span></button>
       </footer>
     </div>
   </div>
 </section>
 </div>
-  <script src="dist/app-574613960f.js"></script>
+  <script src="dist/app-126b5f0e90.js"></script>
   </body>
 </html>
 

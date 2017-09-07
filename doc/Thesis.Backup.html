@@ -5,10 +5,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.16.1">
-    <title>Thesis.File – thesis v0.1.0</title>
+    <title>Thesis.Backup – thesis v0.1.0</title>
     <link rel="stylesheet" href="dist/app-091c05798a.css" />
     
-      <link rel="canonical" href="https://hexdocs.pm/thesis/Thesis.File.html" />
+      <link rel="canonical" href="https://hexdocs.pm/thesis/Thesis.Backup.html" />
     
     <script src="dist/sidebar_items-2b5ee3e478.js"></script>
   </head>
@@ -66,13 +66,13 @@
 
       <h1>
         <small class="visible-xs">thesis v0.1.0</small>
-        Thesis.File
+        Thesis.Backup
         
       </h1>
 
       
         <section id="moduledoc">
-          <p>Represents a file.</p>
+          <p>Represents a page and page_content backup.</p>
 
         </section>
       
@@ -108,10 +108,19 @@
     </h2>
     <div class="summary-row">
   <div class="summary-signature">
-    <a href="#changeset/2">changeset(file, upload)</a>
+    <a href="#changeset/2">changeset(backup, params \\ %{})</a>
   </div>
   
-    <div class="summary-synopsis"><p>Changeset for File structs, updated via a map</p>
+    <div class="summary-synopsis"><p>Changeset for Backup structs</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#with_pretty_datetime/1">with_pretty_datetime(backup)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Formats a given Backup with a pretty_date field</p>
 </div>
   
 </div>
@@ -147,7 +156,7 @@
     
       <div class="specs">
         
-          <pre>t() :: %Thesis.File{__meta__: term, content_type: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>, data: any, filename: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>, id: any, inserted_at: any, slug: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>, updated_at: any}</pre>
+          <pre>t() :: %Thesis.Backup{__meta__: term, id: any, inserted_at: any, page: term, page_data: any, page_id: integer, page_revision: integer, updated_at: any}</pre>
         
       </div>
     
@@ -172,18 +181,41 @@
           </h1>
           <div class="detail" id="changeset/2">
   
+    <span id="changeset/1"></span>
+  
   <div class="detail-header">
     <a href="#changeset/2" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">changeset(file, upload)</span>
+    <span class="signature">changeset(backup, params \\ %{})</span>
     
     
     
   </div>
   <section class="docstring">
-    <p>Changeset for File structs, updated via a map.</p>
+    <p>Changeset for Backup structs.</p>
+
+  </section>
+</div>
+<div class="detail" id="with_pretty_datetime/1">
+  
+  <div class="detail-header">
+    <a href="#with_pretty_datetime/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">with_pretty_datetime(backup)</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    <p>Formats a given Backup with a pretty_date field.</p>
+<p>iex&gt; backup = %Thesis.Backup{ inserted_at: ~N[2017-09-05 22:39:53.732381] }
+iex&gt; b = Thesis.Backup.with_pretty_datetime(backup)
+iex&gt; b.pretty_date
+“9-5-2017 @ 22:39”</p>
 
   </section>
 </div>
