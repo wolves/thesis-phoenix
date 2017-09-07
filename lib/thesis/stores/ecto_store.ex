@@ -105,7 +105,7 @@ defmodule Thesis.EctoStore do
     page = save_page(page_params)
     save_page_contents(page, contents_params)
     backup_page(page, contents_params)
-    :ok
+    {:ok, page}
   end
 
   @doc """
@@ -113,20 +113,18 @@ defmodule Thesis.EctoStore do
   """
   def delete(%{"slug" => slug}) do
     page = page(slug)
-    repo.delete!(page)
-    :ok
+    repo().delete(page)
   end
 
   defp save_page(%{"slug" => slug} = page_params) do
     page = page(slug) || %Page{slug: slug}
     page_changeset = Page.changeset(page, page_params)
-    repo.insert_or_update!(page_changeset)
+    repo().insert_or_update!(page_changeset)
   end
 
   defp backup_page(page, page_contents) do
     serialized_page_data = prepare_page_backup_data(page, page_contents)
     save_backup(page.id, serialized_page_data)
-    :ok
   end
 
   defp save_page_contents(nil, _), do: :error
@@ -135,9 +133,7 @@ defmodule Thesis.EctoStore do
 
     contents_params
     |> Enum.map(fn(x) -> content_changeset(x, page, preloaded_contents) end)
-    |> Enum.each(fn(x) -> repo.insert_or_update!(x) end)
-
-    :ok
+    |> Enum.map(fn(x) -> repo().insert_or_update!(x) end)
   end
 
   defp save_backup(nil, _), do: :error
@@ -150,8 +146,7 @@ defmodule Thesis.EctoStore do
       page_data:  LZString.compress(page_data)
     })
 
-    repo.insert!(backup_changeset)
-    :ok
+    repo().insert!(backup_changeset)
   end
 
   defp content_changeset(new_contents, page, preloaded_contents) do

@@ -10,12 +10,12 @@ defmodule Thesis.ApiController do
   def assets(conn, _params), do: conn
 
   def update(conn, %{"contents" => contents, "page" => page}) do
-    :ok = store.update(page, contents)
+    {:ok, _page} = store.update(page, contents)
     json conn, %{}
   end
 
   def delete(conn, %{"path" => path}) do
-    :ok = store.delete(%{"slug" => path})
+    {:ok, _page} = store.delete(%{"slug" => path})
     json conn, %{}
   end
 
