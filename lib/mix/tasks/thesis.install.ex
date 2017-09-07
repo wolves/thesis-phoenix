@@ -65,38 +65,68 @@ defmodule Mix.Tasks.Thesis.Install do
 
   @doc false
   def thesis_web do
-    status_msg("updating", "web/web.exs")
-    dest_file_path = Path.join [File.cwd! | ~w(web web.ex)]
-    dest_file_path
-    |> File.read!()
-    |> insert_controller
-    |> insert_view
-    |> insert_router
-    |> overwrite_file(dest_file_path)
-  end
+    status_msg("updating", "web.ex")
 
-  defp insert_controller(source) do
-    insert_at(source, "use Phoenix.Controller\n", "\n      use Thesis.Controller\n")
-  end
+    # Phoenix 1.2 style
+    phx_12 = "web/web.ex"
+    phx_13 = List.first(Path.wildcard("lib/*_web.ex")) || ""
 
-  defp insert_view(source) do
-    insert_at(source, "use Phoenix.View, root: \"web/templates\"\n", "\n      use Thesis.View\n")
-  end
+    dest_file_path =
+      (File.exists?(phx_12) && phx_12)
+      || (File.exists?(phx_13) && phx_13)
 
-  defp insert_router(source) do
-    insert_at(source, "use Phoenix.Router\n", "\n      use Thesis.Router\n")
-  end
-
-  defp insert_at(source, pattern, inserted) do
-    if String.contains?(source, inserted) do
-      source
+    if dest_file_path do
+      dest_file_path
+      |> File.read!()
+      |> insert_controller()
+      |> insert_view()
+      |> insert_router()
+      |> overwrite_file(dest_file_path)
     else
-      String.replace(source, pattern, pattern <> inserted)
+      status_msg("warning", "couldn't find web.ex! See https://github.com/infinitered/thesis-phoenix/blob/master/README_INSTALL.md.")
     end
   end
 
+  defp insert_controller(source) do
+    insert_in(source, "controller", "\n      use Thesis.Controller\n")
+  end
+
+  defp insert_view(source) do
+    insert_in(source, "view", "\n      use Thesis.View\n")
+  end
+
+  defp insert_router(source) do
+    insert_in(source, "router", "\n      use Thesis.Router\n")
+  end
+
+  def insert_in(source, block, insertion) do
+    if String.contains?(source, insertion) do
+      source
+    else
+      match =
+        Regex.scan(~r/def #{block} do\n\s.+end\n\s*end/Usm, source)
+        |> List.flatten
+        |> List.first
+
+      if match do
+        inserted = String.replace(match, "    end\n  end", "#{insertion}    end\n  end")
+        String.replace(source, match, inserted)
+      else
+        source
+      end
+    end
+  end
+
+  # defp insert_at(source, pattern, inserted) do
+  #   if String.contains?(source, inserted) do
+  #     source
+  #   else
+  #     String.replace(source, pattern, pattern <> inserted)
+  #   end
+  # end
+
   defp insert_thesis(source) do
-    if String.contains? source, "config :thesis" do
+    if String.contains? source, "config :thesis," do
       status_msg("skipping", "thesis config. It already exists.")
       :skip
     else

@@ -90,7 +90,9 @@ end
 $ mix ecto.migrate
 ```
 
-#### 7. Add Thesis.Controller, Thesis.View, and Thesis.Router to your `web/web.ex` file
+#### 7. Add Thesis.Controller, Thesis.View, and Thesis.Router to your `lib/*_web.ex` file
+
+_NOTE: This was located in web/web.ex in Phoenix 1.2 and prior._
 
 ```elixir
       def controller do
