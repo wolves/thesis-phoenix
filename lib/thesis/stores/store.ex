@@ -20,16 +20,33 @@ defmodule Thesis.Store do
 
   @doc """
   Updates the given page (identified by its slug) with the given map of
-  string keys and Thesis.PageContent structs. Returns `:ok`.
+  string keys and Thesis.PageContent structs.
+  Returns `{:ok, page}` or ``{:error, changeset}``.
 
       update(%{"slug" => "/"}, %{"Heading" => "My Heading Content"})
   """
-  @callback update(%{String.t => String.t}, map) :: atom
+  @callback update(%{String.t => String.t}, map) :: {atom, any}
 
   @doc """
-  Deletes the given page (identified by its slug). Returns `:ok`.
+  Deletes the given page (identified by its slug).
+  Returns `{:ok, page}` or `{:error, changeset}`.
 
       delete(%{"slug" => "/asdf"})
   """
-  @callback delete(%{String.t => String.t}) :: atom
+  @callback delete(%{String.t => String.t}) :: {atom, any}
+
+  @doc """
+  Retrieves a given backup (identified by its id). Returns the backup.
+
+      restore(backup_id)
+  """
+  @callback restore(Integer.t) :: Thesis.Backup.t
+
+
+  @doc """
+  Retrieves all backups for a given slug. Returns the backup.
+
+      backups(slug)
+  """
+  @callback backups(String.t) :: [Thesis.Backup.t]
 end

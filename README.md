@@ -482,7 +482,7 @@ websites. Please help us improve!
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Run `brunch watch -p` during development
+4. Run `npm run webpack` during development
 5. Use the `apps/example` Phoenix app to manually test your feature
 6. Write tests for your new feature
 7. Run `./bin/ci` in the root directory to ensure that Thesis tests pass.

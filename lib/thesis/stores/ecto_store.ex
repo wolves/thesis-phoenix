@@ -13,10 +13,28 @@ defmodule Thesis.EctoStore do
 
   import Thesis.Config
   import Ecto.Query, only: [from: 2]
-  alias Thesis.{Page, PageContent, File}
+  alias Thesis.{Page, PageContent, File, Backup}
 
   def page(slug) when is_binary(slug) do
-    repo.get_by(Page, slug: slug)
+    repo().get_by(Page, slug: slug)
+  end
+
+  def restore(id) do
+    backup = repo().get(Backup, id)
+    Map.merge(backup, %{page_json: LZString.decompress(backup.page_data)})
+  end
+
+  def backups(page_slug) when is_binary(page_slug) do
+    page = page(page_slug)
+    backups(page.id)
+  end
+
+  def backups(page_id) when is_integer(page_id) do
+    repo().all(
+      from b in Backup,
+      where: b.page_id == ^page_id,
+      order_by: [desc: b.page_revision]
+    )
   end
 
   @doc """
@@ -33,7 +51,7 @@ defmodule Thesis.EctoStore do
   At this point we only care about retrieving global content.
   """
   def page_contents(nil) do
-    repo.all(from pc in PageContent, where: is_nil(pc.page_id))
+    repo().all(from pc in PageContent, where: is_nil(pc.page_id))
   end
 
   @doc """
@@ -41,7 +59,7 @@ defmodule Thesis.EctoStore do
   Retrieves page content and global content.
   """
   def page_contents(%Page{id: page_id}) do
-    repo.all(from pc in PageContent, where: pc.page_id == ^page_id or is_nil(pc.page_id))
+    repo().all(from pc in PageContent, where: pc.page_id == ^page_id or is_nil(pc.page_id), order_by: [ asc: pc.id ])
   end
 
   # TODO: Issue #83 - intermittent issue with duplicate content rows
@@ -64,10 +82,10 @@ defmodule Thesis.EctoStore do
   and name.
   """
   def page_content(nil, name) do
-    repo.one(from pc in PageContent, where: is_nil(pc.page_id) and pc.name == ^name)
+    repo().one(from pc in PageContent, where: is_nil(pc.page_id) and pc.name == ^name)
   end
   def page_content(page_id, name) do
-    repo.get_by(PageContent, page_id: page_id, name: name)
+    repo().get_by(PageContent, page_id: page_id, name: name)
   end
 
   @doc """
@@ -76,7 +94,7 @@ defmodule Thesis.EctoStore do
   def file(nil), do: nil
   def file(""), do: nil
   def file(slug) do
-    repo.get_by(File, slug: slug)
+    repo().get_by(File, slug: slug)
   end
 
   @doc """
@@ -85,7 +103,8 @@ defmodule Thesis.EctoStore do
   def update(page_params, contents_params) do
     page = save_page(page_params)
     save_page_contents(page, contents_params)
-    :ok
+    backup_page(page, contents_params)
+    {:ok, page}
   end
 
   @doc """
@@ -93,14 +112,18 @@ defmodule Thesis.EctoStore do
   """
   def delete(%{"slug" => slug}) do
     page = page(slug)
-    repo.delete!(page)
-    :ok
+    repo().delete(page)
   end
 
   defp save_page(%{"slug" => slug} = page_params) do
     page = page(slug) || %Page{slug: slug}
     page_changeset = Page.changeset(page, page_params)
-    repo.insert_or_update!(page_changeset)
+    repo().insert_or_update!(page_changeset)
+  end
+
+  defp backup_page(page, page_contents) do
+    serialized_page_data = prepare_page_backup_data(page, page_contents)
+    save_backup(page.id, serialized_page_data)
   end
 
   defp save_page_contents(nil, _), do: :error
@@ -109,9 +132,20 @@ defmodule Thesis.EctoStore do
 
     contents_params
     |> Enum.map(fn(x) -> content_changeset(x, page, preloaded_contents) end)
-    |> Enum.each(fn(x) -> repo.insert_or_update!(x) end)
+    |> Enum.map(fn(x) -> repo().insert_or_update!(x) end)
+  end
 
-    :ok
+  defp save_backup(nil, _), do: :error
+  defp save_backup(page_id, page_data) do
+    backups = backups(page_id)
+
+    backup_changeset = Backup.changeset(%Backup{}, %{
+      page_id: page_id,
+      page_revision: new_backup_page_revision(backups),
+      page_data:  LZString.compress(page_data)
+    })
+
+    repo().insert!(backup_changeset)
   end
 
   defp content_changeset(new_contents, page, preloaded_contents) do
@@ -128,6 +162,20 @@ defmodule Thesis.EctoStore do
     })
   end
 
+  defp new_backup_page_revision(nil), do: 1
+  defp new_backup_page_revision([]), do: 1
+  defp new_backup_page_revision(backups) do
+    last = List.first(backups)
+    last.page_revision + 1
+  end
+
   defp page_id_or_global(%{"global" => "true"}, _page), do: nil
   defp page_id_or_global(_content, %Page{id: id}), do: id
+
+  defp prepare_page_backup_data(page, page_contents) do
+    %{
+      "pageSettings" => %{title: page.title, description: page.description},
+      "pageContents" => page_contents
+    } |> Poison.encode!
+  end
 end

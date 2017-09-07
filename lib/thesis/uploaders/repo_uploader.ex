@@ -14,7 +14,7 @@ defmodule Thesis.RepoUploader do
   end
 
   defp do_upload(changeset) do
-    case repo.insert_or_update(changeset) do
+    case repo().insert_or_update(changeset) do
       {:ok, file} -> {:ok, "/thesis/files/" <> file.slug}
       {:error, changeset} -> {:error, changeset}
     end

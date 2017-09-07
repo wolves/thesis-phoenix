@@ -28,7 +28,7 @@ exports[`renders ThesisEditor 1`] = `
       <div
         className="tooltip"
       >
-        Import/Export Content
+        Import/Export/Restore Content
       </div>
       <i
         className="fa fa-exchange fa-2x"
@@ -131,7 +131,7 @@ exports[`renders ThesisEditor with an add button 1`] = `
       <div
         className="tooltip"
       >
-        Import/Export Content
+        Import/Export/Restore Content
       </div>
       <i
         className="fa fa-exchange fa-2x"

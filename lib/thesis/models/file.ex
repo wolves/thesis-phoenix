@@ -22,10 +22,10 @@ defmodule Thesis.File do
     field :filename, :string
     field :data, :binary
 
-    timestamps
+    timestamps()
   end
 
-  @valid_attributes [:slug, :content_type, :filename, :data]
+  # @valid_attributes [:slug, :content_type, :filename, :data]
   @required_attributes [:slug, :content_type, :filename, :data]
 
   @doc """

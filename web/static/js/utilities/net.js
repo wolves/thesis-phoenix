@@ -25,21 +25,26 @@ function parseJSON (response) {
     If using FormData, avoid setting Content-Type headers as it does it for you.
 */
 const Net = {
-  get: (path, body, type = 'json') => Net.request(path, body, 'GET', type),
+  get: (path, body = null, type = 'json') => Net.request(path, body, 'GET', type),
   post: (path, body, type = 'json') => Net.request(path, body, 'POST', type),
   put: (path, body, type = 'json') => Net.request(path, body, 'PUT', type),
   patch: (path, body, type = 'json') => Net.request(path, body, 'PATCH', type),
   delete: (path, body, type = 'json') => Net.request(path, body, 'DELETE', type),
   request: (path, body, method, type) => {
-    const headers = new Headers()
-    headers.append('Accept', 'application/json')
+    // headers
+    let headers = new Headers()
     if (type === 'json') headers.append('Content-Type', 'application/json')
+    headers.append('Accept', 'application/json')
+
+    // body
+    if (type === 'json') body = JSON.stringify(body)
+    if (type === 'form') body = new FormData(body)
 
     return window.fetch(path, {
       method: method,
       credentials: 'same-origin',
       headers: headers,
-      body: (type === 'json') ? JSON.stringify(body) : new FormData(body)
+      body: body
     })
       .then(checkStatus)
       .then(parseJSON)

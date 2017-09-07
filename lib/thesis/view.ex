@@ -72,7 +72,7 @@ defmodule Thesis.View do
         make_content(page_id, name, type, stringify(opts[:do]), Keyword.delete(opts, :do))
       Render.render_editable(content, opts)
     else
-      raise controller_missing_text
+      raise controller_missing_text()
     end
   end
 
@@ -112,16 +112,16 @@ defmodule Thesis.View do
       page = conn.assigns[:thesis_page]
       redirect_url = page && page.redirect_url
       template = page && page.template
-      templates = Enum.join(dynamic_templates, ",")
+      templates = Enum.join(dynamic_templates(), ",")
       editor = content_tag(:div, "", id: "thesis-container",
-        data_html_editor: html_editor,
-        data_ospry_public_key: ospry_public_key,
-        data_file_uploader: uploader,
+        data_html_editor: html_editor(),
+        data_ospry_public_key: ospry_public_key(),
+        data_file_uploader: uploader(),
         data_redirect_url: redirect_url,
         data_template: template,
         data_templates: templates,
         data_dynamic_page: conn.assigns[:thesis_dynamic_page])
-      safe_concat([thesis_style, editor, thesis_js])
+      safe_concat([thesis_style(), editor, thesis_js()])
     else
       raw ""
     end

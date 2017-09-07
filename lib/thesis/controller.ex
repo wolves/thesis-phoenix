@@ -91,14 +91,14 @@ defmodule Thesis.Controller.Plug do
 
   def call(conn, _opts) do
     path = Thesis.Utilities.normalize_path(conn.request_path)
-    current_page = store.page(path)
-    page_contents = store.page_contents(current_page)
+    current_page = store().page(path)
+    page_contents = store().page_contents(current_page)
 
     conn
     |> assign(:thesis_dynamic_page, false) # Overridden in render_dynamic/2
     |> assign(:thesis_page, current_page)
     |> assign(:thesis_content, page_contents)
-    |> assign(:thesis_editable, auth.page_is_editable?(conn))
+    |> assign(:thesis_editable, auth().page_is_editable?(conn))
   end
 
 end

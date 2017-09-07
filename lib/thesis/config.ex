@@ -14,19 +14,19 @@ defmodule Thesis.Config do
   end
 
   def dynamic_view do
-    dynamic_pages[:view]
+    dynamic_pages()[:view]
   end
 
   def dynamic_templates do
-    dynamic_pages[:templates] || []
+    dynamic_pages()[:templates] || []
   end
 
   def dynamic_not_found_view do
-    dynamic_pages[:not_found_view]
+    dynamic_pages()[:not_found_view]
   end
 
   def dynamic_not_found_template do
-    dynamic_pages[:not_found_template] || "404.html"
+    dynamic_pages()[:not_found_template] || "404.html"
   end
 
   def repo do

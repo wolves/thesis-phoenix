@@ -43,6 +43,9 @@ defmodule Thesis.Router do
         put "/update", ApiController, :update
         delete "/delete", ApiController, :delete
 
+        get "/backups", ApiController, :backups_for_page
+        get "/restore/:backup_id", ApiController, :restore
+
         post "/files/upload", ApiController, :upload_file
         post "/files/import", ApiController, :import_file
         get "/files/:slug", ApiController, :show_file

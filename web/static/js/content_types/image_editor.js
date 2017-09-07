@@ -71,19 +71,24 @@ class ImageEditor {
   }
 
   uploadAndSet (data, page, callback) {
-    const imageUrl = this.determineImageUrl(data.content, page.origin)
+    const image = this.determineImageUrl(data.content, page.origin)
     const editor = document.querySelector(`[data-thesis-content-id="${data.name}"`)
 
-    if (!imageUrl || !editor) {
+    if (!image || !editor) {
       callback(); return
     }
 
-    Net.post('/thesis/files/import', {image_url: imageUrl, image_name: data.name})
-    .then((response) => {
+    if (!image.upload) {
       callback()
-      if (response.path.length > 0) this.set(data.name, {url: response.path}, data.meta)
-    })
-    .catch((error) => { callback(); window.alert(`${data.name} could not be saved.`) })
+      this.set(data.name, {url: image.imageUrl}, data.meta)
+    } else {
+      Net.post('/thesis/files/import', {image_url: image.imageUrl, image_name: data.name})
+      .then((response) => {
+        callback()
+        if (response.path.length > 0) this.set(data.name, {url: response.path}, data.meta)
+      })
+      .catch((error) => { callback(); window.alert(`${data.name} could not be saved.`) })
+    }
   }
 
   set (name, data, meta = null) {
@@ -112,11 +117,13 @@ class ImageEditor {
     if (image.trim() === '') {
       return null
     } else if (this.isImageAbsoluteUrl(image)) {
-      return image.trim()
+      return {imageUrl: image.trim()}
     } else if (this.isImageUrlWithoutProtocol(image)) {
-      return 'http:' + image.trim()
+      return {imageUrl: 'http:' + image.trim()}
+    } else if (typeof origin === 'undefined') {
+      return {upload: false, imageUrl: image}
     } else {
-      return origin + image.trim()
+      return {imageUrl: origin + image.trim()}
     }
   }
 
