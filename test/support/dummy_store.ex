@@ -10,7 +10,7 @@ defmodule Thesis.DummyStore do
   end
 
   def delete(_slug) do
-    :ok
+    {:ok, nil}
   end
 
   def page_contents(%Thesis.Page{} = _page) do
@@ -18,7 +18,15 @@ defmodule Thesis.DummyStore do
   end
 
   def update(_page, _updated_contents) do
-    :ok
+    {:ok, nil}
+  end
+
+  def backups(_page_id) do
+    []
+  end
+
+  def restore(_backup_id) do
+    {:ok, nil}
   end
 
 end

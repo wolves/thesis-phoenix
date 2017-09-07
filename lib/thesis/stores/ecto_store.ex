@@ -13,15 +13,14 @@ defmodule Thesis.EctoStore do
 
   import Thesis.Config
   import Ecto.Query, only: [from: 2]
-  import Thesis.Utilities
   alias Thesis.{Page, PageContent, File, Backup}
 
   def page(slug) when is_binary(slug) do
-    repo.get_by(Page, slug: slug)
+    repo().get_by(Page, slug: slug)
   end
 
   def restore(id) do
-    backup = repo.get(Backup, id)
+    backup = repo().get(Backup, id)
     Map.merge(backup, %{page_json: LZString.decompress(backup.page_data)})
   end
 
@@ -31,7 +30,7 @@ defmodule Thesis.EctoStore do
   end
 
   def backups(page_id) when is_integer(page_id) do
-    repo.all(
+    repo().all(
       from b in Backup,
       where: b.page_id == ^page_id,
       order_by: [desc: b.page_revision]
@@ -52,7 +51,7 @@ defmodule Thesis.EctoStore do
   At this point we only care about retrieving global content.
   """
   def page_contents(nil) do
-    repo.all(from pc in PageContent, where: is_nil(pc.page_id))
+    repo().all(from pc in PageContent, where: is_nil(pc.page_id))
   end
 
   @doc """
@@ -60,7 +59,7 @@ defmodule Thesis.EctoStore do
   Retrieves page content and global content.
   """
   def page_contents(%Page{id: page_id}) do
-    repo.all(from pc in PageContent, where: pc.page_id == ^page_id or is_nil(pc.page_id), order_by: [ asc: pc.id ])
+    repo().all(from pc in PageContent, where: pc.page_id == ^page_id or is_nil(pc.page_id), order_by: [ asc: pc.id ])
   end
 
   # TODO: Issue #83 - intermittent issue with duplicate content rows
@@ -83,10 +82,10 @@ defmodule Thesis.EctoStore do
   and name.
   """
   def page_content(nil, name) do
-    repo.one(from pc in PageContent, where: is_nil(pc.page_id) and pc.name == ^name)
+    repo().one(from pc in PageContent, where: is_nil(pc.page_id) and pc.name == ^name)
   end
   def page_content(page_id, name) do
-    repo.get_by(PageContent, page_id: page_id, name: name)
+    repo().get_by(PageContent, page_id: page_id, name: name)
   end
 
   @doc """
@@ -95,7 +94,7 @@ defmodule Thesis.EctoStore do
   def file(nil), do: nil
   def file(""), do: nil
   def file(slug) do
-    repo.get_by(File, slug: slug)
+    repo().get_by(File, slug: slug)
   end
 
   @doc """
