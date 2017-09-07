@@ -83,7 +83,7 @@
 
 ```elixir
 def deps do
-  [{:thesis, "~> 0.1.0"}]
+  [{:thesis, "~> 0.2.0"}]
 end
 
 def application do

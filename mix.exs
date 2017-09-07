@@ -1,6 +1,6 @@
 defmodule Thesis.Mixfile do
   use Mix.Project
-  @version "0.1.0" # REMEMBER TO UPDATE package.json and both READMEs!
+  @version "0.2.0" # REMEMBER TO UPDATE package.json and both READMEs!
 
   def project do
     [
