@@ -41,6 +41,12 @@ module.exports = {
     new ExtractTextPlugin({
       filename: 'thesis.css',
       allChunks: true,
-    }),
+    })
   ],
+  resolve: {
+    alias: {
+      'react': 'preact-compat',
+      'react-dom': 'preact-compat'
+    }
+  }
 };
