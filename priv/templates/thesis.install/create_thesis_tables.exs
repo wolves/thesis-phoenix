@@ -8,7 +8,7 @@ defmodule <%= base %>.Repo.Migrations.CreateThesisTables do
       add :title, :string
       add :description, :string
 
-      timestamps
+      timestamps()
     end
 
     create table(:thesis_page_contents) do

@@ -9,7 +9,7 @@ defmodule Example.Repo.Migrations.CreateThesisFilesTable do
       add :filename, :string
       add :data, :binary
 
-      timestamps
+      timestamps()
     end
     create unique_index(:thesis_files, [:slug])
   end

@@ -8,7 +8,7 @@ defmodule Example.Repo.Migrations.CreateThesisBackupsTable do
       add :page_revision, :integer
       add :page_data, :binary
 
-      timestamps
+      timestamps()
     end
   end
 end
