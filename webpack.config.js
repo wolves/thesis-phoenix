@@ -2,7 +2,7 @@ var path = require('path');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-  entry: path.resolve(__dirname, './web/static/js/thesis.js'),
+  entry: path.resolve(__dirname, './assets/js/thesis.js'),
   output: {
     path: path.resolve(__dirname, './priv/static'),
     filename: 'thesis.js'
@@ -12,7 +12,7 @@ module.exports = {
       test: /\.js$/,
       exclude: [
         path.resolve(__dirname, './node_modules/'),
-        path.resolve(__dirname, './web/static/vendor'),
+        path.resolve(__dirname, './assets/vendor'),
       ],
       loader: 'babel-loader',
       query: {

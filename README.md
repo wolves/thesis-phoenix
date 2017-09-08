@@ -1,4 +1,4 @@
-# Thesis
+yourapp_web.ex# Thesis
 
 <p align="center">
   <br/>
@@ -93,7 +93,7 @@ end
 
 ##### 2. Run `mix thesis.install`
 
-This install script will add Thesis to your `config.exs` and `web.ex`, as well
+This install script will add Thesis to your `config/config.exs` and `lib/yourapp_web.ex`, as well
 as generate migrations and an authorization module in your `lib/thesis_auth.ex`.
 
 ##### 3. Add the Thesis editor to your layout
@@ -123,7 +123,7 @@ We'll keep this up to date with examples of the latest features as we develop Th
 # ![](http://placehold.it/890x200/2b1e34/ffffff?text=-%20%20%20Making+Pages+Editable%20%20%20%20-)
 
 Use the `Thesis.View.content/4` view helper function to make a content area
-editable. If you have `use Thesis.View` in your `web.ex` file, this function
+editable. If you have `use Thesis.View` in your `yourapp_web.ex` file, this function
 is already available on all of your views.
 
 Thesis will add a wrapper `<div>` around editable HTML and plain-text content
@@ -166,7 +166,7 @@ class MyCustomEditor {
 }
 ```
 
-For more detail checkout [HtmlEditor](web/static/js/content_types/html_editor.js) or [this gist](https://gist.github.com/ryanlntn/ac346d361d9e10a8f1888bf59cea0e37) implementing a custom editor using [Trumbowyg](https://alex-d.github.io/Trumbowyg/).
+For more detail, check out [HtmlEditor](https://github.com/infinitered/thesis-phoenix/tree/master/assets/js/content_types/html_editor.js) or [this gist](https://gist.github.com/ryanlntn/ac346d361d9e10a8f1888bf59cea0e37) implementing a custom editor using [Trumbowyg](https://alex-d.github.io/Trumbowyg/).
 
 To enable, add this in your config/config.exs file:
 
