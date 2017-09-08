@@ -1,4 +1,4 @@
-yourapp_web.ex# Thesis
+# Thesis
 
 <p align="center">
   <br/>
@@ -123,7 +123,7 @@ We'll keep this up to date with examples of the latest features as we develop Th
 # ![](http://placehold.it/890x200/2b1e34/ffffff?text=-%20%20%20Making+Pages+Editable%20%20%20%20-)
 
 Use the `Thesis.View.content/4` view helper function to make a content area
-editable. If you have `use Thesis.View` in your `yourapp_web.ex` file, this function
+editable. If you have `use Thesis.View` in your `lib/yourapp_web.ex` file, this function
 is already available on all of your views.
 
 Thesis will add a wrapper `<div>` around editable HTML and plain-text content
