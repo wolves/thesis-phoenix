@@ -37,8 +37,8 @@ config :thesis, Thesis.EctoStore, repo: ExamplePhx.Repo
 # config :thesis, Thesis.OspryUploader,
 #   ospry_public_key: "pk-prod-asdfasdfasdfasdf"
 # If you want to allow creating dynamic pages:
-# config :thesis, :dynamic_pages,
-#   view: ExamplePhx.PageView,
-#   templates: ["index.html", "otherview.html"],
-#   not_found_view: ExamplePhx.ErrorView,
-#   not_found_template: "404.html"
+config :thesis, :dynamic_pages,
+  view: ExamplePhx.PageView,
+  templates: ["index.html"],
+  not_found_view: ExamplePhxWeb.ErrorView,
+  not_found_template: "404.html"

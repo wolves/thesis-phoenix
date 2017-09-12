@@ -17,8 +17,14 @@ defmodule ExamplePhxWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+
+    # Hacky demo auth system
     get "/login", PageController, :login
     get "/logout", PageController, :logout
+
+    # Thesis dynamic (db-only) pages
+    # Should always be last!
+    get "/*path", PageController, :dynamic
   end
 
   # Other scopes may use custom stacks.

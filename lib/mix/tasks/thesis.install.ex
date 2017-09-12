@@ -12,7 +12,7 @@ defmodule Mix.Tasks.Thesis.Install do
     "create_thesis_backups_table"
   ]
   @template_files [
-    {"priv/templates/thesis.install/thesis_auth.exs", "lib/thesis_auth.ex"}
+    {"priv/templates/thesis.install/thesis_auth.exs", "lib/YOURAPP/thesis_auth.ex"}
   ]
 
   @shortdoc "Generates Thesis code in your Phoenix app"
@@ -49,6 +49,7 @@ defmodule Mix.Tasks.Thesis.Install do
 
     all_templates
     |> Stream.map(&render_eex/1)
+    |> Stream.map(&replace_yourapp(&1, Mix.Phoenix.base))
     |> Stream.map(&copy_to_target/1)
     |> Stream.run
   end
@@ -137,16 +138,13 @@ defmodule Mix.Tasks.Thesis.Install do
         store: Thesis.EctoStore,
         authorization: #{Mix.Phoenix.base}.ThesisAuth,
         uploader: Thesis.RepoUploader
-        #  uploader: <MyApp>.<CustomUploaderModule>
-        #  uploader: Thesis.OspryUploader
       config :thesis, Thesis.EctoStore, repo: #{Mix.Phoenix.base}.Repo
-      # config :thesis, Thesis.OspryUploader,
-      #   ospry_public_key: "pk-prod-asdfasdfasdfasdf"
-      # If you want to allow creating dynamic pages:
+
+      # If you want to allow creating dynamic pages, enable and customize this:
       # config :thesis, :dynamic_pages,
-      #   view: #{Mix.Phoenix.base}.PageView,
+      #   view: #{Mix.Phoenix.base}Web.PageView,
       #   templates: ["index.html", "otherview.html"],
-      #   not_found_view: #{Mix.Phoenix.base}.ErrorView,
+      #   not_found_view: #{Mix.Phoenix.base}Web.ErrorView,
       #   not_found_template: "404.html"
       """
     end

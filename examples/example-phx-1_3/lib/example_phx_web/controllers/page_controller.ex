@@ -10,9 +10,14 @@ defmodule ExamplePhxWeb.PageController do
     |> ExamplePhx.Authentication.login()
     |> redirect(to: "/")
   end
+
   def logout(conn, _params) do
     conn
     |> ExamplePhx.Authentication.logout()
     |> redirect(to: "/")
+  end
+
+  def dynamic(conn, _params) do
+    render_dynamic(conn)
   end
 end

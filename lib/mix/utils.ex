@@ -39,6 +39,14 @@ defmodule Mix.Thesis.Utils do
   end
 
   @doc false
+  def replace_yourapp({contents, target}, base) do
+    {
+      String.replace(contents, "YOURAPP", base),
+      String.replace(target, "YOURAPP", base)
+    }
+  end
+
+  @doc false
   def copy_to_target({contents, target}) do
     if File.exists?(target) do
       status_msg("exists", target)
