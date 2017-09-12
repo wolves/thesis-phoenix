@@ -18,6 +18,12 @@
         <nav role="navigation">
           <ul class="nav nav-pills pull-right">
             <li><a href="https://github.com/infinitered/thesis-phoenix">Thesis on Github</a></li>
+            <li><a href="/">Home</a></li>
+            <%= for page <- ExamplePhx.Nav.pages() do %>
+              <li>
+                <a href="<%= page.slug %>"><%= page.title || "Untitled" %></a>
+              </li>
+            <% end %>
             <%= if logged_in?(@conn) do %>
               <li><a href="/logout">Log out</a></li>
             <% else %>
