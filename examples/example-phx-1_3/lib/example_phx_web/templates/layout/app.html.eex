@@ -4,19 +4,25 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
+    <meta name="description" content="<%= page_description(@conn, "Welcome to Thesis!") %>">
     <meta name="author" content="">
 
-    <title>Hello ExamplePhx!</title>
+    <title><%= page_title(@conn, "Hello ExamplePhx!") %></title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
   <body>
+    <%= thesis_editor(@conn) %>
     <div class="container">
       <header class="header">
         <nav role="navigation">
           <ul class="nav nav-pills pull-right">
-            <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
+            <li><a href="https://github.com/infinitered/thesis-phoenix">Thesis on Github</a></li>
+            <%= if logged_in?(@conn) do %>
+              <li><a href="/logout">Log out</a></li>
+            <% else %>
+              <li><a href="/login">Log in</a></li>
+            <% end %>
           </ul>
         </nav>
         <span class="logo"></span>

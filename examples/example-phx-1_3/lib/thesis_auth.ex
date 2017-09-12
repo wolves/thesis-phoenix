@@ -5,11 +5,7 @@ defmodule ExamplePhx.ThesisAuth do
 
   @behaviour Thesis.Auth
 
-  def page_is_editable?(_conn) do
-    # Editable by the world
-    true
-
-    # Or use your own auth strategy. Learn more:
-    # https://github.com/infinitered/thesis-phoenix#authorization
+  def page_is_editable?(conn) do
+    ExamplePhx.Authentication.logged_in?(conn)
   end
 end
