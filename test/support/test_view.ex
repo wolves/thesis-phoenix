@@ -1,5 +1,5 @@
 defmodule Thesis.TestView do
-  use Phoenix.View, root: "web/templates"
+  use Phoenix.View, root: "test/support/templates"
   use Thesis.View
 
   def render("404.html", _assigns) do

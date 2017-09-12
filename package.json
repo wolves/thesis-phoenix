@@ -32,7 +32,7 @@
   ],
   "standard": {
     "ignore": [
-      "web/static/js/utilities/ospry.js",
+      "assets/js/utilities/ospry.js",
       "priv/static/thesis.js",
       "doc/*"
     ]

@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import renderer from 'react-test-renderer'
 
-import ThesisEditor from '../web/static/js/components/thesis-editor.js'
+import ThesisEditor from '../assets/js/components/thesis-editor.js'
 
 jest.mock('react-dom')
 
