@@ -23,20 +23,16 @@ config :thesis,
   store: Thesis.EctoStore,
   authorization: <MyApp>.ThesisAuth,
   uploader: Thesis.RepoUploader
-  #  uploader: <MyApp>.<CustomUploaderModule>
-  #  uploader: Thesis.OspryUploader
 config :thesis, Thesis.EctoStore, repo: <MyApp>.Repo
-# config :thesis, Thesis.OspryUploader,
-#   ospry_public_key: "pk-prod-asdfasdfasdfasdf"
 # If you want to allow creating dynamic pages:
 # config :thesis, :dynamic_pages,
-#   view: <MyApp>.PageView,
+#   view: <MyAppWeb>.PageView,
 #   templates: ["index.html", "otherview.html"],
-#   not_found_view: <MyApp>.ErrorView,
+#   not_found_view: <MyAppWeb>.ErrorView,
 #   not_found_template: "404.html"
 ```
 
-#### 3. Create `lib/thesis_auth.ex`
+#### 3. Create `lib/YOURAPP/thesis_auth.ex`
 
 ```elixir
 defmodule <MyApp>.ThesisAuth do

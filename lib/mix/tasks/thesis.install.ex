@@ -49,7 +49,7 @@ defmodule Mix.Tasks.Thesis.Install do
 
     all_templates
     |> Stream.map(&render_eex/1)
-    |> Stream.map(&replace_yourapp(&1, Mix.Phoenix.base))
+    |> Stream.map(&replace_yourapp(&1, to_string(Mix.Phoenix.otp_app))) # TODO: better way to infer app path?
     |> Stream.map(&copy_to_target/1)
     |> Stream.run
   end
