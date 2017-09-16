@@ -2,4 +2,7 @@
 
 echo Running tests...
 
-mix deps.get && npm install && mix test && npm test && cd apps/example && mix deps.get && mix test && cd -
+mix deps.get && mix test && npm install && npm test &&
+cd ./examples/example-phx-1_2 && mix deps.get && mix test &&
+cd ../example-phx-1_3 && mix deps.get && mix test &&
+cd -
