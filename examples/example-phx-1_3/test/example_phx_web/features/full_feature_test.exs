@@ -10,8 +10,7 @@ defmodule ExamplePhxWeb.FullFeatureTest do
     # Basic home page, not logged in
     navigate_to "/"
     assert page_source() =~ "Welcome to Thesis"
-    thesis = find_element(:id, "thesis-editor")
-    refute element_displayed?(thesis)
+    refute page_source() =~ "thesis-editor"
 
     # Log in
     click({:link_text, "Log in"})
