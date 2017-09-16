@@ -1,8 +1,23 @@
 #!/usr/bin/env bash
 
-echo Running tests...
+# Exit on any nonzero exit code (error)
+set -e
 
-mix deps.get && mix test && npm install && npm test &&
-cd ./examples/example-phx-1_2 && mix deps.get && mix test &&
-cd ../example-phx-1_3 && mix deps.get && mix test &&
-cd -
+echo 💡  Running tests...
+
+mix test
+npm install
+npm test
+
+cd ./examples/example-phx-1_2
+mix deps.get
+mix test
+
+cd ../example-phx-1_3
+mix deps.get
+mix test
+
+echo ✅  Tests complete
+
+
+
