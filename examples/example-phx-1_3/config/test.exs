@@ -8,6 +8,8 @@ config :example_phx, ExamplePhxWeb.Endpoint,
 
 config :example_phx, :sql_sandbox, true
 
+config :hound, driver: "chrome_driver"
+
 # Print only warnings and errors during test
 config :logger, level: :warn
 

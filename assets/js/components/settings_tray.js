@@ -125,19 +125,19 @@ class SettingsTray extends React.Component {
           <div className='thesis-field-row'>
             <label>
               <span>Page Path</span>
-              <input type='text' value={this.state.path} disabled={!this.isDynamicPage()} onChange={this.pathChange} />
+              <input type='text' value={this.state.path} disabled={!this.isDynamicPage()} onChange={this.pathChange} className='page-path' />
             </label>
           </div>
           <div className='thesis-field-row'>
             <label>
               <span>Page Title</span>
-              <input type='text' placeholder='Example Title' value={this.state.title} onChange={this.titleChange} />
+              <input type='text' placeholder='Example Title' value={this.state.title} onChange={this.titleChange} className='page-title' />
             </label>
           </div>
           <div className='thesis-field-row'>
             <label>
               <span>Page Description</span>
-              <textarea placeholder='Example page description.' value={this.state.description} onChange={this.descriptionChange}></textarea>
+              <textarea placeholder='Example page description.' value={this.state.description} onChange={this.descriptionChange} className='page-description'></textarea>
             </label>
           </div>
           {this.isDynamicPage() ? this.renderRedirectURL() : null}
