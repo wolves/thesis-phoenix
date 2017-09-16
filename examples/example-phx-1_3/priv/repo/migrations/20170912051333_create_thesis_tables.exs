@@ -17,7 +17,7 @@ defmodule ExamplePhx.Repo.Migrations.CreateThesisTables do
       add :content, :text,  default: "Edit this content area"
       add :content_type, :string, default: "html"
 
-      timestamps
+      timestamps()
     end
   end
 end
