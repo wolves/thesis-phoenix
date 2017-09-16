@@ -45,8 +45,8 @@ module.exports = {
   ],
   resolve: {
     alias: {
-      'react': 'preact',
-      'react-dom': 'preact'
+      'react': 'preact-compat',
+      'react-dom': 'preact-compat'
     }
   }
 };
