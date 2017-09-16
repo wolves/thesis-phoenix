@@ -37,6 +37,7 @@ defmodule ExamplePhxWeb.FullFeatureTest do
 
     # Refresh and check that the content is still there
     refresh_page()
+    :timer.sleep(100)
     jumbotron = find_element(:id, "thesis-content-jumbotron-welcome")
     assert inner_html(jumbotron) =~ "<p>New content here!</p>"
 
