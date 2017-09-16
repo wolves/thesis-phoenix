@@ -1,23 +1,9 @@
 #!/usr/bin/env bash
 
-# Exit on any nonzero exit code (error)
-set -e
+echo Running tests...
 
-echo 💡  Running tests...
-
-mix test
-npm install
-npm test
-
-cd ./examples/example-phx-1_2
-mix deps.get
-mix test
-
-cd ../example-phx-1_3
-mix deps.get
-mix test
-
-echo ✅  Tests complete
-
-
-
+mix deps.get && mix test && npm install && npm test &&
+cd examples/example-phx-1_2 && mix deps.get && mix test &&
+cd ../example-phx-1_3 && mix deps.get && mix test &&
+npm install && npm install -g phantomjs-prebuilt && npm test &&
+cd -

@@ -5,7 +5,6 @@
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.24.1",
-    "babel-jest": "^19.0.0",
     "babel-loader": "^7.0.0",
     "babel-plugin-module-resolver": "^2.7.1",
     "babel-polyfill": "^6.13.0",
@@ -18,12 +17,11 @@
     "medium-editor": "^5.22.0",
     "node-sass": "^4.5.3",
     "preact": "^8.2.5",
-    "preact-compat": "^3.17.0",
     "react-copy-to-clipboard": "^4.2.3",
     "sass-loader": "^6.0.5",
     "style-loader": "^0.18.1",
-    "webpack": "^2.6.0",
-    "whatwg-fetch": "^1.0.0"
+    "unfetch": "^3.0.0",
+    "webpack": "^2.6.0"
   },
   "files": [
     "package.json",
@@ -38,8 +36,9 @@
   },
   "scripts": {
     "watch": "webpack --watch-stdin --progress --color",
-    "webpack": "webpack -p",
-    "test": "jest"
+    "webpack": "webpack -p"
   },
-  "dependencies": {}
+  "dependencies": {
+    "preact-compat": "^3.17.0"
+  }
 }

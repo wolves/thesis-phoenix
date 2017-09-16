@@ -27,7 +27,7 @@ defmodule Thesis.Mixfile do
       {:ecto, ">= 2.0.0"},
       {:plug, ">= 1.0.0"},
       {:poison, ">= 1.0.0"},
-      {:httpoison, "~> 0.11.0"},
+      {:httpoison, ">= 0.11.0"},
       {:html_sanitize_ex, ">= 1.3.0"},
       {:lz_string, "~> 0.0.7"},
       {:ex_doc, ">= 0.12.0", only: [:dev]},

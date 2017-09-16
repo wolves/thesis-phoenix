@@ -41,6 +41,10 @@ defmodule ExamplePhx.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
+<<<<<<< HEAD
+=======
+      {:wallaby, "~> 0.19.1"},
+>>>>>>> WIP
       {:thesis, path: "../.."}
     ]
   end

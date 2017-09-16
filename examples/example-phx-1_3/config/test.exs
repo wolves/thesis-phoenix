@@ -8,14 +8,24 @@ config :example_phx, ExamplePhxWeb.Endpoint,
 
 config :example_phx, :sql_sandbox, true
 
+<<<<<<< HEAD
+=======
+config :wallaby, driver: Wallaby.Experimental.Chrome
+
+>>>>>>> WIP
 # Print only warnings and errors during test
 config :logger, level: :warn
 
 # Configure your database
 config :example_phx, ExamplePhx.Repo,
   adapter: Ecto.Adapters.Postgres,
+<<<<<<< HEAD
   username: System.get_env("DATABASE_POSTGRESQL_USERNAME") || "postgres",
   password: System.get_env("DATABASE_POSTGRESQL_PASSWORD") || "postgres",
+=======
+  username: "postgres",
+  password: "postgres",
+>>>>>>> WIP
   database: "example_phx_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
