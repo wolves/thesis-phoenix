@@ -9,7 +9,8 @@ defmodule Mix.Tasks.Thesis.Install do
     "add_template_and_redirect_url_to_thesis_pages",
     "change_content_default_for_page_content",
     "create_thesis_files_table",
-    "create_thesis_backups_table"
+    "create_thesis_backups_table",
+    "change_and_convert_page_data_type_in_backups_table"
   ]
   @template_files [
     {"priv/templates/thesis.install/thesis_auth.exs", "lib/YOURAPP/thesis_auth.ex"}

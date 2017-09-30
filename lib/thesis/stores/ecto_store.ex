@@ -21,7 +21,7 @@ defmodule Thesis.EctoStore do
 
   def restore(id) do
     backup = repo().get(Backup, id)
-    Map.merge(backup, %{page_json: LZString.decompress(backup.page_data)})
+    Map.merge(backup, %{page_json: backup.page_data})
   end
 
   def backups(page_slug) when is_binary(page_slug) do
@@ -142,7 +142,7 @@ defmodule Thesis.EctoStore do
     backup_changeset = Backup.changeset(%Backup{}, %{
       page_id: page_id,
       page_revision: new_backup_page_revision(backups),
-      page_data:  LZString.compress(page_data)
+      page_data: page_data
     })
 
     repo().insert!(backup_changeset)
