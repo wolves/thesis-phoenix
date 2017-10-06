@@ -6,5 +6,6 @@ erl_crash.dump
 node_modules
 ./*.tar
 npm-debug.log
+yarn-error.log
 .DS_Store
 nohup.out
