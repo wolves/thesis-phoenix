@@ -20,4 +20,5 @@ config :example_phx, ExamplePhx.Repo,
   password: System.get_env("DATABASE_POSTGRESQL_PASSWORD") || "postgres",
   database: "example_phx_test",
   hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
+  pool: Ecto.Adapters.SQL.Sandbox,
+  ownership_timeout: 60_000

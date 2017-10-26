@@ -1,14 +1,10 @@
 defmodule ExamplePhxWeb.FullFeatureTest do
-  use ExamplePhxWeb.ConnCase
-
-  use Hound.Helpers
-
-  # Start a Hound session
-  hound_session()
+  use ExamplePhxWeb.IntegrationCase
 
   test "GET /" do
     # Basic home page, not logged in
     navigate_to "/"
+    set_window_size(List.first(window_handles()), 1500, 1000)
     assert page_source() =~ "Welcome to Thesis"
     refute page_source() =~ "thesis-editor"
 
@@ -46,14 +42,15 @@ defmodule ExamplePhxWeb.FullFeatureTest do
     add = find_element(:css, ".thesis-button.add")
     wait_for(add, :show)
     click(add)
-    
+
     # Wait for the tray to show up
     path = find_element(:css, "input.page-path")
     title = find_element(:css, "input.page-title")
-    description = find_element(:css, "textarea.page-description")    
+    description = find_element(:css, "textarea.page-description")
     wait_for(path, :show)
 
     # Test the cancel button
+    scroll_to_element({:class, "thesis-tray-cancel"})
     click({:class, "thesis-tray-cancel"})
     wait_for(path, :hide)
 
@@ -62,7 +59,7 @@ defmodule ExamplePhxWeb.FullFeatureTest do
     wait_for(add, :show)
     click(add)
     wait_for(path, :show)
-    
+
     # Fill out the new page form
     rand = random_string(32)
     fill_field(path, "/about")
