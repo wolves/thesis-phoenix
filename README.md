@@ -24,6 +24,7 @@
       existing Phoenix websites or building dynamic websites.
       <br/>
       <br/>
+      Watch Jamon Holmgren give a 5-minute lightning talk about Thesis at ElixirConf 2017: https://www.youtube.com/watch?time_continue=2656&v=YqOwzXNkOyg
     </td>
   </tr>
 
