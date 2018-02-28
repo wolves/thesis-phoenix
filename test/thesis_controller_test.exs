@@ -44,4 +44,19 @@ defmodule ThesisControllerTest do
     assert response(conn, 404) == "Test 404 file not found"
   end
 
+  test "renders a dynamic page with passed-in assigns", %{conn: conn} do
+    page = %Thesis.Page{id: 1, slug: "/dynamic", redirect_url: nil}
+    page_contents = [%Thesis.PageContent{
+      page_id: 1,
+      name: "test",
+      content: "Dynamic Page",
+      content_type: "text"
+    }]
+    conn =  conn
+            |> Phoenix.Controller.put_view(Thesis.TestView)
+            |> Map.put(:assigns, %{
+                thesis_editable: false, thesis_page: page, thesis_content: page_contents, test_list: [1, 2, 3]})
+            |> Thesis.TestController.render_dynamic(template: "test_assigns.html")
+    assert response(conn, 200) == "1, 2, 3"
+  end
 end
