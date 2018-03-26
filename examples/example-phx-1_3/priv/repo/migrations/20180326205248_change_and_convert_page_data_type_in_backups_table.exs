@@ -1,4 +1,4 @@
-defmodule Example.Repo.Migrations.ChangeAndConvertPageDataTypeInBackupsTable do
+defmodule ExamplePhx.Repo.Migrations.ChangeAndConvertPageDataTypeInBackupsTable do
   @moduledoc false
   use Ecto.Migration
   alias Thesis.Backup
@@ -36,7 +36,11 @@ defmodule Example.Repo.Migrations.ChangeAndConvertPageDataTypeInBackupsTable do
   end
 
   def decompress_page_data(page_data) do
-    LZString.decompress(page_data)
+    try do
+      LZString.decompress(page_data)
+    rescue
+      _ -> page_data
+    end
   end
 
   def save_converted_page_data(backups) do
@@ -50,5 +54,5 @@ defmodule Example.Repo.Migrations.ChangeAndConvertPageDataTypeInBackupsTable do
     |> change
     |> force_change(key, value)
   end
-  
+
 end
