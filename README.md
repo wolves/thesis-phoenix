@@ -61,6 +61,22 @@
     </td>
   </tr>
 
+  <tr><td><h4>Changelog</h4></td></tr>
+  <tr>
+    <td>
+      <strong>0.2.1</strong><br/>
+      - Removes the LZString compression for backups (page revisions) as per the conversation [here](https://github.com/infinitered/thesis-phoenix/issues/129). <br/>
+      - <em>Adds migration (run `mix thesis.install && mix ecto.migrate`)</em>. It is important to do this before 0.3.0 as the LZString dependency will be removed then.
+      <br/><br/>
+      <strong>0.2.0</strong><br/>
+      - Adds a backup and restore feature. Every time a page is saved, a snapshot of the page and content is captured and can be restored later. <br/>
+      - <em>Adds migration (run `mix thesis.install && mix ecto.migrate`)</em>.
+      <br/><br/>
+      <strong>pre 0.2.0</strong><br/>
+      - Core Thesis functionality: content areas, global content areas, file uploads, import/export, dynamic pages, page templates.
+    </td>
+  </tr>
+
   <tr><td><h4>Caveats</h4></td></tr>
   <tr>
     <td>
