@@ -3,18 +3,26 @@
 # Exit on any nonzero exit code (error)
 set -e
 
-echo 💡  Running tests...
+# TODO enable credo per issue https://github.com/infinitered/thesis-phoenix/issues/137
+# mix credo --strict
+echo "----------------------------------------------------------"
+echo "Running main thesis tests..."
+echo "----------------------------------------------------------"
 
 mix test
+
+echo "----------------------------------------------------------"
+echo "Running Phoenix example 1.2 app tests..."
+echo "----------------------------------------------------------"
 
 cd ./examples/example-phx-1_2
-mix deps.get
 mix test
 
+echo "----------------------------------------------------------"
+echo "Running Phoenix example 1.3 app tests..."
+echo "----------------------------------------------------------"
+
 cd ../example-phx-1_3
-mix deps.get
-nohup chromedriver &
 mix test
-killall chromedriver
 
 echo ✅  Tests complete

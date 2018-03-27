@@ -53,7 +53,7 @@ defmodule Thesis.Controller do
           conn
           |> put_status(200)
           |> put_view(Thesis.Config.dynamic_view || conn.private.phoenix_view)
-          |> render(page_template(page, opts))
+          |> render(page_template(page, opts), opts)
         end
       end
 

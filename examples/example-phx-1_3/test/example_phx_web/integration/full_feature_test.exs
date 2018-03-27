@@ -1,10 +1,5 @@
 defmodule ExamplePhxWeb.FullFeatureTest do
-  use ExamplePhxWeb.ConnCase
-
-  use Hound.Helpers
-
-  # Start a Hound session
-  hound_session()
+  use ExamplePhxWeb.IntegrationCase
 
   test "updates content and reverts to a previous backup" do
     go_to_home_page_and_log_in()
@@ -83,6 +78,7 @@ defmodule ExamplePhxWeb.FullFeatureTest do
     wait_for(path, :show)
 
     # Test the cancel button
+    scroll_to_element({:class, "thesis-tray-cancel"})
     click({:class, "thesis-tray-cancel"})
     wait_for(path, :hide)
 
@@ -130,6 +126,7 @@ defmodule ExamplePhxWeb.FullFeatureTest do
   def go_to_home_page_and_log_in() do
     # Basic home page, not logged in
     navigate_to "/"
+    set_window_size(List.first(window_handles()), 1500, 1000)
     assert page_source() =~ "Welcome to Thesis"
     refute page_source() =~ "thesis-editor"
 
