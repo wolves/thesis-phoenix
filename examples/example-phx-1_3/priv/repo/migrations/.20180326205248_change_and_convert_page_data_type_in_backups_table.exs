@@ -54,5 +54,4 @@ defmodule ExamplePhx.Repo.Migrations.ChangeAndConvertPageDataTypeInBackupsTable 
     |> change
     |> force_change(key, value)
   end
-
 end

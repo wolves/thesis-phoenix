@@ -86,4 +86,18 @@ defmodule Thesis.Utilities do
       "123"
   """
   def to_s(arg), do: to_string(arg)
+
+  @doc """
+  Returns the data type for the provided data using guard functions.
+
+      iex> import Thesis.Utilities
+      iex> typeof(000001)
+      "integer"
+      iex> typeof([1,2,3])
+      "list"
+  """
+  @types ~w[function nil integer binary bitstring list map float atom tuple pid port reference]
+  for type <- @types do
+    def typeof(x) when unquote(:"is_#{type}")(x), do: unquote(type)
+  end
 end
