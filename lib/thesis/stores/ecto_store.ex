@@ -142,7 +142,7 @@ defmodule Thesis.EctoStore do
     backup_changeset = Backup.changeset(%Backup{}, %{
       page_id: page_id,
       page_revision: new_backup_page_revision(backups),
-      page_data: page_data |> LZString.compress
+      page_data: page_data
     })
 
     repo().insert!(backup_changeset)
