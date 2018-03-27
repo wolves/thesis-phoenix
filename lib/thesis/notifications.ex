@@ -14,6 +14,7 @@ defmodule Thesis.Notifications do
     %{}
     |> environment_notifications()
     |> page_notifications(page)
+    |> IO.inspect
   end
 
   defp page_notifications(acc, nil), do: acc
@@ -40,7 +41,7 @@ defmodule Thesis.Notifications do
   end
   defp notification_to_run_migration_for_version_0_2_1(acc, false) do
     notifications = acc["import-export-restore"] || []
-    Map.put_new(acc, "import-export-restore", [notifications | ["The revisions functionality may not work! Please ask your developer to run migrations."]])
+    Map.put(acc, "import-export-restore", ["The revisions functionality may not work! Please ask your developer to run migrations." | notifications])
   end
   defp notification_to_run_migration_for_version_0_2_1(acc, _), do: acc
 
