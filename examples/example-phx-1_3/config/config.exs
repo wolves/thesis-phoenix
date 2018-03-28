@@ -42,3 +42,7 @@ config :thesis, :dynamic_pages,
   templates: ["index.html"],
   not_found_view: ExamplePhxWeb.ErrorView,
   not_found_template: "404.html"
+config :thesis, :notifications,
+  page_settings: ["page-settings"],
+  add_page: ["add-page"],
+  import_export_restore: ["import-export-restore"]

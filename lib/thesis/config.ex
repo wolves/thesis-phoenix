@@ -37,6 +37,10 @@ defmodule Thesis.Config do
     Application.get_env(:thesis, :uploader)
   end
 
+  def notifications do
+    Application.get_env(:thesis, :notifications)
+  end
+
   def html_editor do
     Application.get_env(:thesis, :html_editor)
   end
