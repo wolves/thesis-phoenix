@@ -22,27 +22,25 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-# Import environment specific config. This must remain at the bottom
-# of this file so it overrides the configuration defined above.
-import_config "#{Mix.env}.exs"
-
-# Configure thesis content editor
 config :thesis,
   store: Thesis.EctoStore,
   authorization: ExamplePhx.ThesisAuth,
   uploader: Thesis.RepoUploader
-  #  uploader: <MyApp>.<CustomUploaderModule>
-  #  uploader: Thesis.OspryUploader
-config :thesis, Thesis.EctoStore, repo: ExamplePhx.Repo
-# config :thesis, Thesis.OspryUploader,
-#   ospry_public_key: "pk-prod-asdfasdfasdfasdf"
-# If you want to allow creating dynamic pages:
+
+config :thesis, Thesis.EctoStore,
+  repo: ExamplePhx.Repo
+
 config :thesis, :dynamic_pages,
   view: ExamplePhxWeb.PageView,
   templates: ["index.html"],
   not_found_view: ExamplePhxWeb.ErrorView,
   not_found_template: "404.html"
+
 config :thesis, :notifications,
-  page_settings: ["page-settings"],
-  add_page: ["add-page"],
-  import_export_restore: ["import-export-restore"]
+  page_settings: ["Notification 1", "Notification 2"],
+  add_page: ["Example notification for the \"Add Page Tray\""],
+  import_export_restore: &ExamplePhx.Notifications.random_notification/0
+
+# Import environment specific config. This must remain at the bottom
+# of this file so it overrides the configuration defined above.
+import_config "#{Mix.env}.exs"

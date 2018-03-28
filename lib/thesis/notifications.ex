@@ -90,33 +90,59 @@ defmodule Thesis.Notifications do
       false
       iex> verify_notifications_structure(%{add_page: ["notif", "notif", :atom]})
       false
-      iex> verify_notifications_structure([add_page: ["notif"], page_settings: ["notif"]])
-      true
+      iex> verify_notifications_structure([add_page: [], page_settings: ["notif"]])
+      false
   """
   def verify_notifications_structure(notifications) when is_list(notifications) and length(notifications) == 0, do: false
   def verify_notifications_structure(notifications) when is_list(notifications) do
     case Keyword.keyword?(notifications) do
       true ->
-        not (notifications
-        |> Enum.map(fn({k,v}) ->
-          (
-            k in @allowed_notification_keys and
-            is_list(v) and
-            not (v |> Enum.map(&(is_binary(&1))) |> Enum.member?(false))
-          )
+        notifications
+        |> Enum.map(fn(n) ->
+          n
+          |> is_notification_key_allowed?()
+          |> is_notification_value_data_type_valid?()
+          |> is_notification_value_valid?()
         end)
-        |> Enum.member?(false))
+        |> Enum.all?()
       _ -> false
     end
   end
   def verify_notifications_structure(_), do: false
 
+  defp update_notifications_map(acc, type, notifications_list) when is_function(notifications_list) do
+    update_notifications_map(acc, type, notifications_list.())
+  end
   defp update_notifications_map(acc, type, notifications_list) when is_atom(type) do
     update_notifications_map(acc, parameterize(type), notifications_list)
   end
   defp update_notifications_map(acc, type, notifications_list) do
     %{acc | type => notifications_list ++ acc["#{type}"]}
   end
+
+  # UTILITIES
+  defp version() do
+    {:ok, version} = :application.get_key(:thesis, :vsn)
+    List.to_string(version)
+  end
+
+  defp is_notification_key_allowed?({k, _} = n) when k in @allowed_notification_keys, do: n
+  defp is_notification_key_allowed?(_), do: false
+
+  defp is_notification_value_data_type_valid?({_, v} = n) when is_list(v) or is_function(v), do: n
+  defp is_notification_value_data_type_valid?(_), do: false
+
+  defp is_notification_value_valid?({_, v}) when is_list(v) and length(v) == 0, do: false
+  defp is_notification_value_valid?({k, v}) when is_function(v) do
+    is_notification_value_valid?({k, v.()})
+  end
+  defp is_notification_value_valid?({_, v} = n) when is_list(v) do
+    case is_list(v) and Enum.all?(v, &is_binary/1) do
+      true -> n
+      _ -> false
+    end
+  end
+  defp is_notification_value_valid?(_), do: false
 
   # NOTIFICATIONS
   # remove in 0.3.0: reminder that revisions will not work without the new migration
@@ -134,10 +160,4 @@ defmodule Thesis.Notifications do
     update_notifications_map(acc, "import-export-restore", ["The revisions functionality may not work! Please ask your developer to run migrations."])
   end
   defp notification_to_run_migration_for_version_0_2_1(acc, _), do: acc
-
-  # UTILITIES
-  defp version() do
-    {:ok, version} = :application.get_key(:thesis, :vsn)
-    List.to_string(version)
-  end
 end

@@ -139,7 +139,13 @@ defmodule Mix.Tasks.Thesis.Install do
         store: Thesis.EctoStore,
         authorization: #{Mix.Phoenix.base}.ThesisAuth,
         uploader: Thesis.RepoUploader
+
       config :thesis, Thesis.EctoStore, repo: #{Mix.Phoenix.base}.Repo
+
+      config :thesis, :notifications,
+        add_page: [],
+        page_settings: [],
+        import_export_restore: []
 
       # If you want to allow creating dynamic pages, enable and customize this:
       # config :thesis, :dynamic_pages,
