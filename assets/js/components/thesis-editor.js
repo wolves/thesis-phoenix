@@ -10,6 +10,7 @@ import EditButton from './edit_button'
 import SettingsTray from './settings_tray'
 import ImportExportRestoreTray from './import_export_restore_tray'
 import AttributionText from './attribution_text'
+import TrayNotifications from './tray_notifications'
 
 // Content types
 import HtmlEditor from '../content_types/html_editor'
@@ -39,7 +40,8 @@ class ThesisEditor extends React.Component {
       errorAlertText: null,
       importProgress: null,
       importContentQueueCount: 0,
-      importContentCompletedCount: 0
+      importContentCompletedCount: 0,
+      notifications: JSON.parse(this.props.external.notifications)
     }
 
     // Rebind context
@@ -398,6 +400,14 @@ class ThesisEditor extends React.Component {
     return count
   }
 
+  parseNotifications (type) {
+    if (this.state.notifications[type]) {
+      return this.state.notifications[type]
+    } else {
+      return []
+    }
+  }
+
   renderEditButtonText () {
     return this.state.editing ? 'Editing Page' : 'Edit Page'
   }
@@ -468,6 +478,7 @@ class ThesisEditor extends React.Component {
         </div>
         <div id='thesis-fader' className={this.renderFaderClass()} />
         <div id='thesis-tray' className={this.renderTrayClass()}>
+          <TrayNotifications notifications={this.parseNotifications(this.state.trayType)} />
           {this.renderTray()}
           <AttributionText />
         </div>

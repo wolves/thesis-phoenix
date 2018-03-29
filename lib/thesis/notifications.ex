@@ -157,7 +157,7 @@ defmodule Thesis.Notifications do
     notification_to_run_migration_for_version_0_2_1(acc, String.valid?(data))
   end
   defp notification_to_run_migration_for_version_0_2_1(acc, false) do
-    update_notifications_map(acc, "import-export-restore", ["The revisions functionality may not work! Please ask your developer to run migrations."])
+    update_notifications_map(acc, "import-export-restore", ["Page revisions may not work! Please ask your developer to update Thesis."])
   end
   defp notification_to_run_migration_for_version_0_2_1(acc, _), do: acc
 end
