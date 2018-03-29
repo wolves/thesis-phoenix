@@ -41,6 +41,7 @@ defmodule Thesis.Notifications do
     |> notifications_regarding_page(conn.assigns[:thesis_page])
   end
 
+  # TODO: add page specific-notifications
   def notifications_regarding_page(acc, nil), do: acc
   def notifications_regarding_page(acc, %_{}) do
     acc
