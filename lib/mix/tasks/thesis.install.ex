@@ -134,25 +134,28 @@ defmodule Mix.Tasks.Thesis.Install do
     else
       source <> """
 
-      # Configure thesis content editor
+      # Thesis Main Config
       config :thesis,
         store: Thesis.EctoStore,
         authorization: #{Mix.Phoenix.base}.ThesisAuth,
         uploader: Thesis.RepoUploader
 
+      # Thesis Store Config
       config :thesis, Thesis.EctoStore, repo: #{Mix.Phoenix.base}.Repo
 
-      config :thesis, :notifications,
-        add_page: [],
-        page_settings: [],
-        import_export_restore: []
+      # Thesis Notifications Config
+      # config :thesis, :notifications,
+      #   add_page: [],
+      #   page_settings: [],
+      #   import_export_restore: []
 
-      # If you want to allow creating dynamic pages, enable and customize this:
+      # Thesis Dynamic Pages Config
       # config :thesis, :dynamic_pages,
       #   view: #{Mix.Phoenix.base}Web.PageView,
       #   templates: ["index.html", "otherview.html"],
       #   not_found_view: #{Mix.Phoenix.base}Web.ErrorView,
       #   not_found_template: "404.html"
+      
       """
     end
   end
