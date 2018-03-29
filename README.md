@@ -67,10 +67,12 @@
     <td>
       <strong>0.2.1</strong><br/>
       - Removes the LZString compression for backups (page revisions) as per the conversation [here](https://github.com/infinitered/thesis-phoenix/issues/129). <br/>
-      - <em>Adds migration (run `mix thesis.install && mix ecto.migrate`)</em>. It is important to do this before 0.3.0 as the LZString dependency will be removed then.
+      - <em>Adds migration (run `mix thesis.install && mix ecto.migrate`)</em>. It is important to do this before 0.3.0 as the LZString dependency will be removed then.<br/>
+      - Adds [notifications](https://github.com/infinitered/thesis-phoenix/issues/147). This allows us to warn users of potential Thesis issues depending on page state, environment, Thesis version, etc. Notifications can also be set in the host app config to include custom logic. <br/>
+      - Bug fixes: [page revision exception](https://github.com/infinitered/thesis-phoenix/issues/128), [add new page button hover issue](https://github.com/infinitered/thesis-phoenix/issues/148).
       <br/><br/>
       <strong>0.2.0</strong><br/>
-      - Adds a backup and restore feature. Every time a page is saved, a snapshot of the page and content is captured and can be restored later. <br/>
+      - Adds a backup (page revision history) feature. Every time a page is saved, a snapshot of the page and content is captured and can be restored later. <br/>
       - <em>Adds migration (run `mix thesis.install && mix ecto.migrate`)</em>.
       <br/><br/>
       <strong>pre 0.2.0</strong><br/>
@@ -464,6 +466,38 @@ defmodule MyApp.ThesisAuth do
   end
 end
 ```
+<br/>
+
+---
+
+# ![](http://placehold.it/890x200/2b1e34/ffffff?text=-%20%20%20%20%20%20%20Notifications%20%20%20%20%20%20%20-)
+
+Notifications/alerts allow us to talk with the user about the various aspects of the editting experience. For us, the contributors, this means that we may warn the user or developer of a breaking change that requires migrations (if they were forgotten to be executed). Since this is configurable, the developer may elect to push custom notifications to various parts of the Thesis editor.
+
+![](https://user-images.githubusercontent.com/1775841/38072424-07657800-32db-11e8-8fe1-bdea4bfc76ab.png)
+
+Notifications can be configured to be static:
+
+```elixir
+config :thesis, :notifications,
+  page_settings: ["Example notification 1", "Example notification 2"],
+  add_page: ["Example notification 3"],
+  import_export_restore: ["Example notification 4"]
+```
+
+Or, you may elect to add some logic and make them more dynamic:
+
+```elixir
+config :thesis, :notifications,
+  page_settings: ["Example notification 1", "Example notification 2"],
+  add_page: &MyApp.CustomModule.generate_notifications/0,
+  import_export_restore: &MyApp.CustomModule.import_warning/0
+```
+
+In either case, the only thing that matters is that you provide a List of String(s), whether static or the result of a custom function ([example](https://github.com/infinitered/thesis-phoenix/blob/master/examples/example-phx-1_3/lib/example_phx/notifications.ex)).
+
+<strong>Note</strong>: right now, there are 3 spots to which you can push notifications: the '[Add New Page](https://user-images.githubusercontent.com/1775841/38072348-acfb3d46-32da-11e8-8fed-97b5d17ba027.png)' tray, '[Page Settings](https://user-images.githubusercontent.com/1775841/38072314-8b056a86-32da-11e8-8e75-df4383eabdee.png)' tray, and '[Import/Export/Restore](https://user-images.githubusercontent.com/1775841/38072274-67b43a62-32da-11e8-8752-664930d4ce9d.png)' tray. As more features are developed, the notifications will be extended to support those features as well.
+
 <br/>
 
 ---
