@@ -122,6 +122,17 @@ defmodule ExamplePhxWeb.FullFeatureTest do
     assert page_source() =~ "Page not found"
   end
 
+  test "checks that notifications are getting displayed properly" do
+    go_to_home_page_and_log_in()
+
+    click({:css, ".thesis-button.edit"})
+    import_export = find_element(:css, ".thesis-button.import-export")
+    wait_for(import_export, :show)
+    click(import_export)
+    notifications = find_element(:css, ".thesis-tray-notifications")
+    assert inner_html(notifications) =~ "Example notification"
+  end
+
   # setup functions
   def go_to_home_page_and_log_in() do
     # Basic home page, not logged in

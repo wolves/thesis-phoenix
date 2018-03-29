@@ -26,16 +26,17 @@ defmodule Thesis.EctoStore do
 
   def backups(page_slug) when is_binary(page_slug) do
     page = page(page_slug)
-    backups(page.id)
+    backups(page)
   end
 
-  def backups(page_id) when is_integer(page_id) do
+  def backups(%Page{id: page_id}) do
     repo().all(
       from b in Backup,
       where: b.page_id == ^page_id,
       order_by: [desc: b.page_revision]
     )
   end
+  def backups(_), do: []
 
   @doc """
   Calls page_contents/1 passing through either:
@@ -123,7 +124,7 @@ defmodule Thesis.EctoStore do
 
   defp backup_page(page, page_contents) do
     serialized_page_data = prepare_page_backup_data(page, page_contents)
-    save_backup(page.id, serialized_page_data)
+    save_backup(page, serialized_page_data)
   end
 
   defp save_page_contents(nil, _), do: :error
@@ -136,11 +137,11 @@ defmodule Thesis.EctoStore do
   end
 
   defp save_backup(nil, _), do: :error
-  defp save_backup(page_id, page_data) do
-    backups = backups(page_id)
+  defp save_backup(page, page_data) do
+    backups = backups(page)
 
     backup_changeset = Backup.changeset(%Backup{}, %{
-      page_id: page_id,
+      page_id: page.id,
       page_revision: new_backup_page_revision(backups),
       page_data: page_data
     })
