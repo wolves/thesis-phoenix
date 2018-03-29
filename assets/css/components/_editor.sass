@@ -65,6 +65,14 @@ body.thesis-tray-open
     position       : absolute
     bottom         : 0
 
+    &:after
+      content:  ""
+      position: absolute
+      bottom:   -10px
+      width:    100%
+      left:     0
+      height:   10px
+
     &:hover
       .tooltip
         right   : 80px
