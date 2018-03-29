@@ -39,7 +39,7 @@ config :thesis, :dynamic_pages,
 config :thesis, :notifications,
   page_settings: ["Notification 1", "Notification 2"],
   add_page: ["Example notification for the \"Add Page Tray\""],
-  import_export_restore: &Example.Notifications.random_notification/0
+  import_export_restore: &Example.Notifications.random_notification/1
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
