@@ -1,10 +1,6 @@
 import React from 'react'
 
 class TrayNotifications extends React.Component {
-  constructor (props) {
-    super(props)
-  }
-
   renderNotifications () {
     if (!this.props.notifications.length) return
     return (
