@@ -480,8 +480,8 @@ Notifications can be configured to be static:
 
 ```elixir
 config :thesis, :notifications,
-  page_settings: ["Example notification 1", "Example notification 2"],
-  add_page: ["Example notification 3"],
+  page_settings: ["The changes made here will affect your SEO", "Example notification 2"],
+  add_page: ["You are about to add a new page to the product site!"],
   import_export_restore: ["Example notification 4"]
 ```
 
@@ -490,11 +490,11 @@ Or, you may elect to add some logic and make them more dynamic:
 ```elixir
 config :thesis, :notifications,
   page_settings: ["Example notification 1", "Example notification 2"],
-  add_page: &MyApp.CustomModule.generate_notifications/0,
-  import_export_restore: &MyApp.CustomModule.import_warning/0
+  add_page: &MyApp.CustomModule.generate_notifications/1,
+  import_export_restore: &MyApp.CustomModule.import_warning/1
 ```
 
-In either case, the only thing that matters is that you provide a List of String(s), whether static or the result of a custom function ([example](https://github.com/infinitered/thesis-phoenix/blob/master/examples/example-phx-1_3/lib/example_phx/notifications.ex)).
+In either case, there are only 2 things that matter: 1 - you must provide a List of String(s) for each notification type, whether static or the result of a custom function; 2 - if you are using a custom function, it must be able to accept 1 argument: a `%Plug.Conn{}` struct. You can see an example [here](https://github.com/infinitered/thesis-phoenix/blob/master/examples/example-phx-1_3/lib/example_phx/notifications.ex).
 
 <strong>Note</strong>: right now, there are 3 spots to which you can push notifications: the '[Add New Page](https://user-images.githubusercontent.com/1775841/38072348-acfb3d46-32da-11e8-8fed-97b5d17ba027.png)' tray, '[Page Settings](https://user-images.githubusercontent.com/1775841/38072314-8b056a86-32da-11e8-8e75-df4383eabdee.png)' tray, and '[Import/Export/Restore](https://user-images.githubusercontent.com/1775841/38072274-67b43a62-32da-11e8-8752-664930d4ce9d.png)' tray. As more features are developed, the notifications will be extended to support those features as well.
 

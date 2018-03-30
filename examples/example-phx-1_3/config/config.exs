@@ -37,7 +37,7 @@ config :thesis, :dynamic_pages,
   not_found_template: "404.html"
 
 config :thesis, :notifications,
-  page_settings: ["The changes made here will affect your SEO.", "Notification 2"],
+  page_settings: ["The changes made here will affect your SEO", "Notification 2"],
   add_page: ["The page you are creating will only be visible on the staging site.", "Notification 3"],
   import_export_restore: &ExamplePhx.Notifications.random_notification/1
 
