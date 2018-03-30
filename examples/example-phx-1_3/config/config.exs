@@ -37,8 +37,8 @@ config :thesis, :dynamic_pages,
   not_found_template: "404.html"
 
 config :thesis, :notifications,
-  page_settings: ["Notification 1", "Notification 2"],
-  add_page: ["Example notification for the \"Add Page Tray\""],
+  page_settings: ["The changes made here will affect your SEO.", "Notification 2"],
+  add_page: ["The page you are creating will only be visible on the staging site.", "Notification 3"],
   import_export_restore: &ExamplePhx.Notifications.random_notification/1
 
 # Import environment specific config. This must remain at the bottom

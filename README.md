@@ -472,7 +472,7 @@ end
 
 # ![](http://placehold.it/890x200/2b1e34/ffffff?text=-%20%20%20%20%20%20%20Notifications%20%20%20%20%20%20%20-)
 
-Notifications/alerts allow us to talk with the user about the various aspects of the editting experience. For us, the contributors, this means that we may warn the user or developer of a breaking change that requires migrations (if they were forgotten to be executed). Since this is configurable, the developer may elect to push custom notifications to various parts of the Thesis editor.
+Notifications/alerts allow us to talk with the user about the various aspects of the editing experience. For us, the contributors, this means that we may warn the user or developer of a breaking change that requires migrations (if they were forgotten to be executed). Since this is configurable, the developer may elect to push custom notifications to various parts of the Thesis editor.
 
 ![](https://user-images.githubusercontent.com/1775841/38072424-07657800-32db-11e8-8fe1-bdea4bfc76ab.png)
 
