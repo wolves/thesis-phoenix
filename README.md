@@ -155,7 +155,7 @@ becomes...
 ### Custom HTML Editor
 Don't like the MediumEditor? Write your own custom editor implementing the common editor interface.
 
-```
+```js
 class MyCustomEditor {
   constructor (opts) {
     this.onChange = opts.onChange
