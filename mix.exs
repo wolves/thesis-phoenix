@@ -33,7 +33,7 @@ defmodule Thesis.Mixfile do
       {:ex_doc, ">= 0.12.0", only: [:dev]},
       {:earmark, ">= 0.2.0", only: [:dev]},
       {:dialyxir, ">= 0.3.5", only: [:dev]},
-      {:credo, ">= 0.7.4", only: [:dev]}
+      {:credo, ">= 0.7.4", only: [:dev]},
     ]
   end
 

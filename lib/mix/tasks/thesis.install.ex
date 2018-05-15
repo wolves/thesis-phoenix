@@ -9,7 +9,8 @@ defmodule Mix.Tasks.Thesis.Install do
     "add_template_and_redirect_url_to_thesis_pages",
     "change_content_default_for_page_content",
     "create_thesis_files_table",
-    "create_thesis_backups_table"
+    "create_thesis_backups_table",
+    "change_and_convert_page_data_type_in_backups_table"
   ]
   @template_files [
     {"priv/templates/thesis.install/thesis_auth.exs", "lib/YOURAPP/thesis_auth.ex"}
@@ -133,19 +134,28 @@ defmodule Mix.Tasks.Thesis.Install do
     else
       source <> """
 
-      # Configure thesis content editor
+      # Thesis Main Config
       config :thesis,
         store: Thesis.EctoStore,
         authorization: #{Mix.Phoenix.base}.ThesisAuth,
         uploader: Thesis.RepoUploader
+
+      # Thesis Store Config
       config :thesis, Thesis.EctoStore, repo: #{Mix.Phoenix.base}.Repo
 
-      # If you want to allow creating dynamic pages, enable and customize this:
+      # Thesis Notifications Config
+      # config :thesis, :notifications,
+      #   add_page: [],
+      #   page_settings: [],
+      #   import_export_restore: []
+
+      # Thesis Dynamic Pages Config
       # config :thesis, :dynamic_pages,
       #   view: #{Mix.Phoenix.base}Web.PageView,
       #   templates: ["index.html", "otherview.html"],
       #   not_found_view: #{Mix.Phoenix.base}Web.ErrorView,
       #   not_found_template: "404.html"
+      
       """
     end
   end

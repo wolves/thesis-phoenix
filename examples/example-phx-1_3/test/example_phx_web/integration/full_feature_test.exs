@@ -1,17 +1,8 @@
 defmodule ExamplePhxWeb.FullFeatureTest do
   use ExamplePhxWeb.IntegrationCase
 
-  test "GET /" do
-    # Basic home page, not logged in
-    navigate_to "/"
-    set_window_size(List.first(window_handles()), 1500, 1000)
-    assert page_source() =~ "Welcome to Thesis"
-    refute page_source() =~ "thesis-editor"
-
-    # Log in
-    click({:link_text, "Log in"})
-    logout = find_element(:link_text, "Log out")
-    assert element_displayed?(logout)
+  test "updates content and reverts to a previous backup" do
+    go_to_home_page_and_log_in()
 
     thesis = find_element(:id, "thesis-editor")
     assert element_displayed?(thesis)
@@ -36,6 +27,43 @@ defmodule ExamplePhxWeb.FullFeatureTest do
     :timer.sleep(100)
     jumbotron = find_element(:id, "thesis-content-jumbotron-welcome")
     assert inner_html(jumbotron) =~ "<p>New content here!</p>"
+
+    # Open the editor, make another edit, save
+    click({:css, ".thesis-button.edit"})
+    save = find_element(:css, ".thesis-button.save")
+    wait_for(save, :show)
+    jumbotron = find_element(:id, "thesis-content-jumbotron-welcome")
+    fill_field(jumbotron, "Another Edit")
+    click(save)
+    wait_for(save, :hide)
+    refresh_page()
+    :timer.sleep(100)
+
+    # Open the editor and apply a previous revision
+    click({:css, ".thesis-button.edit"})
+    import_export = find_element(:css, ".thesis-button.import-export")
+    wait_for(import_export, :show)
+    click(import_export)
+    :timer.sleep(100)
+    first_rev = find_element(:css, "select option:last-child")
+    import_button = find_element(:css, "button.thesis-tray-save")
+    click(first_rev)
+    :timer.sleep(100)
+    click(import_button)
+    :timer.sleep(300)
+    save = find_element(:css, ".thesis-button.save")
+    click(save)
+    wait_for(save, :hide)
+
+    # Verify that the revision got applied
+    refresh_page()
+    :timer.sleep(100)
+    jumbotron = find_element(:id, "thesis-content-jumbotron-welcome")
+    assert inner_html(jumbotron) =~ "New content here!"
+  end
+
+  test "creates a new page, then deletes it" do
+    go_to_home_page_and_log_in()
 
     # Hover over edit, click Add
     move_to({:css, ".thesis-button.edit"}, 5, 5)
@@ -94,8 +122,32 @@ defmodule ExamplePhxWeb.FullFeatureTest do
     assert page_source() =~ "Page not found"
   end
 
-  # utility functions
+  test "checks that notifications are getting displayed properly" do
+    go_to_home_page_and_log_in()
 
+    click({:css, ".thesis-button.edit"})
+    import_export = find_element(:css, ".thesis-button.import-export")
+    wait_for(import_export, :show)
+    click(import_export)
+    notifications = find_element(:css, ".thesis-tray-notifications")
+    assert inner_html(notifications) =~ "Example notification"
+  end
+
+  # setup functions
+  def go_to_home_page_and_log_in() do
+    # Basic home page, not logged in
+    navigate_to "/"
+    set_window_size(List.first(window_handles()), 1500, 1000)
+    assert page_source() =~ "Welcome to Thesis"
+    refute page_source() =~ "thesis-editor"
+
+    # Log in
+    click({:link_text, "Log in"})
+    logout = find_element(:link_text, "Log out")
+    assert element_displayed?(logout)
+  end
+
+  # utility functions
   defp wait_for(element, displayed), do: wait_for(element, displayed, 10)
   defp wait_for(element, displayed, 0) do
     # will probably fail

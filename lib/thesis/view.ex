@@ -24,7 +24,7 @@ defmodule Thesis.View do
   import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
   import Phoenix.HTML.Tag
   import Thesis.Config
-  alias Thesis.{Page, PageContent, Render}
+  alias Thesis.{Page, PageContent, Render, Notifications}
 
   # @styles File.read!(Path.join(__DIR__, "../../priv/static/thesis.css"))
   # @external_resource Path.join(__DIR__, "../../priv/static/thesis.css")
@@ -113,6 +113,7 @@ defmodule Thesis.View do
       redirect_url = page && page.redirect_url
       template = page && page.template
       templates = Enum.join(dynamic_templates(), ",")
+      notifications = conn |> Notifications.all() |> Poison.encode!
       editor = content_tag(:div, "", id: "thesis-container",
         data_html_editor: html_editor(),
         data_ospry_public_key: ospry_public_key(),
@@ -120,6 +121,7 @@ defmodule Thesis.View do
         data_redirect_url: redirect_url,
         data_template: template,
         data_templates: templates,
+        data_notifications: notifications,
         data_dynamic_page: conn.assigns[:thesis_dynamic_page])
       safe_concat([thesis_style(), editor, thesis_js()])
     else

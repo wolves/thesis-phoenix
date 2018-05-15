@@ -29,7 +29,6 @@ defmodule Example.ApiControllerTest do
       """
       {"pageSettings":{"slug":"/something","title":"Welcome to Thesis!","description":"This is a sample app for the Thesis CMS","redirect_url":null,"template":null,"origin":"http://localhost:4000"},"pageContents":[{"name":"Header Logo","content_type":"image","content":"https://infinite.red/images/ir-logo.svg","meta":"{\"global\":true}","global":"true"}]}
       """
-      |> LZString.compress()
 
     {:ok, backup} = Example.Repo.insert(%Backup{page_id: page.id, page_revision: 1, page_data: backup_data})
     conn3 = get conn, "/thesis/backups?page_slug=#{page.slug}", %{}
@@ -51,7 +50,6 @@ defmodule Example.ApiControllerTest do
       """
       {"pageSettings":{"slug":"/something","title":"Welcome to Thesis!","description":"This is a sample app for the Thesis CMS","redirect_url":null,"template":null,"origin":"http://localhost:4000"},"pageContents":[{"name":"Header Logo","content_type":"image","content":"https://infinite.red/images/ir-logo.svg","meta":"{\"global\":true}","global":"true"}]}
       """
-      |> LZString.compress()
 
     {:ok, backup} = Example.Repo.insert(%Backup{page_id: page.id, page_revision: 1, page_data: backup_data})
 

@@ -21,4 +21,6 @@ config :example_phx, ExamplePhx.Repo,
   database: "example_phx_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox,
+  timeout: 60_000,
+  pool_timeout: 60_000,
   ownership_timeout: 60_000
