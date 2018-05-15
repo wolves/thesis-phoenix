@@ -10,6 +10,7 @@
 
 #### Pushing a new release
 
+1. run `npm run webpack` to build the static css/js files
 1. run `mix hex.user whoami`
 1. check if your hex user is in the [owner's list](https://hex.pm/packages/thesis) of the package (if not, you will need to get added as an owner)
 1. update the version number in:
@@ -17,37 +18,9 @@
   - `./package.json`
   - `./README_INSTALL.md`
   - `./README.md` (also update the changelog)
+1. generate docs: `mix docs`
+1. run `mix hex.publish`
 
+#### Verify & Announce
 
-1. shipit: `npm run shipit` (yes, npm here)
-1. push the np version changes up: `git push`
 1. you win.
-
-#### Verify
-
-`yarn info gluegun dist-tags` shows you what everyone sees.
-
-```sh
-yarn info gluegun dist-tags
-```
-
-shows:
-
-```
-yarn info v1.1.0
-{ latest: '1.0.0',
- next: '2.0.0-alpha.2' }
-✨  Done in 0.71s.
-```
-
-#### To Use 2.0 Alphas
-
-In your project:
-
-`yarn add gluegun@next`
-
-Every time run you update, it'll grab the latest published version.
-
-For the CLI:
-
-`yarn global add gluegun@next`

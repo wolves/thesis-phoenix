@@ -46,7 +46,7 @@ defmodule Thesis.Mixfile do
 
   defp package do
     [
-      files: ["lib", "priv", "web", "mix.exs", "README*", "LICENSE*", "package.json"],
+      files: ["lib", "priv", "mix.exs", "README*", "LICENSE*", "package.json"],
       licenses: ["MIT"],
       maintainers: ["Jamon Holmgren", "Yulian Glukhenko", "Ken Miller", "Daniel Berkompas"],
       links: %{
