@@ -50,7 +50,7 @@ defmodule Thesis.Notifications do
   def notifications_regarding_env(acc, :test), do: acc
   def notifications_regarding_env(acc, _) do
     acc
-    |> notification_to_run_migration_for_version_0_2_1()
+    |> notification_to_run_migration_for_version_0_3_0()
   end
 
   @doc """
@@ -146,19 +146,19 @@ defmodule Thesis.Notifications do
   defp is_notification_value_valid?(_, _), do: false
 
   # NOTIFICATIONS
-  # remove in 0.3.0: reminder that revisions will not work without the new migration
-  defp notification_to_run_migration_for_version_0_2_1(acc) do
-    notification_to_run_migration_for_version_0_2_1(acc, Version.compare("0.2.1", version()))
+  # remove in 0.3.1: reminder that revisions will not work without the new migration
+  defp notification_to_run_migration_for_version_0_3_0(acc) do
+    notification_to_run_migration_for_version_0_3_0(acc, Version.compare("0.3.0", version()))
   end
-  defp notification_to_run_migration_for_version_0_2_1(acc, nil), do: acc
-  defp notification_to_run_migration_for_version_0_2_1(acc, c) when is_atom(c) and c in [:eq, :gt] do
-    notification_to_run_migration_for_version_0_2_1(acc, repo().one(limit(Backup, 1)))
+  defp notification_to_run_migration_for_version_0_3_0(acc, nil), do: acc
+  defp notification_to_run_migration_for_version_0_3_0(acc, c) when is_atom(c) and c in [:eq, :gt] do
+    notification_to_run_migration_for_version_0_3_0(acc, repo().one(limit(Backup, 1)))
   end
-  defp notification_to_run_migration_for_version_0_2_1(acc, %{page_data: data}) do
-    notification_to_run_migration_for_version_0_2_1(acc, String.valid?(data))
+  defp notification_to_run_migration_for_version_0_3_0(acc, %{page_data: data}) do
+    notification_to_run_migration_for_version_0_3_0(acc, String.valid?(data))
   end
-  defp notification_to_run_migration_for_version_0_2_1(acc, false) do
+  defp notification_to_run_migration_for_version_0_3_0(acc, false) do
     update_notifications_map(acc, nil, "import-export-restore", ["Page revisions may not work! Please ask your developer to update Thesis."])
   end
-  defp notification_to_run_migration_for_version_0_2_1(acc, _), do: acc
+  defp notification_to_run_migration_for_version_0_3_0(acc, _), do: acc
 end

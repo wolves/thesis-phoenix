@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.16.4">
-    <title>Thesis.Utilities – thesis v0.3.0</title>
+    <title>Thesis.Notifications – thesis v0.3.0</title>
     <link rel="stylesheet" href="dist/app-091c05798a.css" />
     
     
@@ -68,13 +68,22 @@
 
       <h1>
         <small class="visible-xs">thesis v0.3.0</small>
-        Thesis.Utilities
+        Thesis.Notifications
         
       </h1>
 
       
         <section id="moduledoc">
-          <p>Module that provides helper functions.</p>
+          <p>Builds a map of Notifications that is passed to the client side. The key should be a
+representation of the category/type of notification (this is used to determine where and how it’s
+displayed). The value is a list of notification strings.</p>
+<p>Example of final map:
+%{
+  “page-settings”: [],
+  “add-page”: [],
+  “import-export-restore”: [],
+  “other”: []
+}</p>
 
         </section>
       
@@ -97,56 +106,37 @@
     </h2>
     <div class="summary-row">
   <div class="summary-signature">
-    <a href="#normalize_path/1">normalize_path(path)</a>
+    <a href="#all/1">all(conn)</a>
   </div>
   
-    <div class="summary-synopsis"><p>Takes a URL and strips unnecessary characters</p>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#notifications_from_host_app/3">notifications_from_host_app(acc, conn, notifications)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Adds notifications provided by the host app to the accumulator</p>
 </div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#parameterize/1">parameterize(str)</a>
+    <a href="#notifications_regarding_env/2">notifications_regarding_env(acc, arg2)</a>
   </div>
-  
-    <div class="summary-synopsis"><p>Removes special characters, keeps dashes and underscores, and replaces spaces
-with dashes. Also downcases the entire string</p>
-</div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#random_string/1">random_string(length)</a>
+    <a href="#notifications_regarding_page/2">notifications_regarding_page(acc, arg2)</a>
   </div>
-  
-    <div class="summary-synopsis"><p>Generates a random string of letters of a given length</p>
-</div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#random_string/2">random_string(length, atom)</a>
+    <a href="#verify_notifications_structure/2">verify_notifications_structure(conn, notifications)</a>
   </div>
   
-    <div class="summary-synopsis"><p>Generates a random string of digits of a given length</p>
-</div>
-  
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
-    <a href="#to_s/1">to_s(arg)</a>
-  </div>
-  
-    <div class="summary-synopsis"><p>Shorthand <code class="inline">to_string</code></p>
-</div>
-  
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
-    <a href="#typeof/1">typeof(x)</a>
-  </div>
-  
-    <div class="summary-synopsis"><p>Returns the data type for the provided data using guard functions</p>
+    <div class="summary-synopsis"><p>Verifies that the notifications provided by the host app are in the correct format</p>
 </div>
   
 </div>
@@ -170,148 +160,112 @@ with dashes. Also downcases the entire string</p>
             </a>
             Functions
           </h1>
-          <div class="detail" id="normalize_path/1">
+          <div class="detail" id="all/1">
   
   
   <div class="detail-header">
-    <a href="#normalize_path/1" class="detail-link" title="Link to this function">
+    <a href="#all/1" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">normalize_path(path)</span>
+    <span class="signature">all(conn)</span>
     
     
     
   </div>
   <section class="docstring">
-    <p>Takes a URL and strips unnecessary characters.</p>
-<pre><code class="iex elixir">iex&gt; import Thesis.Utilities
-iex&gt; normalize_path(&quot;//ignite//foo&quot;)
-&quot;/ignite/foo&quot;
-iex&gt; normalize_path(&quot;/ignite/foo/&quot;)
-&quot;/ignite/foo&quot;
-iex&gt; normalize_path(&quot;/&quot;)
-&quot;/&quot;</code></pre>
+    
+  </section>
+</div>
+<div class="detail" id="notifications_from_host_app/3">
+  
+  
+  <div class="detail-header">
+    <a href="#notifications_from_host_app/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">notifications_from_host_app(acc, conn, notifications)</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    <p>Adds notifications provided by the host app to the accumulator.</p>
+<pre><code class="iex elixir">iex&gt; notifications_from_host_app(%{&quot;page-settings&quot; =&gt; []}, nil, [page_settings: [&quot;notif&quot;]])
+%{&quot;page-settings&quot; =&gt; [&quot;notif&quot;]}
+iex&gt; notifications_from_host_app(%{&quot;page-settings&quot; =&gt; []}, nil, [page_settings: :invalid])
+%{&quot;page-settings&quot; =&gt; []}
+iex&gt; notifications_from_host_app(%{&quot;page-settings&quot; =&gt; [&quot;notif1&quot;]}, nil, [page_settings: [&quot;notif2&quot;]])
+%{&quot;page-settings&quot; =&gt; [&quot;notif2&quot;, &quot;notif1&quot;]}
+iex&gt; notifications_from_host_app(%{&quot;other&quot; =&gt; [], &quot;add-page&quot; =&gt; [&quot;notif&quot;]}, nil, [other: [&quot;notif&quot;]])
+%{&quot;other&quot; =&gt; [&quot;notif&quot;], &quot;add-page&quot; =&gt; [&quot;notif&quot;]}
+iex&gt; notifications_from_host_app(%{&quot;other&quot; =&gt; []}, nil, nil)
+%{&quot;other&quot; =&gt; []}</code></pre>
 
   </section>
 </div>
-<div class="detail" id="parameterize/1">
+<div class="detail" id="notifications_regarding_env/2">
   
   
   <div class="detail-header">
-    <a href="#parameterize/1" class="detail-link" title="Link to this function">
+    <a href="#notifications_regarding_env/2" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">parameterize(str)</span>
+    <span class="signature">notifications_regarding_env(acc, arg2)</span>
     
     
     
   </div>
   <section class="docstring">
-    <p>Removes special characters, keeps dashes and underscores, and replaces spaces
-with dashes. Also downcases the entire string.</p>
-<pre><code class="iex elixir">iex&gt; import Thesis.Utilities
-iex&gt; parameterize(&quot;Jamon is so cool!&quot;)
-&quot;jamon-is-so-cool&quot;
-iex&gt; parameterize(&quot;%#d50SDF dfsJ FDS  lkdsf f dfka   a&quot;)
-&quot;d50sdf-dfsj-fds--lkdsf-f-dfka---a&quot;
-iex&gt; parameterize(:this_is_a_test)
-&quot;this-is-a-test&quot;</code></pre>
-
+    
   </section>
 </div>
-<div class="detail" id="random_string/1">
+<div class="detail" id="notifications_regarding_page/2">
   
   
   <div class="detail-header">
-    <a href="#random_string/1" class="detail-link" title="Link to this function">
+    <a href="#notifications_regarding_page/2" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">random_string(length)</span>
+    <span class="signature">notifications_regarding_page(acc, arg2)</span>
     
     
     
   </div>
   <section class="docstring">
-    <p>Generates a random string of letters of a given length.</p>
-<pre><code class="iex elixir">iex&gt; import Thesis.Utilities
-iex&gt; String.length(random_string(15))
-15
-iex&gt; random_string(15) != random_string(15)
-true</code></pre>
-
+    
   </section>
 </div>
-<div class="detail" id="random_string/2">
+<div class="detail" id="verify_notifications_structure/2">
   
   
   <div class="detail-header">
-    <a href="#random_string/2" class="detail-link" title="Link to this function">
+    <a href="#verify_notifications_structure/2" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">random_string(length, atom)</span>
+    <span class="signature">verify_notifications_structure(conn, notifications)</span>
     
     
     
   </div>
   <section class="docstring">
-    <p>Generates a random string of digits of a given length.</p>
-<pre><code class="iex elixir">iex&gt; import Thesis.Utilities
-iex&gt; String.length(random_string(15, :numeric))
-15
-iex&gt; random_string(15, :numeric) != random_string(15, :numeric)
-true
-iex&gt; String.to_integer(random_string(15, :numeric)) &gt; 0
-true</code></pre>
-
-  </section>
-</div>
-<div class="detail" id="to_s/1">
-  
-  
-  <div class="detail-header">
-    <a href="#to_s/1" class="detail-link" title="Link to this function">
-      <span class="icon-link" aria-hidden="true"></span>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <span class="signature">to_s(arg)</span>
-    
-    
-    
-  </div>
-  <section class="docstring">
-    <p>Shorthand <code class="inline">to_string</code>.</p>
-<pre><code class="iex elixir">iex&gt; import Thesis.Utilities
-iex&gt; to_s(000001)
-&quot;1&quot;
-iex&gt; to_s(123)
-&quot;123&quot;</code></pre>
-
-  </section>
-</div>
-<div class="detail" id="typeof/1">
-  
-  
-  <div class="detail-header">
-    <a href="#typeof/1" class="detail-link" title="Link to this function">
-      <span class="icon-link" aria-hidden="true"></span>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <span class="signature">typeof(x)</span>
-    
-    
-    
-  </div>
-  <section class="docstring">
-    <p>Returns the data type for the provided data using guard functions.</p>
-<pre><code class="iex elixir">iex&gt; import Thesis.Utilities
-iex&gt; typeof(000001)
-&quot;integer&quot;
-iex&gt; typeof([1,2,3])
-&quot;list&quot;</code></pre>
+    <p>Verifies that the notifications provided by the host app are in the correct format.</p>
+<pre><code class="iex elixir">iex&gt; verify_notifications_structure(nil, [:invalid])
+false
+iex&gt; verify_notifications_structure(nil, %{})
+false
+iex&gt; verify_notifications_structure(nil, %{invalid_key: []})
+false
+iex&gt; verify_notifications_structure(nil, %{add_page: &quot;invalid value&quot;})
+false
+iex&gt; verify_notifications_structure(nil, %{add_page: [&quot;notif&quot;, &quot;notif&quot;, :atom]})
+false
+iex&gt; verify_notifications_structure(nil, [add_page: [], page_settings: [&quot;notif&quot;]])
+false</code></pre>
 
   </section>
 </div>

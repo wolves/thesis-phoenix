@@ -65,7 +65,7 @@
   <tr><td><h4>Changelog</h4></td></tr>
   <tr>
     <td>
-      <strong>0.2.1</strong><br/>
+      <strong>0.3.0</strong><br/>
       - Removes the LZString compression for backups (page revisions) as per the conversation [here](https://github.com/infinitered/thesis-phoenix/issues/129). <br/>
       - <em>Adds migration (run `mix thesis.install && mix ecto.migrate`)</em>. It is important to do this before 0.3.0 as the LZString dependency will be removed then.<br/>
       - Adds [notifications](https://github.com/infinitered/thesis-phoenix/issues/147). This allows us to warn users of potential Thesis issues depending on page state, environment, Thesis version, etc. Notifications can also be set in the host app config to include custom logic. <br/>
@@ -102,7 +102,7 @@
 
 ```elixir
 def deps do
-  [{:thesis, "~> 0.2.0"}]
+  [{:thesis, "~> 0.3.0"}]
 end
 
 def application do
